@@ -1,0 +1,4224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXORA — Modern Cloud Infrastructure & Observability Platform</title>
+  <meta name="description" content="Next-generation cloud infrastructure, distributed edge compute, and autonomous observability for modern software teams. Build faster, scale without limits.">
+  <meta name="keywords" content="cloud infrastructure, observability platform, edge compute, developer platform, distributed systems, automated deployments, telemetry API">
+  <meta name="author" content="NEXORA Systems Inc.">
+  <meta name="theme-color" content="#08090d">
+  
+  <!-- Open Graph / Social Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nexora.io/">
+  <meta property="og:title" content="NEXORA — Modern Cloud Infrastructure & Developer Platform">
+  <meta property="og:description" content="Build faster. Scale without limits. Modern cloud infrastructure and real-time observability engineered for high-performance engineering teams.">
+  <meta property="og:site_name" content="NEXORA">
+  
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NEXORA — Cloud Infrastructure & Developer Platform">
+  <meta name="twitter:description" content="Next-generation cloud infrastructure, distributed compute, and zero-overhead observability.">
+
+  <!-- Inline SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Crect width='32' height='32' rx='8' fill='%2308090d'/%3E%3Cpath d='M8 24L16 8L24 24H19L16 17L13 24H8Z' fill='url(%23g)'/%3E%3Ccircle cx='16' cy='12' r='2' fill='%2338bdf8'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='8' y1='8' x2='24' y2='24' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E">
+
+  <style>
+    /* ==========================================================================
+       1. CSS RESET, VARIABLES & DESIGN TOKENS
+       ========================================================================== */
+    :root {
+      --bg-base: #08090d;
+      --bg-surface: #0e1017;
+      --bg-card: #141722;
+      --bg-card-hover: #1a1e2d;
+      --bg-card-glass: rgba(20, 23, 34, 0.75);
+      --bg-input: #10131d;
+      --bg-code: #0b0d13;
+      
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-medium: rgba(255, 255, 255, 0.14);
+      --border-focus: rgba(99, 102, 241, 0.5);
+      --border-glow: rgba(99, 102, 241, 0.25);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --text-inverse: #08090d;
+      
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      
+      --cyan: #06b6d4;
+      --cyan-light: #38bdf8;
+      --cyan-glow: rgba(6, 182, 212, 0.3);
+      
+      --emerald: #10b981;
+      --emerald-light: #34d399;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      
+      --amber: #f59e0b;
+      --purple: #a855f7;
+      
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --radius-pill: 9999px;
+      
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+      
+      --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-smooth: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      
+      --container-max: 1240px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Ambient Background System */
+    .ambient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .ambient-glow-1 {
+      position: absolute;
+      top: -20%;
+      left: 30%;
+      width: 65vw;
+      height: 65vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0) 70%);
+      filter: blur(80px);
+      animation: pulseGlow 12s ease-in-out infinite alternate;
+    }
+    .ambient-glow-2 {
+      position: absolute;
+      top: 40%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, rgba(6, 182, 212, 0) 70%);
+      filter: blur(90px);
+      animation: pulseGlow 15s ease-in-out infinite alternate-reverse;
+    }
+    .ambient-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.1) 80%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.1) 80%, rgba(0,0,0,0) 100%);
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+      100% { transform: translate(4%, 6%) scale(1.15); opacity: 1; }
+    }
+
+    /* Container Utility */
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Typography Utilities */
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--text-main);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+    p {
+      color: var(--text-muted);
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+    code, pre {
+      font-family: var(--font-mono);
+    }
+
+    /* Button System */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding: 0.6875rem 1.375rem;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      user-select: none;
+      white-space: nowrap;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary {
+      background: linear-gradient(180deg, var(--primary-light) 0%, var(--primary) 100%);
+      color: #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2), 0 0 20px rgba(99, 102, 241, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(180deg, #939bf9 0%, #585af2 100%);
+      box-shadow: 0 0 28px rgba(99, 102, 241, 0.55);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: var(--border-medium);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .btn-secondary:active {
+      transform: translateY(0);
+    }
+    .btn-sm {
+      padding: 0.4375rem 0.875rem;
+      font-size: 0.8125rem;
+      border-radius: var(--radius-sm);
+    }
+    .btn-lg {
+      padding: 0.875rem 1.875rem;
+      font-size: 1rem;
+      border-radius: var(--radius-md);
+    }
+
+    /* Badges & Pills */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      width: fit-content;
+    }
+    .badge-primary {
+      background: rgba(99, 102, 241, 0.12);
+      border-color: rgba(99, 102, 241, 0.3);
+      color: var(--primary-light);
+    }
+    .badge-cyan {
+      background: rgba(6, 182, 212, 0.12);
+      border-color: rgba(6, 182, 212, 0.3);
+      color: var(--cyan-light);
+    }
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: var(--emerald-light);
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Section Spacing */
+    .section {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+      position: relative;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 4rem auto;
+    }
+    .section-header .badge {
+      margin-bottom: 1rem;
+    }
+    .section-header h2 {
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      margin-bottom: 1rem;
+    }
+    .section-header p {
+      font-size: 1.125rem;
+      line-height: 1.6;
+    }
+
+    /* Card System */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      position: relative;
+      transition: all var(--transition-smooth);
+      overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--border-medium);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+    .card-glass {
+      background: var(--bg-card-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .card-glow {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity var(--transition-smooth);
+    }
+    .card:hover .card-glow {
+      opacity: 1;
+    }
+
+    /* ==========================================================================
+       2. HEADER & STICKY NAVBAR
+       ========================================================================== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      z-index: 1000;
+      transition: all var(--transition-smooth);
+      border-bottom: 1px solid transparent;
+    }
+    .site-header.scrolled {
+      background: rgba(8, 9, 13, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.1875rem;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--cyan) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-link {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color var(--transition-fast);
+      position: relative;
+    }
+    .nav-link:hover {
+      color: #ffffff;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+    .cmd-k-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.625rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .cmd-k-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--border-medium);
+      color: var(--text-muted);
+    }
+    .kbd {
+      padding: 0.125rem 0.3125rem;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* Mobile Drawer */
+    .mobile-drawer {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(8, 9, 13, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 999;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .mobile-drawer.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-drawer .nav-links {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+      width: 100%;
+    }
+    .mobile-drawer .nav-link {
+      font-size: 1.25rem;
+      width: 100%;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .mobile-drawer .header-actions {
+      flex-direction: column;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    .mobile-drawer .header-actions .btn {
+      width: 100%;
+    }
+
+    /* ==========================================================================
+       3. HERO SECTION & INTERACTIVE NODE VISUALIZATION
+       ========================================================================== */
+    .hero-section {
+      padding-top: 10rem;
+      padding-bottom: 6rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge-wrap {
+      display: inline-flex;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.375rem 1rem;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-pill);
+      color: var(--text-main);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .hero-badge:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+    .hero-title {
+      font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.5rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 30%, var(--primary-light) 70%, var(--cyan-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto 2.5rem auto;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 4.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Abstract Node Topology Graph */
+    .hero-viz-container {
+      max-width: 1060px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, rgba(20, 23, 34, 0.8) 0%, rgba(14, 16, 23, 0.95) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem 1.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(99, 102, 241, 0.08);
+      position: relative;
+    }
+    .hero-viz-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+    }
+    .viz-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--emerald-light);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald-light);
+      box-shadow: 0 0 8px var(--emerald-light);
+      animation: pulseAnim 2s infinite;
+    }
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .node-graph-svg {
+      width: 100%;
+      height: auto;
+      max-height: 280px;
+      overflow: visible;
+    }
+    .node-box {
+      fill: #141722;
+      stroke: rgba(255, 255, 255, 0.12);
+      stroke-width: 1.5;
+      rx: 10;
+      transition: all 0.3s ease;
+    }
+    .node-box:hover {
+      stroke: var(--primary-light);
+      fill: #1c2030;
+      filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.35));
+    }
+    .node-connection {
+      stroke: rgba(99, 102, 241, 0.25);
+      stroke-width: 2;
+      stroke-dasharray: 6 6;
+      animation: dashFlow 25s linear infinite;
+    }
+    .node-pulse-circle {
+      fill: var(--cyan-light);
+      filter: drop-shadow(0 0 6px var(--cyan));
+    }
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -1000; }
+    }
+
+    /* ==========================================================================
+       4. TRUSTED BY LOGOS
+       ========================================================================== */
+    .trusted-section {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: center;
+    }
+    .trusted-label {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+    }
+    .logos-grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3.5rem;
+      flex-wrap: wrap;
+      opacity: 0.75;
+    }
+    .logo-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.125rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      transition: all var(--transition-fast);
+    }
+    .logo-item:hover {
+      color: #ffffff;
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+    .logo-mark {
+      width: 20px;
+      height: 20px;
+      opacity: 0.8;
+    }
+
+    /* ==========================================================================
+       5. PLATFORM PILLARS (6 CARDS)
+       ========================================================================== */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .platform-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+    }
+    .platform-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-light);
+      margin-bottom: 1.5rem;
+      transition: all var(--transition-smooth);
+    }
+    .platform-card:hover .platform-icon-wrap {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.35);
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+    .platform-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .platform-card p {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .platform-footer-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--primary-light);
+    }
+
+    /* ==========================================================================
+       6. INTERACTIVE DASHBOARD MOCKUP
+       ========================================================================== */
+    .dash-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg), 0 0 50px rgba(99, 102, 241, 0.06);
+    }
+    .dash-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: #0b0d13;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.8125rem;
+    }
+    .dash-window-dots {
+      display: flex;
+      gap: 0.375rem;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; opacity: 0.8; }
+    .dot-yellow { background: #f59e0b; opacity: 0.8; }
+    .dot-green { background: #10b981; opacity: 0.8; }
+    .dash-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.25rem;
+      border-radius: var(--radius-sm);
+    }
+    .dash-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all var(--transition-fast);
+    }
+    .dash-tab-btn.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+    }
+    .dash-body {
+      padding: 1.5rem;
+    }
+    .dash-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .dash-stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+    }
+    .dash-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dash-stat-val {
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+    .dash-stat-trend {
+      font-size: 0.6875rem;
+      color: var(--emerald-light);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      margin-top: 0.25rem;
+    }
+    .dash-charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.25rem;
+    }
+    .chart-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+    .chart-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+
+    /* Live Events Table */
+    .events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    .event-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      border: 1px solid transparent;
+      transition: all var(--transition-fast);
+    }
+    .event-row:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border-subtle);
+    }
+    .event-title {
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+    .event-time {
+      color: var(--text-dim);
+    }
+
+    /* ==========================================================================
+       7. FEATURES NARRATIVE SECTION (4 BLOCKS)
+       ========================================================================== */
+    .features-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6rem;
+    }
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .feature-row.reverse {
+      direction: rtl;
+    }
+    .feature-row.reverse > * {
+      direction: ltr;
+    }
+    .feature-content h3 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .feature-content p {
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .feature-list-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+    }
+    .feature-list-icon {
+      color: var(--primary-light);
+      flex-shrink: 0;
+    }
+
+    /* Feature Pipeline Graphic */
+    .pipeline-graphic {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-md);
+    }
+    .pipeline-steps {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .pipeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 1;
+    }
+    .pipeline-step-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #1c2030;
+      border: 1px solid var(--border-medium);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all var(--transition-smooth);
+    }
+    .pipeline-step.active .pipeline-step-circle {
+      background: var(--primary);
+      border-color: var(--primary-light);
+      color: #ffffff;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+    .pipeline-step-name {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .pipeline-line-connector {
+      position: absolute;
+      top: 22px;
+      left: 30px;
+      right: 30px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--cyan) 100%);
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ==========================================================================
+       8. STATISTICS COUNTER
+       ========================================================================== */
+    .stats-section {
+      background: linear-gradient(180deg, rgba(14, 16, 23, 0.6) 0%, rgba(8, 9, 13, 0.8) 100%);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 5rem 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat-card {
+      padding: 1.5rem;
+    }
+    .stat-number {
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 40%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       9. SOLUTIONS (4 AUDIENCES)
+       ========================================================================== */
+    .solutions-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .solution-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--transition-smooth);
+    }
+    .solution-card:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      transform: translateY(-4px);
+    }
+    .solution-card h3 {
+      font-size: 1.25rem;
+      margin-top: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .solution-card p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ==========================================================================
+       10. DEVELOPERS INTERACTIVE CODE PLAYGROUND
+       ========================================================================== */
+    .dev-split {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .dev-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .dev-subcard {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+    .dev-subcard h4 {
+      font-size: 0.9375rem;
+      margin-bottom: 0.25rem;
+    }
+    .dev-subcard p {
+      font-size: 0.8125rem;
+    }
+
+    .code-window {
+      background: var(--bg-code);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: #090a0f;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .code-tabs {
+      display: flex;
+      gap: 0.375rem;
+    }
+    .code-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      padding: 0.3125rem 0.625rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: all var(--transition-fast);
+    }
+    .code-tab-btn.active {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+    }
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all var(--transition-fast);
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+    }
+    .code-content {
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-size: 0.8125rem;
+      line-height: 1.7;
+    }
+    .token-kw { color: #f472b6; }
+    .token-fn { color: #60a5fa; }
+    .token-str { color: #34d399; }
+    .token-comment { color: #64748b; }
+    .token-num { color: #fbbf24; }
+
+    /* ==========================================================================
+       11. SECURITY & COMPLIANCE
+       ========================================================================== */
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .security-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+    .security-card h3 {
+      font-size: 1.1875rem;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .security-card p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       12. PRICING SECTION
+       ========================================================================== */
+    .pricing-toggle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+    }
+    .pricing-toggle {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 0.25rem;
+    }
+    .toggle-opt {
+      padding: 0.5rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .toggle-opt.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .save-pill {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--emerald-light);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      align-items: stretch;
+      margin-bottom: 4rem;
+    }
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all var(--transition-smooth);
+    }
+    .pricing-card.recommended {
+      background: linear-gradient(180deg, #181c2d 0%, #121522 100%);
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 35px rgba(99, 102, 241, 0.15);
+      transform: translateY(-8px);
+    }
+    .rec-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--cyan) 100%);
+      color: #ffffff;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-pill);
+    }
+    .tier-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .tier-desc {
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+      min-height: 38px;
+    }
+    .tier-price-box {
+      display: flex;
+      align-items: baseline;
+      gap: 0.25rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .price-num {
+      font-size: 2.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+    }
+    .price-period {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+    }
+    .tier-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      margin-bottom: 2rem;
+      flex-grow: 1;
+    }
+    .tier-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    /* Comparison Table */
+    .comparison-table-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      overflow-x: auto;
+    }
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+    .comp-table th, .comp-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .comp-table th {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+    .comp-table td {
+      color: var(--text-muted);
+    }
+    .comp-table tr:last-child td {
+      border-bottom: none;
+    }
+    .table-check {
+      color: var(--emerald-light);
+    }
+
+    /* ==========================================================================
+       13. TESTIMONIALS (3-4 QUOTES)
+       ========================================================================== */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .testi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .testi-quote {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+    .avatar-mono {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2a2e45 0%, #161825 100%);
+      border: 1px solid var(--border-medium);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--primary-light);
+    }
+    .author-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .author-role {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ==========================================================================
+       14. BLOG ARTICLES SECTION & MODAL
+       ========================================================================== */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--transition-smooth);
+    }
+    .blog-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-4px);
+    }
+    .blog-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+    .blog-card h3 {
+      font-size: 1.125rem;
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+    .blog-card p {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+    .blog-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--primary-light);
+    }
+
+    /* ==========================================================================
+       15. DOCUMENTATION SECTION (IN-PAGE HUB)
+       ========================================================================== */
+    .docs-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      display: grid;
+      grid-template-columns: 240px 1fr 200px;
+      overflow: hidden;
+      min-height: 520px;
+      box-shadow: var(--shadow-lg);
+    }
+    .docs-sidebar {
+      background: #0b0d13;
+      border-right: 1px solid var(--border-subtle);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .docs-search {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.4375rem 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-main);
+      outline: none;
+    }
+    .docs-search:focus {
+      border-color: var(--primary);
+    }
+    .docs-menu-group-title {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+      padding-left: 0.5rem;
+    }
+    .docs-menu-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .docs-menu-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+      padding: 0.375rem 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .docs-menu-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .docs-menu-btn.active {
+      color: #ffffff;
+      background: rgba(99, 102, 241, 0.15);
+      font-weight: 500;
+    }
+    .docs-body {
+      padding: 2rem;
+      overflow-y: auto;
+      max-height: 600px;
+    }
+    .docs-body h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .docs-body p {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+    .docs-code-block {
+      background: #08090d;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin: 1.25rem 0;
+      font-size: 0.8125rem;
+      line-height: 1.6;
+    }
+    .docs-toc {
+      background: #0b0d13;
+      border-left: 1px solid var(--border-subtle);
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+    }
+    .docs-toc-title {
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .docs-toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .docs-toc-link {
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .docs-toc-link:hover {
+      color: var(--primary-light);
+    }
+
+    /* ==========================================================================
+       16. SYSTEM STATUS (90-DAY UPTIME)
+       ========================================================================== */
+    .status-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+    }
+    .status-overall-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .status-services-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .service-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .service-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.875rem;
+    }
+    .uptime-bar {
+      display: flex;
+      gap: 3px;
+      width: 100%;
+      height: 24px;
+    }
+    .bar-segment {
+      flex: 1;
+      height: 100%;
+      background: rgba(16, 185, 129, 0.4);
+      border-radius: 2px;
+      transition: background var(--transition-fast);
+      position: relative;
+    }
+    .bar-segment:hover {
+      background: var(--emerald-light);
+    }
+
+    /* ==========================================================================
+       17. ABOUT & COMPANY TIMELINE
+       ========================================================================== */
+    .about-values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+    .timeline-wrap {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .timeline-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--border-subtle);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .timeline-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .timeline-content {
+      width: 44%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid var(--bg-base);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    /* ==========================================================================
+       18. CAREERS SECTION WITH FILTER
+       ========================================================================== */
+    .careers-filter {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.4375rem 1rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary-light);
+    }
+    .jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .job-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all var(--transition-smooth);
+    }
+    .job-card:hover {
+      border-color: var(--border-medium);
+      transform: translateY(-2px);
+    }
+    .job-info h4 {
+      font-size: 1.125rem;
+      margin-bottom: 0.375rem;
+    }
+    .job-tags {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* ==========================================================================
+       19. CONTACT & SALES FORM
+       ========================================================================== */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      color: var(--text-main);
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* ==========================================================================
+       20. FAQ ACCORDION
+       ========================================================================== */
+    .faq-stack {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color var(--transition-fast);
+    }
+    .faq-item:hover {
+      border-color: var(--border-medium);
+    }
+    .faq-question {
+      padding: 1.25rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      list-style: none;
+    }
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+    .faq-chevron {
+      transition: transform var(--transition-smooth);
+      color: var(--text-dim);
+    }
+    .faq-item[open] .faq-chevron {
+      transform: rotate(180deg);
+      color: var(--primary-light);
+    }
+    .faq-answer {
+      padding: 0 1.5rem 1.25rem 1.5rem;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       21. FINAL CTA SECTION
+       ========================================================================== */
+    .final-cta-box {
+      background: linear-gradient(180deg, #141725 0%, #0d0f19 100%);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-xl);
+      padding: 5rem 2rem;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(99, 102, 241, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       22. FOOTER
+       ========================================================================== */
+    .site-footer {
+      background: #050608;
+      border-top: 1px solid var(--border-subtle);
+      padding: 5rem 0 2.5rem 0;
+      font-size: 0.875rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(4, 1fr);
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+    .footer-col-title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-main);
+      margin-bottom: 1.25rem;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      transition: color var(--transition-fast);
+    }
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-size: 0.8125rem;
+    }
+
+    /* ==========================================================================
+       23. MODALS, TOASTS & COMMAND PALETTE
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-smooth);
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 580px;
+      padding: 2rem;
+      position: relative;
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.95);
+      transition: transform var(--transition-smooth);
+    }
+    .modal-overlay.active .modal-box {
+      transform: scale(1);
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+    .modal-close-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 3000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+    .toast-item {
+      background: #141824;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.2);
+      border-radius: var(--radius-md);
+      padding: 0.875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #ffffff;
+      font-size: 0.875rem;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+    .toast-item.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Command Palette Overlay */
+    .cmd-palette-box {
+      max-width: 640px;
+      padding: 0;
+      overflow: hidden;
+    }
+    .cmd-input-wrap {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 0.75rem;
+    }
+    .cmd-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+    .cmd-results {
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 0.5rem;
+      list-style: none;
+    }
+    .cmd-result-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .cmd-result-item:hover, .cmd-result-item.active {
+      background: rgba(99, 102, 241, 0.15);
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       24. RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .platform-grid, .solutions-grid, .pricing-grid, .security-grid, .blog-grid, .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .docs-container {
+        grid-template-columns: 200px 1fr;
+      }
+      .docs-toc {
+        display: none;
+      }
+      .dash-stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .cmd-k-btn, .header-actions .btn-secondary {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+      .platform-grid, .solutions-grid, .pricing-grid, .security-grid, .blog-grid, .testimonials-grid, .about-values-grid {
+        grid-template-columns: 1fr;
+      }
+      .feature-row, .feature-row.reverse {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        direction: ltr;
+      }
+      .dev-split, .contact-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1.5rem;
+      }
+      .docs-container {
+        grid-template-columns: 1fr;
+      }
+      .docs-sidebar {
+        display: none;
+      }
+      .dash-charts-grid {
+        grid-template-columns: 1fr;
+      }
+      .dash-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .timeline-line {
+        left: 20px;
+      }
+      .timeline-item, .timeline-item:nth-child(even) {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 45px;
+      }
+      .timeline-dot {
+        left: 20px;
+      }
+      .timeline-content {
+        width: 100%;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      .logos-grid {
+        gap: 2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Glows & Grid -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="ambient-grid"></div>
+  </div>
+
+  <!-- Header & Sticky Navbar -->
+  <header class="site-header" id="navbar">
+    <div class="container header-inner">
+      <a href="#hero" class="brand-logo" aria-label="NEXORA Home">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span>NEXORA</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#platform" class="nav-link">Platform</a></li>
+          <li><a href="#solutions" class="nav-link">Solutions</a></li>
+          <li><a href="#developers" class="nav-link">Developers</a></li>
+          <li><a href="#docs" class="nav-link">Documentation</a></li>
+          <li><a href="#pricing" class="nav-link">Pricing</a></li>
+          <li><a href="#status" class="nav-link">Status</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="cmd-k-btn" id="openCmdPaletteBtn" aria-label="Open Command Palette">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Search</span>
+          <span class="kbd">⌘K</span>
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="openAuthModal('signin')">Sign in</button>
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal('signup')">Get started</button>
+        <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle navigation menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <ul class="nav-links">
+      <li><a href="#platform" class="nav-link" onclick="toggleMobileMenu()">Platform</a></li>
+      <li><a href="#solutions" class="nav-link" onclick="toggleMobileMenu()">Solutions</a></li>
+      <li><a href="#developers" class="nav-link" onclick="toggleMobileMenu()">Developers</a></li>
+      <li><a href="#docs" class="nav-link" onclick="toggleMobileMenu()">Documentation</a></li>
+      <li><a href="#pricing" class="nav-link" onclick="toggleMobileMenu()">Pricing</a></li>
+      <li><a href="#status" class="nav-link" onclick="toggleMobileMenu()">System Status</a></li>
+      <li><a href="#contact" class="nav-link" onclick="toggleMobileMenu()">Contact Sales</a></li>
+    </ul>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="toggleMobileMenu(); openAuthModal('signin');">Sign in</button>
+      <button class="btn btn-primary" onclick="toggleMobileMenu(); openAuthModal('signup');">Get started</button>
+    </div>
+  </div>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <div class="hero-badge" onclick="document.getElementById('platform').scrollIntoView({behavior: 'smooth'})">
+            <span class="badge-dot" style="background: var(--cyan-light);"></span>
+            <span>Nexora 3.0 Platform Engine is now live</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <h1 class="hero-title">
+          Build faster. <br>
+          <span class="gradient-text">Scale without limits.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Modern infrastructure and telemetry for high-performance engineering teams. Deploy distributed microservices, automate workloads, and observe telemetry in real time.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" onclick="openAuthModal('signup')">
+            <span>Get started free</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <a href="#platform" class="btn btn-secondary btn-lg">
+            <span>Explore platform</span>
+          </a>
+        </div>
+
+        <!-- Hero Abstract Node Topology Visualization -->
+        <div class="hero-viz-container">
+          <div class="hero-viz-header">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="font-weight: 600; color: var(--text-main);">Global Mesh Topology</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem;">us-east-1 // fra-1 // sin-1</span>
+            </div>
+            <div class="viz-status-pill">
+              <span class="pulse-dot"></span>
+              <span>All 120 PoPs Synchronized</span>
+            </div>
+          </div>
+
+          <svg class="node-graph-svg" viewBox="0 0 900 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Connecting Animated Paths -->
+            <path d="M 120 120 C 230 40, 290 40, 450 60" class="node-connection" />
+            <path d="M 120 120 C 230 180, 290 180, 450 180" class="node-connection" />
+            <path d="M 450 60 C 580 60, 620 120, 780 120" class="node-connection" />
+            <path d="M 450 180 C 580 180, 620 120, 780 120" class="node-connection" />
+            <path d="M 450 60 L 450 180" class="node-connection" />
+
+            <!-- Edge Node 1: Ingress API Gateway -->
+            <g transform="translate(40, 80)">
+              <rect width="140" height="80" class="node-box" />
+              <circle cx="28" cy="28" r="10" fill="#1e293b" />
+              <path d="M24 28l3 3 5-5" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="48" y="32" fill="#ffffff" font-size="13" font-weight="600">Edge Gateway</text>
+              <text x="20" y="58" fill="#94a3b8" font-size="11" font-family="monospace">latency: 1.2ms</text>
+            </g>
+
+            <!-- Center Upper Node: Distributed Core Compute -->
+            <g transform="translate(370, 20)">
+              <rect width="160" height="80" class="node-box" />
+              <circle cx="28" cy="28" r="10" fill="#1e293b" />
+              <circle cx="28" cy="28" r="4" fill="#818cf8" />
+              <text x="48" y="32" fill="#ffffff" font-size="13" font-weight="600">V8 Isolated Runtime</text>
+              <text x="20" y="58" fill="#94a3b8" font-size="11" font-family="monospace">instances: 420 req/s</text>
+            </g>
+
+            <!-- Center Lower Node: Event Streaming Bus -->
+            <g transform="translate(370, 140)">
+              <rect width="160" height="80" class="node-box" />
+              <circle cx="28" cy="28" r="10" fill="#1e293b" />
+              <path d="M23 28h10M28 23l5 5-5 5" stroke="#a855f7" stroke-width="2" stroke-linecap="round"/>
+              <text x="48" y="32" fill="#ffffff" font-size="13" font-weight="600">Event Stream</text>
+              <text x="20" y="58" fill="#94a3b8" font-size="11" font-family="monospace">throughput: 2.8 GB/s</text>
+            </g>
+
+            <!-- Egress Node: Real-time Telemetry & Data Store -->
+            <g transform="translate(710, 80)">
+              <rect width="150" height="80" class="node-box" />
+              <circle cx="28" cy="28" r="10" fill="#1e293b" />
+              <path d="M22 28a6 6 0 0112 0v2H22v-2z" stroke="#34d399" stroke-width="2"/>
+              <text x="48" y="32" fill="#ffffff" font-size="13" font-weight="600">eBPF Telemetry</text>
+              <text x="20" y="58" fill="#94a3b8" font-size="11" font-family="monospace">p99: 8.4ms</text>
+            </g>
+
+            <!-- Live Traveling Packets -->
+            <circle cx="280" cy="80" r="3.5" class="node-pulse-circle" />
+            <circle cx="620" cy="90" r="3.5" class="node-pulse-circle" style="fill: #818cf8;" />
+            <circle cx="600" cy="150" r="3.5" class="node-pulse-circle" style="fill: #34d399;" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUSTED BY SECTION -->
+    <section class="trusted-section">
+      <div class="container">
+        <p class="trusted-label">Trusted by high-growth engineering organizations worldwide</p>
+        <div class="logos-grid">
+          <div class="logo-item">
+            <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>NORTHSTAR</span>
+          </div>
+          <div class="logo-item">
+            <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 12l-4-4-4 4M12 16V8"/></svg>
+            <span>VECTOR</span>
+          </div>
+          <div class="logo-item">
+            <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            <span>LUMEN</span>
+          </div>
+          <div class="logo-item">
+            <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="10" ry="4"/></svg>
+            <span>ORBIT</span>
+          </div>
+          <div class="logo-item">
+            <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 22 22 22"/></svg>
+            <span>ATLAS</span>
+          </div>
+          <div class="logo-item">
+            <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+            <span>AETHER</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLATFORM SECTION (6 CARDS) -->
+    <section class="section" id="platform">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-primary">Comprehensive Architecture</span>
+          <h2>Everything your infrastructure needs.</h2>
+          <p>A unified cloud runtime combining high-performance compute, zero-overhead telemetry, and autonomous execution pipelines.</p>
+        </div>
+
+        <div class="platform-grid">
+          <!-- Card 1: Cloud Infrastructure -->
+          <div class="card platform-card">
+            <div class="card-glow"></div>
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              </div>
+              <h3>Cloud Infrastructure</h3>
+              <p>Distributed bare-metal compute instances and serverless execution environments with sub-millisecond cold starts and automatic multi-region failover.</p>
+            </div>
+            <div class="platform-footer-tag">
+              <span>Anycast global routing</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Card 2: Observability -->
+          <div class="card platform-card">
+            <div class="card-glow"></div>
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <h3>Deep Observability</h3>
+              <p>Kernel-level eBPF tracing, distributed request correlation, and real-time metric aggregation without intrusive code instrumentation.</p>
+            </div>
+            <div class="platform-footer-tag">
+              <span>Sub-second query engine</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Card 3: Automation -->
+          <div class="card platform-card">
+            <div class="card-glow"></div>
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <h3>Workflow Automation</h3>
+              <p>Declarative continuous delivery pipelines, event-driven infrastructure triggers, and automated rollout policies with canary verification.</p>
+            </div>
+            <div class="platform-footer-tag">
+              <span>GitOps native workflows</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Card 4: Analytics -->
+          <div class="card platform-card">
+            <div class="card-glow"></div>
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+              </div>
+              <h3>Real-Time Analytics</h3>
+              <p>Columnar time-series storage processing petabytes of telemetry with instant OLAP aggregation and customizable operational dashboards.</p>
+            </div>
+            <div class="platform-footer-tag">
+              <span>Dynamic anomaly detection</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Card 5: Security -->
+          <div class="card platform-card">
+            <div class="card-glow"></div>
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3>Zero-Trust Security</h3>
+              <p>Cryptographic mTLS identity per workload, automated secret rotation, role-based access control, and comprehensive audit trails.</p>
+            </div>
+            <div class="platform-footer-tag">
+              <span>Hardware-backed HSM</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Card 6: Developer Tools -->
+          <div class="card platform-card">
+            <div class="card-glow"></div>
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <h3>Developer Ergonomics</h3>
+              <p>Comprehensive CLI tooling, native SDKs for major languages, ephemeral preview environments, and instant local staging tunnels.</p>
+            </div>
+            <div class="platform-footer-tag">
+              <span>First-class IDE plugins</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE DASHBOARD MOCKUP -->
+    <section class="section" style="padding-top: 2rem;">
+      <div class="container">
+        <div class="dash-container">
+          <div class="dash-topbar">
+            <div class="dash-window-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div style="font-family: var(--font-mono); color: var(--text-muted); font-size: 0.8125rem;">
+              nexora-console // cluster-production-us
+            </div>
+            <div class="dash-tabs">
+              <button class="dash-tab-btn active" onclick="switchDashRange(this, '1h')">1h</button>
+              <button class="dash-tab-btn" onclick="switchDashRange(this, '24h')">24h</button>
+              <button class="dash-tab-btn" onclick="switchDashRange(this, '7d')">7d</button>
+            </div>
+          </div>
+
+          <div class="dash-body">
+            <!-- 6 Key Metrics -->
+            <div class="dash-stats-grid">
+              <div class="dash-stat-box">
+                <div class="dash-stat-label">
+                  <span>Requests/sec</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+                </div>
+                <div class="dash-stat-val" id="metricReqs">28,492</div>
+                <div class="dash-stat-trend">↑ 14.2% vs avg</div>
+              </div>
+              <div class="dash-stat-box">
+                <div class="dash-stat-label">
+                  <span>Latency (p99)</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="dash-stat-val" id="metricLatency">11.4 ms</div>
+                <div class="dash-stat-trend" style="color: var(--cyan-light);">Optimal (Anycast)</div>
+              </div>
+              <div class="dash-stat-box">
+                <div class="dash-stat-label">
+                  <span>Avg CPU Load</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+                </div>
+                <div class="dash-stat-val" id="metricCpu">24.6%</div>
+                <div class="dash-stat-trend">Auto-balanced</div>
+              </div>
+              <div class="dash-stat-box">
+                <div class="dash-stat-label">
+                  <span>Active Workers</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div class="dash-stat-val">128 / 128</div>
+                <div class="dash-stat-trend">100% Healthy</div>
+              </div>
+              <div class="dash-stat-box">
+                <div class="dash-stat-label">
+                  <span>Deployments</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div class="dash-stat-val">v2.18.4</div>
+                <div class="dash-stat-trend">Canary 100%</div>
+              </div>
+              <div class="dash-stat-box">
+                <div class="dash-stat-label">
+                  <span>Error Rate</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="dash-stat-val" style="color: var(--emerald-light);">0.001%</div>
+                <div class="dash-stat-trend">Within SLO</div>
+              </div>
+            </div>
+
+            <!-- Dashboard Charts Grid -->
+            <div class="dash-charts-grid">
+              <div class="chart-panel">
+                <div class="chart-panel-header">
+                  <span>Aggregate Throughput & Request Volume</span>
+                  <span style="font-family: var(--font-mono); color: var(--emerald-light);">● Live Ingest</span>
+                </div>
+                <!-- Inline SVG Waveform Chart -->
+                <svg id="dashWaveform" width="100%" height="160" viewBox="0 0 600 160" fill="none" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.35"/>
+                      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.0"/>
+                    </linearGradient>
+                  </defs>
+                  <path id="chartArea" d="M 0 160 L 0 110 Q 75 70, 150 90 T 300 60 T 450 75 T 600 40 L 600 160 Z" fill="url(#chartGrad)"/>
+                  <path id="chartLine" d="M 0 110 Q 75 70, 150 90 T 300 60 T 450 75 T 600 40" stroke="#818cf8" stroke-width="2.5" fill="none"/>
+                  <!-- Data points -->
+                  <circle cx="150" cy="90" r="3.5" fill="#38bdf8" />
+                  <circle cx="300" cy="60" r="3.5" fill="#38bdf8" />
+                  <circle cx="450" cy="75" r="3.5" fill="#38bdf8" />
+                  <circle cx="600" cy="40" r="4.5" fill="#ffffff" stroke="#6366f1" stroke-width="2" />
+                </svg>
+              </div>
+
+              <!-- Live Event Log -->
+              <div class="chart-panel">
+                <div class="chart-panel-header">
+                  <span>Recent Pipeline Actions</span>
+                  <span style="color: var(--text-dim); font-size: 0.75rem;">Audit log</span>
+                </div>
+                <div class="events-list">
+                  <div class="event-row">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      <span class="badge-dot" style="background: var(--emerald-light);"></span>
+                      <span class="event-title">deploy:auth-service#402</span>
+                    </div>
+                    <span class="event-time">2s ago</span>
+                  </div>
+                  <div class="event-row">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      <span class="badge-dot" style="background: var(--cyan-light);"></span>
+                      <span class="event-title">scale:edge-worker-sin</span>
+                    </div>
+                    <span class="event-time">14s ago</span>
+                  </div>
+                  <div class="event-row">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      <span class="badge-dot" style="background: var(--primary-light);"></span>
+                      <span class="event-title">cert:renew-wildcard</span>
+                    </div>
+                    <span class="event-time">1m ago</span>
+                  </div>
+                  <div class="event-row">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      <span class="badge-dot" style="background: var(--emerald-light);"></span>
+                      <span class="event-title">healthcheck:mesh-mesh</span>
+                    </div>
+                    <span class="event-time">3m ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DETAILED FEATURE BLOCKS (4 SECTIONS) -->
+    <section class="section">
+      <div class="container">
+        <div class="features-stack">
+          
+          <!-- Block 1: Deploy in seconds -->
+          <div class="feature-row">
+            <div class="feature-content">
+              <span class="badge badge-primary">Zero Downtime</span>
+              <h3>Deploy in seconds. Roll back instantly.</h3>
+              <p>Ship production microservices with declarative GitOps pipelines. Nexora provisions isolated sandboxes and tests invariants automatically before shifting live traffic.</p>
+              <ul class="feature-list">
+                <li class="feature-list-item">
+                  <svg class="feature-list-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Automated canary analysis and instant atomic rollback</span>
+                </li>
+                <li class="feature-list-item">
+                  <svg class="feature-list-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Multi-region immutable artifact synchronization</span>
+                </li>
+                <li class="feature-list-item">
+                  <svg class="feature-list-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Zero cold start execution overhead</span>
+                </li>
+              </ul>
+              <button class="btn btn-secondary" onclick="document.getElementById('developers').scrollIntoView({behavior:'smooth'})">Explore CLI Workflow</button>
+            </div>
+
+            <!-- Pipeline Graphic -->
+            <div class="pipeline-graphic">
+              <div style="font-size: 0.8125rem; font-weight: 600; margin-bottom: 1.5rem; display: flex; justify-content: space-between;">
+                <span>CI/CD Continuous Promotion</span>
+                <span style="color: var(--emerald-light); font-family: var(--font-mono);">PASS (4.2s)</span>
+              </div>
+              <div class="pipeline-steps">
+                <div class="pipeline-line-connector"></div>
+                <div class="pipeline-step active">
+                  <div class="pipeline-step-circle">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2"/></svg>
+                  </div>
+                  <span class="pipeline-step-name">Trigger</span>
+                </div>
+                <div class="pipeline-step active">
+                  <div class="pipeline-step-circle">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  </div>
+                  <span class="pipeline-step-name">Build</span>
+                </div>
+                <div class="pipeline-step active">
+                  <div class="pipeline-step-circle">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <span class="pipeline-step-name">Verify</span>
+                </div>
+                <div class="pipeline-step active">
+                  <div class="pipeline-step-circle" style="background: var(--emerald); border-color: var(--emerald-light); color: #fff;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <span class="pipeline-step-name">Deploy</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Block 2: Observe everything -->
+          <div class="feature-row reverse">
+            <div class="feature-content">
+              <span class="badge badge-cyan">Full-Stack Visibility</span>
+              <h3>Observe everything without code changes.</h3>
+              <p>Nexora taps directly into Linux kernel events via eBPF. Gain granular distributed tracing, memory footprint profiling, and latency heatmaps with zero overhead on host CPU.</p>
+              <ul class="feature-list">
+                <li class="feature-list-item">
+                  <svg class="feature-list-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Automatic distributed transaction correlation</span>
+                </li>
+                <li class="feature-list-item">
+                  <svg class="feature-list-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>eBPF profiling at 0.05% CPU overhead</span>
+                </li>
+                <li class="feature-list-item">
+                  <svg class="feature-list-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Native OpenTelemetry and Prometheus compatibility</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Observability Mock Box -->
+            <div class="card card-glass" style="padding: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                <span style="font-size: 0.875rem; font-weight: 600;">Distributed Trace Breakdown</span>
+                <span class="badge badge-emerald">Total Duration: 24.1ms</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.75rem;">
+                <div style="background: rgba(255,255,255,0.03); padding: 0.625rem; border-radius: 6px;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <span>GET /api/v1/projects</span>
+                    <span style="color: var(--primary-light);">2.4ms (ingress)</span>
+                  </div>
+                  <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+                    <div style="width: 15%; height: 100%; background: var(--primary);"></div>
+                  </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); padding: 0.625rem; border-radius: 6px;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <span>auth:token_verification_jwt</span>
+                    <span style="color: var(--cyan-light);">1.1ms (cache hit)</span>
+                  </div>
+                  <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+                    <div style="width: 8%; height: 100%; background: var(--cyan);"></div>
+                  </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); padding: 0.625rem; border-radius: 6px;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <span>pg_pool:query_read_replica</span>
+                    <span style="color: var(--emerald-light);">18.2ms (distributed)</span>
+                  </div>
+                  <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+                    <div style="width: 75%; height: 100%; background: var(--emerald);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- STATISTICS COUNTER -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" data-target="99.99">99.99%</div>
+            <div class="stat-label">Platform Uptime SLA</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="120">120+</div>
+            <div class="stat-label">Global Edge PoPs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="18">18M+</div>
+            <div class="stat-label">Daily Container Spawns</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="4.8">4.8B+</div>
+            <div class="stat-label">Telemetry Events / Day</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTIONS SECTION (4 CARDS) -->
+    <section class="section" id="solutions">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-cyan">Tailored Deployments</span>
+          <h2>Built for modern engineering teams.</h2>
+          <p>Whether you are bootstrapping a seed-stage product or managing global hyper-scale workloads, Nexora scales with your requirements.</p>
+        </div>
+
+        <div class="solutions-grid">
+          <div class="solution-card">
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+              </div>
+              <h3>Startups</h3>
+              <p>Deploy in minutes without full-time DevOps. Enjoy generous free tiers, automated HTTPS certificates, and built-in database replication.</p>
+            </div>
+            <a href="#pricing" class="platform-footer-tag">Start on free tier →</a>
+          </div>
+
+          <div class="solution-card">
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h3>Growing Teams</h3>
+              <p>Standardize deployment workflows across polyglot microservice teams with preview environments and unified logging.</p>
+            </div>
+            <a href="#contact" class="platform-footer-tag">Scale your team →</a>
+          </div>
+
+          <div class="solution-card">
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <h3>Enterprise</h3>
+              <p>Dedicated private clusters, 99.999% uptime SLAs, custom data residency compliance, and 24/7 dedicated support engineering.</p>
+            </div>
+            <a href="#contact" class="platform-footer-tag">Enterprise overview →</a>
+          </div>
+
+          <div class="solution-card">
+            <div>
+              <div class="platform-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <h3>Developers</h3>
+              <p>CLI-first development, local mocking engines, comprehensive REST and GraphQL APIs, and declarative Infrastructure as Code.</p>
+            </div>
+            <a href="#developers" class="platform-footer-tag">View SDK docs →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVELOPERS INTERACTIVE CODE SECTION -->
+    <section class="section" id="developers">
+      <div class="container">
+        <div class="dev-split">
+          <div>
+            <span class="badge badge-primary">Developer Ergonomics</span>
+            <h2 style="font-size: clamp(2rem, 3vw, 2.5rem); margin: 1rem 0;">Built by developers, for developers.</h2>
+            <p style="font-size: 1.0625rem; line-height: 1.6;">Interact with your infrastructure programmatically. Use our battle-tested CLI, type-safe SDKs, or raw REST APIs with instant OpenAPI 3.1 specifications.</p>
+            
+            <div class="dev-cards-grid">
+              <div class="dev-subcard">
+                <h4>CLI & Automations</h4>
+                <p>Deploy straight from your local terminal with one command.</p>
+              </div>
+              <div class="dev-subcard">
+                <h4>Multi-Language SDKs</h4>
+                <p>Official bindings for TypeScript, Python, Go, Rust.</p>
+              </div>
+              <div class="dev-subcard">
+                <h4>Webhook Ingestion</h4>
+                <p>Reliable at-least-once delivery with exponential retry.</p>
+              </div>
+              <div class="dev-subcard">
+                <h4>Real-time Telemetry</h4>
+                <p>Native OpenTelemetry endpoint for live metrics.</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+              <a href="#docs" class="btn btn-primary">Read Documentation</a>
+            </div>
+          </div>
+
+          <!-- Code Window -->
+          <div class="code-window">
+            <div class="code-header">
+              <div class="code-tabs">
+                <button class="code-tab-btn active" onclick="switchCodeSnippet(this, 'curl')">cURL</button>
+                <button class="code-tab-btn" onclick="switchCodeSnippet(this, 'node')">TypeScript</button>
+                <button class="code-tab-btn" onclick="switchCodeSnippet(this, 'python')">Python</button>
+                <button class="code-tab-btn" onclick="switchCodeSnippet(this, 'go')">Go</button>
+              </div>
+              <button class="copy-btn" onclick="copySnippetCode()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span id="copyText">Copy</span>
+              </button>
+            </div>
+            <pre class="code-content"><code id="codeSnippetTarget"><span class="token-comment"># Provision a new distributed edge cluster</span>
+<span class="token-kw">curl</span> -X POST https://api.nexora.io/v1/deployments \
+  -H <span class="token-str">"Authorization: Bearer nx_live_89f02c918a"</span> \
+  -H <span class="token-str">"Content-Type: application/json"</span> \
+  -d '{
+    <span class="token-str">"name"</span>: <span class="token-str">"production-api-mesh"</span>,
+    <span class="token-str">"region"</span>: <span class="token-str">"global-anycast"</span>,
+    <span class="token-str">"runtime"</span>: <span class="token-str">"node-v20-isolated"</span>,
+    <span class="token-str">"autoscale"</span>: { <span class="token-str">"min"</span>: <span class="token-num">3</span>, <span class="token-str">"max"</span>: <span class="token-num">120</span> },
+    <span class="token-str">"observability"</span>: { <span class="token-str">"ebpf_tracing"</span>: <span class="token-kw">true</span> }
+  }'</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECURITY SECTION -->
+    <section class="section" id="security">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-emerald">Enterprise Trust</span>
+          <h2>Security built into every layer.</h2>
+          <p>Designed from the ground up for strict confidentiality, zero-trust cryptographic isolation, and end-to-end audit compliance.</p>
+        </div>
+
+        <div class="security-grid">
+          <div class="security-card">
+            <div class="platform-icon-wrap" style="color: var(--emerald-light);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3>End-to-End Encryption</h3>
+            <p>All ingress and inter-node mesh traffic is encrypted with automated TLS 1.3 and ChaCha20-Poly1305 with zero configuration.</p>
+          </div>
+
+          <div class="security-card">
+            <div class="platform-icon-wrap" style="color: var(--emerald-light);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>Fine-Grained RBAC</h3>
+            <p>Enforce strict principle-of-least-privilege with scoped service tokens, SAML SSO integration, and multi-factor enforcement.</p>
+          </div>
+
+          <div class="security-card">
+            <div class="platform-icon-wrap" style="color: var(--emerald-light);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+            </div>
+            <h3>Immutable Audit Logs</h3>
+            <p>Every deployment, token grant, and infrastructure modification is cryptographically hashed and exported to your SIEM system.</p>
+          </div>
+
+          <div class="security-card">
+            <div class="platform-icon-wrap" style="color: var(--emerald-light);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg>
+            </div>
+            <h3>DDoS Mitigation</h3>
+            <p>High-capacity Anycast network dynamically absorbs volumetric layer 3/4 and layer 7 attacks without degradation.</p>
+          </div>
+
+          <div class="security-card">
+            <div class="platform-icon-wrap" style="color: var(--emerald-light);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <h3>Hardware-Isolated Enclaves</h3>
+            <p>Sensitive workloads execute inside hardware-attested microVM sandboxes with dedicated memory encryption.</p>
+          </div>
+
+          <div class="security-card">
+            <div class="platform-icon-wrap" style="color: var(--emerald-light);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Automated Vulnerability Scan</h3>
+            <p>Continuous dependency auditing, static binary security analysis, and container base-image patch monitoring.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-primary">Transparent Pricing</span>
+          <h2>Simple pricing that scales with your growth.</h2>
+          <p>Start for free, upgrade when your workloads demand global scale. No hidden ingress or egress surprises.</p>
+        </div>
+
+        <!-- Monthly / Annual Toggle -->
+        <div class="pricing-toggle-wrap">
+          <div class="pricing-toggle">
+            <button class="toggle-opt active" id="monthlyBtn" onclick="setBillingPeriod('monthly')">Monthly billing</button>
+            <button class="toggle-opt" id="annualBtn" onclick="setBillingPeriod('annual')">Annual billing</button>
+          </div>
+          <span class="save-pill">Save 20%</span>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Starter -->
+          <div class="pricing-card">
+            <div>
+              <div class="tier-name">Starter</div>
+              <div class="tier-desc">Ideal for prototyping and personal projects.</div>
+              <div class="tier-price-box">
+                <span class="price-num">$0</span>
+                <span class="price-period">/ month</span>
+              </div>
+              <ul class="tier-features">
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>3 Distributed Edge instances</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>100k Monthly API requests</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>1 Day metric retention</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Community Discord support</span>
+                </li>
+              </ul>
+            </div>
+            <button class="btn btn-secondary" onclick="openAuthModal('signup')">Get started</button>
+          </div>
+
+          <!-- Growth (Recommended) -->
+          <div class="pricing-card recommended">
+            <span class="rec-badge">Most Popular</span>
+            <div>
+              <div class="tier-name">Growth</div>
+              <div class="tier-desc">For fast-moving teams shipping production services.</div>
+              <div class="tier-price-box">
+                <span class="price-num" id="growthPrice">$49</span>
+                <span class="price-period">/ month</span>
+              </div>
+              <ul class="tier-features">
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Up to 25 Distributed instances</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>5M Monthly API requests</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>30 Days eBPF telemetry retention</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Automated canary rollouts</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Priority email support (SLA &lt; 4h)</span>
+                </li>
+              </ul>
+            </div>
+            <button class="btn btn-primary" onclick="openAuthModal('signup')">Start 14-day trial</button>
+          </div>
+
+          <!-- Scale -->
+          <div class="pricing-card">
+            <div>
+              <div class="tier-name">Scale</div>
+              <div class="tier-desc">For high-traffic applications demanding global low latency.</div>
+              <div class="tier-price-box">
+                <span class="price-num" id="scalePrice">$199</span>
+                <span class="price-period">/ month</span>
+              </div>
+              <ul class="tier-features">
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Unlimited autoscaling instances</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>50M Monthly API requests</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>90 Days telemetry & distributed traces</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Custom edge middleware scripts</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>24/7 Phone & Slack channel support</span>
+                </li>
+              </ul>
+            </div>
+            <button class="btn btn-secondary" onclick="openAuthModal('signup')">Upgrade to Scale</button>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="pricing-card">
+            <div>
+              <div class="tier-name">Enterprise</div>
+              <div class="tier-desc">Dedicated infrastructure with custom compliance & SLAs.</div>
+              <div class="tier-price-box">
+                <span class="price-num">Custom</span>
+              </div>
+              <ul class="tier-features">
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Dedicated bare-metal enclaves</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Custom billable volume</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>99.999% Uptime contractual SLA</span>
+                </li>
+                <li class="tier-feature-item">
+                  <svg class="table-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Dedicated Technical Account Manager</span>
+                </li>
+              </ul>
+            </div>
+            <a href="#contact" class="btn btn-secondary">Talk to sales</a>
+          </div>
+        </div>
+
+        <!-- Feature Comparison Matrix -->
+        <div class="comparison-table-wrap">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Detailed Tier Comparison</h3>
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>Capability</th>
+                <th>Starter</th>
+                <th>Growth</th>
+                <th>Scale</th>
+                <th>Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Edge PoP Routing</td>
+                <td>3 Regions</td>
+                <td>Global Anycast (120+)</td>
+                <td>Global Anycast (120+)</td>
+                <td>Custom Private PoPs</td>
+              </tr>
+              <tr>
+                <td>Cold Start Performance</td>
+                <td>&lt; 50ms</td>
+                <td>&lt; 5ms</td>
+                <td>Sub-millisecond</td>
+                <td>Pre-warmed enclaves</td>
+              </tr>
+              <tr>
+                <td>eBPF Kernel Tracing</td>
+                <td>—</td>
+                <td>Included</td>
+                <td>Included</td>
+                <td>Full kernel audit</td>
+              </tr>
+              <tr>
+                <td>SSO & SAML 2.0</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Included</td>
+                <td>Custom IdP Integration</td>
+              </tr>
+              <tr>
+                <td>Dedicated Account Manager</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Included (24/7 SLA)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION (4 QUOTES) -->
+    <section class="section" style="padding-top: 2rem;">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-cyan">Customer Stories</span>
+          <h2>Validated by engineering leaders.</h2>
+          <p>See why high-velocity tech teams migrate their core cloud workloads to Nexora.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testi-card">
+            <p class="testi-quote">"Nexora reduced our global p99 API latency from 140ms down to 18ms across all regions. The automated canary pipeline saved us from two critical production regressions on day one."</p>
+            <div class="testi-author">
+              <div class="avatar-mono">SK</div>
+              <div>
+                <div class="author-name">Sarah Kowalski</div>
+                <div class="author-role">VP of Engineering at Northstar Data</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testi-card">
+            <p class="testi-quote">"The eBPF observability suite is unmatched. We eliminated three bloated monitoring agents and slashed our cloud compute bill by 32% within the first billing cycle."</p>
+            <div class="testi-author">
+              <div class="avatar-mono">DL</div>
+              <div>
+                <div class="author-name">David Lin</div>
+                <div class="author-role">Principal Architect at Vector Stream</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testi-card">
+            <p class="testi-quote">"Moving to Nexora felt like upgrading from a legacy mainframe to modern edge compute. Our engineers deploy four times a day now with complete confidence."</p>
+            <div class="testi-author">
+              <div class="avatar-mono">EM</div>
+              <div>
+                <div class="author-name">Elena Morales</div>
+                <div class="author-role">Head of Infrastructure at Orbit Labs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOCUMENTATION IN-PAGE HUB -->
+    <section class="section" id="docs">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-primary">Technical Reference</span>
+          <h2>Comprehensive Documentation</h2>
+          <p>Everything you need to integrate, deploy, and automate using the Nexora developer platform.</p>
+        </div>
+
+        <div class="docs-container">
+          <!-- Left Navigation -->
+          <div class="docs-sidebar">
+            <input type="text" class="docs-search" id="docsSearchInput" placeholder="Filter documentation..." onkeyup="filterDocsMenu()">
+            
+            <div>
+              <div class="docs-menu-group-title">Getting Started</div>
+              <ul class="docs-menu-list" id="docsMenuList">
+                <li><button class="docs-menu-btn active" onclick="loadDocTopic('intro', this)">Introduction</button></li>
+                <li><button class="docs-menu-btn" onclick="loadDocTopic('quickstart', this)">Quickstart (5 min)</button></li>
+                <li><button class="docs-menu-btn" onclick="loadDocTopic('architecture', this)">Architecture Overview</button></li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="docs-menu-group-title">Platform & APIs</div>
+              <ul class="docs-menu-list">
+                <li><button class="docs-menu-btn" onclick="loadDocTopic('auth', this)">Authentication & Keys</button></li>
+                <li><button class="docs-menu-btn" onclick="loadDocTopic('deployments', this)">Deployments & Rollouts</button></li>
+                <li><button class="docs-menu-btn" onclick="loadDocTopic('observability', this)">eBPF Observability</button></li>
+                <li><button class="docs-menu-btn" onclick="loadDocTopic('cli', this)">CLI Reference</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Central Doc Viewer -->
+          <div class="docs-body" id="docsContentBody">
+            <h3>Introduction to Nexora Cloud Engine</h3>
+            <p>Nexora provides a declarative runtime for distributed microservices, edge compute workloads, and real-time observability telemetry.</p>
+            <p>By leveraging lightweight V8 sandboxes and kernel-level eBPF instrumentation, Nexora eliminates hypervisor overhead while guaranteeing hardware-grade tenant isolation.</p>
+            
+            <div class="docs-code-block">
+              <span class="token-comment"># Install Nexora official CLI</span>
+              <br><span class="token-kw">curl</span> -fsSL https://get.nexora.io/cli.sh | sh
+              <br><br><span class="token-comment"># Authenticate your terminal session</span>
+              <br><span class="token-kw">nexora</span> login
+            </div>
+
+            <h4>Core Architecture Highlights</h4>
+            <p>Every workload deployed to Nexora is automatically replicated across our Anycast edge fabric spanning 120+ points of presence.</p>
+          </div>
+
+          <!-- Right Table of Contents -->
+          <div class="docs-toc">
+            <div class="docs-toc-title">On this page</div>
+            <ul class="docs-toc-list">
+              <li><span class="docs-toc-link">Introduction</span></li>
+              <li><span class="docs-toc-link">Installation</span></li>
+              <li><span class="docs-toc-link">Authentication</span></li>
+              <li><span class="docs-toc-link">Key Concepts</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG SECTION (6 ARTICLES) -->
+    <section class="section" id="blog">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-cyan">Engineering & Product</span>
+          <h2>Latest from the Engineering Blog</h2>
+          <p>Deep-dives into distributed systems, low-level kernel performance, and modern architecture patterns.</p>
+        </div>
+
+        <div class="blog-grid">
+          <!-- Article 1 -->
+          <div class="blog-card" onclick="openBlogModal(1)">
+            <div>
+              <div class="blog-meta">
+                <span class="badge badge-primary">Engineering</span>
+                <span>Oct 14, 2026 • 6 min read</span>
+              </div>
+              <h3>Building Resilient Cloud Infrastructure at Global Scale</h3>
+              <p>How we structured our distributed consensus layer to guarantee sub-millisecond failovers across 120 global edge locations.</p>
+            </div>
+            <div class="blog-footer">
+              <span>Read article</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Article 2 -->
+          <div class="blog-card" onclick="openBlogModal(2)">
+            <div>
+              <div class="blog-meta">
+                <span class="badge badge-cyan">Observability</span>
+                <span>Sep 28, 2026 • 8 min read</span>
+              </div>
+              <h3>How Modern Teams Approach Zero-Overhead Observability</h3>
+              <p>Eliminating CPU tax with eBPF tracing: capturing kernel tracepoints without application bytecode injection.</p>
+            </div>
+            <div class="blog-footer">
+              <span>Read article</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Article 3 -->
+          <div class="blog-card" onclick="openBlogModal(3)">
+            <div>
+              <div class="blog-meta">
+                <span class="badge badge-emerald">Architecture</span>
+                <span>Sep 12, 2026 • 5 min read</span>
+              </div>
+              <h3>The Future of Developer Platforms and Edge Compute</h3>
+              <p>Why modern development teams are moving away from monolithic orchestrators toward instantaneous isolated workers.</p>
+            </div>
+            <div class="blog-footer">
+              <span>Read article</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Article 4 -->
+          <div class="blog-card" onclick="openBlogModal(4)">
+            <div>
+              <div class="blog-meta">
+                <span class="badge badge-primary">Security</span>
+                <span>Aug 29, 2026 • 7 min read</span>
+              </div>
+              <h3>Zero-Trust Cryptographic Mesh in Production</h3>
+              <p>How Nexora guarantees tenant separation using hardware-backed cryptographic identity and automated mutual TLS (mTLS) session rotation.</p>
+            </div>
+            <div class="blog-footer">
+              <span>Read article</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Article 5 -->
+          <div class="blog-card" onclick="openBlogModal(5)">
+            <div>
+              <div class="blog-meta">
+                <span class="badge badge-cyan">Performance</span>
+                <span>Aug 10, 2026 • 9 min read</span>
+              </div>
+              <h3>Optimizing p99 Latency with Anycast Network Engineering</h3>
+              <p>A technical examination of BGP Anycast route convergence, TCP fast-open, and edge cache warming strategies across 120 global points of presence.</p>
+            </div>
+            <div class="blog-footer">
+              <span>Read article</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Article 6 -->
+          <div class="blog-card" onclick="openBlogModal(6)">
+            <div>
+              <div class="blog-meta">
+                <span class="badge badge-emerald">DevOps</span>
+                <span>Jul 24, 2026 • 4 min read</span>
+              </div>
+              <h3>Continuous Promotion: Automating Canary Rollouts</h3>
+              <p>Practical heuristics for error-budget evaluation and automated rollbacks before production outages happen.</p>
+            </div>
+            <div class="blog-footer">
+              <span>Read article</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATUS SECTION (90-DAY UPTIME) -->
+    <section class="section" id="status">
+      <div class="container">
+        <div class="status-header" style="text-align: center; max-width: 680px; margin: 0 auto 4rem auto;">
+          <span class="badge badge-emerald">Live System Health</span>
+          <h2 style="font-size: clamp(2rem, 3.5vw, 2.75rem); margin: 1rem 0;">Platform Operational Status</h2>
+          <p style="font-size: 1.125rem;">Real-time telemetry and 90-day historical uptime records across all global infrastructure components.</p>
+        </div>
+
+        <div class="status-box">
+          <div class="status-overall-header">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span class="pulse-dot" style="width: 10px; height: 10px;"></span>
+              <span style="font-size: 1.125rem; font-weight: 600; color: #ffffff;">All Systems Fully Operational</span>
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--emerald-light);">99.998% Uptime (90 Days)</span>
+          </div>
+
+          <div class="status-services-list">
+            <!-- Service 1 -->
+            <div class="service-row">
+              <div class="service-info">
+                <span style="font-weight: 500;">Edge Ingress & Global Anycast Gateway</span>
+                <span style="color: var(--emerald-light); font-size: 0.8125rem;">Operational</span>
+              </div>
+              <div class="uptime-bar" id="bar1"></div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-row">
+              <div class="service-info">
+                <span style="font-weight: 500;">V8 Isolated Compute Runtime</span>
+                <span style="color: var(--emerald-light); font-size: 0.8125rem;">Operational</span>
+              </div>
+              <div class="uptime-bar" id="bar2"></div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-row">
+              <div class="service-info">
+                <span style="font-weight: 500;">eBPF Telemetry Ingestion & OLAP</span>
+                <span style="color: var(--emerald-light); font-size: 0.8125rem;">Operational</span>
+              </div>
+              <div class="uptime-bar" id="bar3"></div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-row">
+              <div class="service-info">
+                <span style="font-weight: 500;">Authentication & IAM Service</span>
+                <span style="color: var(--emerald-light); font-size: 0.8125rem;">Operational</span>
+              </div>
+              <div class="uptime-bar" id="bar4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT & TIMELINE SECTION -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-primary">Company & Philosophy</span>
+          <h2>Empowering builders worldwide.</h2>
+          <p>We are a distributed team of systems engineers, distributed database architects, and developer tool creators.</p>
+        </div>
+
+        <div class="about-values-grid">
+          <div class="card">
+            <h3>Our Mission</h3>
+            <p>To eliminate cloud complexity and make ultra-low-latency distributed infrastructure accessible to every developer on earth.</p>
+          </div>
+          <div class="card">
+            <h3>Our Vision</h3>
+            <p>An autonomous cloud layer where infrastructure provisions, monitors, and optimizes itself based on real-time traffic demand.</p>
+          </div>
+          <div class="card">
+            <h3>Core Values</h3>
+            <p>Speed of execution, obsession with zero-overhead performance, uncompromising reliability, and developer-first design.</p>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline-wrap">
+          <div class="timeline-line"></div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <span class="badge badge-primary" style="margin-bottom: 0.5rem;">2021</span>
+              <h4>Company Founded</h4>
+              <p style="font-size: 0.8125rem;">Founded by distributed systems engineers to rethink cloud compute from bare metal up.</p>
+            </div>
+            <div class="timeline-dot"></div>
+            <div style="width: 44%;"></div>
+          </div>
+
+          <div class="timeline-item">
+            <div style="width: 44%;"></div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="badge badge-cyan" style="margin-bottom: 0.5rem;">2022</span>
+              <h4>First Platform Engine</h4>
+              <p style="font-size: 0.8125rem;">Launched our initial serverless isolate runtime with 15 initial global locations.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">2024</span>
+              <h4>Global Scale & eBPF</h4>
+              <p style="font-size: 0.8125rem;">Expanded to 100+ Anycast PoPs and introduced zero-overhead eBPF observability.</p>
+            </div>
+            <div class="timeline-dot"></div>
+            <div style="width: 44%;"></div>
+          </div>
+
+          <div class="timeline-item">
+            <div style="width: 44%;"></div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="badge badge-primary" style="margin-bottom: 0.5rem;">2026</span>
+              <h4>Next-Gen Autonomous Mesh</h4>
+              <p style="font-size: 0.8125rem;">Unveiled Nexora 3.0 with autonomous canary pipelines and microVM isolation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAREERS SECTION WITH FILTER -->
+    <section class="section" id="careers">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-cyan">Join Our Team</span>
+          <h2>Build the future of cloud computing.</h2>
+          <p>We are hiring across engineering, product design, and distributed systems. Fully remote-first positions.</p>
+        </div>
+
+        <div class="careers-filter">
+          <button class="filter-btn active" onclick="filterJobs('all', this)">All Roles (5)</button>
+          <button class="filter-btn" onclick="filterJobs('engineering', this)">Engineering</button>
+          <button class="filter-btn" onclick="filterJobs('design', this)">Design</button>
+          <button class="filter-btn" onclick="filterJobs('devops', this)">DevOps & SRE</button>
+        </div>
+
+        <div class="jobs-list" id="jobsContainer">
+          <div class="job-card" data-category="engineering">
+            <div class="job-info">
+              <h4>Senior Distributed Systems Engineer</h4>
+              <div class="job-tags">
+                <span class="badge">Engineering</span>
+                <span class="badge">Rust / C++</span>
+                <span class="badge">Remote (Global)</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="openJobModal('Senior Distributed Systems Engineer')">Apply Now</button>
+          </div>
+
+          <div class="job-card" data-category="engineering">
+            <div class="job-info">
+              <h4>Senior Frontend Engineer — Core Console</h4>
+              <div class="job-tags">
+                <span class="badge">Engineering</span>
+                <span class="badge">TypeScript / React</span>
+                <span class="badge">Remote (US/EU)</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="openJobModal('Senior Frontend Engineer')">Apply Now</button>
+          </div>
+
+          <div class="job-card" data-category="devops">
+            <div class="job-info">
+              <h4>Principal SRE & Kernel Performance Engineer</h4>
+              <div class="job-tags">
+                <span class="badge">DevOps & SRE</span>
+                <span class="badge">eBPF / Linux Kernel</span>
+                <span class="badge">Remote (Global)</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="openJobModal('Principal SRE Engineer')">Apply Now</button>
+          </div>
+
+          <div class="job-card" data-category="design">
+            <div class="job-info">
+              <h4>Lead Product Designer — Developer Tools</h4>
+              <div class="job-tags">
+                <span class="badge">Design</span>
+                <span class="badge">Design Systems</span>
+                <span class="badge">Remote (Global)</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="openJobModal('Lead Product Designer')">Apply Now</button>
+          </div>
+
+          <div class="job-card" data-category="engineering">
+            <div class="job-info">
+              <h4>Solutions Architect & Technical Evangelist</h4>
+              <div class="job-tags">
+                <span class="badge">Engineering</span>
+                <span class="badge">Cloud Architecture</span>
+                <span class="badge">Remote (US/EU)</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="openJobModal('Solutions Architect')">Apply Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT & SALES SECTION -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-wrapper">
+          <div>
+            <span class="badge badge-primary">Get In Touch</span>
+            <h2 style="font-size: 2.25rem; margin: 1rem 0;">Talk with our infrastructure specialists.</h2>
+            <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 2rem;">Ready to migrate workloads or need custom enterprise pricing? Our solutions architects are available to guide your technical review.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.875rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-muted);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>enterprise-sales@nexora.io</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-muted);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>San Francisco, CA • London, UK • Singapore</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--emerald-light);">
+                <span class="pulse-dot"></span>
+                <span>Average sales response time: &lt; 2 hours</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <form id="contactForm" onsubmit="handleContactSubmit(event)">
+            <div class="form-group">
+              <label class="form-label" for="contactName">Your Name</label>
+              <input type="text" id="contactName" class="form-input" placeholder="Alex Rivers" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactEmail">Work Email</label>
+              <input type="email" id="contactEmail" class="form-input" placeholder="alex@company.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactCompany">Company / Project Name</label>
+              <input type="text" id="contactCompany" class="form-input" placeholder="Northstar Data Systems" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactMessage">How can we help your architecture?</label>
+              <textarea id="contactMessage" class="form-textarea" placeholder="Tell us about your estimated monthly traffic, current infrastructure, and technical requirements..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <span>Send message</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-primary">Frequently Asked</span>
+          <h2>Got questions? We have answers.</h2>
+          <p>Common questions regarding architecture, billing, migration, and performance.</p>
+        </div>
+
+        <div class="faq-stack">
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How does Nexora achieve sub-millisecond cold starts?</span>
+              <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              Nexora utilizes pre-warmed V8 snapshot isolates and lightweight WebAssembly runtimes rather than booting heavyweight operating system containers. This allows instances to instantiate in under 5ms worldwide.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Can I migrate existing Docker and OCI containers to Nexora?</span>
+              <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              Yes. Nexora natively ingests standard OCI-compliant container images and compiles them down to optimized microVM sandboxes through our automated build engine.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How does the zero-overhead eBPF observability work?</span>
+              <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              Rather than injecting monitoring SDKs or sidecars into your user-space application code, our hypervisors read socket and kernel tracepoints via safe eBPF bytecode programs. This yields full telemetry without CPU degradation.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>What happens if our API traffic spikes by 100x unexpectedly?</span>
+              <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              Our Anycast ingress automatically distributes load across neighboring PoPs in under 200 milliseconds, and your compute fleet autoscales horizontally without rate-limiting caps.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Are there egress fees or hidden network transfer costs?</span>
+              <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              No. Nexora includes generous global egress quotas on all tiers. High-volume custom plans benefit from predictable fixed monthly bandwidth commitments.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="section">
+      <div class="container">
+        <div class="final-cta-box">
+          <h2 style="font-size: clamp(2.25rem, 4vw, 3.25rem); margin-bottom: 1rem;">Ready to build what's next?</h2>
+          <p style="font-size: 1.125rem; max-width: 600px; margin: 0 auto 2.5rem auto;">Start shipping production services on infrastructure engineered for the next generation of software.</p>
+          
+          <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-lg" onclick="openAuthModal('signup')">Get started free</button>
+            <a href="#contact" class="btn btn-secondary btn-lg">Talk to sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 1rem;">
+            <div class="logo-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <span>NEXORA</span>
+          </div>
+          <p style="font-size: 0.8125rem; max-width: 280px; line-height: 1.6; margin-bottom: 1.5rem;">
+            Modern cloud infrastructure, distributed edge compute, and autonomous observability platform.
+          </p>
+          <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--emerald-light);">
+            <span class="pulse-dot"></span>
+            <span>All global systems normal</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Product</div>
+          <ul class="footer-links">
+            <li><a href="#platform">Edge Compute</a></li>
+            <li><a href="#platform">eBPF Observability</a></li>
+            <li><a href="#platform">GitOps Pipelines</a></li>
+            <li><a href="#pricing">Pricing Plans</a></li>
+            <li><a href="#status">System Status</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Resources</div>
+          <ul class="footer-links">
+            <li><a href="#docs">Documentation</a></li>
+            <li><a href="#developers">CLI Reference</a></li>
+            <li><a href="#blog">Engineering Blog</a></li>
+            <li><a href="#docs">API Specs</a></li>
+            <li><a href="#faq">Architecture FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="#about">About Nexora</a></li>
+            <li><a href="#careers">Careers (Hiring)</a></li>
+            <li><a href="#security">Security & Trust</a></li>
+            <li><a href="#contact">Contact Sales</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Legal</div>
+          <ul class="footer-links">
+            <li><a href="#" onclick="alert('Demo notice: Nexora standard privacy policy compliant with global data protection standards.'); return false;">Privacy Policy</a></li>
+            <li><a href="#" onclick="alert('Demo notice: Commercial Terms of Service for cloud platform usage.'); return false;">Terms of Service</a></li>
+            <li><a href="#security">Responsible Disclosure</a></li>
+            <li><a href="#security">Compliance Matrix</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 NEXORA Systems Inc. All rights reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <span>ISO 27001 Certified Architecture</span>
+          <span>SOC 2 Type II Audited</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUTHENTICATION MODAL (SIGN IN / GET STARTED) -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeAuthModal()" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <div class="logo-icon" style="margin: 0 auto 0.75rem auto;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3 id="authModalTitle" style="font-size: 1.375rem; margin-bottom: 0.25rem;">Sign in to Nexora Console</h3>
+        <p id="authModalSub" style="font-size: 0.8125rem;">Access your clusters and distributed deployments</p>
+      </div>
+
+      <form onsubmit="handleAuthSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="authEmail">Work Email</label>
+          <input type="email" id="authEmail" class="form-input" placeholder="developer@company.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="authPass">Password</label>
+          <input type="password" id="authPass" class="form-input" placeholder="••••••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" id="authSubmitBtn">
+          Sign In
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.25rem; font-size: 0.75rem; color: var(--text-dim);">
+        Protected by hardware-attested multi-factor zero-trust verification.
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOG ARTICLE READER MODAL -->
+  <div class="modal-overlay" id="blogModal">
+    <div class="modal-box" style="max-width: 720px; max-height: 85vh; overflow-y: auto;">
+      <button class="modal-close-btn" onclick="closeBlogModal()" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div id="blogArticleContent"></div>
+    </div>
+  </div>
+
+  <!-- JOB APPLICATION MODAL -->
+  <div class="modal-overlay" id="jobModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeJobModal()" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;" id="jobModalTitle">Apply for Position</h3>
+      <p style="font-size: 0.8125rem; margin-bottom: 1.5rem;">Join our core distributed engineering team</p>
+      
+      <form onsubmit="handleJobSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="applicantName">Full Name</label>
+          <input type="text" id="applicantName" class="form-input" placeholder="Taylor Morgan" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="applicantEmail">Email Address</label>
+          <input type="email" id="applicantEmail" class="form-input" placeholder="taylor@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="applicantPortfolio">GitHub / Portfolio URL</label>
+          <input type="url" id="applicantPortfolio" class="form-input" placeholder="https://github.com/username" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.75rem;">
+          Submit Application
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- COMMAND PALETTE (CMD+K) OVERLAY -->
+  <div class="modal-overlay" id="cmdPaletteOverlay">
+    <div class="modal-box cmd-palette-box">
+      <div class="cmd-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-dim);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="cmd-input" id="cmdInput" placeholder="Type a command or jump to section..." oninput="handleCmdSearch(this.value)">
+        <span class="kbd">ESC</span>
+      </div>
+      <ul class="cmd-results" id="cmdResultsList">
+        <li class="cmd-result-item" onclick="jumpToSection('platform')">
+          <span>Platform Architecture</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">#platform</span>
+        </li>
+        <li class="cmd-result-item" onclick="jumpToSection('solutions')">
+          <span>Solutions by Workload</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">#solutions</span>
+        </li>
+        <li class="cmd-result-item" onclick="jumpToSection('developers')">
+          <span>Developer Tools & SDKs</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">#developers</span>
+        </li>
+        <li class="cmd-result-item" onclick="jumpToSection('docs')">
+          <span>Documentation Hub</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">#docs</span>
+        </li>
+        <li class="cmd-result-item" onclick="jumpToSection('pricing')">
+          <span>Pricing Calculator & Tiers</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">#pricing</span>
+        </li>
+        <li class="cmd-result-item" onclick="jumpToSection('status')">
+          <span>Global System Status (90 Days)</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">#status</span>
+        </li>
+        <li class="cmd-result-item" onclick="jumpToSection('contact')">
+          <span>Contact Enterprise Sales</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">#contact</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ==========================================================================
+       VANILLA JAVASCRIPT LOGIC
+       ========================================================================== -->
+  <script>
+    // 1. Sticky Navbar Blur on Scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // 2. Mobile Drawer Navigation
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    function toggleMobileMenu() {
+      mobileDrawer.classList.toggle('open');
+    }
+    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+    // 3. Pricing Toggle (Monthly vs Annual)
+    let currentBilling = 'monthly';
+    function setBillingPeriod(period) {
+      currentBilling = period;
+      const monthlyBtn = document.getElementById('monthlyBtn');
+      const annualBtn = document.getElementById('annualBtn');
+      const growthPrice = document.getElementById('growthPrice');
+      const scalePrice = document.getElementById('scalePrice');
+
+      if (period === 'annual') {
+        monthlyBtn.classList.remove('active');
+        annualBtn.classList.add('active');
+        growthPrice.textContent = '$39';
+        scalePrice.textContent = '$159';
+      } else {
+        annualBtn.classList.remove('active');
+        monthlyBtn.classList.add('active');
+        growthPrice.textContent = '$49';
+        scalePrice.textContent = '$199';
+      }
+    }
+
+    // 4. Interactive Code Snippet Tabs
+    const snippets = {
+      curl: `# Provision a new distributed edge cluster
+curl -X POST https://api.nexora.io/v1/deployments \\
+  -H "Authorization: Bearer nx_live_89f02c918a" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "production-api-mesh",
+    "region": "global-anycast",
+    "runtime": "node-v20-isolated",
+    "autoscale": { "min": 3, "max": 120 },
+    "observability": { "ebpf_tracing": true }
+  }'`,
+      node: `import { NexoraClient } from '@nexora/sdk';
+
+const nexora = new NexoraClient({ apiKey: process.env.NEXORA_API_KEY });
+
+// Deploy zero-overhead microservice
+const cluster = await nexora.deployments.create({
+  name: 'production-api-mesh',
+  region: 'global-anycast',
+  runtime: 'node-v20-isolated',
+  autoscale: { min: 3, max: 120 },
+  observability: { ebpfTracing: true }
+});
+
+console.log(\`Mesh active at: \${cluster.anycastEndpoint}\`);`,
+      python: `from nexora import NexoraClient
+
+client = NexoraClient(api_key="nx_live_89f02c918a")
+
+# Instantiate high-throughput edge deployment
+deployment = client.deployments.create(
+    name="production-api-mesh",
+    region="global-anycast",
+    runtime="python-3.12-isolated",
+    autoscale={"min": 3, "max": 120},
+    observability={"ebpf_tracing": True}
+)
+
+print(f"Deployment healthy on {len(deployment.regions)} PoPs")`,
+      go: `package main
+
+import (
+    "context"
+    "fmt"
+    "github.com/nexora/nexora-go"
+)
+
+func main() {
+    client := nexora.NewClient("nx_live_89f02c918a")
+    
+    dep, err := client.Deployments.Create(context.Background(), &nexora.DeploymentConfig{
+        Name:          "production-api-mesh",
+        Region:        "global-anycast",
+        Runtime:       "go-1.22-microvm",
+        AutoscaleMin:  3,
+        AutoscaleMax:  120,
+    })
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf("Cluster deployed: %s\\n", dep.ID)
+}`
+    };
+
+    function switchCodeSnippet(btn, lang) {
+      document.querySelectorAll('.code-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('codeSnippetTarget').textContent = snippets[lang];
+    }
+
+    function copySnippetCode() {
+      const code = document.getElementById('codeSnippetTarget').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('Code snippet copied to clipboard');
+        const copyText = document.getElementById('copyText');
+        copyText.textContent = 'Copied!';
+        setTimeout(() => { copyText.textContent = 'Copy'; }, 2000);
+      });
+    }
+
+    // 5. Documentation Interactive Reader
+    const docData = {
+      intro: {
+        title: 'Introduction to Nexora Cloud Engine',
+        content: `Nexora provides a declarative runtime for distributed microservices, edge compute workloads, and real-time observability telemetry.
+        By leveraging lightweight V8 sandboxes and kernel-level eBPF instrumentation, Nexora eliminates hypervisor overhead while guaranteeing hardware-grade tenant isolation.`,
+        code: `# Install Nexora official CLI\ncurl -fsSL https://get.nexora.io/cli.sh | sh\n\n# Authenticate your session\nnexora login`
+      },
+      quickstart: {
+        title: 'Quickstart: Deploy your first service in 5 minutes',
+        content: `Initialize a sample project with our starter template, configure anycast routing, and deploy globally across 120 points of presence.`,
+        code: `# Initialize a new service template\nnexora init my-service --template=typescript\ncd my-service\n\n# Deploy to global edge mesh\nnexora deploy --prod`
+      },
+      architecture: {
+        title: 'Global Mesh Architecture & Isolation',
+        content: `Every node runs a hardened Linux kernel with dedicated memory encryption. Traffic is routed over private BGP Anycast backbones directly to the nearest compute center.`,
+        code: `// Mesh invariant configuration\n{\n  "isolation": "hardware-attested-microvm",\n  "failover_sla_ms": 12,\n  "encryption": "mTLS-TLS-1.3"\n}`
+      },
+      auth: {
+        title: 'Authentication, IAM & Scoped API Keys',
+        content: `Manage access using machine tokens, SAML 2.0 Identity Providers, and cryptographically verified JSON Web Tokens with automated key rotation.`,
+        code: `curl -H "Authorization: Bearer nx_live_token" https://api.nexora.io/v1/auth/verify`
+      },
+      deployments: {
+        title: 'Automated Deployments & Canary Analysis',
+        content: `Define progressive promotion steps. Nexora automatically analyzes error rate differentials and halts promotion upon anomaly detection.`,
+        code: `nexora rollouts promote --deployment=api-mesh --step=25% --duration=5m`
+      },
+      observability: {
+        title: 'eBPF Observability & Telemetry Streaming',
+        content: `Query transaction traces, memory footprint flame graphs, and network egress metrics with zero code modification.`,
+        code: `nexora telemetry tail --service=payment-gateway --level=trace`
+      },
+      cli: {
+        title: 'Complete CLI Command Reference',
+        content: `The \`nexora\` command-line utility provides full control over projects, secrets, domains, certificates, and runtime telemetry.`,
+        code: `nexora --help\nnexora logs --tail\nnexora secrets set DATABASE_URL=postgres://...`
+      }
+    };
+
+    function loadDocTopic(topicId, btn) {
+      document.querySelectorAll('.docs-menu-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const doc = docData[topicId];
+      if (doc) {
+        document.getElementById('docsContentBody').innerHTML = `
+          <h3>${doc.title}</h3>
+          <p>${doc.content}</p>
+          <div class="docs-code-block"><pre style="margin:0;"><code>${doc.code}</code></pre></div>
+          <h4>Next Steps</h4>
+          <p>Explore our SDK documentation or integrate with your current CI/CD provider.</p>
+        `;
+      }
+    }
+
+    function filterDocsMenu() {
+      const q = document.getElementById('docsSearchInput').value.toLowerCase();
+      document.querySelectorAll('.docs-menu-btn').forEach(btn => {
+        const text = btn.textContent.toLowerCase();
+        btn.parentElement.style.display = text.includes(q) ? 'block' : 'none';
+      });
+    }
+
+    // 6. Blog Article Details Modal
+    const blogArticles = {
+      1: {
+        category: 'Engineering',
+        title: 'Building Resilient Cloud Infrastructure at Global Scale',
+        author: 'Sarah Kowalski • Oct 14, 2026',
+        body: `<p>In modern distributed cloud platforms, ensuring sub-second consistency across geographically dispersed regions poses distinct architectural hurdles.</p>
+        <p>At Nexora, we engineered a custom consensus protocol optimized for Anycast routing networks. By decoupling state replication from compute isolate execution, our systems achieve sub-millisecond local reads while maintaining ACID guarantees on coordinated writes.</p>
+        <p>In this post, we explore the Raft state-machine optimizations and kernel memory tuning that power our global mesh.</p>`
+      },
+      2: {
+        category: 'Observability',
+        title: 'How Modern Teams Approach Zero-Overhead Observability',
+        author: 'David Lin • Sep 28, 2026',
+        body: `<p>Traditional telemetry agents introduce substantial CPU overhead and memory ballooning. By leveraging Linux Extended Berkeley Packet Filters (eBPF), Nexora intercepts socket invocations directly in the kernel space.</p>
+        <p>This allows real-time packet inspection, distributed span stitching, and metric extraction with less than 0.05% CPU impact on user workloads.</p>`
+      },
+      3: {
+        category: 'Architecture',
+        title: 'The Future of Developer Platforms and Edge Compute',
+        author: 'Elena Morales • Sep 12, 2026',
+        body: `<p>Monolithic orchestrators often saddle developers with complex YAML manifests and slow feedback loops. We break down the rise of instant V8 isolate execution and how it shortens development cycles from days to seconds.</p>`
+      },
+      4: {
+        category: 'Security',
+        title: 'Zero-Trust Cryptographic Mesh in Production',
+        author: 'Marcus Vance • Aug 29, 2026',
+        body: `<p>How Nexora guarantees tenant separation using hardware-backed cryptographic identity and automated mutual TLS (mTLS) session rotation.</p>`
+      },
+      5: {
+        category: 'Performance',
+        title: 'Optimizing p99 Latency with Anycast Network Engineering',
+        author: 'Kaelen Thorne • Aug 10, 2026',
+        body: `<p>A technical examination of BGP Anycast route convergence, TCP fast-open, and edge cache warming strategies across 120 global points of presence.</p>`
+      },
+      6: {
+        category: 'DevOps',
+        title: 'Continuous Promotion: Automating Canary Rollouts',
+        author: 'Priya Sharma • Jul 24, 2026',
+        body: `<p>A guide to setting up automated error budget heuristics, invariant checks, and zero-downtime rollback triggers during continuous deployments.</p>`
+      }
+    };
+
+    function openBlogModal(id) {
+      const art = blogArticles[id];
+      if (art) {
+        document.getElementById('blogArticleContent').innerHTML = `
+          <span class="badge badge-primary" style="margin-bottom: 0.75rem;">${art.category}</span>
+          <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">${art.title}</h2>
+          <div style="font-size: 0.8125rem; color: var(--text-dim); margin-bottom: 1.5rem;">${art.author}</div>
+          <div style="font-size: 0.9375rem; line-height: 1.7; color: var(--text-muted);">${art.body}</div>
+        `;
+        document.getElementById('blogModal').classList.add('active');
+      }
+    }
+    function closeBlogModal() {
+      document.getElementById('blogModal').classList.remove('active');
+    }
+
+    // 7. Careers Filter & Job Modal
+    function filterJobs(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.job-card').forEach(card => {
+        if (cat === 'all' || card.dataset.category === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function openJobModal(title) {
+      document.getElementById('jobModalTitle').textContent = `Apply: ${title}`;
+      document.getElementById('jobModal').classList.add('active');
+    }
+    function closeJobModal() {
+      document.getElementById('jobModal').classList.remove('active');
+    }
+    function handleJobSubmit(e) {
+      e.preventDefault();
+      closeJobModal();
+      showToast('Application submitted successfully. Our talent team will reach out!');
+    }
+
+    // 8. Auth Modal (Sign in / Get started)
+    function openAuthModal(type) {
+      const title = document.getElementById('authModalTitle');
+      const sub = document.getElementById('authModalSub');
+      const submitBtn = document.getElementById('authSubmitBtn');
+      if (type === 'signup') {
+        title.textContent = 'Create your Nexora Account';
+        sub.textContent = 'Start with 14 days of free Growth tier access';
+        submitBtn.textContent = 'Create Account';
+      } else {
+        title.textContent = 'Sign in to Nexora Console';
+        sub.textContent = 'Access your clusters and distributed deployments';
+        submitBtn.textContent = 'Sign In';
+      }
+      document.getElementById('authModal').classList.add('active');
+    }
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.remove('active');
+    }
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      closeAuthModal();
+      showToast('Welcome to Nexora Console! Session authenticated.');
+    }
+
+    // 9. Contact Form Submission
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      document.getElementById('contactForm').reset();
+      showToast('Thanks! Your message has been received. A solutions engineer will reach out within 2 hours.');
+    }
+
+    // 10. Command Palette (Cmd+K / Ctrl+K)
+    const cmdPaletteOverlay = document.getElementById('cmdPaletteOverlay');
+    const openCmdPaletteBtn = document.getElementById('openCmdPaletteBtn');
+
+    function openCmdPalette() {
+      cmdPaletteOverlay.classList.add('active');
+      document.getElementById('cmdInput').focus();
+    }
+    function closeCmdPalette() {
+      cmdPaletteOverlay.classList.remove('active');
+    }
+
+    openCmdPaletteBtn.addEventListener('click', openCmdPalette);
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openCmdPalette();
+      }
+      if (e.key === 'Escape') {
+        closeCmdPalette();
+        closeAuthModal();
+        closeBlogModal();
+        closeJobModal();
+      }
+    });
+
+    // Close Modals on Backdrop Click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+        }
+      });
+    });
+
+    function handleCmdSearch(val) {
+      const q = val.toLowerCase();
+      document.querySelectorAll('.cmd-result-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    function jumpToSection(id) {
+      closeCmdPalette();
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 11. Toast Notifications
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast-item';
+      toast.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>${msg}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 20);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // 12. Dashboard Range Switcher
+    function switchDashRange(btn, range) {
+      document.querySelectorAll('.dash-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const reqEl = document.getElementById('metricReqs');
+      const latEl = document.getElementById('metricLatency');
+      const cpuEl = document.getElementById('metricCpu');
+
+      if (range === '24h') {
+        reqEl.textContent = '642,109';
+        latEl.textContent = '12.8 ms';
+        cpuEl.textContent = '29.1%';
+      } else if (range === '7d') {
+        reqEl.textContent = '4.82 M';
+        latEl.textContent = '13.4 ms';
+        cpuEl.textContent = '31.4%';
+      } else {
+        reqEl.textContent = '28,492';
+        latEl.textContent = '11.4 ms';
+        cpuEl.textContent = '24.6%';
+      }
+      showToast(`Telemetry view updated: past ${range}`);
+    }
+
+    // 13. Generate 90-day Uptime Bars
+    function generateUptimeBars() {
+      ['bar1', 'bar2', 'bar3', 'bar4'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = '';
+        for (let i = 0; i < 48; i++) {
+          const seg = document.createElement('div');
+          seg.className = 'bar-segment';
+          seg.title = `Day ${i + 1}: 100% Operational (0 incident)`;
+          el.appendChild(seg);
+        }
+      });
+    }
+    generateUptimeBars();
+
+    // 14. Live Metric Jitter Simulation (Gentle Realism)
+    setInterval(() => {
+      const cpuEl = document.getElementById('metricCpu');
+      if (cpuEl && document.querySelector('.dash-tab-btn.active').textContent === '1h') {
+        const val = (24 + (Math.random() * 2.5 - 1.2)).toFixed(1);
+        cpuEl.textContent = `${val}%`;
+      }
+    }, 4000);
+  </script>
+</body>
+</html>
