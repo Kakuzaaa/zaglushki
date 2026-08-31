@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Evergreen Property Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evergreen Property Services provides reliable maintenance and repair services for commercial properties and local businesses.">
+  <style>
+    :root {
+      --green-dark: #1f4b3a;
+      --green: #2f6b4a;
+      --green-soft: #e5f1ea;
+      --gray-dark: #333333;
+      --gray: #666666;
+      --gray-light: #f5f5f5;
+      --accent: #f0b45b;
+      --border-radius: 8px;
+      --shadow-soft: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #ffffff;
+      color: var(--gray-dark);
+      line-height: 1.6;
+    }
+    img, svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    a {
+      color: var(--green-dark);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background-color: #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      gap: 24px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #6fbf7f, var(--green-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .logo-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--green-dark);
+      letter-spacing: 0.02em;
+    }
+    .logo-subtitle {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 14px;
+    }
+    .nav-link {
+      color: var(--gray-dark);
+      font-weight: 500;
+    }
+    .nav-link:hover {
+      color: var(--green-dark);
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--green-dark);
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      background-color: #ffffff;
+      color: var(--green-dark);
+      transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .btn-primary {
+      background-color: var(--green-dark);
+      color: #ffffff;
+      border-color: var(--green-dark);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .btn-primary:hover {
+      background-color: var(--green);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.16);
+    }
+    .btn-outline:hover {
+      background-color: var(--green-soft);
+    }
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 13px;
+    }
+    .menu-toggle {
+      display: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: var(--gray-dark);
+      margin: 3px 0;
+      border-radius: 2px;
+    }
+    main {
+      padding-bottom: 48px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #ffffff 0%, #ffffff 55%, var(--green-soft) 100%);
+      border-bottom: 1px solid #eeeeee;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 40px;
+      padding: 40px 0 48px;
+      align-items: center;
+    }
+    .hero-kicker {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      margin-bottom: 10px;
+    }
+    .hero-title {
+      font-size: 32px;
+      line-height: 1.25;
+      color: var(--gray-dark);
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--gray);
+      margin-bottom: 18px;
+      max-width: 480px;
+    }
+    .hero-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      font-size: 12px;
+      color: var(--gray);
+      box-shadow: var(--shadow-soft);
+    }
+    .hero-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--green-dark);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .hero-note {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    .hero-visual {
+      padding: 18px;
+      border-radius: 16px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+      border: 1px solid #e3e3e3;
+    }
+    .hero-visual-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+    .hero-visual-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background-color: var(--green-soft);
+      color: var(--green-dark);
+      font-weight: 500;
+    }
+    .hero-visual-caption {
+      font-size: 11px;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+    .section {
+      padding: 32px 0;
+    }
+    .section-header {
+      margin-bottom: 20px;
+    }
+    .section-kicker {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .section-title {
+      font-size: 22px;
+      color: var(--gray-dark);
+      margin-bottom: 6px;
+    }
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--gray);
+      max-width: 520px;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background-color: #ffffff;
+      border-radius: var(--border-radius);
+      border: 1px solid #e4e4e4;
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px 14px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .card-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background-color: var(--green-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-dark);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray-dark);
+    }
+    .card-body {
+      font-size: 13px;
+      color: var(--gray);
+    }
+    .card-list {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--gray);
+      padding-left: 16px;
+    }
+    .card-list li {
+      margin-bottom: 4px;
+    }
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .about-text {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 12px;
+    }
+    .about-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .stat {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background-color: var(--gray-light);
+      border: 1px solid #e0e0e0;
+      min-width: 140px;
+    }
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    .about-note {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 10px;
+    }
+    .about-panel {
+      background-color: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e4e4e4;
+      box-shadow: var(--shadow-soft);
+      padding: 14px 14px 12px;
+      font-size: 13px;
+      color: var(--gray);
+    }
+    .about-panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-dark);
+      margin-bottom: 6px;
+    }
+    .industries-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .industry-card {
+      background-color: #ffffff;
+      border-radius: var(--border-radius);
+      border: 1px solid #e4e4e4;
+      box-shadow: var(--shadow-soft);
+      padding: 12px;
+      font-size: 13px;
+      color: var(--gray);
+    }
+    .industry-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-dark);
+      margin-bottom: 4px;
+    }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .process-step {
+      background-color: #ffffff;
+      border-radius: var(--border-radius);
+      border: 1px solid #e4e4e4;
+      box-shadow: var(--shadow-soft);
+      padding: 12px;
+      font-size: 13px;
+      color: var(--gray);
+      position: relative;
+    }
+    .process-step-number {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background-color: var(--green-soft);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+    .process-step-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-dark);
+      margin-bottom: 4px;
+    }
+    .testimonial {
+      background-color: var(--gray-light);
+      border-radius: 12px;
+      border: 1px solid #e0e0e0;
+      padding: 16px 16px 14px;
+      box-shadow: var(--shadow-soft);
+      font-size: 14px;
+      color: var(--gray);
+    }
+    .testimonial-quote {
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--gray-dark);
+      font-size: 13px;
+    }
+    .testimonial-meta {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    .faq-list {
+      border-radius: 12px;
+      border: 1px solid #e4e4e4;
+      box-shadow: var(--shadow-soft);
+      background-color: #ffffff;
+      overflow: hidden;
+    }
+    .faq-item {
+      border-bottom: 1px solid #e4e4e4;
+    }
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    .faq-question {
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--gray-dark);
+      background-color: #ffffff;
+    }
+    .faq-question:hover {
+      background-color: var(--gray-light);
+    }
+    .faq-toggle {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid #cccccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--gray);
+    }
+    .faq-answer {
+      padding: 0 14px 10px;
+      font-size: 13px;
+      color: var(--gray);
+      display: none;
+    }
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    .faq-item.open .faq-toggle {
+      background-color: var(--green-soft);
+      border-color: var(--green-dark);
+      color: var(--green-dark);
+    }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .contact-form {
+      background-color: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e4e4e4;
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px 14px;
+    }
+    .form-row {
+      margin-bottom: 10px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      color: var(--gray-dark);
+      margin-bottom: 4px;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #cccccc;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--gray-dark);
+      background-color: #ffffff;
+    }
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--green-dark);
+      box-shadow: 0 0 0 1px rgba(31,75,58,0.12);
+    }
+    .form-textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+    .form-note {
+      font-size: 11px;
+      color: var(--gray);
+      margin-top: 6px;
+    }
+    .contact-info-panel {
+      background-color: var(--gray-light);
+      border-radius: 12px;
+      border: 1px solid #e0e0e0;
+      box-shadow: var(--shadow-soft);
+      padding: 14px 14px 12px;
+      font-size: 13px;
+      color: var(--gray);
+    }
+    .contact-info-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-dark);
+      margin-bottom: 6px;
+    }
+    .contact-info-list {
+      list-style: none;
+      margin-top: 4px;
+    }
+    .contact-info-list li {
+      margin-bottom: 4px;
+    }
+    footer {
+      border-top: 1px solid #e4e4e4;
+      background-color: #ffffff;
+      padding: 18px 0 22px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+    .footer-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .footer-brand {
+      font-size: 13px;
+      color: var(--gray-dark);
+      margin-bottom: 6px;
+    }
+    .footer-contact {
+      list-style: none;
+      margin-bottom: 6px;
+    }
+    .footer-contact li {
+      margin-bottom: 2px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .footer-links a {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    .footer-links a:hover {
+      color: var(--green-dark);
+    }
+    .footer-note {
+      font-size: 11px;
+      color: var(--gray);
+      margin-top: 6px;
+    }
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .about-layout,
+      .contact-layout,
+      .footer-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .industries-grid,
+      .process-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 640px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 0 10px;
+        border-top: 1px solid #eeeeee;
+      }
+      nav.open {
+        display: flex;
+      }
+      .header-inner {
+        flex-wrap: wrap;
+      }
+      .header-actions {
+        margin-left: auto;
+      }
+      .menu-toggle {
+        display: inline-flex;
+      }
+      .cards-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .industries-grid,
+      .process-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-title {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-mark">E</div>
+          <div class="logo-text">
+            <div class="logo-title">Evergreen Property Services</div>
+            <div class="logo-subtitle">Commercial building maintenance</div>
+          </div>
+        </div>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+        <nav>
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#industries" class="nav-link">Industries</a>
+          <a href="#faq" class="nav-link">FAQ</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button class="btn btn-outline btn-sm" data-scroll="#contact">Request a quote</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-kicker">Local, dependable, detail-focused</div>
+            <h1 class="hero-title">Reliable property maintenance, without the hassle.</h1>
+            <p class="hero-subtitle">
+              Evergreen Property Services keeps commercial buildings running smoothly with scheduled maintenance, responsive repairs,
+              and practical support for facility managers and business owners.
+            </p>
+            <div class="hero-highlights">
+              <div class="hero-pill">
+                <span class="hero-pill-dot"></span>
+                Planned and reactive maintenance
+              </div>
+              <div class="hero-pill">
+                <span class="hero-pill-dot"></span>
+                Single point of contact
+              </div>
+              <div class="hero-pill">
+                <span class="hero-pill-dot"></span>
+                Clear, itemized reporting
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-primary" data-scroll="#contact">Request service</button>
+              <button class="btn btn-outline" data-scroll="#services">View services</button>
+            </div>
+            <p class="hero-note">
+              Serving local businesses since 2011 with practical, on-site support for everyday building needs.
+            </p>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-visual-header">
+              <div class="hero-visual-tag">Building overview</div>
+              <div>Typical mid-rise commercial property</div>
+            </div>
+            <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#eaf4ff"/>
+                  <stop offset="100%" stop-color="#ffffff"/>
+                </linearGradient>
+                <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#cfe3f2"/>
+                  <stop offset="100%" stop-color="#9fb7c8"/>
+                </linearGradient>
+                <linearGradient id="facade" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f5f5f5"/>
+                  <stop offset="100%" stop-color="#e0e0e0"/>
+                </linearGradient>
+                <linearGradient id="evergreen" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3b7a4f"/>
+                  <stop offset="100%" stop-color="#1f4b3a"/>
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="260" height="200" fill="url(#sky)" />
+              <rect x="10" y="140" width="240" height="40" fill="#d9e3dd" />
+              <rect x="20" y="80" width="80" height="80" rx="4" fill="url(#facade)" stroke="#c8c8c8" />
+              <rect x="100" y="60" width="80" height="100" rx="4" fill="url(#facade)" stroke="#c8c8c8" />
+              <rect x="180" y="90" width="60" height="70" rx="4" fill="#f2f2f2" stroke="#c8c8c8" />
+              <rect x="30" y="90" width="20" height="18" fill="url(#glass)" />
+              <rect x="60" y="90" width="20" height="18" fill="url(#glass)" />
+              <rect x="30" y="115" width="20" height="18" fill="url(#glass)" />
+              <rect x="60" y="115" width="20" height="18" fill="url(#glass)" />
+              <rect x="30" y="140" width="20" height="18" fill="url(#glass)" />
+              <rect x="60" y="140" width="20" height="18" fill="url(#glass)" />
+              <rect x="110" y="70" width="18" height="16" fill="url(#glass)" />
+              <rect x="136" y="70" width="18" height="16" fill="url(#glass)" />
+              <rect x="162" y="70" width="18" height="16" fill="url(#glass)" />
+              <rect x="110" y="92" width="18" height="16" fill="url(#glass)" />
+              <rect x="136" y="92" width="18" height="16" fill="url(#glass)" />
+              <rect x="162" y="92" width="18" height="16" fill="url(#glass)" />
+              <rect x="110" y="114" width="18" height="16" fill="url(#glass)" />
+              <rect x="136" y="114" width="18" height="16" fill="url(#glass)" />
+              <rect x="162" y="114" width="18" height="16" fill="url(#glass)" />
+              <rect x="110" y="136" width="18" height="16" fill="url(#glass)" />
+              <rect x="136" y="136" width="18" height="16" fill="url(#glass)" />
+              <rect x="162" y="136" width="18" height="16" fill="url(#glass)" />
+              <rect x="190" y="100" width="16" height="14" fill="url(#glass)" />
+              <rect x="212" y="100" width="16" height="14" fill="url(#glass)" />
+              <rect x="190" y="120" width="16" height="14" fill="url(#glass)" />
+              <rect x="212" y="120" width="16" height="14" fill="url(#glass)" />
+              <rect x="190" y="140" width="16" height="18" fill="url(#glass)" />
+              <rect x="212" y="140" width="16" height="18" fill="url(#glass)" />
+              <rect x="52" y="140" width="16" height="20" fill="#d0d0d0" />
+              <rect x="132" y="140" width="16" height="20" fill="#d0d0d0" />
+              <rect x="204" y="140" width="16" height="20" fill="#d0d0d0" />
+              <rect x="20" y="76" width="80" height="6" fill="#c8c8c8" />
+              <rect x="100" y="56" width="80" height="6" fill="#c8c8c8" />
+              <rect x="180" y="86" width="60" height="6" fill="#c8c8c8" />
+              <rect x="120" y="40" width="40" height="12" rx="2" fill="url(#evergreen)" />
+              <rect x="124" y="43" width="32" height="6" fill="#ffffff" opacity="0.18" />
+              <circle cx="40" cy="160" r="10" fill="url(#evergreen)" />
+              <circle cx="44" cy="154" r="6" fill="#2f6b4a" />
+              <circle cx="210" cy="160" r="10" fill="url(#evergreen)" />
+              <circle cx="214" cy="154" r="6" fill="#2f6b4a" />
+              <rect x="18" y="150" width="224" height="4" fill="#c0c0c0" />
+              <rect x="30" y="160" width="200" height="4" fill="#b0b0b0" opacity="0.6" />
+            </svg>
+            <div class="hero-visual-caption">
+              Typical multi-tenant building with offices, retail units, and shared services—exactly the type of property we look after.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Services</div>
+          <h2 class="section-title">Practical maintenance services for everyday building needs</h2>
+          <p class="section-subtitle">
+            From routine checks to urgent repairs, we focus on keeping your property safe, compliant, and comfortable for tenants and visitors.
+          </p>
+        </div>
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">GM</div>
+              <div class="card-title">General Maintenance</div>
+            </div>
+            <div class="card-body">
+              Day-to-day upkeep for common areas, fixtures, and finishes, handled with minimal disruption to your operations.
+              <ul class="card-list">
+                <li>Minor repairs and adjustments</li>
+                <li>Door, lock, and hardware fixes</li>
+                <li>Interior and exterior touch-ups</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">EL</div>
+              <div class="card-title">Electrical</div>
+            </div>
+            <div class="card-body">
+              Reliable support for lighting, power, and basic electrical issues, coordinated with licensed partners when needed.
+              <ul class="card-list">
+                <li>Lighting troubleshooting and replacement</li>
+                <li>Outlet and switch repairs</li>
+                <li>Coordination for certified electrical work</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">PL</div>
+              <div class="card-title">Plumbing</div>
+            </div>
+            <div class="card-body">
+              Practical plumbing support to keep restrooms, kitchens, and shared facilities functioning as expected.
+              <ul class="card-list">
+                <li>Leak investigation and minor repairs</li>
+                <li>Fixture replacement and adjustments</li>
+                <li>Drain and supply line checks</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">HV</div>
+              <div class="card-title">HVAC Support</div>
+            </div>
+            <div class="card-body">
+              On-site assistance for heating and cooling systems, working alongside specialist contractors where required.
+              <ul class="card-list">
+                <li>Filter changes and basic servicing</li>
+                <li>Comfort and airflow checks</li>
+                <li>Coordination of seasonal inspections</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">PM</div>
+              <div class="card-title">Preventive Maintenance</div>
+            </div>
+            <div class="card-body">
+              Scheduled visits and documented inspections designed to reduce downtime and extend the life of building assets.
+              <ul class="card-list">
+                <li>Custom maintenance plans</li>
+                <li>Regular property walk-throughs</li>
+                <li>Clear reporting and recommendations</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">ER</div>
+              <div class="card-title">Emergency Repairs</div>
+            </div>
+            <div class="card-body">
+              24/7 response for urgent issues that cannot wait until the next business day, with practical temporary solutions when needed.
+              <ul class="card-list">
+                <li>On-call support for critical incidents</li>
+                <li>Stabilization and safety measures</li>
+                <li>Follow-up repair planning</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">About</div>
+          <h2 class="section-title">A small, steady team focused on local properties</h2>
+          <p class="section-subtitle">
+            Evergreen Property Services is a locally owned company dedicated to keeping commercial buildings in good working order,
+            with a practical, straightforward approach to maintenance.
+          </p>
+        </div>
+        <div class="about-layout">
+          <div>
+            <p class="about-text">
+              Since 2011, we have partnered with property owners, facility managers, and tenants to provide reliable maintenance
+              across offices, retail units, and mixed-use buildings. Our team combines hands-on experience with clear communication,
+              so you always know what has been done and what is recommended next.
+            </p>
+            <p class="about-text">
+              We focus on long-term relationships rather than one-off call-outs. Many of our clients have worked with us for years,
+              trusting us to look after their buildings as if they were our own. That means consistent technicians, familiar faces,
+              and a genuine understanding of how your property is used day to day.
+            </p>
+            <div class="about-stats">
+              <div class="stat">
+                <div class="stat-value">Since 2011</div>
+                <div class="stat-label">Serving local businesses</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">250+</div>
+                <div class="stat-label">Properties maintained</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Emergency support</div>
+              </div>
+            </div>
+            <p class="about-note">
+              We are fully insured and work with vetted specialist partners for certified electrical and HVAC work when required.
+            </p>
+          </div>
+          <div class="about-panel">
+            <div class="about-panel-title">How we work</div>
+            <p>
+              Every property is different, so we start with a practical review of your building and existing maintenance routines.
+              From there, we agree on a realistic schedule, response times, and reporting format that fits your team.
+            </p>
+            <p style="margin-top:8px;">
+              You will have a single point of contact for all requests, backed by a small team of technicians who know your site.
+              We keep records of each visit, including photos and notes, so you can track work over time and plan future improvements.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="industries" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Industries</div>
+          <h2 class="section-title">Properties we look after</h2>
+          <p class="section-subtitle">
+            Our clients range from single-site owners to multi-location operators, all with one thing in common:
+            buildings that need to work reliably every day.
+          </p>
+        </div>
+        <div class="industries-grid">
+          <div class="industry-card">
+            <div class="industry-title">Offices</div>
+            <p>
+              Multi-tenant office buildings, business parks, and standalone headquarters with shared services and common areas.
+            </p>
+          </div>
+          <div class="industry-card">
+            <div class="industry-title">Retail</div>
+            <p>
+              Street-level units, retail parks, and mixed-use properties where customer-facing spaces must stay presentable and safe.
+            </p>
+          </div>
+          <div class="industry-card">
+            <div class="industry-title">Hospitality</div>
+            <p>
+              Hotels, restaurants, and venues that rely on smooth operations and quick response when something is not working.
+            </p>
+          </div>
+          <div class="industry-card">
+            <div class="industry-title">Residential communities</div>
+            <p>
+              Managed apartment buildings and residential complexes with shared facilities, parking, and landscaped areas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Process</div>
+          <h2 class="section-title">A clear, simple process from first call to follow-up</h2>
+          <p class="section-subtitle">
+            Whether you need ongoing support or help with a specific issue, we follow the same straightforward steps.
+          </p>
+        </div>
+        <div class="process-grid">
+          <div class="process-step">
+            <div class="process-step-number">1</div>
+            <div class="process-step-title">Request</div>
+            <p>
+              You contact us with a maintenance request or to discuss ongoing support for your property.
+            </p>
+          </div>
+          <div class="process-step">
+            <div class="process-step-number">2</div>
+            <div class="process-step-title">Inspection</div>
+            <p>
+              We visit the site, review the issue or building, and agree on priorities, timelines, and access.
+            </p>
+          </div>
+          <div class="process-step">
+            <div class="process-step-number">3</div>
+            <div class="process-step-title">Service</div>
+            <p>
+              Our technicians carry out the work, coordinating with tenants and other contractors where necessary.
+            </p>
+          </div>
+          <div class="process-step">
+            <div class="process-step-number">4</div>
+            <div class="process-step-title">Follow-up</div>
+            <p>
+              We provide a summary of what was done, note any recommendations, and schedule future visits if required.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Testimonial</div>
+          <h2 class="section-title">What our clients say</h2>
+        </div>
+        <div class="testimonial">
+          <p class="testimonial-quote">
+            “We manage several mid-size office buildings and needed a maintenance partner who could respond quickly without
+            overcomplicating things. Evergreen has been exactly that—practical, reliable, and easy to reach. Tenants appreciate
+            seeing the same technicians on site, and the reports we receive after each visit make budgeting and planning much easier.”
+          </p>
+          <div class="testimonial-author">Laura Niemi, Property Manager</div>
+          <div class="testimonial-meta">Northbridge Office Group</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">FAQ</div>
+          <h2 class="section-title">Frequently asked questions</h2>
+          <p class="section-subtitle">
+            If you have a question that is not covered here, please contact us—we are happy to discuss your specific property.
+          </p>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Do you offer one-off repairs, or only ongoing contracts?</span>
+              <div class="faq-toggle">+</div>
+            </div>
+            <div class="faq-answer">
+              We work with both. Many clients start with one-off repairs or small projects and later move to a planned maintenance
+              agreement once they see the value of regular visits. We are happy to discuss what makes sense for your property and budget.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>How quickly can you respond to an urgent issue?</span>
+              <div class="faq-toggle">+</div>
+            </div>
+            <div class="faq-answer">
+              For existing clients, we provide 24/7 emergency support with agreed response times based on the type of incident.
+              For new clients, we will always do our best to attend quickly and stabilize the situation, then plan follow-up work as needed.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Do you work directly with tenants or only with owners and managers?</span>
+              <div class="faq-toggle">+</div>
+            </div>
+            <div class="faq-answer">
+              We typically coordinate with property owners, asset managers, or facility teams, but we are used to working in occupied
+              buildings and communicating with tenants on site. We can follow your preferred communication process and escalation paths.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Are your technicians certified for electrical and HVAC work?</span>
+              <div class="faq-toggle">+</div>
+            </div>
+            <div class="faq-answer">
+              Our team handles general maintenance and basic support tasks. For certified electrical and HVAC work, we partner with
+              licensed specialists we know and trust. We coordinate their visits and integrate their work into your overall maintenance plan.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>How do you price your services?</span>
+              <div class="faq-toggle">+</div>
+            </div>
+            <div class="faq-answer">
+              Pricing depends on the size and complexity of the property, the scope of services, and the level of urgency.
+              For ongoing maintenance, we usually agree on a fixed monthly or quarterly fee with clear inclusions, plus separate
+              rates for larger projects. For one-off work, we provide itemized estimates before starting.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Contact</div>
+          <h2 class="section-title">Tell us about your property</h2>
+          <p class="section-subtitle">
+            Share a few details about your building and the issue or support you need. We will review your request and get back to you
+            with practical next steps and a clear estimate.
+          </p>
+        </div>
+        <div class="contact-layout">
+          <form class="contact-form" aria-label="Request service form">
+            <div class="form-row">
+              <label class="form-label" for="name">Name</label>
+              <input class="form-input" id="name" type="text" placeholder="Your full name">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" id="email" type="email" placeholder="you@example.com">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="phone">Phone</label>
+              <input class="form-input" id="phone" type="tel" placeholder="+358 ...">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="details">Describe the property and issue</label>
+              <textarea class="form-textarea" id="details" placeholder="Briefly describe the building, its use, and the maintenance or repair you need."></textarea>
+            </div>
+            <button type="button" class="btn btn-primary">Request service</button>
+            <p class="form-note">
+              This form is for demonstration purposes only and does not send data. For real enquiries, please contact us by phone or email.
+            </p>
+          </form>
+          <div class="contact-info-panel">
+            <div class="contact-info-title">Contact details</div>
+            <ul class="contact-info-list">
+              <li><strong>Phone:</strong> +358 10 555 2300</li>
+              <li><strong>Email:</strong> info@evergreenproperty.fi</li>
+              <li><strong>Address:</strong> Evergreen Property Services, Market Square Business Center, 00100 Helsinki</li>
+            </ul>
+            <p style="margin-top:8px;">
+              Office hours: Monday–Friday, 8:00–17:00. Emergency support is available 24/7 for contracted clients.
+            </p>
+            <p style="margin-top:8px;">
+              If you prefer, you can also send us a short email with photos of the issue, and we will suggest the most suitable next steps.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-layout">
+        <div>
+          <div class="footer-brand">Evergreen Property Services</div>
+          <ul class="footer-contact">
+            <li>Market Square Business Center, 00100 Helsinki</li>
+            <li>Phone: +358 10 555 2300</li>
+            <li>Email: info@evergreenproperty.fi</li>
+          </ul>
+          <div>Office hours: Mon–Fri, 8:00–17:00 (emergency support 24/7 for contracted clients)</div>
+          <div class="footer-note">
+            Evergreen Property Services is a locally owned company providing maintenance support for commercial properties and managed communities.
+          </div>
+        </div>
+        <div>
+          <div>Legal & policies</div>
+          <div class="footer-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+          </div>
+          <div class="footer-note">
+            © Evergreen Property Services. All names and details on this page are for demonstration purposes only.
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var nav = document.querySelector('nav');
+      var toggle = document.querySelector('.menu-toggle');
+      if (toggle && nav) {
+        toggle.addEventListener('click', function() {
+          nav.classList.toggle('open');
+        });
+      }
+      var scrollButtons = document.querySelectorAll('[data-scroll]');
+      scrollButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var target = btn.getAttribute('data-scroll');
+          if (target) {
+            var el = document.querySelector(target);
+            if (el) {
+              var rect = el.getBoundingClientRect();
+              var offset = window.pageYOffset + rect.top - 70;
+              window.scrollTo({ top: offset, behavior: 'smooth' });
+            }
+          }
+        });
+      });
+      var faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(function(item) {
+        var question = item.querySelector('.faq-question');
+        if (question) {
+          question.addEventListener('click', function() {
+            var isOpen = item.classList.contains('open');
+            faqItems.forEach(function(other) {
+              if (other !== item) {
+                other.classList.remove('open');
+              }
+            });
+            if (!isOpen) {
+              item.classList.add('open');
+            } else {
+              item.classList.remove('open');
+            }
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

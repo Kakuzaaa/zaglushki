@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Journal — Technology, Business, Science, Design</title>
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --accent: #1d4ed8;
+  --accent-light: #eff4ff;
+  --text: #111;
+  --text-secondary: #555;
+  --text-muted: #888;
+  --border: #e0e0e0;
+  --bg: #fff;
+  --bg-alt: #f8f8f8;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --max-width: 1200px;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* HEADER */
+.header {
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-mark {
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-mark svg {
+  width: 16px;
+  height: 16px;
+}
+
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-desktop a {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  font-weight: 500;
+}
+
+.nav-desktop a:hover {
+  color: var(--text);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.search-btn:hover {
+  color: var(--text);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--text);
+}
+
+/* MOBILE NAV */
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg);
+  z-index: 99;
+  padding: 32px 24px;
+  flex-direction: column;
+  gap: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.nav-mobile.active {
+  display: flex;
+}
+
+.nav-mobile a {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* SEARCH OVERLAY */
+.search-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 120px;
+}
+
+.search-overlay.active {
+  display: flex;
+}
+
+.search-box {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 560px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.search-box input {
+  width: 100%;
+  font-size: 1.1rem;
+  border: none;
+  border-bottom: 2px solid var(--border);
+  padding: 12px 0;
+  outline: none;
+  font-family: var(--font-sans);
+  transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+  border-color: var(--accent);
+}
+
+.search-box p {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* HERO */
+.hero {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.hero-content {
+  max-width: 540px;
+}
+
+.hero-category {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 2.75rem;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.hero-excerpt {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.hero-meta .author {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hero-meta .dot {
+  width: 3px;
+  height: 3px;
+  background: var(--text-muted);
+  border-radius: 50%;
+}
+
+.hero-visual {
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8ecf4 100%);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-visual-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-visual svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.6;
+}
+
+/* SECTION TITLES */
+.section-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* LATEST STORIES */
+.latest {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.story-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.story-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
+}
+
+.story-thumb {
+  aspect-ratio: 16/10;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-thumb-1 { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+.story-thumb-2 { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+.story-thumb-3 { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+.story-thumb-4 { background: linear-gradient(135deg, #fce7f3, #fbcfe8); }
+.story-thumb-5 { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); }
+.story-thumb-6 { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); }
+
+.story-thumb svg {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  opacity: 0.3;
+}
+
+.story-body {
+  padding: 20px;
+}
+
+.story-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.story-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+
+.story-excerpt {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.story-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.story-meta .author {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* EDITOR'S PICK */
+.editors-pick {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pick-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pick-visual {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.pick-visual svg {
+  opacity: 0.15;
+}
+
+.pick-content {
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pick-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.pick-title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+
+.pick-excerpt {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.pick-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.pick-meta .author {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 20px;
+  transition: gap 0.2s;
+}
+
+.read-more:hover {
+  gap: 10px;
+}
+
+/* NEWSLETTER */
+.newsletter {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.newsletter-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.newsletter-title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.newsletter-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.newsletter-form input:focus {
+  border-color: var(--accent);
+}
+
+.newsletter-form button {
+  padding: 12px 24px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.newsletter-form button:hover {
+  opacity: 0.9;
+}
+
+.newsletter-note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 14px;
+}
+
+/* ABOUT */
+.about {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.about-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* FOOTER */
+.footer {
+  padding: 48px 0;
+  background: var(--bg-alt);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-brand .logo {
+  margin-bottom: 12px;
+}
+
+.footer-brand p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.footer-col h4 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: var(--text);
+}
+
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-bottom-links a {
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--text);
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .hero-title {
+    font-size: 2.25rem;
+  }
+
+  .stories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pick-card {
+    grid-template-columns: 1fr;
+  }
+
+  .pick-visual {
+    min-height: 240px;
+  }
+
+  .pick-content {
+    padding: 32px 28px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .nav-desktop {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero {
+    padding: 40px 0;
+  }
+
+  .hero-title {
+    font-size: 1.85rem;
+  }
+
+  .stories-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .latest, .editors-pick, .newsletter, .about {
+    padding: 48px 0;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .pick-title {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .hero-excerpt {
+    font-size: 1rem;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container header-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M2 8h3l2-5 3 10 2-5h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      Signal Journal
+    </a>
+    <nav class="nav-desktop">
+      <a href="#">Technology</a>
+      <a href="#">Business</a>
+      <a href="#">Science</a>
+      <a href="#">Design</a>
+      <a href="#">About</a>
+    </nav>
+    <div class="header-actions">
+      <button class="search-btn" aria-label="Search" id="searchToggle">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="9" cy="9" r="6"/>
+          <path d="M13.5 13.5L17 17"/>
+        </svg>
+      </button>
+      <button class="menu-toggle" aria-label="Menu" id="menuToggle">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M3 6h16M3 11h16M3 16h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <nav class="nav-mobile" id="mobileNav">
+    <a href="#">Technology</a>
+    <a href="#">Business</a>
+    <a href="#">Science</a>
+    <a href="#">Design</a>
+    <a href="#">About</a>
+  </nav>
+</header>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <input type="text" placeholder="Search articles, topics, authors..." autofocus>
+    <p>Press ESC or click outside to close</p>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <span class="hero-category">Technology</span>
+        <h1 class="hero-title">How smaller teams are building better digital products</h1>
+        <p class="hero-excerpt">A new generation of product studios is proving that constraint breeds clarity. With teams of five or fewer, founders are shipping work that rivals companies ten times their size — and rethinking what scale actually means.</p>
+        <div class="hero-meta">
+          <span class="author">Elena Marchetti</span>
+          <span class="dot"></span>
+          <span>January 14, 2025</span>
+          <span class="dot"></span>
+          <span>12 min read</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-visual-inner">
+          <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+            <rect x="30" y="40" width="60" height="80" rx="4" stroke="#1d4ed8" stroke-width="1.5" opacity="0.4"/>
+            <rect x="110" y="60" width="60" height="100" rx="4" stroke="#1d4ed8" stroke-width="1.5" opacity="0.3"/>
+            <circle cx="100" cy="100" r="40" stroke="#1d4ed8" stroke-width="1.5" opacity="0.25"/>
+            <path d="M50 150 L100 120 L150 140" stroke="#1d4ed8" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>
+            <circle cx="60" cy="70" r="8" fill="#1d4ed8" opacity="0.1"/>
+            <circle cx="140" cy="90" r="12" fill="#1d4ed8" opacity="0.08"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST STORIES -->
+<section class="latest">
+  <div class="container">
+    <h2 class="section-title">Latest Stories</h2>
+    <div class="stories-grid">
+
+      <article class="story-card">
+        <div class="story-thumb story-thumb-1">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="12" width="32" height="24" rx="3" stroke="#92400e" stroke-width="1.5"/>
+            <path d="M8 20h32" stroke="#92400e" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <div class="story-category">Business</div>
+          <h3 class="story-title">The quiet return of the profitable startup</h3>
+          <p class="story-excerpt">After years of growth-at-all-costs thinking, a shift toward sustainable unit economics is reshaping how founders measure success.</p>
+          <div class="story-meta"><span class="author">Marcus Chen</span> · Jan 12, 2025</div>
+        </div>
+      </article>
+
+      <article class="story-card">
+        <div class="story-thumb story-thumb-2">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="14" stroke="#1e40af" stroke-width="1.5"/>
+            <path d="M24 10v14l8 8" stroke="#1e40af" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <div class="story-category">Science</div>
+          <h3 class="story-title">Why biological computing matters more than people think</h3>
+          <p class="story-excerpt">Researchers are making progress on DNA-based processors that could one day complement silicon in ways we barely understand.</p>
+          <div class="story-meta"><span class="author">Dr. Anika Patel</span> · Jan 10, 2025</div>
+        </div>
+      </article>
+
+      <article class="story-card">
+        <div class="story-thumb story-thumb-3">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path d="M12 36l8-12 6 8 8-16 6 10" stroke="#166534" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="8" y="8" width="32" height="32" rx="3" stroke="#166534" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <div class="story-category">Design</div>
+          <h3 class="story-title">Interfaces that disappear: the case for calm software</h3>
+          <p class="story-excerpt">The best tools don't demand attention — they earn trust through restraint. A look at the principles behind invisible design.</p>
+          <div class="story-meta"><span class="author">Jonas Berg</span> · Jan 9, 2025</div>
+        </div>
+      </article>
+
+      <article class="story-card">
+        <div class="story-thumb story-thumb-4">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path d="M14 34V18l10-6 10 6v16" stroke="#9d174d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="20" y="26" width="8" height="8" stroke="#9d174d" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <div class="story-category">Technology</div>
+          <h3 class="story-title">Edge computing is finally living up to its promise</h3>
+          <p class="story-excerpt">With latency-sensitive applications growing, distributed infrastructure is moving from buzzword to backbone.</p>
+          <div class="story-meta"><span class="author">Sarah Okonkwo</span> · Jan 8, 2025</div>
+        </div>
+      </article>
+
+      <article class="story-card">
+        <div class="story-thumb story-thumb-5">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="10" y="10" width="12" height="12" rx="2" stroke="#3730a3" stroke-width="1.5"/>
+            <rect x="26" y="10" width="12" height="12" rx="2" stroke="#3730a3" stroke-width="1.5"/>
+            <rect x="10" y="26" width="12" height="12" rx="2" stroke="#3730a3" stroke-width="1.5"/>
+            <rect x="26" y="26" width="12" height="12" rx="2" stroke="#3730a3" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <div class="story-category">Business</div>
+          <h3 class="story-title">What open-source companies get wrong about monetization</h3>
+          <p class="story-excerpt">Community-driven projects struggle with revenue. The ones that succeed share a few uncomfortable truths about pricing.</p>
+          <div class="story-meta"><span class="author">David Reeves</span> · Jan 7, 2025</div>
+        </div>
+      </article>
+
+      <article class="story-card">
+        <div class="story-thumb story-thumb-6">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="20" r="8" stroke="#6b21a8" stroke-width="1.5"/>
+            <path d="M12 38c0-6.6 5.4-12 12-12s12 5.4 12 12" stroke="#6b21a8" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <div class="story-category">Design</div>
+          <h3 class="story-title">The typography revival nobody asked for but everyone needed</h3>
+          <p class="story-excerpt">Variable fonts, optical sizing, and a renewed focus on readability are changing how digital text actually feels to read.</p>
+          <div class="story-meta"><span class="author">Mia Torres</span> · Jan 5, 2025</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDITOR'S PICK -->
+<section class="editors-pick">
+  <div class="container">
+    <h2 class="section-title">Editor's Pick</h2>
+    <div class="pick-card">
+      <div class="pick-visual">
+        <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
+          <circle cx="90" cy="90" r="60" stroke="#fff" stroke-width="1"/>
+          <circle cx="90" cy="90" r="40" stroke="#fff" stroke-width="1"/>
+          <circle cx="90" cy="90" r="20" stroke="#fff" stroke-width="1"/>
+          <path d="M30 90h120M90 30v120" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+          <circle cx="90" cy="90" r="4" fill="#fff" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="pick-content">
+        <span class="pick-label">Featured · Science</span>
+        <h3 class="pick-title">The infrastructure problem no one wants to talk about</h3>
+        <p class="pick-excerpt">Beneath every cloud service, every AI model, and every real-time application lies a physical network of cables, cooling systems, and energy grids that most technologists prefer to ignore. But the math is catching up — and the consequences are becoming impossible to outsource.</p>
+        <div class="pick-meta">
+          <span class="author">Thomas Lindqvist</span> · December 28, 2024 · 18 min read
+        </div>
+        <a href="#" class="read-more">Read the full story <span>→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter-inner">
+      <h2 class="newsletter-title">Stay ahead of the signal.</h2>
+      <p class="newsletter-desc">One thoughtful email per week. Curated stories on technology, business, science, and design — no noise, no filler.</p>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="your@email.com" aria-label="Email address">
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="newsletter-note">Free. Unsubscribe anytime. We respect your inbox.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="container">
+    <div class="about-inner">
+      <h2 class="about-title">About Signal Journal</h2>
+      <p class="about-text">Signal Journal is an independent publication covering the intersection of technology, business, science, and design. We believe in long-form reporting, clear thinking, and writing that respects the reader's time. Founded in 2022, we publish stories that help practitioners and curious minds make sense of a rapidly changing world — without the hype.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="M2 8h3l2-5 3 10 2-5h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          Signal Journal
+        </div>
+        <p>Independent technology journalism for people who build, think, and care about what comes next.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sections</h4>
+        <a href="#">Technology</a>
+        <a href="#">Business</a>
+        <a href="#">Science</a>
+        <a href="#">Design</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 Signal Journal. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+
+  menuToggle.addEventListener('click', function() {
+    mobileNav.classList.toggle('active');
+    const isOpen = mobileNav.classList.contains('active');
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Close mobile nav on link click
+  mobileNav.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      mobileNav.classList.remove('active');
+    });
+  });
+
+  // Search overlay
+  const searchToggle = document.getElementById('searchToggle');
+  const searchOverlay = document.getElementById('searchOverlay');
+
+  searchToggle.addEventListener('click', function() {
+    searchOverlay.classList.add('active');
+    searchOverlay.querySelector('input').focus();
+  });
+
+  searchOverlay.addEventListener('click', function(e) {
+    if (e.target === searchOverlay) {
+      searchOverlay.classList.remove('active');
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+      searchOverlay.classList.remove('active');
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier Forma — Architecture Studio</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-light: #f7f7f5;
+            --text: #1a1a1a;
+            --text-muted: #666666;
+            --text-light: #999999;
+            --border: #e5e5e2;
+            --border-dark: #c8c8c4;
+            --accent: #2a2a2a;
+            --font-serif: Georgia, 'Times New Roman', 'Times', serif;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            --spacing-section: 100px;
+            --max-width: 1240px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Layout */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        section {
+            padding: var(--spacing-section) 0;
+        }
+
+        /* Header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            transition: box-shadow var(--transition);
+        }
+        .site-header.scrolled {
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            letter-spacing: 0.06em;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .logo span {
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+        .main-nav {
+            display: flex;
+            gap: 36px;
+            flex-wrap: wrap;
+        }
+        .main-nav a {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            position: relative;
+            padding-bottom: 4px;
+            transition: color var(--transition);
+            font-weight: 500;
+        }
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--text);
+            transition: width var(--transition);
+        }
+        .main-nav a:hover {
+            color: var(--text);
+        }
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 100px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero-text h1 {
+            font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+        }
+        .hero-text p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 420px;
+            line-height: 1.7;
+        }
+        .hero-svg-wrap {
+            width: 100%;
+            aspect-ratio: 8/5;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            transition: background var(--transition);
+        }
+        .hero-svg-wrap svg {
+            width: 100%;
+            height: 100%;
+            max-width: 640px;
+            display: block;
+        }
+
+        /* Projects */
+        .projects {
+            background: var(--bg);
+        }
+        .projects-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .projects-header h2 {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            letter-spacing: -0.015em;
+        }
+        .project-list {
+            border-top: 1px solid var(--border);
+        }
+        .project-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 260px;
+            gap: 20px;
+            align-items: center;
+            padding: 32px 12px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background var(--transition), padding var(--transition);
+            text-decoration: none;
+            color: inherit;
+        }
+        .project-row:hover {
+            background: var(--bg-light);
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .project-number {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            letter-spacing: 0.1em;
+            font-weight: 400;
+            font-family: var(--font-sans);
+        }
+        .project-name {
+            font-family: var(--font-serif);
+            font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+            letter-spacing: -0.01em;
+            font-weight: 400;
+            color: var(--text);
+        }
+        .project-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: right;
+        }
+        .project-meta .city {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+        }
+        .project-meta .year-type {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Studio */
+        .studio {
+            background: var(--bg-light);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .studio-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        .studio-text h2 {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            letter-spacing: -0.015em;
+            margin-bottom: 24px;
+        }
+        .studio-text p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 1rem;
+            max-width: 480px;
+        }
+        .studio-text p+p {
+            margin-top: 16px;
+        }
+        .studio-stats {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 36px;
+        }
+        .stat-item {
+            border-bottom: 1px solid var(--border-dark);
+            padding-bottom: 20px;
+        }
+        .stat-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .stat-number {
+            font-family: var(--font-serif);
+            font-size: clamp(2.8rem, 4vw, 3.8rem);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            font-weight: 400;
+            color: var(--text);
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* Approach */
+        .approach {
+            background: var(--bg);
+        }
+        .approach-header {
+            margin-bottom: 48px;
+        }
+        .approach-header h2 {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            letter-spacing: -0.015em;
+        }
+        .approach-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .approach-item {
+            border-top: 1px solid var(--text);
+            padding-top: 24px;
+        }
+        .approach-number {
+            font-size: 0.75rem;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .approach-item h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+        .approach-item p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        /* Contact */
+        .contact {
+            background: var(--bg-light);
+            border-top: 1px solid var(--border);
+            text-align: center;
+            padding: 80px 0;
+        }
+        .contact h2 {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            letter-spacing: -0.015em;
+            margin-bottom: 16px;
+        }
+        .contact-sub {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 480px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+        }
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 40px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        .contact-info a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+        .contact-info a:hover {
+            color: var(--text);
+            border-bottom-color: var(--text);
+        }
+        .contact-info .sep {
+            color: var(--text-light);
+            opacity: 0.6;
+        }
+        .btn {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 16px 40px;
+            border: 1px solid var(--text);
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            text-decoration: none;
+            transition: background var(--transition), color var(--transition);
+            font-weight: 500;
+            border-radius: 0;
+        }
+        .btn:hover {
+            background: var(--text);
+            color: #fff;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: var(--text);
+            color: #fff;
+            padding: 32px 0;
+            border-top: 1px solid var(--border);
+        }
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy {
+            font-size: 0.78rem;
+            color: #bbb;
+            letter-spacing: 0.06em;
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            font-size: 0.78rem;
+        }
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            letter-spacing: 0.06em;
+            transition: color var(--transition);
+        }
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        /* Media queries */
+        @media (max-width: 1024px) {
+            :root {
+                --spacing-section: 70px;
+            }
+            .container {
+                padding: 0 28px;
+            }
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .hero-text p {
+                max-width: 100%;
+            }
+            .hero-svg-wrap {
+                aspect-ratio: 16/9;
+            }
+            .studio-inner {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+            .approach-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+            .project-row {
+                grid-template-columns: 40px 1fr 200px;
+                gap: 16px;
+                padding: 24px 8px;
+            }
+            .project-row:hover {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --spacing-section: 50px;
+            }
+            .container {
+                padding: 0 20px;
+            }
+            .main-nav {
+                gap: 18px;
+            }
+            .main-nav a {
+                font-size: 0.7rem;
+                letter-spacing: 0.08em;
+            }
+            .project-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                padding: 20px 8px;
+            }
+            .project-meta {
+                text-align: left;
+                flex-direction: row;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+            .project-number {
+                font-size: 0.7rem;
+            }
+            .project-name {
+                font-size: 1.25rem;
+            }
+            .approach-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .contact-info {
+                flex-direction: column;
+                gap: 12px;
+                align-items: center;
+            }
+            .contact-info .sep {
+                display: none;
+            }
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+            .hero-svg-wrap {
+                aspect-ratio: 4/3;
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .main-nav {
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            .hero-svg-wrap {
+                aspect-ratio: 5/4;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header" id="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">ATELIER <span>FORMA</span></a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="#projects">Projects</a>
+                <a href="#studio">Studio</a>
+                <a href="#approach">Approach</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="container hero-inner">
+            <div class="hero-text reveal">
+                <h1>Spaces shaped around everyday life.</h1>
+                <p>Atelier Forma is a European architecture studio dedicated to creating buildings that respond to context, light, and the rituals of daily living. We design with restraint and precision — places that feel both grounded and quietly extraordinary.</p>
+            </div>
+            <div class="hero-svg-wrap reveal reveal-delay-1">
+                <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Abstract architectural composition showing building volumes with window grids">
+                    <!-- Background subtle grid -->
+                    <defs>
+                        <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <line x1="0" y1="0" x2="40" y2="0" stroke="#e8e8e4" stroke-width="0.5" />
+                            <line x1="0" y1="0" x2="0" y2="40" stroke="#e8e8e4" stroke-width="0.5" />
+                        </pattern>
+                        <linearGradient id="shadowGrad" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#f0f0ee" stop-opacity="0" />
+                            <stop offset="100%" stop-color="#e0e0dc" stop-opacity="0.8" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Background grid area -->
+                    <rect x="60" y="30" width="680" height="410" fill="url(#gridPattern)" opacity="0.5" />
+
+                    <!-- Ground line -->
+                    <line x1="70" y1="410" x2="730" y2="410" stroke="#2a2a2a" stroke-width="1.2" />
+
+                    <!-- Ground shadow -->
+                    <rect x="70" y="410" width="660" height="8" fill="#e8e8e4" opacity="0.7" />
+
+                    <!-- Left volume (low horizontal) -->
+                    <rect x="120" y="240" width="180" height="170" fill="none" stroke="#2a2a2a" stroke-width="1.2" />
+                    <rect x="120" y="240" width="180" height="170" fill="#f5f5f2" opacity="0.6" />
+                    <!-- Left volume window grid -->
+                    <line x1="140" y1="265" x2="280" y2="265" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="140" y1="290" x2="280" y2="290" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="140" y1="315" x2="280" y2="315" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="140" y1="340" x2="280" y2="340" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="140" y1="365" x2="280" y2="365" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="140" y1="390" x2="280" y2="390" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="160" y1="240" x2="160" y2="410" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="190" y1="240" x2="190" y2="410" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="220" y1="240" x2="220" y2="410" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="250" y1="240" x2="250" y2="410" stroke="#bbb" stroke-width="0.5" />
+
+                    <!-- Left volume side (depth) -->
+                    <rect x="300" y="245" width="25" height="165" fill="#e8e8e4" stroke="none" opacity="0.8" />
+
+                    <!-- Center volume (tall) -->
+                    <rect x="340" y="90" width="130" height="320" fill="none" stroke="#2a2a2a" stroke-width="1.3" />
+                    <rect x="340" y="90" width="130" height="320" fill="#f7f7f4" opacity="0.7" />
+                    <!-- Center window grid vertical -->
+                    <line x1="365" y1="110" x2="365" y2="400" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="390" y1="110" x2="390" y2="400" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="415" y1="110" x2="415" y2="400" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="440" y1="110" x2="440" y2="400" stroke="#bbb" stroke-width="0.5" />
+                    <!-- Center window grid horizontal -->
+                    <line x1="340" y1="130" x2="470" y2="130" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="340" y1="165" x2="470" y2="165" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="340" y1="200" x2="470" y2="200" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="340" y1="235" x2="470" y2="235" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="340" y1="270" x2="470" y2="270" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="340" y1="305" x2="470" y2="305" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="340" y1="340" x2="470" y2="340" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="340" y1="375" x2="470" y2="375" stroke="#bbb" stroke-width="0.5" />
+
+                    <!-- Center volume side (depth) -->
+                    <rect x="470" y="95" width="22" height="315" fill="#e0e0dc" stroke="none" opacity="0.7" />
+
+                    <!-- Center volume top cap -->
+                    <rect x="340" y="82" width="130" height="8" fill="#d8d8d4" stroke="none" />
+
+                    <!-- Right volume (medium) -->
+                    <rect x="540" y="180" width="150" height="230" fill="none" stroke="#2a2a2a" stroke-width="1.2" />
+                    <rect x="540" y="180" width="150" height="230" fill="#f3f3f0" opacity="0.6" />
+                    <!-- Right volume window grid -->
+                    <line x1="560" y1="205" x2="670" y2="205" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="560" y1="230" x2="670" y2="230" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="560" y1="255" x2="670" y2="255" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="560" y1="280" x2="670" y2="280" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="560" y1="305" x2="670" y2="305" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="560" y1="330" x2="670" y2="330" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="560" y1="355" x2="670" y2="355" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="560" y1="380" x2="670" y2="380" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="585" y1="180" x2="585" y2="410" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="610" y1="180" x2="610" y2="410" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="635" y1="180" x2="635" y2="410" stroke="#bbb" stroke-width="0.5" />
+                    <line x1="660" y1="180" x2="660" y2="410" stroke="#bbb" stroke-width="0.5" />
+
+                    <!-- Right volume side -->
+                    <rect x="690" y="185" width="20" height="225" fill="#e8e8e4" stroke="none" opacity="0.8" />
+
+                    <!-- Small floating element (accent) -->
+                    <rect x="300" y="55" width="80" height="28" fill="none" stroke="#2a2a2a" stroke-width="0.9" />
+                    <rect x="300" y="55" width="80" height="28" fill="#f7f7f4" opacity="0.5" />
+                    <line x1="315" y1="55" x2="315" y2="83" stroke="#ccc" stroke-width="0.4" />
+                    <line x1="335" y1="55" x2="335" y2="83" stroke="#ccc" stroke-width="0.4" />
+                    <line x1="355" y1="55" x2="355" y2="83" stroke="#ccc" stroke-width="0.4" />
+
+                    <!-- Thin vertical accents -->
+                    <line x1="100" y1="410" x2="100" y2="440" stroke="#ccc" stroke-width="0.4" />
+                    <line x1="680" y1="410" x2="680" y2="445" stroke="#ccc" stroke-width="0.4" />
+                    <line x1="720" y1="410" x2="720" y2="435" stroke="#ccc" stroke-width="0.4" />
+
+                    <!-- Subtle horizontal lines in sky area -->
+                    <line x1="100" y1="50" x2="300" y2="50" stroke="#e5e5e2" stroke-width="0.5" />
+                    <line x1="500" y1="45" x2="700" y2="45" stroke="#e5e5e2" stroke-width="0.5" />
+                    <line x1="250" y1="35" x2="400" y2="35" stroke="#e5e5e2" stroke-width="0.5" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- SELECTED PROJECTS -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="projects-header reveal">
+                <h2>Selected Projects</h2>
+                <span class="section-label">2019 — 2025</span>
+            </div>
+            <div class="project-list">
+                <a href="#" class="project-row reveal" aria-label="House in the Pines — Zurich, 2023, Private Residence">
+                    <span class="project-number">01</span>
+                    <span class="project-name">House in the Pines</span>
+                    <span class="project-meta">
+                        <span class="city">Zurich, Switzerland</span>
+                        <span class="year-type">2023 · Private Residence</span>
+                    </span>
+                </a>
+                <a href="#" class="project-row reveal reveal-delay-1" aria-label="Courtyard Residence — Lisbon, 2022, Residential">
+                    <span class="project-number">02</span>
+                    <span class="project-name">Courtyard Residence</span>
+                    <span class="project-meta">
+                        <span class="city">Lisbon, Portugal</span>
+                        <span class="year-type">2022 · Residential</span>
+                    </span>
+                </a>
+                <a href="#" class="project-row reveal reveal-delay-2" aria-label="North Harbor Offices — Rotterdam, 2021, Workplace">
+                    <span class="project-number">03</span>
+                    <span class="project-name">North Harbor Offices</span>
+                    <span class="project-meta">
+                        <span class="city">Rotterdam, Netherlands</span>
+                        <span class="year-type">2021 · Workplace</span>
+                    </span>
+                </a>
+                <a href="#" class="project-row reveal reveal-delay-3" aria-label="Concrete and Light — Copenhagen, 2020, Cultural">
+                    <span class="project-number">04</span>
+                    <span class="project-name">Concrete &amp; Light</span>
+                    <span class="project-meta">
+                        <span class="city">Copenhagen, Denmark</span>
+                        <span class="year-type">2020 · Cultural</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STUDIO -->
+    <section class="studio" id="studio">
+        <div class="container studio-inner">
+            <div class="studio-text reveal">
+                <h2>Studio</h2>
+                <p>Atelier Forma is a Lisbon-based architecture practice founded in 2014 by architects Elena Marques and Thomas Weber. We work across residential, cultural, and workplace projects throughout Europe, with a focus on buildings that respond honestly to their environment.</p>
+                <p>Our practice is built on the belief that good architecture arises from careful observation — of light, of material, of the way people inhabit space. We approach each commission with a quiet rigor, seeking clarity in both form and detail.</p>
+            </div>
+            <div class="studio-stats reveal reveal-delay-1">
+                <div class="stat-item">
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Completed Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2014</div>
+                    <div class="stat-label">Founded</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section class="approach" id="approach">
+        <div class="container">
+            <div class="approach-header reveal">
+                <h2>Approach</h2>
+            </div>
+            <div class="approach-grid">
+                <div class="approach-item reveal">
+                    <span class="approach-number">01</span>
+                    <h3>Context</h3>
+                    <p>Every project begins with a careful reading of its surroundings — the scale of neighboring buildings, the rhythm of the street, the quality of local light and landscape. Our designs grow from this dialogue, never imposed upon it.</p>
+                </div>
+                <div class="approach-item reveal reveal-delay-1">
+                    <span class="approach-number">02</span>
+                    <h3>Material</h3>
+                    <p>We favor materials that age with dignity — concrete, timber, lime plaster, raw metal. Each is chosen for its tactile and atmospheric qualities, and detailed with precision so that the hand of the maker remains legible.</p>
+                </div>
+                <div class="approach-item reveal reveal-delay-2">
+                    <span class="approach-number">03</span>
+                    <h3>Light</h3>
+                    <p>Light is the most fundamental material of architecture. We shape openings, courtyards, and volumes to modulate daylight throughout the day and across the seasons, creating spaces that feel alive and connected to the passage of time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="reveal">Let&rsquo;s build something quiet and lasting.</h2>
+            <p class="contact-sub reveal reveal-delay-1">We are currently accepting new commissions for 2026. If you have a project in mind — a home, a workplace, a place of gathering — we would be glad to hear from you.</p>
+            <div class="contact-info reveal reveal-delay-2">
+                <a href="mailto:studio@atelierforma.eu">studio@atelierforma.eu</a>
+                <span class="sep">·</span>
+                <a href="tel:+351912345678">+351 912 345 678</a>
+                <span class="sep">·</span>
+                <span>Largo da Graça 24, 1170-165 Lisbon, Portugal</span>
+            </div>
+            <a href="mailto:studio@atelierforma.eu" class="btn reveal reveal-delay-3">Discuss a project</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span class="footer-copy">&copy; 2025 Atelier Forma. All rights reserved.</span>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Instagram</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            // Smooth scroll for anchor links (native via CSS scroll-behavior, but ensure offset for sticky header)
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
+                    var targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    var targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        e.preventDefault();
+                        var headerOffset = 70;
+                        var elementPosition = targetEl.getBoundingClientRect().top;
+                        var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Header shadow on scroll
+            var header = document.getElementById('header');
+            var lastScrollY = 0;
+            function updateHeader() {
+                var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollY > 20) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                lastScrollY = scrollY;
+            }
+            window.addEventListener('scroll', updateHeader, { passive: true });
+            updateHeader();
+
+            // Reveal on scroll with IntersectionObserver
+            var revealEls = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.08,
+                    rootMargin: '0px 0px -30px 0px'
+                });
+                revealEls.forEach(function(el) {
+                    observer.observe(el);
+                });
+            } else {
+                // Fallback for older browsers
+                revealEls.forEach(function(el) {
+                    el.classList.add('visible');
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
