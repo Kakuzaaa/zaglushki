@@ -1,0 +1,4084 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ORION — Autonomous Research & Knowledge Intelligence Platform. Discover, connect, and synthesize complex scientific information.">
+  <meta name="theme-color" content="#06080d">
+  <title>ORION — Autonomous Research & Knowledge Intelligence Platform</title>
+  <style>
+    /* ==========================================================================
+       1. CSS RESET & DESIGN SYSTEM VARIABLES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-primary: #06080d;
+      --bg-secondary: #0b0f19;
+      --bg-tertiary: #101626;
+      --bg-card: rgba(16, 22, 38, 0.7);
+      --bg-card-hover: rgba(22, 31, 53, 0.85);
+      --bg-glass: rgba(11, 15, 25, 0.75);
+      --bg-input: rgba(16, 22, 38, 0.9);
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --text-dim: #475569;
+
+      --accent-cyan: #00f2fe;
+      --accent-blue: #38bdf8;
+      --accent-violet: #8b5cf6;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+
+      --gradient-brand: linear-gradient(135deg, #00f2fe 0%, #38bdf8 50%, #8b5cf6 100%);
+      --gradient-glow: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.15) 0%, rgba(6, 8, 13, 0) 70%);
+      --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-medium: rgba(255, 255, 255, 0.12);
+      --border-active: rgba(56, 189, 248, 0.4);
+      --border-accent: rgba(0, 242, 254, 0.3);
+
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-mono: 'SF Mono', SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas, monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 35px rgba(56, 189, 248, 0.2);
+
+      --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      color-scheme: dark;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+    }
+
+    /* Ambient background mesh */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 85% 60%, rgba(139, 92, 246, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Grid overlay pattern */
+    .bg-grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      pointer-events: none;
+    }
+
+    /* Typography & Utilities */
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--text-primary);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+      border: none;
+      background: none;
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      letter-spacing: -0.01em;
+    }
+
+    .gradient-text {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid var(--border-accent);
+      color: var(--accent-blue);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .section-eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+      animation: pulse-dot 2s infinite ease-in-out;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      transition: all var(--transition-base);
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .btn-primary {
+      background: #f8fafc;
+      color: #06080d;
+      font-weight: 600;
+      box-shadow: 0 0 20px rgba(248, 250, 252, 0.15);
+    }
+
+    .btn-primary:hover {
+      background: #e2e8f0;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border: 1px solid var(--border-medium);
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-glow {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(139, 92, 246, 0.15));
+      border: 1px solid var(--border-accent);
+      color: var(--accent-cyan);
+    }
+
+    .btn-glow:hover {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.25), rgba(139, 92, 246, 0.25));
+      border-color: var(--accent-cyan);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.8125rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 1.05rem;
+      border-radius: var(--radius-md);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      transition: all var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gradient-card);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      border-color: var(--border-medium);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ==========================================================================
+       2. HEADER & NAVIGATION
+       ========================================================================== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      z-index: 100;
+      transition: all var(--transition-base);
+      border-bottom: 1px solid transparent;
+    }
+
+    .header.scrolled {
+      background: rgba(6, 8, 13, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: 0.12em;
+      color: #fff;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--accent-cyan);
+      transition: width var(--transition-fast);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      width: 100%;
+      background: rgba(6, 8, 13, 0.96);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border-medium);
+      padding: 24px;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 99;
+      transform: translateY(-10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--transition-base);
+    }
+
+    .mobile-drawer.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .mobile-nav-links a {
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      display: block;
+      padding: 8px 0;
+    }
+
+    /* ==========================================================================
+       3. HERO SECTION
+       ========================================================================== */
+    .hero {
+      min-height: 100vh;
+      padding-top: 140px;
+      padding-bottom: 80px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-content {
+      max-width: 660px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 2vw, 1.35rem);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 36px;
+      font-weight: 400;
+    }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .hero-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .telemetry-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .telemetry-val {
+      font-family: var(--font-mono);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .telemetry-lbl {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Hero SVG Knowledge Graph */
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-svg-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .hero-graph-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.15));
+    }
+
+    .graph-node {
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .graph-node:hover circle.node-core {
+      fill: #00f2fe;
+      filter: drop-shadow(0 0 12px #00f2fe);
+    }
+
+    .graph-node text {
+      opacity: 0.75;
+      transition: opacity var(--transition-fast);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .graph-node:hover text {
+      opacity: 1;
+      font-weight: bold;
+    }
+
+    .graph-link {
+      stroke: rgba(56, 189, 248, 0.2);
+      stroke-width: 1.2;
+      stroke-dasharray: 4, 4;
+      animation: dash-flow 25s linear infinite;
+    }
+
+    .graph-link-active {
+      stroke: rgba(0, 242, 254, 0.6);
+      stroke-width: 1.8;
+      stroke-dasharray: 8, 4;
+      animation: dash-flow-fast 8s linear infinite;
+    }
+
+    /* Floating Tooltip in Hero */
+    .hero-node-badge {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(11, 15, 25, 0.85);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.8125rem;
+      max-width: 240px;
+      pointer-events: none;
+      animation: float-slow 4s ease-in-out infinite alternate;
+    }
+
+    .hero-node-badge .badge-title {
+      color: var(--accent-cyan);
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ==========================================================================
+       4. INTERACTIVE RESEARCH SEARCH SECTION
+       ========================================================================== */
+    .search-section {
+      padding: 40px 0 80px;
+      position: relative;
+    }
+
+    .search-terminal-box {
+      background: linear-gradient(180deg, rgba(16, 22, 38, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      box-shadow: var(--shadow-lg), 0 0 50px rgba(56, 189, 248, 0.05);
+      position: relative;
+    }
+
+    .search-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(6, 8, 13, 0.8);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-lg);
+      padding: 8px 12px 8px 20px;
+      transition: all var(--transition-base);
+    }
+
+    .search-bar-wrap:focus-within {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15), var(--shadow-glow);
+    }
+
+    .search-bar-wrap svg {
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      padding: 8px 0;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-tags-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .search-tags-label {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .search-tag-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      padding: 5px 14px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .search-tag-chip:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      transform: translateY(-1px);
+    }
+
+    /* Live Search Results Container */
+    .search-results-area {
+      margin-top: 28px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 24px;
+      display: none;
+    }
+
+    .search-results-area.active {
+      display: block;
+      animation: fade-in 0.3s ease-out;
+    }
+
+    .search-dossier-card {
+      background: rgba(6, 8, 13, 0.6);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+
+    .dossier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .dossier-confidence {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.1);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .dossier-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .dossier-citations {
+      border-left: 1px solid var(--border-subtle);
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .citation-link {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .citation-link:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* ==========================================================================
+       5. DISCOVER SECTION (3 EDITORIAL CARDS)
+       ========================================================================== */
+    .discover-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .discover-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .editorial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .editorial-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg), 0 0 30px rgba(56, 189, 248, 0.08);
+    }
+
+    .editorial-card-num {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      letter-spacing: 0.1em;
+    }
+
+    .editorial-card-title {
+      font-size: 1.625rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+    }
+
+    .editorial-card-desc {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .editorial-visual {
+      height: 140px;
+      width: 100%;
+      background: rgba(6, 8, 13, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .editorial-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 16px;
+    }
+
+    /* ==========================================================================
+       6. AI ANALYSIS SECTION
+       ========================================================================== */
+    .analysis-section {
+      padding: 100px 0;
+      background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+      position: relative;
+    }
+
+    .analysis-studio {
+      background: rgba(11, 15, 25, 0.9);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .studio-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .studio-topic-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .studio-tab-btn {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border: 1px solid transparent;
+      transition: all var(--transition-fast);
+    }
+
+    .studio-tab-btn.active {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .studio-tab-btn:hover:not(.active) {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .analysis-body-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .analysis-metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .analysis-metric-card {
+      background: rgba(6, 8, 13, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .metric-delta {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 4px;
+    }
+
+    .metric-caption {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .related-topics-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .topic-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      padding: 4px 12px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    .analysis-diagram-wrap {
+      background: rgba(6, 8, 13, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* ==========================================================================
+       7. KNOWLEDGE GRAPH SECTION
+       ========================================================================== */
+    .kg-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .kg-interactive-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .kg-toolbar {
+      padding: 18px 24px;
+      background: rgba(11, 15, 25, 0.95);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .kg-filter-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .kg-filter-btn {
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.8125rem;
+      font-family: var(--font-mono);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .kg-filter-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .kg-canvas-container {
+      height: 520px;
+      width: 100%;
+      position: relative;
+      background: radial-gradient(circle at center, rgba(16, 22, 38, 0.8) 0%, rgba(6, 8, 13, 0.98) 100%);
+    }
+
+    .kg-node-info-drawer {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 280px;
+      background: rgba(11, 15, 25, 0.9);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.8125rem;
+      transition: all var(--transition-base);
+      z-index: 10;
+    }
+
+    /* ==========================================================================
+       8. RESEARCH PAPERS SECTION
+       ========================================================================== */
+    .papers-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .papers-filter-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .paper-filter-chip {
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      transition: all var(--transition-fast);
+    }
+
+    .paper-filter-chip.active {
+      background: #f8fafc;
+      color: #06080d;
+      font-weight: 600;
+      border-color: #f8fafc;
+    }
+
+    .papers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 24px;
+    }
+
+    .paper-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .paper-card:hover {
+      border-color: var(--border-medium);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .paper-top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .paper-badge {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.05em;
+    }
+
+    .badge-ai { background: rgba(56, 189, 248, 0.12); color: var(--accent-blue); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-science { background: rgba(139, 92, 246, 0.12); color: var(--accent-violet); border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge-technology { background: rgba(0, 242, 254, 0.12); color: var(--accent-cyan); border: 1px solid rgba(0, 242, 254, 0.3); }
+    .badge-energy { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-biology { background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+    .paper-read-time {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .paper-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .paper-authors {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .paper-bottom-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 12px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+    }
+
+    /* ==========================================================================
+       9. TREND RADAR SECTION
+       ========================================================================== */
+    .radar-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .radar-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .radar-svg-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .radar-svg {
+      width: 100%;
+      max-width: 440px;
+      height: auto;
+    }
+
+    .radar-blip {
+      cursor: pointer;
+      transition: transform var(--transition-fast);
+    }
+
+    .radar-blip:hover {
+      transform: scale(1.4);
+    }
+
+    .radar-blip circle.blip-glow {
+      animation: pulse-ring 2s infinite ease-out;
+    }
+
+    .radar-legend-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .radar-legend-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px;
+      background: rgba(16, 22, 38, 0.4);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+    }
+
+    .radar-legend-item:hover {
+      border-color: var(--border-medium);
+      background: rgba(16, 22, 38, 0.8);
+    }
+
+    .legend-ring-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       10. STATISTICS SECTION
+       ========================================================================== */
+    .stats-section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(11, 15, 25, 0.6);
+      position: relative;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .stat-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .stat-number {
+      font-size: clamp(2.5rem, 4vw, 3.75rem);
+      font-weight: 800;
+      line-height: 1;
+      font-family: var(--font-mono);
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       11. TESTIMONIALS SECTION
+       ========================================================================== */
+    .testimonials-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .quote-icon {
+      color: rgba(56, 189, 248, 0.3);
+      margin-bottom: 20px;
+    }
+
+    .testimonial-quote {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+      margin-bottom: 28px;
+      font-style: normal;
+    }
+
+    .author-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 16px;
+    }
+
+    .author-avatar-svg {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border-medium);
+      background: rgba(255, 255, 255, 0.05);
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .author-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       12. PRICING SECTION
+       ========================================================================== */
+    .pricing-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .pricing-toggle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .billing-toggle {
+      background: rgba(16, 22, 38, 0.8);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-full);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .toggle-btn {
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .toggle-btn.active {
+      background: #f8fafc;
+      color: #06080d;
+      font-weight: 600;
+    }
+
+    .save-badge {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      margin-left: 6px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all var(--transition-base);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--accent-cyan);
+      background: rgba(16, 24, 44, 0.9);
+      box-shadow: 0 0 35px rgba(0, 242, 254, 0.12);
+      transform: scale(1.03);
+      z-index: 2;
+    }
+
+    .popular-ribbon {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-brand);
+      color: #06080d;
+      font-weight: 700;
+      font-size: 0.6875rem;
+      padding: 3px 12px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pricing-plan-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .pricing-plan-desc {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      min-height: 40px;
+    }
+
+    .pricing-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 28px;
+    }
+
+    .price-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+    }
+
+    .price-period {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .pricing-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .pricing-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .pricing-feature-item svg {
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       13. RESOURCES SECTION
+       ========================================================================== */
+    .resources-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .resource-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: all var(--transition-base);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .resource-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .resource-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-cyan);
+      margin-bottom: 20px;
+    }
+
+    /* ==========================================================================
+       14. NEWSLETTER SECTION
+       ========================================================================== */
+    .newsletter-section {
+      padding: 80px 0;
+      position: relative;
+    }
+
+    .newsletter-box {
+      background: linear-gradient(135deg, rgba(16, 22, 38, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 60px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      box-shadow: var(--shadow-lg), 0 0 50px rgba(56, 189, 248, 0.05);
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .newsletter-input-group {
+      display: flex;
+      gap: 10px;
+      background: rgba(6, 8, 13, 0.8);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      padding: 6px 6px 6px 16px;
+      transition: border-color var(--transition-fast);
+    }
+
+    .newsletter-input-group:focus-within {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.15);
+    }
+
+    .newsletter-input {
+      flex: 1;
+      font-size: 0.9375rem;
+      color: var(--text-primary);
+    }
+
+    .newsletter-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .newsletter-feedback {
+      font-size: 0.8125rem;
+      display: none;
+    }
+
+    .newsletter-feedback.success {
+      display: block;
+      color: var(--accent-emerald);
+    }
+
+    .newsletter-feedback.error {
+      display: block;
+      color: var(--accent-rose);
+    }
+
+    /* ==========================================================================
+       15. ABOUT SECTION
+       ========================================================================== */
+    .about-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .about-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-bottom: 64px;
+    }
+
+    .about-pillar-card {
+      padding: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+    }
+
+    .timeline-wrap {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 48px;
+    }
+
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-top: 24px;
+      border-top: 2px solid var(--border-subtle);
+      transition: all var(--transition-base);
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+
+    .timeline-year {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       16. FAQ SECTION
+       ========================================================================== */
+    .faq-section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .faq-list {
+      max-width: 840px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition-fast);
+    }
+
+    .faq-item:hover {
+      border-color: var(--border-medium);
+    }
+
+    .faq-summary {
+      padding: 20px 24px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      list-style: none;
+    }
+
+    .faq-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-icon {
+      transition: transform var(--transition-fast);
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .faq-item[open] .faq-icon {
+      transform: rotate(180deg);
+      color: var(--accent-cyan);
+    }
+
+    .faq-content {
+      padding: 0 24px 24px;
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ==========================================================================
+       17. FINAL CTA & FOOTER
+       ========================================================================== */
+    .cta-section {
+      padding: 80px 0 120px;
+      position: relative;
+    }
+
+    .cta-banner {
+      background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.15) 0%, rgba(11, 15, 25, 0.95) 75%), rgba(11, 15, 25, 0.9);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-xl);
+      padding: 64px 32px;
+      text-align: center;
+      box-shadow: var(--shadow-lg), 0 0 60px rgba(56, 189, 248, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-title {
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-primary);
+      padding: 80px 0 40px;
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(4, 1fr);
+      gap: 48px;
+      margin-bottom: 64px;
+    }
+
+    .footer-col-title {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      font-family: var(--font-mono);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-link {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-link:hover {
+      color: var(--accent-cyan);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 32px;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: var(--accent-emerald);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 6px var(--accent-emerald);
+    }
+
+    /* ==========================================================================
+       18. MODALS
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 8, 13, 0.85);
+      backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity var(--transition-base);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background: rgba(16, 22, 38, 0.95);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      width: 100%;
+      max-width: 540px;
+      box-shadow: var(--shadow-lg), 0 0 50px rgba(56, 189, 248, 0.1);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform var(--transition-base);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .modal-input-field {
+      width: 100%;
+      background: rgba(6, 8, 13, 0.8);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .modal-input-field:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    /* Paper Abstract Modal */
+    .paper-modal-card {
+      max-width: 720px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    /* ==========================================================================
+       19. KEYFRAME ANIMATIONS
+       ========================================================================== */
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    @keyframes pulse-ring {
+      0% { r: 6; opacity: 0.8; }
+      100% { r: 24; opacity: 0; }
+    }
+
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -1000; }
+    }
+
+    @keyframes dash-flow-fast {
+      to { stroke-dashoffset: -500; }
+    }
+
+    @keyframes float-slow {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+
+    @keyframes radar-sweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .radar-sweep-line {
+      transform-origin: 200px 200px;
+      animation: radar-sweep 8s linear infinite;
+    }
+
+    /* ==========================================================================
+       20. RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      .hero-content {
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      .hero-ctas {
+        justify-content: center;
+      }
+      .hero-telemetry {
+        justify-content: center;
+      }
+      .hero-visual {
+        height: 420px;
+      }
+      .discover-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .analysis-body-grid {
+        grid-template-columns: 1fr;
+      }
+      .radar-layout {
+        grid-template-columns: 1fr;
+      }
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pricing-card.featured {
+        transform: none;
+      }
+      .resources-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .about-pillars-grid {
+        grid-template-columns: 1fr;
+      }
+      .timeline-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 36px;
+      }
+      .footer-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .footer-brand-col {
+        grid-column: span 3;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .header-actions .btn-secondary {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: flex;
+      }
+      .mobile-drawer {
+        display: flex;
+      }
+      .discover-grid {
+        grid-template-columns: 1fr;
+      }
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+      .newsletter-box {
+        grid-template-columns: 1fr;
+        padding: 36px 24px;
+        gap: 28px;
+      }
+      .dossier-grid {
+        grid-template-columns: 1fr;
+      }
+      .dossier-citations {
+        border-left: none;
+        border-top: 1px solid var(--border-subtle);
+        padding-left: 0;
+        padding-top: 16px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-brand-col {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .timeline-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-brand-col {
+        grid-column: span 1;
+      }
+      .hero-visual {
+        height: 320px;
+      }
+      .newsletter-input-group {
+        flex-direction: column;
+      }
+      .newsletter-input-group .btn {
+        width: 100%;
+      }
+      .search-bar-wrap {
+        padding: 6px 10px;
+      }
+    }
+
+    /* Accessibility: Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== -->
+  <header class="header" id="mainHeader">
+    <div class="container header-inner">
+      <a href="#" class="logo" aria-label="ORION Home">
+        <div class="logo-icon">
+          <!-- ORION Vector Mark -->
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="url(#logo-grad)" stroke-width="2" fill="rgba(0, 242, 254, 0.06)" />
+            <circle cx="16" cy="16" r="4" fill="#00f2fe" />
+            <line x1="16" y1="2" x2="16" y2="12" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="2 2" />
+            <line x1="30" y1="22" x2="20" y2="18" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="2 2" />
+            <line x1="2" y1="22" x2="12" y2="18" stroke="#00f2fe" stroke-width="1.5" stroke-dasharray="2 2" />
+            <defs>
+              <linearGradient id="logo-grad" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00f2fe" />
+                <stop offset="0.5" stop-color="#38bdf8" />
+                <stop offset="1" stop-color="#8b5cf6" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span>ORION</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#research" class="nav-link">Research</a></li>
+          <li><a href="#platform" class="nav-link">Platform</a></li>
+          <li><a href="#intelligence" class="nav-link">Intelligence</a></li>
+          <li><a href="#resources" class="nav-link">Resources</a></li>
+          <li><a href="#company" class="nav-link">Company</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" onclick="openAuthModal('signin')">Sign in</button>
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal('signup')">Start exploring</button>
+        <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Navigation Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <ul class="mobile-nav-links">
+        <li><a href="#research" onclick="toggleMobileMenu()">Research</a></li>
+        <li><a href="#platform" onclick="toggleMobileMenu()">Platform</a></li>
+        <li><a href="#intelligence" onclick="toggleMobileMenu()">Intelligence</a></li>
+        <li><a href="#resources" onclick="toggleMobileMenu()">Resources</a></li>
+        <li><a href="#company" onclick="toggleMobileMenu()">Company</a></li>
+      </ul>
+      <div style="display: flex; gap: 12px; margin-top: 12px;">
+        <button class="btn btn-secondary" style="flex: 1;" onclick="openAuthModal('signin'); toggleMobileMenu()">Sign in</button>
+        <button class="btn btn-primary" style="flex: 1;" onclick="openAuthModal('signup'); toggleMobileMenu()">Start exploring</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+  <section class="hero" id="hero">
+    <div class="bg-grid-pattern"></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            ORION INTELLIGENCE v4.2 &bull; GLOBAL KNOWLEDGE GRAPH
+          </div>
+          <h1 class="hero-title">
+            Turn information into <span class="gradient-text">intelligence.</span>
+          </h1>
+          <p class="hero-subtitle">
+            An intelligent research platform for discovering, connecting, and understanding complex scientific and technological information at frontier scale.
+          </p>
+          <div class="hero-ctas">
+            <a href="#search-anchor" class="btn btn-primary btn-lg">
+              <span>Explore platform</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="#research" class="btn btn-secondary btn-lg">
+              <span>View research</span>
+            </a>
+          </div>
+          <div class="hero-telemetry">
+            <div class="telemetry-item">
+              <span class="telemetry-val">24,192,804</span>
+              <span class="telemetry-lbl">Indexed Entities</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-val">0.084ms</span>
+              <span class="telemetry-lbl">Graph Traversal</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-val">99.98%</span>
+              <span class="telemetry-lbl">Synthesis Fidelity</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Knowledge Graph Visual (Pure SVG + CSS) -->
+        <div class="hero-visual">
+          <div class="hero-svg-container">
+            <svg class="hero-graph-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Radial Background Mesh Glow -->
+              <circle cx="250" cy="250" r="180" fill="url(#hero-radial-glow)" />
+              <circle cx="250" cy="250" r="220" stroke="rgba(255,255,255,0.03)" stroke-width="1" />
+              <circle cx="250" cy="250" r="150" stroke="rgba(56,189,248,0.06)" stroke-width="1" stroke-dasharray="3 3" />
+              <circle cx="250" cy="250" r="80" stroke="rgba(139,92,246,0.08)" stroke-width="1" />
+
+              <!-- Interconnecting Links -->
+              <g class="graph-links">
+                <line x1="250" y1="250" x2="140" y2="130" class="graph-link-active" />
+                <line x1="250" y1="250" x2="360" y2="120" class="graph-link" />
+                <line x1="250" y1="250" x2="390" y2="280" class="graph-link-active" />
+                <line x1="250" y1="250" x2="310" y2="400" class="graph-link" />
+                <line x1="250" y1="250" x2="130" y2="370" class="graph-link" />
+                <line x1="250" y1="250" x2="80" y2="240" class="graph-link-active" />
+                
+                <!-- Cross-cluster links -->
+                <line x1="140" y1="130" x2="240" y2="60" class="graph-link" />
+                <line x1="360" y1="120" x2="430" y2="170" class="graph-link" />
+                <line x1="390" y1="280" x2="440" y2="360" class="graph-link" />
+                <line x1="310" y1="400" x2="220" y2="440" class="graph-link" />
+                <line x1="130" y1="370" x2="60" y2="350" class="graph-link" />
+                <line x1="80" y1="240" x2="70" y2="150" class="graph-link" />
+                
+                <line x1="140" y1="130" x2="360" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+                <line x1="390" y1="280" x2="310" y2="400" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+                <line x1="130" y1="370" x2="80" y2="240" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+              </g>
+
+              <!-- Outer micro blips / particles -->
+              <circle cx="200" cy="90" r="1.5" fill="#38bdf8" opacity="0.6" />
+              <circle cx="300" cy="80" r="2" fill="#8b5cf6" opacity="0.7" />
+              <circle cx="410" cy="220" r="1.5" fill="#00f2fe" opacity="0.5" />
+              <circle cx="370" cy="340" r="2" fill="#10b981" opacity="0.8" />
+              <circle cx="260" cy="430" r="1.5" fill="#38bdf8" opacity="0.4" />
+              <circle cx="100" cy="310" r="2" fill="#f59e0b" opacity="0.6" />
+              <circle cx="100" cy="180" r="1.5" fill="#00f2fe" opacity="0.5" />
+
+              <!-- Nodes -->
+              <!-- Central Hub -->
+              <g class="graph-node" transform="translate(250, 250)">
+                <circle r="22" fill="rgba(0, 242, 254, 0.12)" stroke="#00f2fe" stroke-width="1.5" />
+                <circle class="node-core" r="8" fill="#00f2fe" />
+                <text y="34" text-anchor="middle" fill="#00f2fe">ORION KERNEL</text>
+              </g>
+
+              <!-- Node 1: AI Substrates -->
+              <g class="graph-node" transform="translate(140, 130)" onmouseover="updateHeroBadge('AI Substrates', 'Latent vector manifolds & neural semantic topology')">
+                <circle r="14" fill="rgba(56, 189, 248, 0.1)" stroke="#38bdf8" stroke-width="1.2" />
+                <circle class="node-core" r="5" fill="#38bdf8" />
+                <text y="24" text-anchor="middle" fill="#94a3b8">NEURAL FOUNDATIONS</text>
+              </g>
+
+              <!-- Node 2: Quantum Error Suppression -->
+              <g class="graph-node" transform="translate(360, 120)" onmouseover="updateHeroBadge('Quantum Error Suppression', 'Topological braiding & surface codes')">
+                <circle r="12" fill="rgba(139, 92, 246, 0.1)" stroke="#8b5cf6" stroke-width="1.2" />
+                <circle class="node-core" r="4.5" fill="#8b5cf6" />
+                <text y="22" text-anchor="middle" fill="#94a3b8">QUANTUM CODES</text>
+              </g>
+
+              <!-- Node 3: Molecular Dynamics -->
+              <g class="graph-node" transform="translate(390, 280)" onmouseover="updateHeroBadge('Molecular Dynamics', 'De novo protein folding & drug discovery')">
+                <circle r="15" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" stroke-width="1.2" />
+                <circle class="node-core" r="5" fill="#10b981" />
+                <text y="25" text-anchor="middle" fill="#94a3b8">GENOMICS & FOLDING</text>
+              </g>
+
+              <!-- Node 4: Plasma Confinement -->
+              <g class="graph-node" transform="translate(310, 400)" onmouseover="updateHeroBadge('Plasma Confinement', 'Magnetohydrodynamic neural simulation')">
+                <circle r="12" fill="rgba(245, 158, 11, 0.1)" stroke="#f59e0b" stroke-width="1.2" />
+                <circle class="node-core" r="4" fill="#f59e0b" />
+                <text y="22" text-anchor="middle" fill="#94a3b8">FUSION DYNAMICS</text>
+              </g>
+
+              <!-- Node 5: Photonic Interconnects -->
+              <g class="graph-node" transform="translate(130, 370)" onmouseover="updateHeroBadge('Photonic Interconnects', 'Sub-nanosecond optical neural switching')">
+                <circle r="13" fill="rgba(0, 242, 254, 0.1)" stroke="#00f2fe" stroke-width="1.2" />
+                <circle class="node-core" r="4.5" fill="#00f2fe" />
+                <text y="23" text-anchor="middle" fill="#94a3b8">OPTICAL COMPUTE</text>
+              </g>
+
+              <!-- Node 6: Climate Modeling -->
+              <g class="graph-node" transform="translate(80, 240)" onmouseover="updateHeroBadge('Climate Modeling', 'High-fidelity atmospheric fluid dynamics')">
+                <circle r="11" fill="rgba(56, 189, 248, 0.1)" stroke="#38bdf8" stroke-width="1" />
+                <circle class="node-core" r="4" fill="#38bdf8" />
+                <text y="21" text-anchor="middle" fill="#94a3b8">PLANETARY SIM</text>
+              </g>
+
+              <!-- Outer leaf nodes -->
+              <circle cx="240" cy="60" r="3" fill="#8b5cf6" />
+              <circle cx="430" cy="170" r="3" fill="#00f2fe" />
+              <circle cx="440" cy="360" r="3" fill="#10b981" />
+              <circle cx="220" cy="440" r="3" fill="#f59e0b" />
+              <circle cx="60" cy="350" r="3" fill="#38bdf8" />
+              <circle cx="70" cy="150" r="3" fill="#00f2fe" />
+
+              <defs>
+                <radialGradient id="hero-radial-glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(56, 189, 248, 0.12)" />
+                  <stop offset="100%" stop-color="rgba(6, 8, 13, 0)" />
+                </radialGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <div class="hero-node-badge" id="heroBadge">
+            <div class="badge-title">
+              <span class="status-dot"></span>
+              <span id="badgeTitleText">AI Substrates</span>
+            </div>
+            <div id="badgeDescText" style="color: var(--text-secondary); line-height: 1.35;">
+              Latent vector manifolds & neural semantic topology.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       INTERACTIVE RESEARCH SEARCH
+       ========================================================================== -->
+  <section class="search-section" id="search-anchor">
+    <div class="container">
+      <div class="search-terminal-box">
+        <form id="searchForm" onsubmit="handleSearchSubmit(event)">
+          <div class="search-bar-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Ask anything about your research..." autocomplete="off">
+            <button type="submit" class="btn btn-primary btn-sm">
+              <span>Search</span>
+              <kbd class="mono" style="font-size: 0.6875rem; background: rgba(0,0,0,0.15); padding: 2px 6px; border-radius: 4px;">⌘K</kbd>
+            </button>
+          </div>
+        </form>
+
+        <div class="search-tags-row">
+          <span class="search-tags-label">Recent searches:</span>
+          <button class="search-tag-chip" onclick="triggerSearchTag('Climate technology')">Climate technology</button>
+          <button class="search-tag-chip" onclick="triggerSearchTag('Quantum computing')">Quantum computing</button>
+          <button class="search-tag-chip" onclick="triggerSearchTag('AI infrastructure')">AI infrastructure</button>
+          <button class="search-tag-chip" onclick="triggerSearchTag('Synthetic biology')">Synthetic biology</button>
+        </div>
+
+        <!-- Dynamic Simulated AI Intelligence Result -->
+        <div class="search-results-area" id="searchResultsArea">
+          <div class="search-dossier-card">
+            <div class="dossier-header">
+              <div>
+                <span class="section-eyebrow" style="margin-bottom: 8px;">AI SYNTHESIS DOSSIER</span>
+                <h3 id="dossierQueryTitle" style="font-size: 1.35rem; font-weight: 700;">Query: Artificial Intelligence Infrastructure</h3>
+              </div>
+              <span class="dossier-confidence">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="dossierConfidenceScore">98.4% Confidence</span>
+              </span>
+            </div>
+
+            <p id="dossierSummary" style="font-size: 0.9375rem; color: #cbd5e1; line-height: 1.65;">
+              Cross-disciplinary correlation across 1,480 recent peer-reviewed preprints indicates an exponential migration toward disaggregated optical interconnects and wafer-scale neuromorphic architectures to mitigate thermal limits in hyperscale training clusters.
+            </p>
+
+            <div class="dossier-grid">
+              <div>
+                <h4 style="font-size: 0.8125rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;" class="mono">Key Intelligence Vectors</h4>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.875rem; color: var(--text-secondary);" id="dossierVectorsList">
+                  <li>• Photonic switching reduces inter-pod latency from 450ns to 32ns.</li>
+                  <li>• Grid-scale power provisioning bottlenecks drive co-located nuclear SMR deployments.</li>
+                  <li>• 4-bit floating point algorithmic quantization reaches parity with FP16 baseline.</li>
+                </ul>
+              </div>
+              <div class="dossier-citations">
+                <h4 style="font-size: 0.8125rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;" class="mono">Direct Citations</h4>
+                <a href="#papers" class="citation-link" onclick="openPaperModal(2)">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                  <span>Photonic Clusters (2026)</span>
+                </a>
+                <a href="#papers" class="citation-link" onclick="openPaperModal(0)">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                  <span>Molecular Dynamics (2026)</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       DISCOVER SECTION (3 LARGE EDITORIAL CARDS)
+       ========================================================================== -->
+  <section class="discover-section" id="research">
+    <div class="container">
+      <div class="section-eyebrow">
+        <span class="dot"></span>
+        DISCOVERY METHODOLOGY
+      </div>
+      <h2 class="section-title">Discover what matters.</h2>
+      <p class="section-subtitle">
+        Scientific discovery is no longer constrained by individual cognitive bandwidth. ORION synthesizes fragmented knowledge into unified conceptual topologies.
+      </p>
+
+      <div class="discover-grid">
+        <!-- Card 1: Research -->
+        <article class="editorial-card">
+          <div>
+            <div class="editorial-card-num">01 / DISCOVERY</div>
+            <h3 class="editorial-card-title">Cross-Disciplinary Synthesis</h3>
+            <p class="editorial-card-desc">
+              Continuously indexes millions of preprints, patents, and datasets to uncover latent conceptual bridges between distant scientific domains.
+            </p>
+            <div class="editorial-visual">
+              <!-- Inline SVG vector plot -->
+              <svg width="100%" height="100%" viewBox="0 0 300 120" fill="none">
+                <path d="M10,90 Q80,20 150,70 T290,30" stroke="url(#card-grad-1)" stroke-width="2" fill="none" />
+                <path d="M10,100 Q100,50 180,90 T290,60" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-dasharray="4 4" fill="none" />
+                <circle cx="80" cy="45" r="4" fill="#00f2fe" />
+                <circle cx="150" cy="70" r="5" fill="#38bdf8" />
+                <circle cx="220" cy="40" r="4" fill="#8b5cf6" />
+                <line x1="80" y1="45" x2="150" y2="70" stroke="rgba(56, 189, 248, 0.3)" />
+                <line x1="150" y1="70" x2="220" y2="40" stroke="rgba(139, 92, 246, 0.3)" />
+                <defs>
+                  <linearGradient id="card-grad-1" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#00f2fe" />
+                    <stop offset="1" stop-color="#8b5cf6" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <div class="editorial-meta">
+            <span>24.8M Papers Mapped</span>
+            <span class="mono" style="color: var(--accent-cyan);">SEMANTIC_SPACE</span>
+          </div>
+        </article>
+
+        <!-- Card 2: Trends -->
+        <article class="editorial-card">
+          <div>
+            <div class="editorial-card-num">02 / MOMENTUM</div>
+            <h3 class="editorial-card-title">Emergence Velocity</h3>
+            <p class="editorial-card-desc">
+              Detects exponential inflections in scientific literature and patent velocity up to 18 months before consensus validation.
+            </p>
+            <div class="editorial-visual">
+              <!-- Inline SVG Momentum Curve -->
+              <svg width="100%" height="100%" viewBox="0 0 300 120" fill="none">
+                <rect x="20" y="80" width="16" height="30" fill="rgba(56, 189, 248, 0.2)" />
+                <rect x="50" y="70" width="16" height="40" fill="rgba(56, 189, 248, 0.3)" />
+                <rect x="80" y="62" width="16" height="48" fill="rgba(56, 189, 248, 0.4)" />
+                <rect x="110" y="50" width="16" height="60" fill="rgba(56, 189, 248, 0.5)" />
+                <rect x="140" y="42" width="16" height="68" fill="rgba(56, 189, 248, 0.6)" />
+                <rect x="170" y="30" width="16" height="80" fill="rgba(0, 242, 254, 0.7)" />
+                <rect x="200" y="18" width="16" height="92" fill="#00f2fe" />
+                <path d="M28,80 C90,75 140,40 208,18" stroke="#38bdf8" stroke-width="2" />
+                <circle cx="208" cy="18" r="4" fill="#fff" />
+              </svg>
+            </div>
+          </div>
+          <div class="editorial-meta">
+            <span>+342% Lead Time</span>
+            <span class="mono" style="color: var(--accent-emerald);">VELOCITY_INDEX</span>
+          </div>
+        </article>
+
+        <!-- Card 3: Signals -->
+        <article class="editorial-card">
+          <div>
+            <div class="editorial-card-num">03 / PRECISION</div>
+            <h3 class="editorial-card-title">Weak Signal Amplification</h3>
+            <p class="editorial-card-desc">
+              Separates peer-review noise from foundational paradigm shifts using rigorous citation graph causality metrics.
+            </p>
+            <div class="editorial-visual">
+              <!-- Inline SVG Signal Spectrum -->
+              <svg width="100%" height="100%" viewBox="0 0 300 120" fill="none">
+                <path d="M10,60 L40,60 L50,40 L60,80 L70,55 L80,60 L120,60 L135,15 L145,105 L155,20 L165,90 L175,60 L290,60" stroke="#8b5cf6" stroke-width="1.8" />
+                <line x1="145" y1="0" x2="145" y2="120" stroke="rgba(0, 242, 254, 0.3)" stroke-dasharray="2 2" />
+                <circle cx="145" cy="60" r="16" stroke="rgba(139, 92, 246, 0.4)" stroke-width="1" />
+                <circle cx="145" cy="60" r="4" fill="#00f2fe" />
+              </svg>
+            </div>
+          </div>
+          <div class="editorial-meta">
+            <span>99.2% Signal Isolation</span>
+            <span class="mono" style="color: var(--accent-violet);">CAUSALITY_FILTER</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       AI ANALYSIS SECTION
+       ========================================================================== -->
+  <section class="analysis-section" id="platform">
+    <div class="container">
+      <div class="section-eyebrow">
+        <span class="dot"></span>
+        SYSTEM ARCHITECTURE
+      </div>
+      <h2 class="section-title">Understand the bigger picture.</h2>
+      <p class="section-subtitle">
+        Deep multi-modal intelligence that maps systemic dependencies across global compute, energy, silicon, and foundational theory.
+      </p>
+
+      <div class="analysis-studio">
+        <div class="studio-topbar">
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;" class="mono">ACTIVE TOPIC CLUSTER</span>
+            <div class="studio-topic-tabs" style="margin-top: 6px;">
+              <button class="studio-tab-btn active" onclick="switchAnalysisTopic('ai_infra', this)">Artificial Intelligence Infrastructure</button>
+              <button class="studio-tab-btn" onclick="switchAnalysisTopic('genomics', this)">Genomic Foundation Models</button>
+              <button class="studio-tab-btn" onclick="switchAnalysisTopic('fusion', this)">Fusion Energy Dynamics</button>
+              <button class="studio-tab-btn" onclick="switchAnalysisTopic('silicon', this)">Neuromorphic Silicon</button>
+            </div>
+          </div>
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            LIVE GRAPH SYNTHESIS
+          </div>
+        </div>
+
+        <div class="analysis-body-grid">
+          <div>
+            <h3 id="analysisHeadline" style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">Artificial Intelligence Infrastructure</h3>
+            <p id="analysisDesc" style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+              Global compute infrastructure is facing an energy-density bottleneck. The integration of high-bandwidth optical fabrics and on-die microfluidic cooling is emerging as the critical enabler for next-generation frontier training runs.
+            </p>
+
+            <div class="analysis-metrics-grid">
+              <div class="analysis-metric-card">
+                <div class="metric-delta" id="metricGrowth">+34%</div>
+                <div class="metric-caption">YoY Research Velocity</div>
+              </div>
+              <div class="analysis-metric-card">
+                <div class="metric-delta" id="metricTrends">12</div>
+                <div class="metric-caption">Emerging Sub-Trends</div>
+              </div>
+              <div class="analysis-metric-card">
+                <div class="metric-delta" id="metricPapers">248</div>
+                <div class="metric-caption">Related Milestone Papers</div>
+              </div>
+              <div class="analysis-metric-card">
+                <div class="metric-delta" id="metricConsensus">94.8%</div>
+                <div class="metric-caption">Cross-Domain Consensus</div>
+              </div>
+            </div>
+
+            <div>
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);" class="mono">Related Topics</span>
+              <div class="related-topics-pills" id="analysisRelatedTopics">
+                <span class="topic-pill">GPU Computing</span>
+                <span class="topic-pill">Energy Grid</span>
+                <span class="topic-pill">Data Centers</span>
+                <span class="topic-pill">Semiconductors</span>
+                <span class="topic-pill">Optical Switching</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SVG Visual Interaction Matrix -->
+          <div class="analysis-diagram-wrap">
+            <svg width="100%" height="100%" viewBox="0 0 400 320" fill="none" id="analysisSvg">
+              <!-- Central Hub -->
+              <circle cx="200" cy="160" r="45" fill="rgba(0, 242, 254, 0.08)" stroke="#00f2fe" stroke-width="1.5" />
+              <text x="200" y="164" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="600" id="svgCenterText">AI INFRA</text>
+
+              <!-- Node 1: GPU Compute -->
+              <line x1="200" y1="160" x2="90" y2="80" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+              <circle cx="90" cy="80" r="28" fill="rgba(16, 22, 38, 0.9)" stroke="#38bdf8" stroke-width="1.2" />
+              <text x="90" y="84" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="monospace">GPU FAB</text>
+
+              <!-- Node 2: Energy -->
+              <line x1="200" y1="160" x2="310" y2="80" stroke="rgba(245, 158, 11, 0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+              <circle cx="310" cy="80" r="28" fill="rgba(16, 22, 38, 0.9)" stroke="#f59e0b" stroke-width="1.2" />
+              <text x="310" y="84" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="monospace">ENERGY</text>
+
+              <!-- Node 3: Data Centers -->
+              <line x1="200" y1="160" x2="310" y2="240" stroke="rgba(139, 92, 246, 0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+              <circle cx="310" cy="240" r="28" fill="rgba(16, 22, 38, 0.9)" stroke="#8b5cf6" stroke-width="1.2" />
+              <text x="310" y="244" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="monospace">CENTERS</text>
+
+              <!-- Node 4: Semiconductors -->
+              <line x1="200" y1="160" x2="90" y2="240" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+              <circle cx="90" cy="240" r="28" fill="rgba(16, 22, 38, 0.9)" stroke="#10b981" stroke-width="1.2" />
+              <text x="90" y="244" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="monospace">SILICON</text>
+
+              <!-- Cross connection -->
+              <line x1="90" y1="80" x2="310" y2="80" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+              <line x1="90" y1="240" x2="310" y2="240" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FULL KNOWLEDGE GRAPH SECTION
+       ========================================================================== -->
+  <section class="kg-section" id="intelligence">
+    <div class="container">
+      <div class="section-eyebrow">
+        <span class="dot"></span>
+        ENTERPRISE GRAPH FABRIC
+      </div>
+      <h2 class="section-title">Knowledge Graph Navigator</h2>
+      <p class="section-subtitle">
+        Explore high-dimensional connections between foundational theories, emerging startups, patent families, and lead principal investigators.
+      </p>
+
+      <div class="kg-interactive-wrapper">
+        <div class="kg-toolbar">
+          <div class="kg-filter-group">
+            <span style="font-size: 0.8125rem; color: var(--text-muted); align-self: center; margin-right: 8px;">FILTER ENTITIES:</span>
+            <button class="kg-filter-btn active" onclick="filterGraph('all', this)">All (64)</button>
+            <button class="kg-filter-btn" onclick="filterGraph('topics', this)">Topics</button>
+            <button class="kg-filter-btn" onclick="filterGraph('companies', this)">Companies</button>
+            <button class="kg-filter-btn" onclick="filterGraph('researchers', this)">Researchers</button>
+            <button class="kg-filter-btn" onclick="filterGraph('technologies', this)">Technologies</button>
+            <button class="kg-filter-btn" onclick="filterGraph('publications', this)">Publications</button>
+          </div>
+          <div class="mono" style="font-size: 0.75rem; color: var(--text-muted);">
+            NODES: <span style="color: var(--accent-cyan);">64</span> | EDGES: <span style="color: var(--accent-blue);">182</span>
+          </div>
+        </div>
+
+        <div class="kg-canvas-container">
+          <!-- Main Interactive Knowledge Graph SVG -->
+          <svg width="100%" height="100%" viewBox="0 0 900 520" fill="none" id="fullKgSvg">
+            <!-- Grid Lines -->
+            <line x1="0" y1="260" x2="900" y2="260" stroke="rgba(255,255,255,0.02)" />
+            <line x1="450" y1="0" x2="450" y2="520" stroke="rgba(255,255,255,0.02)" />
+
+            <!-- Edge Mesh -->
+            <g class="kg-edges">
+              <line x1="450" y1="260" x2="280" y2="140" stroke="rgba(56, 189, 248, 0.25)" stroke-width="1.2" />
+              <line x1="450" y1="260" x2="620" y2="130" stroke="rgba(139, 92, 246, 0.25)" stroke-width="1.2" />
+              <line x1="450" y1="260" x2="680" y2="340" stroke="rgba(16, 185, 129, 0.25)" stroke-width="1.2" />
+              <line x1="450" y1="260" x2="240" y2="380" stroke="rgba(245, 158, 11, 0.25)" stroke-width="1.2" />
+              <line x1="280" y1="140" x2="160" y2="80" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+              <line x1="280" y1="140" x2="380" y2="70" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+              <line x1="620" y1="130" x2="780" y2="90" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+              <line x1="620" y1="130" x2="540" y2="60" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+              <line x1="680" y1="340" x2="800" y2="420" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+              <line x1="680" y1="340" x2="570" y2="440" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+              <line x1="240" y1="380" x2="120" y2="440" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+              <line x1="240" y1="380" x2="340" y2="450" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+              
+              <!-- Cross-tier links -->
+              <line x1="160" y1="80" x2="120" y2="440" stroke="rgba(0, 242, 254, 0.15)" stroke-dasharray="4 4" />
+              <line x1="780" y1="90" x2="800" y2="420" stroke="rgba(139, 92, 246, 0.15)" stroke-dasharray="4 4" />
+            </g>
+
+            <!-- Center Core Entity -->
+            <g class="graph-node" transform="translate(450, 260)" onclick="selectKgNode('ORION Knowledge Spine', 'Global semantic backbone coordinating 24M cross-disciplinary nodes', 'Spine Architecture')">
+              <circle r="32" fill="rgba(0, 242, 254, 0.1)" stroke="#00f2fe" stroke-width="2" />
+              <circle r="12" fill="#00f2fe" />
+              <text y="48" text-anchor="middle" fill="#00f2fe" font-weight="700">KNOWLEDGE SPINE</text>
+            </g>
+
+            <!-- TOPICS -->
+            <g class="graph-node node-group-topics" transform="translate(280, 140)" onclick="selectKgNode('Autonomous Reasoning Agents', 'Self-evolving cognitive systems using formal theorem provers', 'Topic')">
+              <circle r="22" fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" stroke-width="1.5" />
+              <circle r="7" fill="#38bdf8" />
+              <text y="34" text-anchor="middle" fill="#f8fafc">AUTONOMOUS REASONING</text>
+            </g>
+
+            <!-- COMPANIES -->
+            <g class="graph-node node-group-companies" transform="translate(620, 130)" onclick="selectKgNode('Frontier Dynamics Lab', 'Advanced research consortium backing next-gen wafer photonics', 'Organization')">
+              <circle r="22" fill="rgba(139, 92, 246, 0.15)" stroke="#8b5cf6" stroke-width="1.5" />
+              <circle r="7" fill="#8b5cf6" />
+              <text y="34" text-anchor="middle" fill="#f8fafc">FRONTIER LABS</text>
+            </g>
+
+            <!-- RESEARCHERS -->
+            <g class="graph-node node-group-researchers" transform="translate(680, 340)" onclick="selectKgNode('Dr. Elena Rostova', 'Leading principal investigator in topological error-correcting lattices', 'Lead Scientist')">
+              <circle r="20" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-width="1.5" />
+              <circle r="6" fill="#10b981" />
+              <text y="32" text-anchor="middle" fill="#f8fafc">DR. E. ROSTOVA</text>
+            </g>
+
+            <!-- TECHNOLOGIES -->
+            <g class="graph-node node-group-technologies" transform="translate(240, 380)" onclick="selectKgNode('Co-Packaged Optical Transceivers', 'Sub-picosecond silicon-photonic optical switching matrices', 'Technology')">
+              <circle r="20" fill="rgba(245, 158, 11, 0.15)" stroke="#f59e0b" stroke-width="1.5" />
+              <circle r="6" fill="#f59e0b" />
+              <text y="32" text-anchor="middle" fill="#f8fafc">OPTICAL FABRICS</text>
+            </g>
+
+            <!-- Outer Orbit Nodes -->
+            <g class="graph-node node-group-publications" transform="translate(160, 80)" onclick="selectKgNode('Nature Physics #9024', 'Foundational proof of zero-entropy thermal dissipation', 'Publication')">
+              <circle r="14" fill="rgba(255,255,255,0.05)" stroke="#64748b" stroke-width="1" />
+              <circle r="4" fill="#cbd5e1" />
+              <text y="24" text-anchor="middle" fill="#94a3b8">NATURE #9024</text>
+            </g>
+
+            <g class="graph-node node-group-topics" transform="translate(380, 70)" onclick="selectKgNode('Graph Neural Manifolds', 'Non-Euclidean representations of molecular conformations', 'Topic')">
+              <circle r="14" fill="rgba(56, 189, 248, 0.1)" stroke="#38bdf8" stroke-width="1" />
+              <circle r="4" fill="#38bdf8" />
+              <text y="24" text-anchor="middle" fill="#94a3b8">GRAPH MANIFOLDS</text>
+            </g>
+
+            <g class="graph-node node-group-technologies" transform="translate(780, 90)" onclick="selectKgNode('Cryogenic CMOS Logic', '4-Kelvin control logic for superconducting quantum buses', 'Technology')">
+              <circle r="14" fill="rgba(245, 158, 11, 0.1)" stroke="#f59e0b" stroke-width="1" />
+              <circle r="4" fill="#f59e0b" />
+              <text y="24" text-anchor="middle" fill="#94a3b8">CRYO CMOS</text>
+            </g>
+
+            <g class="graph-node node-group-companies" transform="translate(540, 60)" onclick="selectKgNode('Aether Quantum Systems', 'Pioneer in continuous-variable optical quantum processors', 'Company')">
+              <circle r="14" fill="rgba(139, 92, 246, 0.1)" stroke="#8b5cf6" stroke-width="1" />
+              <circle r="4" fill="#8b5cf6" />
+              <text y="24" text-anchor="middle" fill="#94a3b8">AETHER QUANTUM</text>
+            </g>
+
+            <g class="graph-node node-group-publications" transform="translate(800, 420)" onclick="selectKgNode('arXiv:2602.1198', 'Scalable error suppression in surface codes with 99.9% gate fidelity', 'Publication')">
+              <circle r="14" fill="rgba(255,255,255,0.05)" stroke="#64748b" stroke-width="1" />
+              <circle r="4" fill="#cbd5e1" />
+              <text y="24" text-anchor="middle" fill="#94a3b8">ARXIV:2602.1198</text>
+            </g>
+
+            <g class="graph-node node-group-researchers" transform="translate(570, 440)" onclick="selectKgNode('Dr. Marcus Vance', 'Lead researcher on magnetohydrodynamic tokamak equilibrium models', 'Researcher')">
+              <circle r="14" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" stroke-width="1" />
+              <circle r="4" fill="#10b981" />
+              <text y="24" text-anchor="middle" fill="#94a3b8">M. VANCE</text>
+            </g>
+
+            <g class="graph-node node-group-technologies" transform="translate(120, 440)" onclick="selectKgNode('Liquid Immersion Pods', 'Two-phase dielectric fluoropolymer cooling for 150kW racks', 'Technology')">
+              <circle r="14" fill="rgba(245, 158, 11, 0.1)" stroke="#f59e0b" stroke-width="1" />
+              <circle r="4" fill="#f59e0b" />
+              <text y="24" text-anchor="middle" fill="#94a3b8">IMMERSION PODS</text>
+            </g>
+
+            <g class="graph-node node-group-topics" transform="translate(340, 450)" onclick="selectKgNode('Synthetic Biology Chassis', 'Orthogonal genetic circuits for targeted biocatalysis', 'Topic')">
+              <circle r="14" fill="rgba(56, 189, 248, 0.1)" stroke="#38bdf8" stroke-width="1" />
+              <circle r="4" fill="#38bdf8" />
+              <text y="24" text-anchor="middle" fill="#94a3b8">SYNTH BIOLOGY</text>
+            </g>
+          </svg>
+
+          <!-- Drawer Panel -->
+          <div class="kg-node-info-drawer" id="kgDrawer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span id="kgDrawerCategory" class="mono" style="color: var(--accent-cyan); font-size: 0.6875rem; text-transform: uppercase;">Topic Node</span>
+              <span style="font-size: 0.6875rem; color: var(--text-muted);" class="mono">ID #7409</span>
+            </div>
+            <h4 id="kgDrawerTitle" style="font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 6px;">Autonomous Reasoning Agents</h4>
+            <p id="kgDrawerDesc" style="color: var(--text-secondary); line-height: 1.45; font-size: 0.8125rem;">
+              Self-evolving cognitive systems leveraging neuro-symbolic verification to prove mathematical conjectures at scale.
+            </p>
+            <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between;">
+              <span style="color: var(--text-muted); font-size: 0.75rem;">Connected: 18 edges</span>
+              <a href="#papers" style="color: var(--accent-blue); font-size: 0.75rem; font-weight: 600;">View Ingest &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       RESEARCH PAPERS SECTION
+       ========================================================================== -->
+  <section class="papers-section" id="papers">
+    <div class="container">
+      <div class="section-eyebrow">
+        <span class="dot"></span>
+        PEER-REVIEWED CORPUS
+      </div>
+      <h2 class="section-title">Latest research.</h2>
+      <p class="section-subtitle">
+        Curated synthesis preprints, milestone methodologies, and validation papers generated across the ORION scientific network.
+      </p>
+
+      <div class="papers-filter-nav">
+        <button class="paper-filter-chip active" onclick="filterPapers('all', this)">All (8)</button>
+        <button class="paper-filter-chip" onclick="filterPapers('ai', this)">AI</button>
+        <button class="paper-filter-chip" onclick="filterPapers('science', this)">Science</button>
+        <button class="paper-filter-chip" onclick="filterPapers('technology', this)">Technology</button>
+        <button class="paper-filter-chip" onclick="filterPapers('energy', this)">Energy</button>
+        <button class="paper-filter-chip" onclick="filterPapers('biology', this)">Biology</button>
+      </div>
+
+      <div class="papers-grid" id="papersGrid">
+        <!-- Paper 1 -->
+        <div class="paper-card" data-category="ai" onclick="openPaperModal(0)">
+          <div>
+            <div class="paper-top-meta">
+              <span class="paper-badge badge-ai">AI &bull; BIOLOGY</span>
+              <span class="paper-read-time">14 min read</span>
+            </div>
+            <h3 class="paper-title">Multimodal Diffusion Bridges for Large-Scale Molecular Dynamics</h3>
+            <p class="paper-authors">Dr. Chen Wei, Dr. Elena Rostova, K. Larsson et al.</p>
+          </div>
+          <div class="paper-bottom-meta">
+            <span>AUG 2026</span>
+            <span>DOI: 10.1038/s41586-026-9</span>
+          </div>
+        </div>
+
+        <!-- Paper 2 -->
+        <div class="paper-card" data-category="science" onclick="openPaperModal(1)">
+          <div>
+            <div class="paper-top-meta">
+              <span class="paper-badge badge-science">SCIENCE</span>
+              <span class="paper-read-time">22 min read</span>
+            </div>
+            <h3 class="paper-title">Topological Quantum Error Suppression in Superconducting Qubit Arrays</h3>
+            <p class="paper-authors">Dr. Aris Thorne, J. Vance, S. Al-Mansoor</p>
+          </div>
+          <div class="paper-bottom-meta">
+            <span>JUL 2026</span>
+            <span>DOI: 10.1103/PhysRevX.16.03</span>
+          </div>
+        </div>
+
+        <!-- Paper 3 -->
+        <div class="paper-card" data-category="technology" onclick="openPaperModal(2)">
+          <div>
+            <div class="paper-top-meta">
+              <span class="paper-badge badge-technology">TECHNOLOGY &bull; AI</span>
+              <span class="paper-read-time">18 min read</span>
+            </div>
+            <h3 class="paper-title">Sub-Nanosecond Photonic Interconnects for Distributed Neural Clusters</h3>
+            <p class="paper-authors">T. Lindqvist, Dr. Priya Sharma, M. DuPont</p>
+          </div>
+          <div class="paper-bottom-meta">
+            <span>AUG 2026</span>
+            <span>DOI: 10.1145/3618485.3620</span>
+          </div>
+        </div>
+
+        <!-- Paper 4 -->
+        <div class="paper-card" data-category="energy" onclick="openPaperModal(3)">
+          <div>
+            <div class="paper-top-meta">
+              <span class="paper-badge badge-energy">ENERGY</span>
+              <span class="paper-read-time">26 min read</span>
+            </div>
+            <h3 class="paper-title">High-Temperature Plasma Confinement Optimization via Reinforcement Learning</h3>
+            <p class="paper-authors">Dr. Marcus Vance, E. Takahashi, H. Benali</p>
+          </div>
+          <div class="paper-bottom-meta">
+            <span>JUN 2026</span>
+            <span>DOI: 10.1088/1741-4326/ad4</span>
+          </div>
+        </div>
+
+        <!-- Paper 5 -->
+        <div class="paper-card" data-category="biology" onclick="openPaperModal(4)">
+          <div>
+            <div class="paper-top-meta">
+              <span class="paper-badge badge-biology">BIOLOGY</span>
+              <span class="paper-read-time">12 min read</span>
+            </div>
+            <h3 class="paper-title">De Novo Protein Folding Architecture with Ultra-Sparse Graph Attention</h3>
+            <p class="paper-authors">Dr. Elena Rostova, L. Zhang, D. Morales</p>
+          </div>
+          <div class="paper-bottom-meta">
+            <span>MAY 2026</span>
+            <span>DOI: 10.1016/j.cell.2026.05</span>
+          </div>
+        </div>
+
+        <!-- Paper 6 -->
+        <div class="paper-card" data-category="ai" onclick="openPaperModal(5)">
+          <div>
+            <div class="paper-top-meta">
+              <span class="paper-badge badge-ai">AI &bull; SCIENCE</span>
+              <span class="paper-read-time">16 min read</span>
+            </div>
+            <h3 class="paper-title">Autonomous Scientific Discovery Agents in High-Throughput Chemistry</h3>
+            <p class="paper-authors">Dr. Sarah Jenkins, A. Novak, P. Gomez</p>
+          </div>
+          <div class="paper-bottom-meta">
+            <span>AUG 2026</span>
+            <span>DOI: 10.1021/jacs.6c08921</span>
+          </div>
+        </div>
+
+        <!-- Paper 7 -->
+        <div class="paper-card" data-category="energy" onclick="openPaperModal(6)">
+          <div>
+            <div class="paper-top-meta">
+              <span class="paper-badge badge-energy">ENERGY &bull; TECH</span>
+              <span class="paper-read-time">19 min read</span>
+            </div>
+            <h3 class="paper-title">Grid-Scale Iron-Air Electrochemical Storage Thermodynamics</h3>
+            <p class="paper-authors">K. O'Connor, Dr. Marcus Vance, S. Roy</p>
+          </div>
+          <div class="paper-bottom-meta">
+            <span>JUL 2026</span>
+            <span>DOI: 10.1039/D6EE01428A</span>
+          </div>
+        </div>
+
+        <!-- Paper 8 -->
+        <div class="paper-card" data-category="ai" onclick="openPaperModal(7)">
+          <div>
+            <div class="paper-top-meta">
+              <span class="paper-badge badge-ai">AI</span>
+              <span class="paper-read-time">21 min read</span>
+            </div>
+            <h3 class="paper-title">Zero-Shot Cross-Lingual Knowledge Synthesis across Non-Corpus Archives</h3>
+            <p class="paper-authors">Dr. Chen Wei, F. Al-Hassan, M. Schmidt</p>
+          </div>
+          <div class="paper-bottom-meta">
+            <span>AUG 2026</span>
+            <span>DOI: 10.18653/v1/2026.acl</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       TREND RADAR SECTION
+       ========================================================================== -->
+  <section class="radar-section" id="radar">
+    <div class="container">
+      <div class="radar-layout">
+        <div>
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            RADAR MATRIX
+          </div>
+          <h2 class="section-title">Emergent Technology Radar</h2>
+          <p class="section-subtitle">
+            Dynamic quadrant assessment mapping scientific velocity from early theoretical hypothesis to mainstream enterprise deployment.
+          </p>
+
+          <div class="radar-legend-list">
+            <div class="radar-legend-item">
+              <div class="legend-ring-dot" style="background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan);"></div>
+              <div>
+                <strong style="color: #fff; font-size: 0.9375rem;">Emerging (0–1 Years)</strong>
+                <p style="font-size: 0.8125rem; color: var(--text-secondary);">Photonic neural interconnects, Room-temp topological insulators, De novo enzyme generative models.</p>
+              </div>
+            </div>
+
+            <div class="radar-legend-item">
+              <div class="legend-ring-dot" style="background: var(--accent-blue);"></div>
+              <div>
+                <strong style="color: #fff; font-size: 0.9375rem;">Growing (1–3 Years)</strong>
+                <p style="font-size: 0.8125rem; color: var(--text-secondary);">Neuromorphic vision sensors, Magnetically confined stellarator coils, Synthetic biology chassis.</p>
+              </div>
+            </div>
+
+            <div class="radar-legend-item">
+              <div class="legend-ring-dot" style="background: var(--accent-violet);"></div>
+              <div>
+                <strong style="color: #fff; font-size: 0.9375rem;">Established (3–5 Years)</strong>
+                <p style="font-size: 0.8125rem; color: var(--text-secondary);">Transformers for structural biology, Two-phase direct-to-chip liquid cooling.</p>
+              </div>
+            </div>
+
+            <div class="radar-legend-item">
+              <div class="legend-ring-dot" style="background: var(--text-muted);"></div>
+              <div>
+                <strong style="color: #fff; font-size: 0.9375rem;">Declining (Legacy)</strong>
+                <p style="font-size: 0.8125rem; color: var(--text-secondary);">Air-cooled monolithic GPU chassis, Pure rule-based clinical diagnostic systems.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Radar SVG Visualization -->
+        <div class="radar-svg-card">
+          <svg class="radar-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Concentric Radar Rings -->
+            <circle cx="200" cy="200" r="180" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+            <circle cx="200" cy="200" r="135" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1" />
+            <circle cx="200" cy="200" r="90" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1" />
+            <circle cx="200" cy="200" r="45" stroke="rgba(0, 242, 254, 0.3)" stroke-width="1.5" />
+            
+            <!-- Axis lines -->
+            <line x1="20" y1="200" x2="380" y2="200" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+            <line x1="200" y1="20" x2="200" y2="380" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+            <line x1="72" y1="72" x2="328" y2="328" stroke="rgba(255, 255, 255, 0.04)" stroke-width="1" stroke-dasharray="2 2" />
+            <line x1="328" y1="72" x2="72" y2="328" stroke="rgba(255, 255, 255, 0.04)" stroke-width="1" stroke-dasharray="2 2" />
+
+            <!-- Rotating Radar Sweep Line -->
+            <g class="radar-sweep-line">
+              <line x1="200" y1="200" x2="200" y2="20" stroke="url(#sweep-grad)" stroke-width="2" />
+              <polygon points="200,200 240,20 200,20" fill="url(#sweep-sector)" opacity="0.4" />
+            </g>
+
+            <!-- Quadrant Labels -->
+            <text x="210" y="36" fill="#64748b" font-size="9" font-family="monospace">ALGORITHMIC AI</text>
+            <text x="210" y="375" fill="#64748b" font-size="9" font-family="monospace">HARDWARE & PHYSICS</text>
+            <text x="25" y="375" fill="#64748b" font-size="9" font-family="monospace">ENERGY & CLIMATE</text>
+            <text x="25" y="36" fill="#64748b" font-size="9" font-family="monospace">BIOTECH & GENOME</text>
+
+            <!-- Blips (Emerging: r < 45, Growing: 45 < r < 90, Established: 90 < r < 135, Declining: 135 < r < 180) -->
+            <!-- Emerging Blips -->
+            <g class="radar-blip" transform="translate(215, 175)" title="Photonic Interconnects">
+              <circle class="blip-glow" cx="0" cy="0" r="8" fill="rgba(0, 242, 254, 0.4)" />
+              <circle cx="0" cy="0" r="4.5" fill="#00f2fe" />
+            </g>
+
+            <g class="radar-blip" transform="translate(180, 185)" title="De Novo Enzyme Synthesis">
+              <circle class="blip-glow" cx="0" cy="0" r="8" fill="rgba(0, 242, 254, 0.4)" />
+              <circle cx="0" cy="0" r="4.5" fill="#00f2fe" />
+            </g>
+
+            <!-- Growing Blips -->
+            <g class="radar-blip" transform="translate(250, 140)" title="Cryo-CMOS Logic">
+              <circle cx="0" cy="0" r="4" fill="#38bdf8" />
+            </g>
+
+            <g class="radar-blip" transform="translate(150, 240)" title="Iron-Air Battery">
+              <circle cx="0" cy="0" r="4" fill="#38bdf8" />
+            </g>
+
+            <g class="radar-blip" transform="translate(240, 250)" title="Neuromorphic Vision">
+              <circle cx="0" cy="0" r="4" fill="#38bdf8" />
+            </g>
+
+            <!-- Established Blips -->
+            <g class="radar-blip" transform="translate(290, 110)" title="Structural Transformers">
+              <circle cx="0" cy="0" r="4" fill="#8b5cf6" />
+            </g>
+
+            <g class="radar-blip" transform="translate(110, 280)" title="Direct-to-Chip Liquid Cooling">
+              <circle cx="0" cy="0" r="4" fill="#8b5cf6" />
+            </g>
+
+            <!-- Declining Blips -->
+            <g class="radar-blip" transform="translate(330, 220)" title="Legacy Monolithic GPU">
+              <circle cx="0" cy="0" r="3.5" fill="#64748b" />
+            </g>
+
+            <defs>
+              <linearGradient id="sweep-grad" x1="200" y1="200" x2="200" y2="20" gradientUnits="userSpaceOnUse">
+                <stop stop-color="rgba(0, 242, 254, 0)" />
+                <stop offset="100%" stop-color="#00f2fe" />
+              </linearGradient>
+              <radialGradient id="sweep-sector" cx="200" cy="200" r="180">
+                <stop offset="0%" stop-color="rgba(0, 242, 254, 0.4)" />
+                <stop offset="100%" stop-color="rgba(0, 242, 254, 0)" />
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       STATISTICS SECTION
+       ========================================================================== -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="stat-number" id="statDocs">24M+</span>
+          <span class="stat-label">Documents analyzed</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="statSources">180K+</span>
+          <span class="stat-label">Research sources</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="statOrgs">42K+</span>
+          <span class="stat-label">Organizations</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="statRelevance">96%</span>
+          <span class="stat-label">Insight relevance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       TESTIMONIALS SECTION
+       ========================================================================== -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-eyebrow">
+        <span class="dot"></span>
+        SCIENTIFIC CONSENSUS
+      </div>
+      <h2 class="section-title">Endorsed by research leaders.</h2>
+      <p class="section-subtitle">
+        How frontier researchers and enterprise strategists accelerate critical discoveries using ORION.
+      </p>
+
+      <div class="testimonials-grid">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card">
+          <div>
+            <svg class="quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+            </svg>
+            <p class="testimonial-quote">
+              "ORION condensed three months of cross-disciplinary literature reviews into twenty minutes. The platform mapped non-obvious topological isomorphisms between protein folding and high-entropy alloy simulations that we validated experimentally."
+            </p>
+          </div>
+          <div class="author-block">
+            <!-- Author Avatar SVG -->
+            <svg class="author-avatar-svg" viewBox="0 0 40 40" fill="none">
+              <rect width="40" height="40" rx="20" fill="#1e293b"/>
+              <circle cx="20" cy="15" r="7" fill="#38bdf8"/>
+              <path d="M8 34C8 27.3726 13.3726 22 20 22C26.6274 22 32 27.3726 32 34" fill="#64748b"/>
+            </svg>
+            <div>
+              <div class="author-name">Dr. Elena Rostova</div>
+              <div class="author-role">Research Director, European Lab for Molecular Informatics</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card">
+          <div>
+            <svg class="quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+            </svg>
+            <p class="testimonial-quote">
+              "In energy tech, weak signals determine billion-dollar capital allocation. ORION gave our team an 18-month lead on solid-state electrolyte degradation patents before they became mainstream industry consensus."
+            </p>
+          </div>
+          <div class="author-block">
+            <svg class="author-avatar-svg" viewBox="0 0 40 40" fill="none">
+              <rect width="40" height="40" rx="20" fill="#1e293b"/>
+              <circle cx="20" cy="15" r="7" fill="#8b5cf6"/>
+              <path d="M8 34C8 27.3726 13.3726 22 20 22C26.6274 22 32 27.3726 32 34" fill="#64748b"/>
+            </svg>
+            <div>
+              <div class="author-name">Marcus Vance</div>
+              <div class="author-role">Chief Data Scientist, Vector Energy Consortium</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card">
+          <div>
+            <svg class="quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+            </svg>
+            <p class="testimonial-quote">
+              "The ability to inspect the underlying knowledge graph reasoning paths with citation provenance makes ORION the only AI synthesis engine we permit in our technical peer audits."
+            </p>
+          </div>
+          <div class="author-block">
+            <svg class="author-avatar-svg" viewBox="0 0 40 40" fill="none">
+              <rect width="40" height="40" rx="20" fill="#1e293b"/>
+              <circle cx="20" cy="15" r="7" fill="#00f2fe"/>
+              <path d="M8 34C8 27.3726 13.3726 22 20 22C26.6274 22 32 27.3726 32 34" fill="#64748b"/>
+            </svg>
+            <div>
+              <div class="author-name">Dr. Aris Thorne</div>
+              <div class="author-role">Technology Strategist, Institute for Advanced Compute</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       PRICING SECTION
+       ========================================================================== -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div style="text-align: center; max-width: 640px; margin: 0 auto 36px;">
+        <div class="section-eyebrow">
+          <span class="dot"></span>
+          ACCESS TIERS
+        </div>
+        <h2 class="section-title">Transparent research plans.</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">
+          Scale your scientific discovery capabilities from individual exploration to multi-facility enterprise deployments.
+        </p>
+      </div>
+
+      <div class="pricing-toggle-wrap">
+        <div class="billing-toggle">
+          <button class="toggle-btn active" id="btnMonthly" onclick="setBillingPeriod('monthly')">Monthly</button>
+          <button class="toggle-btn" id="btnAnnual" onclick="setBillingPeriod('annual')">
+            Annual <span class="save-badge">-20%</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Tier 1: Explorer -->
+        <div class="pricing-card">
+          <div>
+            <div class="pricing-plan-name">Explorer</div>
+            <p class="pricing-plan-desc">For individual scientists and independent student researchers.</p>
+            <div class="pricing-price-wrap">
+              <span class="price-num">Free</span>
+            </div>
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>50 AI synthesis queries / mo</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Public knowledge graph access</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Standard citation exports</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-secondary" onclick="openAuthModal('signup')">Get started</button>
+        </div>
+
+        <!-- Tier 2: Professional -->
+        <div class="pricing-card">
+          <div>
+            <div class="pricing-plan-name">Professional</div>
+            <p class="pricing-plan-desc">For active post-docs, professors, and technical consultants.</p>
+            <div class="pricing-price-wrap">
+              <span class="price-num" id="pricePro">$39</span>
+              <span class="price-period" id="periodPro">/ month</span>
+            </div>
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Unlimited semantic synthesis</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Full patent & preprint index</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Weak-signal trend alerts</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-secondary" onclick="openAuthModal('signup')">Start trial</button>
+        </div>
+
+        <!-- Tier 3: Research (Featured) -->
+        <div class="pricing-card featured">
+          <div class="popular-ribbon">Most Popular</div>
+          <div>
+            <div class="pricing-plan-name">Research</div>
+            <p class="pricing-plan-desc">For lab groups, corporate R&D units, and venture funds.</p>
+            <div class="pricing-price-wrap">
+              <span class="price-num" id="priceResearch">$99</span>
+              <span class="price-period" id="periodResearch">/ month</span>
+            </div>
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Dedicated graph traversal nodes</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Custom private corpus ingestion</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Python & REST API SDK access</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Multi-seat collaborative workspace</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-primary" onclick="openAuthModal('signup')">Subscribe now</button>
+        </div>
+
+        <!-- Tier 4: Enterprise -->
+        <div class="pricing-card">
+          <div>
+            <div class="pricing-plan-name">Enterprise</div>
+            <p class="pricing-plan-desc">For national laboratories, pharmaceutical giants, and aerospace consortia.</p>
+            <div class="pricing-price-wrap">
+              <span class="price-num">Custom</span>
+            </div>
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>On-premise air-gapped deployment</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Custom fine-tuned reasoning kernels</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>24/7 dedicated support & SLA</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-secondary" onclick="openAuthModal('signup')">Contact team</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       RESOURCES SECTION
+       ========================================================================== -->
+  <section class="resources-section" id="resources">
+    <div class="container">
+      <div class="section-eyebrow">
+        <span class="dot"></span>
+        KNOWLEDGE ECOSYSTEM
+      </div>
+      <h2 class="section-title">Resources & Documentation</h2>
+      <p class="section-subtitle">
+        Deep dives, whitepapers, integration specifications, and changelogs to integrate ORION into your automated pipeline.
+      </p>
+
+      <div class="resources-grid">
+        <!-- Resource 1: Research Library -->
+        <div class="resource-card">
+          <div>
+            <div class="resource-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">Research Library</h3>
+            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.55;">
+              Over 2,400 synthetic literature dossiers, taxonomy maps, and curated scientific benchmark datasets available for export.
+            </p>
+          </div>
+          <a href="#papers" style="color: var(--accent-cyan); font-size: 0.875rem; font-weight: 600; margin-top: 20px; display: inline-flex; align-items: center; gap: 6px;">
+            Explore library &rarr;
+          </a>
+        </div>
+
+        <!-- Resource 2: Reports -->
+        <div class="resource-card">
+          <div>
+            <div class="resource-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">Quarterly Intelligence Reports</h3>
+            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.55;">
+              Macro-level syntheses on frontier silicon architectures, post-lithium chemistry, and quantum topological bounds.
+            </p>
+          </div>
+          <a href="#papers" style="color: var(--accent-cyan); font-size: 0.875rem; font-weight: 600; margin-top: 20px; display: inline-flex; align-items: center; gap: 6px;">
+            Read latest report &rarr;
+          </a>
+        </div>
+
+        <!-- Resource 3: Guides -->
+        <div class="resource-card">
+          <div>
+            <div class="resource-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">API & SDK Guides</h3>
+            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.55;">
+              Full documentation for querying the ORION GraphQL and Python client libraries for automated literature ingestion.
+            </p>
+          </div>
+          <a href="#papers" style="color: var(--accent-cyan); font-size: 0.875rem; font-weight: 600; margin-top: 20px; display: inline-flex; align-items: center; gap: 6px;">
+            View documentation &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       NEWSLETTER SECTION
+       ========================================================================== -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-box">
+        <div>
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            WEEKLY SYNTHESIS
+          </div>
+          <h2 style="font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; margin-bottom: 12px;">Stay ahead of the signal.</h2>
+          <p style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+            Receive our curated Friday briefing of the week's most transformative preprints, anomalous patent clusters, and emerging scientific breakthroughs.
+          </p>
+        </div>
+
+        <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletterSubmit(event)">
+          <div class="newsletter-input-group">
+            <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Enter your institutional email..." required>
+            <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+          </div>
+          <div class="newsletter-feedback" id="newsletterFeedback"></div>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">Zero spam. Unsubscribe anytime with one click.</span>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ABOUT SECTION
+       ========================================================================== -->
+  <section class="about-section" id="company">
+    <div class="container">
+      <div style="max-width: 720px; margin-bottom: 54px;">
+        <div class="section-eyebrow">
+          <span class="dot"></span>
+          ABOUT ORION
+        </div>
+        <h2 class="section-title">Building tools for human curiosity.</h2>
+        <p class="section-subtitle">
+          We believe scientific progress accelerates when researchers can instantly traverse the entire collective corpus of human knowledge without cognitive bottlenecks.
+        </p>
+      </div>
+
+      <div class="about-pillars-grid">
+        <div class="about-pillar-card">
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--accent-cyan);">01. Mission</h3>
+          <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6;">
+            To eliminate scientific blind spots and construct an autonomous reasoning fabric capable of synthesizing humanity's hardest challenges.
+          </p>
+        </div>
+        <div class="about-pillar-card">
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--accent-blue);">02. Principles</h3>
+          <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6;">
+            Rigorous mathematical provenance, open citation verification, non-hallucinatory graph topology, and epistemic modesty.
+          </p>
+        </div>
+        <div class="about-pillar-card">
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--accent-violet);">03. Approach</h3>
+          <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6;">
+            Combining frontier neuro-symbolic provers with global streaming patent indexes and automated verification environments.
+          </p>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-wrap">
+        <div class="timeline-grid">
+          <div class="timeline-item">
+            <div class="timeline-year">2021</div>
+            <div style="font-weight: 600; color: #fff; margin-bottom: 4px;">Foundation</div>
+            <p class="timeline-desc">Initial formulation of high-dimensional semantic graph manifolds for peer-review preprints.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2023</div>
+            <div style="font-weight: 600; color: #fff; margin-bottom: 4px;">Graph Synthesis Engine</div>
+            <p class="timeline-desc">Deployment of the first 5M-node cross-modal scientific relationship index with automated citation tracking.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <div style="font-weight: 600; color: #fff; margin-bottom: 4px;">Autonomous Reasoning</div>
+            <p class="timeline-desc">Integration of formal verification provers to validate hypotheses across physics and molecular biology.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2026</div>
+            <div style="font-weight: 600; color: #fff; margin-bottom: 4px;">ORION v4.2</div>
+            <p class="timeline-desc">Global enterprise network operating across 24M+ entities with sub-millisecond graph query traversal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FAQ SECTION
+       ========================================================================== -->
+  <section class="faq-section">
+    <div class="container">
+      <div style="text-align: center; max-width: 640px; margin: 0 auto 48px;">
+        <div class="section-eyebrow">
+          <span class="dot"></span>
+          FREQUENTLY ASKED
+        </div>
+        <h2 class="section-title">Answers to common questions.</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>How does ORION prevent synthetic model hallucinations?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            Every insight produced by ORION is grounded in a deterministic knowledge graph with explicit bibliographic provenance. Statements cannot be generated without an audited traversal path directly linking to peer-reviewed literature or patent publications.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>What sources are indexed in the global corpus?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            We continuously ingest major open-access repositories (arXiv, bioRxiv, ChemRxiv, PubMed), global patent offices (USPTO, EPO, JPO, WIPO), conference proceedings (IEEE, ACM, NeurIPS), and institutional open repositories worldwide.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>Can our laboratory ingest proprietary internal research documents?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            Yes. Research and Enterprise tiers support isolated encrypted vector stores. Your internal lab notebooks, unpublished drafts, and proprietary data remain strictly confidential and are never used to train global public weights.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>How frequently is the knowledge graph updated?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            Our streaming ingestion pipeline processes new preprint feeds and patent filings in real-time, executing semantic clustering and node reconciliation within minutes of publication.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>Is there an API for programmatic integration into computational notebooks?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            Yes. We provide official SDKs for Python and TypeScript with native support for Jupyter, Pandas, and NetworkX export, allowing programmatic graph traversal and automated hypothesis generation in CI/CD scientific pipelines.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>What are the compliance and data sovereignty standards?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            ORION is SOC 2 Type II certified and compliant with GDPR, HIPAA, and ISO 27001 standards. Enterprise tiers offer on-premises air-gapped deployments for sensitive defense and bio-security research.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FINAL CTA & FOOTER
+       ========================================================================== -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-banner">
+        <h2 class="cta-title">Explore the world's knowledge differently.</h2>
+        <p style="color: var(--text-secondary); max-width: 580px; margin: 0 auto 32px; font-size: 1.125rem;">
+          Join over 42,000 research organizations utilizing ORION to unlock breakthroughs across physics, biology, and computation.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+          <button class="btn btn-primary btn-lg" onclick="openAuthModal('signup')">Start exploring</button>
+          <a href="#pricing" class="btn btn-secondary btn-lg">View pricing plans</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <a href="#" class="logo" style="margin-bottom: 16px;">
+            <div class="logo-icon">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="#00f2fe" stroke-width="2" fill="rgba(0, 242, 254, 0.06)" />
+                <circle cx="16" cy="16" r="4" fill="#00f2fe" />
+              </svg>
+            </div>
+            <span>ORION</span>
+          </a>
+          <p style="font-size: 0.875rem; color: var(--text-muted); max-width: 280px; line-height: 1.6; margin-bottom: 20px;">
+            Autonomous scientific intelligence platform turning complex cross-domain data into actionable discoveries.
+          </p>
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            ALL SYSTEMS OPERATIONAL
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Research</div>
+          <ul class="footer-links">
+            <li><a href="#papers" class="footer-link">Preprint Index</a></li>
+            <li><a href="#papers" class="footer-link">Methodologies</a></li>
+            <li><a href="#intelligence" class="footer-link">Citation Graph</a></li>
+            <li><a href="#radar" class="footer-link">Trend Radar</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <ul class="footer-links">
+            <li><a href="#platform" class="footer-link">Synthesis Studio</a></li>
+            <li><a href="#intelligence" class="footer-link">Knowledge Spine</a></li>
+            <li><a href="#pricing" class="footer-link">Pricing Tiers</a></li>
+            <li><a href="#resources" class="footer-link">API & SDKs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Resources</div>
+          <ul class="footer-links">
+            <li><a href="#resources" class="footer-link">Research Library</a></li>
+            <li><a href="#resources" class="footer-link">Whitepapers</a></li>
+            <li><a href="#resources" class="footer-link">Changelog v4.2</a></li>
+            <li><a href="#company" class="footer-link">Security Whitepaper</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="#company" class="footer-link">About Us</a></li>
+            <li><a href="#company" class="footer-link">Mission & Ethics</a></li>
+            <li><a href="#company" class="footer-link">Careers</a></li>
+            <li><a href="#company" class="footer-link">Legal & Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 ORION Intelligence Technologies Inc. All rights reserved.</div>
+        <div class="mono" style="font-size: 0.75rem;">
+          SYSTEM: v4.2.8-STABLE &bull; LATENCY: 0.084ms
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       MODALS: AUTH & PAPER PREVIEW
+       ========================================================================== -->
+  <!-- Auth Modal -->
+  <div class="modal-overlay" id="authModal" onclick="closeAuthModal(event)">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeAuthModalDirect()" aria-label="Close Modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div class="section-eyebrow" id="authModalEyebrow">ORION ACCESS PORTAL</div>
+      <h3 id="authModalTitle" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 8px;">Sign in to ORION</h3>
+      <p id="authModalSubtitle" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 24px;">
+        Access institutional literature syntheses and collaborative graphs.
+      </p>
+
+      <form onsubmit="handleAuthSubmit(event)">
+        <label style="display: block; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 6px;" class="mono">Institutional Email</label>
+        <input type="email" required placeholder="researcher@institution.edu" class="modal-input-field">
+        
+        <label style="display: block; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 6px;" class="mono">Access Key or Password</label>
+        <input type="password" required placeholder="••••••••••••" class="modal-input-field">
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;" id="authSubmitBtn">Continue to Platform</button>
+      </form>
+      <div id="authSuccessMsg" style="display: none; color: var(--accent-emerald); font-size: 0.875rem; margin-top: 16px; text-align: center;">
+        ✓ Authenticating credentials... Redirecting to console.
+      </div>
+    </div>
+  </div>
+
+  <!-- Research Paper Abstract Modal -->
+  <div class="modal-overlay" id="paperModal" onclick="closePaperModal(event)">
+    <div class="modal-card paper-modal-card">
+      <button class="modal-close-btn" onclick="closePaperModalDirect()" aria-label="Close Paper Preview">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <span class="paper-badge badge-ai" id="modalPaperBadge" style="margin-bottom: 12px; display: inline-block;">AI &bull; BIOLOGY</span>
+      <h3 id="modalPaperTitle" style="font-size: 1.5rem; font-weight: 700; line-height: 1.3; margin-bottom: 8px;">
+        Multimodal Diffusion Bridges for Large-Scale Molecular Dynamics
+      </h3>
+      <p id="modalPaperAuthors" style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">
+        Dr. Chen Wei, Dr. Elena Rostova, K. Larsson et al.
+      </p>
+      
+      <div style="background: rgba(6, 8, 13, 0.7); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;">
+        <h4 style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 6px;" class="mono">Abstract & Synthesis</h4>
+        <p id="modalPaperAbstract" style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6;">
+          We present a discrete-time continuous score matching approach that constructs continuous diffusion bridges between quantum ab initio energy surfaces and coarse-grained macromolecular trajectories. Empirical validations across 14 protein folding benchmarks demonstrate a 40x acceleration over traditional molecular dynamics solvers.
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <span class="mono" id="modalPaperDoi" style="font-size: 0.8125rem; color: var(--text-muted);">DOI: 10.1038/s41586-026-9</span>
+        <button class="btn btn-primary btn-sm" onclick="alert('Downloading verified publication PDF & synthesis manifest...')">Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       VANILLA JAVASCRIPT LOGIC
+       ========================================================================== -->
+  <script>
+    // Header Scroll Effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('mainHeader');
+      if (window.scrollY > 20) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile Navigation Drawer Toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+
+    function toggleMobileMenu() {
+      mobileDrawer.classList.toggle('open');
+    }
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    }
+
+    // Hero Graph Node Hover Details
+    function updateHeroBadge(title, desc) {
+      const badgeTitle = document.getElementById('badgeTitleText');
+      const badgeDesc = document.getElementById('badgeDescText');
+      if (badgeTitle && badgeDesc) {
+        badgeTitle.textContent = title;
+        badgeDesc.textContent = desc;
+      }
+    }
+
+    // Interactive Search Logic
+    const searchDatabase = {
+      'climate technology': {
+        title: 'Query: Climate Technology & Atmospheric Modeling',
+        confidence: '99.1% Confidence',
+        summary: 'Cross-analysis of 840 recent geophysical publications reveals rapid breakthroughs in AI-accelerated convective cloud parameterizations and non-equilibrium oceanic carbon sequestration kinetics.',
+        vectors: [
+          '• Neural parameterization reduces global atmospheric fluid dynamics compute by 850x.',
+          '• Direct-air mineral carbonation reactions show 3.4x rate acceleration with acoustic catalysts.',
+          '• High-resolution satellite methane plume detection enables instantaneous point-source regulation.'
+        ]
+      },
+      'quantum computing': {
+        title: 'Query: Topological Quantum Error Suppression',
+        confidence: '97.8% Confidence',
+        summary: 'Synthesized telemetry across cryogenic dilution arrays confirms that continuous-variable surface code braided lattices have achieved error thresholds below 10^-4 per logical gate.',
+        vectors: [
+          '• Surface code distance d=7 logical memory lifetimes exceed physical coherence by 4.2x.',
+          '• On-chip cryogenic CMOS pulse generators reduce thermal parasitic loads to 0.4mW.',
+          '• High-fidelity 2-qubit swap operations benchmarked at 99.94% fidelity.'
+        ]
+      },
+      'ai infrastructure': {
+        title: 'Query: AI Infrastructure & Optical Interconnects',
+        confidence: '98.4% Confidence',
+        summary: 'Cross-disciplinary correlation across 1,480 recent peer-reviewed preprints indicates an exponential migration toward disaggregated optical interconnects and wafer-scale neuromorphic architectures.',
+        vectors: [
+          '• Photonic switching reduces inter-pod latency from 450ns to 32ns.',
+          '• Grid-scale power provisioning bottlenecks drive co-located nuclear SMR deployments.',
+          '• 4-bit floating point algorithmic quantization reaches parity with FP16 baseline.'
+        ]
+      },
+      'synthetic biology': {
+        title: 'Query: Synthetic Biology & De Novo Biocatalysts',
+        confidence: '99.4% Confidence',
+        summary: 'Generative diffusion models conditioning on active site geometry have produced 14 novel enzyme classes capable of degrading halogenated PFAS compounds at room temperature.',
+        vectors: [
+          '• Enzyme catalytic turnover rates optimized to kcat/Km > 10^5 M^-1 s^-1.',
+          '• Orthogonal tRNA synthetase pairs enable incorporation of 6 non-canonical amino acids in vivo.',
+          '• Microfluidic droplet screening throughput reaches 10^7 variants per hour.'
+        ]
+      }
+    };
+
+    function handleSearchSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('searchInput');
+      const query = input.value.trim().toLowerCase();
+      if (!query) return;
+      renderSearchResult(query);
+    }
+
+    function triggerSearchTag(tagText) {
+      const input = document.getElementById('searchInput');
+      input.value = tagText;
+      renderSearchResult(tagText.toLowerCase());
+    }
+
+    function renderSearchResult(query) {
+      const area = document.getElementById('searchResultsArea');
+      const titleEl = document.getElementById('dossierQueryTitle');
+      const confEl = document.getElementById('dossierConfidenceScore');
+      const sumEl = document.getElementById('dossierSummary');
+      const vecList = document.getElementById('dossierVectorsList');
+
+      let data = searchDatabase[query];
+      if (!data) {
+        // Fallback dynamic generator for arbitrary queries
+        data = {
+          title: 'Synthesized Intelligence: ' + query.toUpperCase(),
+          confidence: '96.2% Confidence',
+          summary: 'ORION traversed 3,120 graph vectors across relevant publications. Emergent patterns indicate rapid consolidation around cross-modal transformer reasoning and automated experimental validation in this field.',
+          vectors: [
+            '• High-density semantic clustering observed across 38 recent preprints.',
+            '• Multimodal transfer benchmarks indicate a +28% YoY increase in citation velocity.',
+            '• Identified 4 key patent portfolios held by academic research institutions.'
+          ]
+        };
+      }
+
+      titleEl.textContent = data.title;
+      confEl.textContent = data.confidence;
+      sumEl.textContent = data.summary;
+
+      vecList.innerHTML = '';
+      data.vectors.forEach(v => {
+        const li = document.createElement('li');
+        li.textContent = v;
+        vecList.appendChild(li);
+      });
+
+      area.classList.add('active');
+      area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // AI Analysis Topic Switcher Data
+    const analysisData = {
+      ai_infra: {
+        headline: 'Artificial Intelligence Infrastructure',
+        desc: 'Global compute infrastructure is facing an energy-density bottleneck. The integration of high-bandwidth optical fabrics and on-die microfluidic cooling is emerging as the critical enabler for next-generation frontier training runs.',
+        growth: '+34%',
+        trends: '12',
+        papers: '248',
+        consensus: '94.8%',
+        topics: ['GPU Computing', 'Energy Grid', 'Data Centers', 'Semiconductors', 'Optical Switching'],
+        center: 'AI INFRA'
+      },
+      genomics: {
+        headline: 'Genomic Foundation Models',
+        desc: 'Self-supervised representation learning over pan-genomic sequencing datasets is enabling zero-shot prediction of non-coding variant pathogenicity and generative design of therapeutic antibodies.',
+        growth: '+52%',
+        trends: '19',
+        papers: '412',
+        consensus: '98.2%',
+        topics: ['Protein Folding', 'CRISPR Target Discovery', 'Structural Biology', 'Synthetic Epigenetics'],
+        center: 'GENOMICS'
+      },
+      fusion: {
+        headline: 'Fusion Energy Dynamics',
+        desc: 'High-temperature superconducting magnets coupled with real-time reinforcement learning for plasma equilibrium are driving commercial net-energy timelines ahead by multiple years.',
+        growth: '+41%',
+        trends: '8',
+        papers: '164',
+        consensus: '91.4%',
+        topics: ['Tokamak Confinement', 'Liquid Lithium Walls', 'Plasma Diagnostics', 'Superconductors'],
+        center: 'FUSION'
+      },
+      silicon: {
+        headline: 'Neuromorphic Silicon',
+        desc: 'Event-driven spiking neural architectures fabricated on 3nm hybrid complementary processes demonstrate 100x efficiency gains for edge robotics and always-on perceptual workloads.',
+        growth: '+27%',
+        trends: '15',
+        papers: '198',
+        consensus: '89.6%',
+        topics: ['Spiking Neurons', 'Resistive RAM', 'Event Cameras', 'Edge Inferencing'],
+        center: 'SILICON'
+      }
+    };
+
+    function switchAnalysisTopic(key, btn) {
+      document.querySelectorAll('.studio-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const data = analysisData[key];
+      if (!data) return;
+
+      document.getElementById('analysisHeadline').textContent = data.headline;
+      document.getElementById('analysisDesc').textContent = data.desc;
+      document.getElementById('metricGrowth').textContent = data.growth;
+      document.getElementById('metricTrends').textContent = data.trends;
+      document.getElementById('metricPapers').textContent = data.papers;
+      document.getElementById('metricConsensus').textContent = data.consensus;
+
+      const topicsContainer = document.getElementById('analysisRelatedTopics');
+      topicsContainer.innerHTML = '';
+      data.topics.forEach(t => {
+        const span = document.createElement('span');
+        span.className = 'topic-pill';
+        span.textContent = t;
+        topicsContainer.appendChild(span);
+      });
+
+      const centerText = document.getElementById('svgCenterText');
+      if (centerText) centerText.textContent = data.center;
+    }
+
+    // Knowledge Graph Filters & Inspector Drawer
+    function filterGraph(category, btn) {
+      document.querySelectorAll('.kg-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const allNodes = document.querySelectorAll('#fullKgSvg .graph-node');
+      if (category === 'all') {
+        allNodes.forEach(n => n.style.opacity = '1');
+      } else {
+        allNodes.forEach(n => {
+          if (n.classList.contains('node-group-' + category)) {
+            n.style.opacity = '1';
+          } else {
+            n.style.opacity = '0.15';
+          }
+        });
+      }
+    }
+
+    function selectKgNode(title, desc, category) {
+      const drawer = document.getElementById('kgDrawer');
+      const catEl = document.getElementById('kgDrawerCategory');
+      const titleEl = document.getElementById('kgDrawerTitle');
+      const descEl = document.getElementById('kgDrawerDesc');
+
+      if (catEl) catEl.textContent = category;
+      if (titleEl) titleEl.textContent = title;
+      if (descEl) descEl.textContent = desc;
+
+      drawer.style.transform = 'scale(1.02)';
+      setTimeout(() => { drawer.style.transform = 'scale(1)'; }, 150);
+    }
+
+    // Research Papers Filtering
+    const papersData = [
+      {
+        title: 'Multimodal Diffusion Bridges for Large-Scale Molecular Dynamics',
+        authors: 'Dr. Chen Wei, Dr. Elena Rostova, K. Larsson et al.',
+        badge: 'AI • BIOLOGY',
+        doi: 'DOI: 10.1038/s41586-026-9',
+        abstract: 'We present a discrete-time continuous score matching approach that constructs continuous diffusion bridges between quantum ab initio energy surfaces and coarse-grained macromolecular trajectories. Empirical validations across 14 protein folding benchmarks demonstrate a 40x acceleration over traditional molecular dynamics solvers.'
+      },
+      {
+        title: 'Topological Quantum Error Suppression in Superconducting Qubit Arrays',
+        authors: 'Dr. Aris Thorne, J. Vance, S. Al-Mansoor',
+        badge: 'SCIENCE',
+        doi: 'DOI: 10.1103/PhysRevX.16.03',
+        abstract: 'Demonstration of fault-tolerant surface code architectures on a 128-qubit superconducting planar processor. Real-time neural syndrome decoding maintains logical fidelity over 10^6 clock cycles without error cascade.'
+      },
+      {
+        title: 'Sub-Nanosecond Photonic Interconnects for Distributed Neural Clusters',
+        authors: 'T. Lindqvist, Dr. Priya Sharma, M. DuPont',
+        badge: 'TECHNOLOGY • AI',
+        doi: 'DOI: 10.1145/3618485.3620',
+        abstract: 'Investigation of co-packaged silicon-photonic transceiver arrays integrated directly onto multi-die neural compute packages. All-to-all communication latency is cut to 32ns while consuming less than 1.2pJ per transferred bit.'
+      },
+      {
+        title: 'High-Temperature Plasma Confinement Optimization via Reinforcement Learning',
+        authors: 'Dr. Marcus Vance, E. Takahashi, H. Benali',
+        badge: 'ENERGY',
+        doi: 'DOI: 10.1088/1741-4326/ad4',
+        abstract: 'Autonomous deep reinforcement learning agents orchestrating magnetic coil actuator voltages at 10kHz frequencies to mitigate tearing modes in negative triangularity tokamak configurations.'
+      },
+      {
+        title: 'De Novo Protein Folding Architecture with Ultra-Sparse Graph Attention',
+        authors: 'Dr. Elena Rostova, L. Zhang, D. Morales',
+        badge: 'BIOLOGY',
+        doi: 'DOI: 10.1016/j.cell.2026.05',
+        abstract: 'A sparse topological attention network capable of folding multimers exceeding 5,000 amino acid residues with atomic precision while reducing memory complexity from quadratic to O(N log N).'
+      },
+      {
+        title: 'Autonomous Scientific Discovery Agents in High-Throughput Chemistry',
+        authors: 'Dr. Sarah Jenkins, A. Novak, P. Gomez',
+        badge: 'AI • SCIENCE',
+        doi: 'DOI: 10.1021/jacs.6c08921',
+        abstract: 'Closed-loop laboratory execution where generative models autonomously propose, synthesize, and assay novel organocatalytic reactions, generating 84 validated candidates without human intervention.'
+      },
+      {
+        title: 'Grid-Scale Iron-Air Electrochemical Storage Thermodynamics',
+        authors: 'K. O\'Connor, Dr. Marcus Vance, S. Roy',
+        badge: 'ENERGY • TECH',
+        doi: 'DOI: 10.1039/D6EE01428A',
+        abstract: 'Thermodynamic optimization of reversible iron-air multi-day energy storage systems, achieving levelized storage costs below $20/MWh with zero critical rare-earth elements.'
+      },
+      {
+        title: 'Zero-Shot Cross-Lingual Knowledge Synthesis across Non-Corpus Archives',
+        authors: 'Dr. Chen Wei, F. Al-Hassan, M. Schmidt',
+        badge: 'AI',
+        doi: 'DOI: 10.18653/v1/2026.acl',
+        abstract: 'Representation mapping across 40 distinct languages to synthesize historical patent and scientific archives without aligned parallel training text, recovering over 120,000 forgotten prior-art concepts.'
+      }
+    ];
+
+    function filterPapers(category, btn) {
+      document.querySelectorAll('.paper-filter-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.paper-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function openPaperModal(index) {
+      const data = papersData[index];
+      if (!data) return;
+
+      document.getElementById('modalPaperTitle').textContent = data.title;
+      document.getElementById('modalPaperAuthors').textContent = data.authors;
+      document.getElementById('modalPaperBadge').textContent = data.badge;
+      document.getElementById('modalPaperDoi').textContent = data.doi;
+      document.getElementById('modalPaperAbstract').textContent = data.abstract;
+
+      const modal = document.getElementById('paperModal');
+      modal.classList.add('active');
+    }
+
+    function closePaperModal(e) {
+      if (e.target.id === 'paperModal') {
+        closePaperModalDirect();
+      }
+    }
+
+    function closePaperModalDirect() {
+      document.getElementById('paperModal').classList.remove('active');
+    }
+
+    // Billing Toggle (-20% discount on Annual)
+    function setBillingPeriod(period) {
+      const btnM = document.getElementById('btnMonthly');
+      const btnA = document.getElementById('btnAnnual');
+      const pricePro = document.getElementById('pricePro');
+      const periodPro = document.getElementById('periodPro');
+      const priceRes = document.getElementById('priceResearch');
+      const periodRes = document.getElementById('periodResearch');
+
+      if (period === 'annual') {
+        btnA.classList.add('active');
+        btnM.classList.remove('active');
+        pricePro.textContent = '$31';
+        periodPro.textContent = '/ mo (billed $372/yr)';
+        priceRes.textContent = '$79';
+        periodRes.textContent = '/ mo (billed $948/yr)';
+      } else {
+        btnM.classList.add('active');
+        btnA.classList.remove('active');
+        pricePro.textContent = '$39';
+        periodPro.textContent = '/ month';
+        priceRes.textContent = '$99';
+        periodRes.textContent = '/ month';
+      }
+    }
+
+    // Newsletter Submission
+    function handleNewsletterSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('newsletterEmail');
+      const feedback = document.getElementById('newsletterFeedback');
+      const email = input.value.trim();
+
+      if (email) {
+        feedback.className = 'newsletter-feedback success';
+        feedback.textContent = '✓ Subscribed: Verified dispatch set to ' + email;
+        input.value = '';
+      }
+    }
+
+    // Authentication Modal
+    function openAuthModal(mode) {
+      const modal = document.getElementById('authModal');
+      const title = document.getElementById('authModalTitle');
+      const eyebrow = document.getElementById('authModalEyebrow');
+      const btn = document.getElementById('authSubmitBtn');
+
+      if (mode === 'signup') {
+        eyebrow.textContent = 'EXPLORE ORION INTELLIGENCE';
+        title.textContent = 'Create Research Account';
+        btn.textContent = 'Start Free Exploration';
+      } else {
+        eyebrow.textContent = 'ORION ACCESS PORTAL';
+        title.textContent = 'Sign in to ORION';
+        btn.textContent = 'Continue to Platform';
+      }
+
+      modal.classList.add('active');
+    }
+
+    function closeAuthModal(e) {
+      if (e.target.id === 'authModal') {
+        closeAuthModalDirect();
+      }
+    }
+
+    function closeAuthModalDirect() {
+      document.getElementById('authModal').classList.remove('active');
+      document.getElementById('authSuccessMsg').style.display = 'none';
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const msg = document.getElementById('authSuccessMsg');
+      msg.style.display = 'block';
+      setTimeout(() => {
+        closeAuthModalDirect();
+      }, 1200);
+    }
+
+    // Keyboard Shortcuts (Esc to close modal, Cmd+K / Ctrl+K to search)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAuthModalDirect();
+        closePaperModalDirect();
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+          searchInput.focus();
+          searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
