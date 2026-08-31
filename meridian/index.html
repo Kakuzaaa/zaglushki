@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Meridian — платформа для синхронизации команд и данных в реальном времени." />
+  <title>Meridian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep: #07131f;
+      --bg-mid: #0c1f33;
+      --ink: #e8f0f7;
+      --muted: #8fa6bc;
+      --accent: #3ecfbf;
+      --accent-soft: rgba(62, 207, 191, 0.14);
+      --line: rgba(232, 240, 247, 0.1);
+      --glow: rgba(62, 207, 191, 0.35);
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Sora", "Segoe UI", sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--bg-deep);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+      background: none;
+      color: inherit;
+    }
+
+    /* Atmosphere — pure CSS, no images */
+    .sky {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 90% 60% at 70% -10%, rgba(62, 207, 191, 0.18), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 10% 20%, rgba(56, 120, 190, 0.22), transparent 50%),
+        radial-gradient(ellipse 60% 40% at 85% 80%, rgba(20, 70, 110, 0.35), transparent 55%),
+        linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-mid) 45%, #061018 100%);
+    }
+
+    .grid {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 75%);
+      opacity: 0.45;
+      animation: grid-drift 28s linear infinite;
+    }
+
+    .orb {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: -1;
+      pointer-events: none;
+      animation: orb-float 16s ease-in-out infinite;
+    }
+
+    .orb--a {
+      top: -80px;
+      right: 8%;
+      background: #1a6b7a;
+    }
+
+    .orb--b {
+      bottom: 5%;
+      left: -60px;
+      width: 320px;
+      height: 320px;
+      background: #143a6b;
+      animation-delay: -7s;
+      animation-duration: 22s;
+    }
+
+    @keyframes grid-drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(64px); }
+    }
+
+    @keyframes orb-float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-24px, 30px) scale(1.08); }
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(0.92); opacity: 0.7; }
+      70% { transform: scale(1.25); opacity: 0; }
+      100% { transform: scale(1.25); opacity: 0; }
+    }
+
+    @keyframes dash {
+      to { stroke-dashoffset: -240; }
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    /* Header */
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 0;
+      animation: rise 0.7s ease both;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      font-size: 1.05rem;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+    }
+
+    .brand-mark svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .nav {
+      display: none;
+      gap: 1.75rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .nav a {
+      transition: color 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+    }
+
+    .top-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .link-quiet {
+      display: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .link-quiet:hover {
+      color: var(--ink);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.7rem 1.15rem;
+      border-radius: 0.55rem;
+      font-weight: 500;
+      font-size: 0.92rem;
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #04222a;
+      box-shadow: 0 0 0 1px rgba(62, 207, 191, 0.3), 0 10px 30px -12px var(--glow);
+    }
+
+    .btn-primary:hover {
+      background: #55dbc9;
+      box-shadow: 0 0 0 1px rgba(62, 207, 191, 0.45), 0 14px 36px -10px var(--glow);
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--ink);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(232, 240, 247, 0.22);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Hero — one composition */
+    .hero {
+      display: grid;
+      align-items: end;
+      min-height: calc(100vh - 5.5rem);
+      padding: 2rem 0 3.5rem;
+      gap: 2.5rem;
+    }
+
+    .hero-copy {
+      max-width: 34rem;
+      animation: rise 0.8s 0.1s ease both;
+    }
+
+    .brand-hero {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 9vw, 5.6rem);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin-bottom: 1.35rem;
+    }
+
+    .brand-hero span {
+      color: var(--accent);
+    }
+
+    .headline {
+      font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+      margin-bottom: 0.85rem;
+      max-width: 22ch;
+    }
+
+    .lede {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 36ch;
+      margin-bottom: 1.75rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .status-dot {
+      position: relative;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--glow);
+    }
+
+    .status-dot::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--accent);
+      animation: pulse-ring 2.2s ease-out infinite;
+    }
+
+    /* Visual plane — full-bleed feel via SVG panel */
+    .hero-visual {
+      position: relative;
+      min-height: 280px;
+      animation: rise 0.9s 0.2s ease both;
+    }
+
+    .panel {
+      position: relative;
+      height: 100%;
+      min-height: 280px;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.04), transparent 40%),
+        rgba(8, 22, 36, 0.72);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+      box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.8);
+    }
+
+    .panel-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(232, 240, 247, 0.2);
+    }
+
+    .dot:nth-child(1) { background: #e07a6a; }
+    .dot:nth-child(2) { background: #d4b25a; }
+    .dot:nth-child(3) { background: #5bbf8a; }
+
+    .panel-label {
+      margin-left: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .panel-body {
+      padding: 1.25rem 1.1rem 1.4rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+    }
+
+    .metric {
+      padding: 0.75rem 0.7rem;
+      border-radius: 0.55rem;
+      background: var(--accent-soft);
+      border: 1px solid rgba(62, 207, 191, 0.12);
+    }
+
+    .metric-k {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .metric-v {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .chart {
+      width: 100%;
+      height: 120px;
+    }
+
+    .chart path {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: 8 6;
+      animation: dash 12s linear infinite;
+    }
+
+    .chart .fill {
+      stroke: none;
+      fill: url(#areaFill);
+      opacity: 0.9;
+      animation: none;
+    }
+
+    .stream {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .stream-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.55rem 0.65rem;
+      border-radius: 0.45rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .stream-item strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 0.3rem;
+      background: rgba(62, 207, 191, 0.12);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* Below fold — one job */
+    .section {
+      padding: 4.5rem 0 5rem;
+      border-top: 1px solid var(--line);
+      animation: rise 0.8s 0.35s ease both;
+    }
+
+    .section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.65rem;
+      max-width: 18ch;
+    }
+
+    .section p {
+      color: var(--muted);
+      max-width: 42ch;
+      margin-bottom: 2rem;
+    }
+
+    .features {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .feature {
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .feature h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.35rem;
+    }
+
+    .feature p {
+      margin: 0;
+      font-size: 0.92rem;
+    }
+
+    .foot {
+      padding: 1.5rem 0 2.5rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* Modal-ish form overlay — lightweight fake interactivity */
+    dialog {
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 0;
+      background: #0a1a2a;
+      color: var(--ink);
+      width: min(400px, calc(100% - 2rem));
+      box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.7);
+    }
+
+    dialog::backdrop {
+      background: rgba(3, 10, 18, 0.72);
+      backdrop-filter: blur(4px);
+    }
+
+    .dialog-inner {
+      padding: 1.5rem;
+    }
+
+    .dialog-inner h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+
+    .dialog-inner p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.35rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .field label {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .field input {
+      font: inherit;
+      padding: 0.7rem 0.8rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: rgba(62, 207, 191, 0.55);
+      box-shadow: 0 0 0 3px rgba(62, 207, 191, 0.12);
+    }
+
+    .dialog-actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 1.1rem;
+    }
+
+    .dialog-actions .btn {
+      flex: 1;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1.5rem;
+      transform: translateX(-50%) translateY(120%);
+      padding: 0.75rem 1.1rem;
+      border-radius: 0.55rem;
+      background: #123043;
+      border: 1px solid rgba(62, 207, 191, 0.35);
+      color: var(--ink);
+      font-size: 0.88rem;
+      box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.8);
+      transition: transform 0.35s ease;
+      z-index: 40;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (min-width: 720px) {
+      .nav,
+      .link-quiet {
+        display: flex;
+      }
+
+      .hero {
+        grid-template-columns: 1fr 1.05fr;
+        align-items: center;
+        gap: 3rem;
+        padding-top: 1rem;
+      }
+
+      .hero-visual {
+        min-height: 420px;
+      }
+
+      .panel {
+        min-height: 420px;
+      }
+
+      .panel-body {
+        padding: 1.5rem;
+        gap: 1.25rem;
+      }
+
+      .chart {
+        height: 150px;
+      }
+
+      .features {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .feature {
+        border-top: 0;
+        padding-top: 0;
+        border-left: 1px solid var(--line);
+        padding-left: 1.5rem;
+      }
+
+      .feature:first-child {
+        border-left: 0;
+        padding-left: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
+  <div class="orb orb--a" aria-hidden="true"></div>
+  <div class="orb orb--b" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="#" aria-label="Meridian — на главную">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="12.5" stroke="#3ecfbf" stroke-width="1.5" opacity="0.35"/>
+            <path d="M7 18.5L14 7l7 11.5" stroke="#3ecfbf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="14" cy="15.5" r="2.2" fill="#3ecfbf"/>
+          </svg>
+        </span>
+        Meridian
+      </a>
+      <nav class="nav" aria-label="Основное">
+        <a href="#product">Продукт</a>
+        <a href="#product">Решения</a>
+        <a href="#product">Документация</a>
+      </nav>
+      <div class="top-cta">
+        <a class="link-quiet" href="#product">Войти</a>
+        <button class="btn btn-primary" type="button" data-open-dialog>Начать</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="brand-title">
+        <div class="hero-copy">
+          <h1 class="brand-hero" id="brand-title">Meridian<span>.</span></h1>
+          <p class="headline">Операционный слой для команд, которым важна скорость решений.</p>
+          <p class="lede">Синхронизируйте сигналы, статусы и ответственность в одном потоке — без шума и лишних переключений.</p>
+          <div class="cta-row">
+            <button class="btn btn-primary" type="button" data-open-dialog>Открыть доступ</button>
+            <a class="btn btn-ghost" href="#product">Как это устроено</a>
+          </div>
+          <p class="status">
+            <span class="status-dot" aria-hidden="true"></span>
+            Система доступна · latency &lt; 40&nbsp;ms
+          </p>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="panel">
+            <div class="panel-bar">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="panel-label">live · operations graph</span>
+            </div>
+            <div class="panel-body">
+              <div class="metric-row">
+                <div class="metric">
+                  <div class="metric-k">Throughput</div>
+                  <div class="metric-v">12.4k</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-k">Sync</div>
+                  <div class="metric-v">99.98%</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-k">Queue</div>
+                  <div class="metric-v">0.3s</div>
+                </div>
+              </div>
+              <svg class="chart" viewBox="0 0 400 120" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#3ecfbf" stop-opacity="0.28"/>
+                    <stop offset="100%" stop-color="#3ecfbf" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path class="fill" d="M0,90 C40,80 60,50 100,55 C140,60 160,95 200,70 C240,45 260,30 300,40 C340,50 360,75 400,48 L400,120 L0,120 Z"/>
+                <path d="M0,90 C40,80 60,50 100,55 C140,60 160,95 200,70 C240,45 260,30 300,40 C340,50 360,75 400,48"/>
+              </svg>
+              <div class="stream">
+                <div class="stream-item">
+                  <span><strong>region-eu</strong> · handshake confirmed</span>
+                  <span class="tag">ok</span>
+                </div>
+                <div class="stream-item">
+                  <span><strong>pipeline/42</strong> · batch reconciled</span>
+                  <span class="tag">sync</span>
+                </div>
+                <div class="stream-item">
+                  <span><strong>watchdog</strong> · anomaly cleared</span>
+                  <span class="tag">clear</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="product">
+        <h2>Один контур. Полная ясность.</h2>
+        <p>Meridian собирает события, роли и приоритеты в непрерывный поток — чтобы команда видела картину целиком, а не куски в чатах.</p>
+        <div class="features">
+          <article class="feature">
+            <h3>Живой контекст</h3>
+            <p>Сигналы обновляются по мере изменений — без ручного обновления дашбордов и лишних опросов.</p>
+          </article>
+          <article class="feature">
+            <h3>Чёткие владельцы</h3>
+            <p>Каждый поток закреплён за ролью: понятно, кто отвечает и где сейчас узкое место.</p>
+          </article>
+          <article class="feature">
+            <h3>Тихая доставка</h3>
+            <p>Только значимые события доходят до людей. Остальное остаётся в фоне системы.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>© 2026 Meridian Systems</span>
+      <span>Статус сервиса: operational</span>
+    </footer>
+  </div>
+
+  <dialog id="access-dialog" aria-labelledby="dialog-title">
+    <form class="dialog-inner" method="dialog" id="access-form">
+      <h2 id="dialog-title">Ранний доступ</h2>
+      <p>Оставьте контакты — пришлём приглашение, когда откроется слот.</p>
+      <div class="field">
+        <label for="email">Рабочая почта</label>
+        <input id="email" name="email" type="email" placeholder="you@company.com" required autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="company">Компания</label>
+        <input id="company" name="company" type="text" placeholder="Acme Ops" autocomplete="organization" />
+      </div>
+      <div class="dialog-actions">
+        <button class="btn btn-ghost" type="submit" value="cancel">Закрыть</button>
+        <button class="btn btn-primary" type="submit" value="ok">Отправить</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Заявка принята. Мы напишем вам.</div>
+
+  <script>
+    (function () {
+      var dialog = document.getElementById("access-dialog");
+      var form = document.getElementById("access-form");
+      var toast = document.getElementById("toast");
+      var openers = document.querySelectorAll("[data-open-dialog]");
+      var toastTimer;
+
+      for (var i = 0; i < openers.length; i++) {
+        openers[i].addEventListener("click", function () {
+          if (typeof dialog.showModal === "function") {
+            dialog.showModal();
+          }
+        });
+      }
+
+      form.addEventListener("submit", function (e) {
+        var submitter = e.submitter;
+        if (submitter && submitter.value === "ok") {
+          e.preventDefault();
+          if (!form.reportValidity()) return;
+          dialog.close();
+          form.reset();
+          toast.classList.add("show");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function () {
+            toast.classList.remove("show");
+          }, 2800);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
