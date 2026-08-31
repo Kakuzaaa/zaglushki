@@ -1,0 +1,4466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FAF7F2">
+  <meta name="description" content="AURELIA — Haute Voyage & Private Aviation. Curated journeys, private islands, alpine sanctuaries, and bespoke travel concierge designed around you.">
+  <meta property="og:title" content="AURELIA — Bespoke Luxury Travel & Private Aviation">
+  <meta property="og:description" content="Curated journeys, extraordinary places, and bespoke travel experiences designed around you.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AURELIA">
+  <title>AURELIA — Haute Voyage & Private Aviation Concierge</title>
+  
+  <!-- Inline SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23171513'/%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='%23C29B38' stroke-width='1.5' stroke-dasharray='3 2'/%3E%3Cpath d='M32 12 L35 24 L47 27 L37 34 L40 46 L32 38 L24 46 L27 34 L17 27 L29 24 Z' fill='%23C29B38' opacity='0.25'/%3E%3Ctext x='32' y='42' font-family='Georgia, serif' font-size='28' font-weight='bold' fill='%23FAF7F2' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+
+  <style>
+    /* ==========================================================================
+       AURELIA LUXURY DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-primary: #FAF7F2;
+      --bg-secondary: #F3ECE1;
+      --bg-tertiary: #E8DFC8;
+      --bg-card: #FFFFFF;
+      --bg-card-subtle: rgba(255, 255, 255, 0.85);
+      --bg-dark: #171513;
+      --bg-dark-card: #221F1C;
+      --bg-dark-accent: #2C2824;
+      
+      --text-primary: #1A1816;
+      --text-secondary: #5A534B;
+      --text-muted: #8C8276;
+      --text-light: #FAF7F2;
+      --text-light-muted: #BFB5A6;
+
+      --accent-gold: #C29B38;
+      --accent-gold-light: #E0C37B;
+      --accent-gold-dark: #967420;
+      --accent-gold-glow: rgba(194, 155, 56, 0.15);
+      --accent-gold-subtle: rgba(194, 155, 56, 0.08);
+
+      --border-subtle: rgba(26, 24, 22, 0.08);
+      --border-medium: rgba(26, 24, 22, 0.16);
+      --border-gold: rgba(194, 155, 56, 0.35);
+      --border-dark: rgba(250, 247, 242, 0.12);
+
+      --shadow-sm: 0 2px 10px rgba(26, 24, 22, 0.04);
+      --shadow-md: 0 12px 36px rgba(26, 24, 22, 0.06);
+      --shadow-lg: 0 24px 64px rgba(26, 24, 22, 0.09);
+      --shadow-gold: 0 10px 30px rgba(194, 155, 56, 0.2);
+
+      --font-serif: "Didot", "Bodoni MT", "Cinzel", "Playfair Display", "Times New Roman", Georgia, serif;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+
+      --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-base: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-fast: 0.15s ease-out;
+
+      --container-max: 1360px;
+      --container-narrow: 920px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background-color: var(--accent-gold-light);
+      color: var(--bg-dark);
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition-base);
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .eyebrow {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-weight: 600;
+      color: var(--accent-gold-dark);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .eyebrow::before, .eyebrow::after {
+      content: "";
+      display: inline-block;
+      width: 18px;
+      height: 1px;
+      background: var(--accent-gold);
+    }
+
+    .eyebrow-simple {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      color: var(--accent-gold-dark);
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      line-height: 1.15;
+      font-weight: normal;
+      color: var(--text-primary);
+      margin-top: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 640px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .section-spacing {
+      padding-top: clamp(4.5rem, 8vw, 8rem);
+      padding-bottom: clamp(4.5rem, 8vw, 8rem);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      padding: 0.95rem 1.9rem;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-base);
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      border: 1px solid var(--bg-dark);
+    }
+
+    .btn-primary:hover {
+      background-color: #2D2823;
+      border-color: #2D2823;
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold-light) 0%, var(--accent-gold) 100%);
+      color: #171513;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #ECCF8A 0%, var(--accent-gold-dark) 100%);
+      box-shadow: var(--shadow-gold);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-medium);
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(26, 24, 22, 0.04);
+      border-color: var(--text-primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-text {
+      padding: 0.5rem 0;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 600;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-text::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--accent-gold);
+      transition: transform var(--transition-base);
+      transform-origin: left;
+    }
+
+    .btn-text:hover::after {
+      transform: scaleX(0.7);
+    }
+
+    /* Top Utility Bar */
+    .top-bar {
+      background-color: var(--bg-dark);
+      color: var(--text-light-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .top-bar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .live-time-group {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .live-time-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #48BB78;
+      display: inline-block;
+      box-shadow: 0 0 8px #48BB78;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(250, 247, 242, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all var(--transition-base);
+    }
+
+    .header.scrolled {
+      background-color: rgba(250, 247, 242, 0.98);
+      box-shadow: 0 6px 20px rgba(26, 24, 22, 0.05);
+      border-bottom-color: rgba(194, 155, 56, 0.2);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 86px;
+      transition: height var(--transition-base);
+    }
+
+    .header.scrolled .header-inner {
+      height: 72px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .brand-monogram {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--accent-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(194, 155, 56, 0.12) 0%, transparent 80%);
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      letter-spacing: 0.22em;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .brand-subtitle {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--accent-gold-dark);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 500;
+      color: var(--text-primary);
+      position: relative;
+      padding: 0.4rem 0;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background-color: var(--accent-gold);
+      transition: width var(--transition-base);
+    }
+
+    .nav-link:hover::after, .nav-link.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .btn-sign-in {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding: 0.6rem 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-sign-in:hover {
+      color: var(--accent-gold-dark);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      background: transparent;
+      z-index: 102;
+    }
+
+    .menu-bar {
+      width: 100%;
+      height: 1.5px;
+      background-color: var(--text-primary);
+      transition: all var(--transition-base);
+      transform-origin: center;
+    }
+
+    .mobile-menu-toggle.active .menu-bar:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg);
+    }
+
+    .mobile-menu-toggle.active .menu-bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-toggle.active .menu-bar:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+    }
+
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: var(--bg-primary);
+      z-index: 101;
+      padding: 6rem 2rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+      overflow-y: auto;
+    }
+
+    .mobile-drawer.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .mobile-nav-link {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      color: var(--text-primary);
+      display: block;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.8rem;
+    }
+
+    .mobile-drawer-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      padding-top: clamp(2rem, 5vw, 4rem);
+      padding-bottom: clamp(4rem, 7vw, 6.5rem);
+      background: radial-gradient(ellipse at 50% 10%, rgba(224, 195, 123, 0.18) 0%, rgba(250, 247, 242, 0) 70%);
+      overflow: hidden;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-edition-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-weight: 600;
+      color: var(--accent-gold-dark);
+      background: rgba(194, 155, 56, 0.08);
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(194, 155, 56, 0.25);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+      line-height: 1.08;
+      font-weight: normal;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      font-family: var(--font-serif);
+      color: var(--accent-gold-dark);
+    }
+
+    .hero-subhead {
+      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero-badges-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .hero-badge-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-badge-num {
+      font-family: var(--font-serif);
+      font-size: 1.7rem;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-badge-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .hero-artwork-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(243,236,225,0.7) 100%);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(194, 155, 56, 0.25);
+    }
+
+    .hero-artwork-frame {
+      border-radius: calc(var(--radius-lg) - 6px);
+      overflow: hidden;
+      position: relative;
+      background-color: #0E1626;
+    }
+
+    .hero-floating-card {
+      position: absolute;
+      bottom: 24px;
+      left: -20px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      padding: 1.1rem 1.4rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(194, 155, 56, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 280px;
+      animation: floatSlow 6s ease-in-out infinite;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .hero-floating-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent-gold-subtle);
+      border: 1px solid var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold-dark);
+      flex-shrink: 0;
+    }
+
+    .hero-floating-text h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-floating-text p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Planner */
+    .planner-section {
+      position: relative;
+      margin-top: -2.5rem;
+      z-index: 10;
+    }
+
+    .planner-box {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 2.2rem 2.5rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(194, 155, 56, 0.28);
+    }
+
+    .planner-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 1.8rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.2rem;
+    }
+
+    .planner-title {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    .planner-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr 1fr 1fr auto;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .planner-field {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-primary);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      transition: all var(--transition-fast);
+    }
+
+    .planner-field:focus-within {
+      border-color: var(--accent-gold);
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 2px var(--accent-gold-glow);
+    }
+
+    .planner-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 600;
+      color: var(--accent-gold-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .planner-input, .planner-select {
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      width: 100%;
+    }
+
+    .planner-result-panel {
+      display: none;
+      margin-top: 1.8rem;
+      padding: 1.6rem 2rem;
+      background: linear-gradient(135deg, rgba(243, 236, 225, 0.6) 0%, rgba(255, 255, 255, 0.9) 100%);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--accent-gold);
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .planner-result-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .planner-result-details h3 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .planner-result-details p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Destinations */
+    .destinations-section {
+      background-color: var(--bg-primary);
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .destinations-filter-tabs {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.55rem 1.1rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      transition: all var(--transition-base);
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      border-color: var(--bg-dark);
+    }
+
+    .destinations-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .destination-card {
+      background-color: var(--bg-card);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-subtle);
+      transition: all var(--transition-base);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .destination-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(194, 155, 56, 0.4);
+    }
+
+    .destination-art-wrap {
+      width: 100%;
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+      background-color: #1A1C23;
+    }
+
+    .destination-art-wrap svg {
+      width: 100%;
+      height: 100%;
+      transition: transform var(--transition-slow);
+    }
+
+    .destination-card:hover .destination-art-wrap svg {
+      transform: scale(1.05);
+    }
+
+    .destination-tag {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(23, 21, 19, 0.85);
+      backdrop-filter: blur(8px);
+      color: var(--accent-gold-light);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(194, 155, 56, 0.3);
+    }
+
+    .destination-body {
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .destination-country {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .destination-name {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      color: var(--text-primary);
+      font-weight: normal;
+      margin-bottom: 0.8rem;
+    }
+
+    .destination-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.4rem;
+      flex-grow: 1;
+    }
+
+    .destination-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.75rem;
+    }
+
+    .destination-season {
+      color: var(--text-muted);
+    }
+
+    .destination-season strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Featured Journeys */
+    .journeys-section {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .journey-editorial-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+
+    .journey-editorial-card {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-subtle);
+      transition: all var(--transition-base);
+    }
+
+    .journey-editorial-card:hover {
+      border-color: rgba(194, 155, 56, 0.4);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .journey-editorial-card.reverse {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .journey-editorial-card.reverse .journey-art-col {
+      order: 2;
+    }
+
+    .journey-editorial-card.reverse .journey-content-col {
+      order: 1;
+    }
+
+    .journey-art-col {
+      position: relative;
+      min-height: 380px;
+      background: #141720;
+      overflow: hidden;
+    }
+
+    .journey-art-col svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .journey-content-col {
+      padding: clamp(2.2rem, 4vw, 3.5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .journey-meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .journey-pill {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 600;
+      color: var(--accent-gold-dark);
+      background: var(--accent-gold-subtle);
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(194, 155, 56, 0.25);
+    }
+
+    .journey-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+      color: var(--text-primary);
+      font-weight: normal;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .journey-narrative {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1.8rem;
+    }
+
+    .journey-highlights-list {
+      list-style: none;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .journey-highlight-item {
+      font-size: 0.82rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .journey-highlight-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    .journey-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .journey-price-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .journey-price-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .journey-price-val {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      color: var(--text-primary);
+      font-weight: normal;
+    }
+
+    /* Experiences Grid */
+    .experiences-section {
+      background-color: var(--bg-primary);
+    }
+
+    .experiences-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(260px, auto);
+      gap: 1.5rem;
+    }
+
+    .experience-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 2.2rem;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .experience-card:hover {
+      border-color: var(--accent-gold);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .experience-card.featured-span {
+      grid-column: span 2;
+      background: linear-gradient(135deg, #1C1916 0%, #2A2520 100%);
+      color: var(--text-light);
+      border-color: rgba(194, 155, 56, 0.4);
+    }
+
+    .experience-card.featured-span .experience-num {
+      color: var(--accent-gold);
+    }
+
+    .experience-card.featured-span .experience-desc {
+      color: var(--text-light-muted);
+    }
+
+    .experience-card.featured-span .experience-title {
+      color: var(--text-light);
+    }
+
+    .experience-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .experience-num {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      color: var(--accent-gold-dark);
+      font-style: italic;
+    }
+
+    .experience-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent-gold-subtle);
+      border: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+    }
+
+    .experience-title {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      font-weight: normal;
+    }
+
+    .experience-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Difference */
+    .difference-section {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+
+    .pillar-card {
+      background: var(--bg-card);
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all var(--transition-base);
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(194, 155, 56, 0.4);
+    }
+
+    .pillar-icon-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-gold-light) 0%, var(--accent-gold-glow) 70%);
+      border: 1px solid var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.8rem;
+      color: var(--bg-dark);
+    }
+
+    .pillar-number {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .pillar-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      color: var(--text-primary);
+      font-weight: normal;
+      margin-bottom: 0.9rem;
+    }
+
+    .pillar-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* Map Section */
+    .map-section {
+      background-color: #12100E;
+      color: var(--text-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-section .eyebrow-simple {
+      color: var(--accent-gold-light);
+    }
+
+    .map-section .section-title {
+      color: var(--text-light);
+    }
+
+    .map-section .section-desc {
+      color: var(--text-light-muted);
+    }
+
+    .map-canvas-container {
+      position: relative;
+      margin-top: 3rem;
+      width: 100%;
+      background: radial-gradient(circle at 50% 50%, #1E1B17 0%, #12100E 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(194, 155, 56, 0.25);
+      padding: 1.5rem;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+    }
+
+    .map-svg-wrap {
+      width: 100%;
+      height: auto;
+      max-height: 580px;
+    }
+
+    .map-hud-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(250, 247, 242, 0.1);
+    }
+
+    .map-hud-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .map-hud-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent-gold-light);
+    }
+
+    .map-hud-value {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      color: var(--text-light);
+    }
+
+    .map-pin-pulse {
+      animation: pinGlow 2s infinite ease-in-out;
+    }
+
+    @keyframes pinGlow {
+      0%, 100% { r: 4; opacity: 0.9; }
+      50% { r: 7; opacity: 0.4; }
+    }
+
+    /* Journal */
+    .journal-section {
+      background-color: var(--bg-primary);
+    }
+
+    .journal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.2rem;
+    }
+
+    .journal-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      transition: all var(--transition-base);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .journal-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(194, 155, 56, 0.35);
+    }
+
+    .journal-art-wrap {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      background-color: #171513;
+    }
+
+    .journal-art-wrap svg {
+      width: 100%;
+      height: 100%;
+      transition: transform var(--transition-slow);
+    }
+
+    .journal-card:hover .journal-art-wrap svg {
+      transform: scale(1.06);
+    }
+
+    .journal-body {
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .journal-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .journal-meta span {
+      color: var(--text-muted);
+    }
+
+    .journal-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      color: var(--text-primary);
+      line-height: 1.3;
+      font-weight: normal;
+      margin-bottom: 0.85rem;
+      transition: color var(--transition-fast);
+    }
+
+    .journal-card:hover .journal-title {
+      color: var(--accent-gold-dark);
+    }
+
+    .journal-excerpt {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    /* Membership */
+    .membership-section {
+      background-color: var(--bg-secondary);
+    }
+
+    .membership-card-wrap {
+      background: linear-gradient(135deg, #171513 0%, #26221E 100%);
+      border-radius: var(--radius-lg);
+      padding: clamp(3rem, 6vw, 5.5rem) clamp(2rem, 5vw, 4.5rem);
+      color: var(--text-light);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(194, 155, 56, 0.4);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .membership-watermark {
+      position: absolute;
+      right: -80px;
+      bottom: -80px;
+      width: 420px;
+      height: 420px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .membership-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .membership-content .eyebrow-simple {
+      color: var(--accent-gold-light);
+    }
+
+    .membership-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      color: var(--text-light);
+      margin-top: 0.6rem;
+      margin-bottom: 1.2rem;
+      font-weight: normal;
+    }
+
+    .membership-desc {
+      font-size: 1.05rem;
+      color: var(--text-light-muted);
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+    }
+
+    .membership-benefits-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .membership-benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    .membership-benefit-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      color: #171513;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .membership-tier-badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(194, 155, 56, 0.35);
+      border-radius: var(--radius-md);
+      padding: 2.2rem;
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+
+    .membership-crest {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 1.5rem;
+      border: 1px solid var(--accent-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(194, 155, 56, 0.2) 0%, transparent 80%);
+    }
+
+    .membership-badge-title {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      color: var(--text-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .membership-badge-sub {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent-gold-light);
+      margin-bottom: 1.8rem;
+    }
+
+    /* Testimonials */
+    .testimonials-section {
+      background-color: var(--bg-primary);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.2rem;
+      margin-top: 3.5rem;
+    }
+
+    .testimonial-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 2.8rem 2.2rem;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .testimonial-quote-mark {
+      font-family: var(--font-serif);
+      font-size: 4rem;
+      line-height: 1;
+      color: var(--accent-gold);
+      opacity: 0.35;
+      margin-bottom: -1.5rem;
+    }
+
+    .testimonial-quote {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.65;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .testimonial-author-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .testimonial-avatar-monogram {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .testimonial-author-info h4 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .testimonial-author-info p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Pricing */
+    .pricing-section {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.2rem;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--transition-base);
+      position: relative;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(194, 155, 56, 0.4);
+    }
+
+    .pricing-card.featured-tier {
+      border: 1.5px solid var(--accent-gold);
+      box-shadow: var(--shadow-md);
+      background: linear-gradient(180deg, #FFFFFF 0%, #FCFAF6 100%);
+    }
+
+    .tier-badge-label {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent-gold);
+      color: #171513;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 700;
+      padding: 0.35rem 1.1rem;
+      border-radius: var(--radius-full);
+    }
+
+    .tier-name {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      color: var(--text-primary);
+      font-weight: normal;
+      margin-bottom: 0.4rem;
+    }
+
+    .tier-for {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .tier-price-row {
+      margin-bottom: 2rem;
+      padding-bottom: 1.8rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .tier-price-amount {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      color: var(--text-primary);
+      line-height: 1;
+      font-weight: normal;
+    }
+
+    .tier-price-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .tier-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+      margin-bottom: 2.5rem;
+      flex-grow: 1;
+    }
+
+    .tier-feature-item {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .tier-feature-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    /* About */
+    .about-section {
+      background-color: var(--bg-primary);
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4.5rem;
+      align-items: center;
+    }
+
+    .about-text-content .section-desc {
+      margin-bottom: 1.5rem;
+    }
+
+    .about-timeline-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.8rem;
+      position: relative;
+      padding-left: 2rem;
+      border-left: 1.5px solid var(--border-gold);
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: calc(-2rem - 6.5px);
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--accent-gold);
+      border: 2px solid var(--bg-primary);
+    }
+
+    .timeline-year {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--accent-gold-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* FAQ */
+    .faq-section {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .faq-list {
+      max-width: var(--container-narrow);
+      margin: 3.5rem auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .faq-item[open] {
+      border-color: rgba(194, 155, 56, 0.4);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .faq-question {
+      padding: 1.4rem 1.8rem;
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-chevron {
+      width: 20px;
+      height: 20px;
+      color: var(--accent-gold-dark);
+      transition: transform var(--transition-base);
+    }
+
+    .faq-item[open] .faq-chevron {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      padding: 0 1.8rem 1.6rem;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      border-top: 1px solid transparent;
+    }
+
+    .faq-item[open] .faq-answer {
+      border-top-color: var(--border-subtle);
+      padding-top: 1.2rem;
+    }
+
+    /* Contact */
+    .contact-section {
+      background-color: var(--bg-primary);
+      position: relative;
+    }
+
+    .contact-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: clamp(2.5rem, 5vw, 4.5rem);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(194, 155, 56, 0.3);
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 4rem;
+    }
+
+    .contact-sidebar-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contact-direct-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+      margin-top: 2.2rem;
+    }
+
+    .contact-point-item h5 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-gold-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-point-item p {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .contact-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+    }
+
+    .contact-form-grid .full-span {
+      grid-column: span 2;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .form-control {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1.1rem;
+      font-size: 0.92rem;
+      color: var(--text-primary);
+      transition: all var(--transition-fast);
+      outline: none;
+    }
+
+    .form-control:focus {
+      background-color: #FFFFFF;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px var(--accent-gold-glow);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-success-message {
+      display: none;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, rgba(194, 155, 56, 0.08) 0%, rgba(243, 236, 225, 0.8) 100%);
+      border: 1px solid var(--accent-gold);
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+
+    .form-success-message h3 {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    /* Newsletter */
+    .newsletter-section {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .newsletter-box {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 2rem;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .newsletter-input {
+      flex-grow: 1;
+      background-color: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1.2rem;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .newsletter-input:focus {
+      border-color: var(--accent-gold);
+    }
+
+    .newsletter-success-state {
+      display: none;
+      margin-top: 1.5rem;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* Final CTA */
+    .final-cta-section {
+      background: linear-gradient(180deg, #1C1916 0%, #0F0E0D 100%);
+      color: var(--text-light);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: clamp(5rem, 9vw, 9rem);
+      padding-bottom: clamp(5rem, 9vw, 9rem);
+    }
+
+    .final-cta-section .eyebrow-simple {
+      color: var(--accent-gold-light);
+    }
+
+    .final-cta-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.8rem, 6vw, 4.8rem);
+      color: var(--text-light);
+      font-weight: normal;
+      margin-top: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .final-cta-sub {
+      font-size: 1.15rem;
+      color: var(--text-light-muted);
+      max-width: 580px;
+      margin: 0 auto 2.8rem;
+    }
+
+    .final-cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #0E0D0C;
+      color: var(--text-light-muted);
+      padding-top: 5rem;
+      padding-bottom: 2.5rem;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr repeat(4, 1fr);
+      gap: 3rem;
+      margin-bottom: 4.5rem;
+    }
+
+    .footer-brand-col p {
+      margin-top: 1.2rem;
+      line-height: 1.7;
+      color: #9C9488;
+      max-width: 300px;
+    }
+
+    .footer-col-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      color: var(--accent-gold-light);
+      margin-bottom: 1.4rem;
+    }
+
+    .footer-links-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-link {
+      color: #BFB5A6;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-link:hover {
+      color: var(--accent-gold-light);
+    }
+
+    .footer-bottom-bar {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.75rem;
+      color: #7A7266;
+    }
+
+    .footer-legal-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    /* Modals & Overlays */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(18, 16, 14, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-window {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      max-width: 540px;
+      width: 100%;
+      padding: 2.8rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(194, 155, 56, 0.3);
+      position: relative;
+      transform: translateY(20px) scale(0.98);
+      transition: transform var(--transition-base);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.active .modal-window {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.4rem;
+      right: 1.4rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      transition: all var(--transition-fast);
+    }
+
+    .modal-close-btn:hover {
+      background: var(--bg-dark);
+      color: #FFFFFF;
+    }
+
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-sub {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.8rem;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1050;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      padding: 0.9rem 1.4rem;
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--accent-gold);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      pointer-events: auto;
+      animation: slideToast 0.3s ease-out forwards;
+    }
+
+    @keyframes slideToast {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Back to top */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--transition-base);
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .back-to-top:hover {
+      background: var(--bg-dark);
+      color: var(--accent-gold-light);
+      transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .destinations-grid, .journal-grid, .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 540px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .hero-layout {
+        grid-template-columns: 1fr;
+      }
+      .hero-artwork-wrap {
+        max-width: 620px;
+        margin: 0 auto;
+      }
+      .planner-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .planner-grid .btn {
+        grid-column: span 2;
+      }
+      .nav-links, .btn-sign-in {
+        display: none;
+      }
+      .mobile-menu-toggle {
+        display: flex;
+      }
+      .about-layout {
+        grid-template-columns: 1fr;
+      }
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+      .membership-grid {
+        grid-template-columns: 1fr;
+      }
+      .journey-editorial-card, .journey-editorial-card.reverse {
+        grid-template-columns: 1fr;
+      }
+      .journey-editorial-card.reverse .journey-art-col {
+        order: 1;
+      }
+      .journey-editorial-card.reverse .journey-content-col {
+        order: 2;
+      }
+      .journey-art-col {
+        height: 280px;
+        min-height: 280px;
+      }
+      .experiences-grid {
+        grid-template-columns: 1fr;
+      }
+      .experience-card.featured-span {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .top-bar-inner {
+        flex-direction: column;
+        gap: 0.3rem;
+        text-align: center;
+      }
+      .destinations-grid, .journal-grid, .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-badges-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .planner-grid {
+        grid-template-columns: 1fr;
+      }
+      .planner-grid .btn {
+        grid-column: span 1;
+      }
+      .contact-form-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-form-grid .full-span {
+        grid-column: span 1;
+      }
+      .newsletter-form {
+        flex-direction: column;
+      }
+      .map-hud-bar {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+      .hero-headline {
+        font-size: 2.5rem;
+      }
+      .planner-box {
+        padding: 1.5rem;
+      }
+      .hero-floating-card {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Hub Clocks -->
+  <aside class="top-bar" aria-label="International Hub Clocks">
+    <div class="container top-bar-inner">
+      <div class="live-time-group">
+        <span class="live-time-item"><span class="live-dot"></span> GENEVA <strong id="clock-geneva">17:49</strong></span>
+        <span class="live-time-item">TOKYO <strong id="clock-tokyo">00:49</strong></span>
+        <span class="live-time-item">NEW YORK <strong id="clock-ny">11:49</strong></span>
+      </div>
+      <div>
+        <span>Aviation Operations: <strong>Active 24/7</strong> · Private Terminal Clearance Ready</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="header" id="main-header">
+    <div class="container header-inner">
+      <a href="#" class="brand-logo" aria-label="Aurelia Home">
+        <div class="brand-monogram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2L15 8L21 9.5L16.5 14L18 20L12 16.5L6 20L7.5 14L3 9.5L9 8L12 2Z" fill="#C29B38" fill-opacity="0.3"/>
+            <path d="M12 4L14 9L19 10L15.5 13.5L16.5 18.5L12 15.5L7.5 18.5L8.5 13.5L5 10L10 9L12 4Z" stroke="#C29B38"/>
+          </svg>
+        </div>
+        <div class="brand-title-wrap">
+          <span class="brand-title">AURELIA</span>
+          <span class="brand-subtitle">Haute Voyage & Aviation</span>
+        </div>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#destinations" class="nav-link">Destinations</a></li>
+          <li><a href="#journeys" class="nav-link">Journeys</a></li>
+          <li><a href="#experiences" class="nav-link">Experiences</a></li>
+          <li><a href="#map" class="nav-link">Route Map</a></li>
+          <li><a href="#journal" class="nav-link">Journal</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn-sign-in" onclick="openModal('signInModal')" aria-label="Sign in to Patron Portal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Sign in
+        </button>
+        <a href="#concierge" class="btn btn-gold">Concierge</a>
+
+        <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle navigation menu">
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation Drawer">
+    <ul class="mobile-nav-links">
+      <li><a href="#destinations" class="mobile-nav-link" onclick="toggleMobileMenu()">Destinations</a></li>
+      <li><a href="#journeys" class="mobile-nav-link" onclick="toggleMobileMenu()">Journeys</a></li>
+      <li><a href="#experiences" class="mobile-nav-link" onclick="toggleMobileMenu()">Experiences</a></li>
+      <li><a href="#map" class="mobile-nav-link" onclick="toggleMobileMenu()">Route Map</a></li>
+      <li><a href="#journal" class="mobile-nav-link" onclick="toggleMobileMenu()">Journal</a></li>
+      <li><a href="#membership" class="mobile-nav-link" onclick="toggleMobileMenu()">Aurelia Private</a></li>
+      <li><a href="#about" class="mobile-nav-link" onclick="toggleMobileMenu()">About</a></li>
+      <li><a href="#faq" class="mobile-nav-link" onclick="toggleMobileMenu()">FAQ</a></li>
+    </ul>
+
+    <div class="mobile-drawer-actions">
+      <button class="btn btn-outline" onclick="toggleMobileMenu(); openModal('signInModal');">Sign in to Patron Portal</button>
+      <a href="#concierge" class="btn btn-gold" onclick="toggleMobileMenu()">Contact Concierge</a>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="container">
+        <div class="hero-layout">
+          <div class="hero-content">
+            <div class="hero-edition-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="8"/>
+              </svg>
+              Volume XXVI · The Sovereign Portfolio
+            </div>
+            
+            <h1 class="hero-headline">
+              Travel beyond <em>the expected.</em>
+            </h1>
+            
+            <p class="hero-subhead">
+              Curated journeys, extraordinary places and experiences designed around you.
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="#journeys" class="btn btn-primary">Discover journeys</a>
+              <a href="#destinations" class="btn btn-outline">Explore destinations</a>
+            </div>
+
+            <div class="hero-badges-row">
+              <div class="hero-badge-item">
+                <span class="hero-badge-num">48</span>
+                <span class="hero-badge-label">Private Havens</span>
+              </div>
+              <div class="hero-badge-item">
+                <span class="hero-badge-num">100%</span>
+                <span class="hero-badge-label">Bespoke Wings</span>
+              </div>
+              <div class="hero-badge-item">
+                <span class="hero-badge-num">24 / 7</span>
+                <span class="hero-badge-label">Patron Concierge</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Artwork -->
+          <div class="hero-artwork-wrap">
+            <div class="hero-artwork-frame">
+              <svg viewBox="0 0 600 700" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Aurelia Haute Voyage Serene Landscape Illustration">
+                <defs>
+                  <linearGradient id="heroSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#1B2838"/>
+                    <stop offset="35%" stop-color="#3A4D6B"/>
+                    <stop offset="60%" stop-color="#8F6C5B"/>
+                    <stop offset="85%" stop-color="#E2B176"/>
+                    <stop offset="100%" stop-color="#FCEFD8"/>
+                  </linearGradient>
+                  
+                  <radialGradient id="heroSunGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFF5DF" stop-opacity="1"/>
+                    <stop offset="40%" stop-color="#F1C27D" stop-opacity="0.8"/>
+                    <stop offset="100%" stop-color="#E2B176" stop-opacity="0"/>
+                  </radialGradient>
+
+                  <linearGradient id="seaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#E2B176" stop-opacity="0.9"/>
+                    <stop offset="30%" stop-color="#3A4D6B"/>
+                    <stop offset="100%" stop-color="#0E1724"/>
+                  </linearGradient>
+
+                  <linearGradient id="goldArchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#E6C87C"/>
+                    <stop offset="50%" stop-color="#C29B38"/>
+                    <stop offset="100%" stop-color="#856519"/>
+                  </linearGradient>
+                </defs>
+
+                <rect width="600" height="700" fill="url(#heroSky)"/>
+
+                <g stroke="#FFF" stroke-opacity="0.12" stroke-width="0.75" stroke-dasharray="4 4">
+                  <circle cx="300" cy="310" r="160"/>
+                  <circle cx="300" cy="310" r="230"/>
+                  <line x1="60" y1="310" x2="540" y2="310"/>
+                  <line x1="300" y1="80" x2="300" y2="540"/>
+                </g>
+
+                <circle cx="300" cy="310" r="90" fill="url(#heroSunGlow)"/>
+                <circle cx="300" cy="310" r="48" fill="#FFFBF2"/>
+                <circle cx="300" cy="310" r="54" fill="none" stroke="url(#goldArchGrad)" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+                <polygon points="-20,440 90,340 210,430 330,330 450,420 560,350 630,440 630,550 -20,550" fill="#323C4D" opacity="0.6"/>
+                <polygon points="-10,480 120,380 230,450 380,360 490,440 620,370 620,550 -10,550" fill="#202A38" opacity="0.85"/>
+                <path d="M-20 540 Q80 430 180 470 T340 510 T520 480 T620 530 L620 700 L-20 700 Z" fill="#131B26"/>
+
+                <path d="M40 480 Q45 420 48 400 Q51 420 56 480 Z" fill="#0C121A"/>
+                <path d="M58 485 Q62 435 65 415 Q68 435 72 485 Z" fill="#0C121A"/>
+                <path d="M80 495 Q84 445 87 430 Q90 445 94 495 Z" fill="#0C121A"/>
+
+                <rect y="520" width="600" height="180" fill="url(#seaGrad)"/>
+
+                <g stroke="#FFF3D6" stroke-opacity="0.45" stroke-width="1">
+                  <line x1="260" y1="530" x2="340" y2="530"/>
+                  <line x1="240" y1="540" x2="360" y2="540"/>
+                  <line x1="220" y1="552" x2="380" y2="552"/>
+                  <line x1="200" y1="566" x2="400" y2="566"/>
+                  <line x1="170" y1="582" x2="430" y2="582"/>
+                  <line x1="140" y1="602" x2="460" y2="602"/>
+                  <line x1="110" y1="626" x2="490" y2="626"/>
+                  <line x1="70" y1="656" x2="530" y2="656"/>
+                </g>
+
+                <g transform="translate(380, 210) rotate(-8) scale(0.65)">
+                  <path d="M0 20 Q40 18 90 20 Q120 22 135 24 Q120 26 90 28 Q40 30 0 28 Q-30 25 0 20 Z" fill="#FFFDF8"/>
+                  <polygon points="45,22 15,-15 35,-15 75,23" fill="#FFFDF8"/>
+                  <polygon points="45,26 15,63 35,63 75,25" fill="#FFFDF8"/>
+                  <polygon points="110,23 138,0 148,0 128,24" fill="#FFFDF8"/>
+                  <line x1="-30" y1="24" x2="-220" y2="30" stroke="url(#goldArchGrad)" stroke-width="1.8" stroke-dasharray="6 4" stroke-opacity="0.8"/>
+                </g>
+
+                <path d="M 40,660 L 40,240 A 260,260 0 0,1 560,240 L 560,660" fill="none" stroke="url(#goldArchGrad)" stroke-width="1.5" stroke-opacity="0.6"/>
+                <circle cx="300" cy="50" r="4" fill="#C29B38"/>
+                <text x="300" y="38" font-family="Georgia, serif" font-size="10" fill="#E6C87C" text-anchor="middle" letter-spacing="4">HAUTE VOYAGE</text>
+              </svg>
+            </div>
+
+            <div class="hero-floating-card">
+              <div class="hero-floating-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2L15 8L21 9.5L16.5 14L18 20L12 16.5L6 20L7.5 14L3 9.5L9 8L12 2Z"></path>
+                </svg>
+              </div>
+              <div class="hero-floating-text">
+                <h4>Virtuoso Elite Reserve</h4>
+                <p>Private Terminal & Villa Key</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Journey Planner -->
+    <section class="planner-section" aria-label="Interactive Journey Planner">
+      <div class="container">
+        <div class="planner-box">
+          <div class="planner-header">
+            <div>
+              <span class="eyebrow-simple">Bespoke Studio</span>
+              <h2 class="planner-title">Where will you go next?</h2>
+            </div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em;">Private Flight & Haven Match</span>
+          </div>
+
+          <form id="journey-planner-form" onsubmit="handlePlanJourney(event)">
+            <div class="planner-grid">
+              <div class="planner-field">
+                <label for="plan-from" class="planner-label">From</label>
+                <select id="plan-from" class="planner-select" required>
+                  <option value="Geneva (GVA)">Geneva Private FBO</option>
+                  <option value="London (FAB)">London Farnborough</option>
+                  <option value="New York (TEB)">New York Teterboro</option>
+                  <option value="Dubai (DWC)">Dubai Al Maktoum</option>
+                  <option value="Singapore (XSP)">Singapore Seletar</option>
+                  <option value="Tokyo (HND)">Tokyo Haneda VIP</option>
+                </select>
+              </div>
+
+              <div class="planner-field">
+                <label for="plan-to" class="planner-label">To</label>
+                <select id="plan-to" class="planner-select" required>
+                  <option value="Amalfi Coast, Italy">Amalfi Coast, Italy</option>
+                  <option value="Kyoto & Hakone, Japan">Kyoto & Hakone, Japan</option>
+                  <option value="Swiss Alps (St. Moritz)">Swiss Alps (St. Moritz)</option>
+                  <option value="Patagonia (Torres del Paine)">Patagonia Wilderness</option>
+                  <option value="Maldives Private Atolls">Maldives Private Atolls</option>
+                  <option value="Icelandic Volcanic Highlands">Icelandic Highlands</option>
+                  <option value="French Polynesia (Bora Bora)">French Polynesia</option>
+                </select>
+              </div>
+
+              <div class="planner-field">
+                <label for="plan-dates" class="planner-label">Dates</label>
+                <select id="plan-dates" class="planner-select">
+                  <option value="Autumn 2026 (7-10 Days)">Autumn 2026 (7-10 Days)</option>
+                  <option value="Winter Season (10-14 Days)">Winter Season (10-14 Days)</option>
+                  <option value="Spring Blossom (8-12 Days)">Spring Blossom (8-12 Days)</option>
+                  <option value="Summer Grand Voyage (14+ Days)">Summer Grand Voyage (14+ Days)</option>
+                </select>
+              </div>
+
+              <div class="planner-field">
+                <label for="plan-travelers" class="planner-label">Travelers</label>
+                <select id="plan-travelers" class="planner-select">
+                  <option value="2 Patrons (Midsize Jet)">2 Guests · Midsize Jet</option>
+                  <option value="4 Patrons (Heavy Jet)">4 Guests · Heavy Jet</option>
+                  <option value="6-10 Patrons (Global 7500)">6-10 Guests · Global 7500</option>
+                  <option value="Solo Patron (Light Jet)">1 Solo Patron · Light Jet</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="btn-plan-submit">
+                <span>Plan my journey</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </form>
+
+          <div class="planner-result-panel" id="planner-result">
+            <div class="planner-result-content">
+              <div class="planner-result-details">
+                <span class="eyebrow-simple">Curated Itinerary Available</span>
+                <h3 id="result-title">Your journey is ready to explore.</h3>
+                <p id="result-desc">Direct private corridor configured from Geneva to Amalfi Coast with cliffside suite reserve and private yacht transfer.</p>
+              </div>
+              <div style="display:flex; gap:1rem; align-items:center;">
+                <button class="btn btn-gold" onclick="openModal('itineraryModal')">View Itinerary Details</button>
+                <button class="btn btn-outline" onclick="closeResultPanel()">Dismiss</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destinations -->
+    <section class="destinations-section section-spacing" id="destinations">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="eyebrow">The Globe</span>
+            <h2 class="section-title">Places worth going farther for.</h2>
+            <p class="section-desc">Each haven is personally vetted by our directors, guaranteeing complete discretion, architectural soul, and access to private land holdings.</p>
+          </div>
+
+          <div class="destinations-filter-tabs" role="tablist">
+            <button class="filter-btn active" onclick="filterDestinations('all', this)" role="tab">All Havens</button>
+            <button class="filter-btn" onclick="filterDestinations('europe', this)" role="tab">Europe</button>
+            <button class="filter-btn" onclick="filterDestinations('asia', this)" role="tab">Asia</button>
+            <button class="filter-btn" onclick="filterDestinations('polar', this)" role="tab">Polar & Alpine</button>
+            <button class="filter-btn" onclick="filterDestinations('islands', this)" role="tab">Islands</button>
+          </div>
+        </div>
+
+        <div class="destinations-grid" id="destinations-grid">
+          <!-- Amalfi Coast -->
+          <article class="destination-card" data-category="europe">
+            <div class="destination-art-wrap">
+              <span class="destination-tag">Coastal Sanctuary</span>
+              <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Amalfi Coast illustration">
+                <defs>
+                  <linearGradient id="amalfiSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1B2D42"/>
+                    <stop offset="60%" stop-color="#E89668"/>
+                    <stop offset="100%" stop-color="#FDE8CD"/>
+                  </linearGradient>
+                  <linearGradient id="amalfiSea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1A657D"/>
+                    <stop offset="100%" stop-color="#0E2F3E"/>
+                  </linearGradient>
+                </defs>
+                <rect width="400" height="240" fill="url(#amalfiSky)"/>
+                <circle cx="280" cy="110" r="34" fill="#FFF2D6" opacity="0.9"/>
+                <path d="M-20 240 L-20 120 Q60 90 140 130 T280 110 T420 160 L420 240 Z" fill="#242B35"/>
+                <rect x="70" y="130" width="22" height="18" fill="#E6BA95"/>
+                <rect x="95" y="125" width="26" height="24" fill="#E8DDD0"/>
+                <rect x="75" y="150" width="30" height="20" fill="#D98A6C"/>
+                <rect x="110" y="145" width="22" height="28" fill="#F4E8C1"/>
+                <polygon points="68,130 81,120 94,130" fill="#A84B38"/>
+                <polygon points="93,125 108,114 123,125" fill="#A84B38"/>
+                <rect y="175" width="400" height="65" fill="url(#amalfiSea)"/>
+                <line x1="0" y1="175" x2="400" y2="175" stroke="#FDE8CD" stroke-opacity="0.4"/>
+                <path d="M260 195 Q290 195 315 190 Q305 186 280 186 Q265 186 260 195 Z" fill="#FAF7F2"/>
+                <polygon points="275,186 285,180 292,186" fill="#1B2D42"/>
+              </svg>
+            </div>
+            <div class="destination-body">
+              <span class="destination-country">Italy</span>
+              <h3 class="destination-name">Amalfi Coast</h3>
+              <p class="destination-desc">Sun-drenched cliffs, private cliffside villas in Ravello, and secluded yacht anchorages along the Sirenuse archipelago.</p>
+              <div class="destination-meta-row">
+                <span class="destination-season">Best Season: <strong>May – October</strong></span>
+                <a href="#concierge" class="btn-text">Inquire</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Kyoto -->
+          <article class="destination-card" data-category="asia">
+            <div class="destination-art-wrap">
+              <span class="destination-tag">Imperial Heritage</span>
+              <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kyoto Pagoda and Zen garden illustration">
+                <defs>
+                  <linearGradient id="kyotoSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#2D1C24"/>
+                    <stop offset="60%" stop-color="#8C424E"/>
+                    <stop offset="100%" stop-color="#F2D1C9"/>
+                  </linearGradient>
+                </defs>
+                <rect width="400" height="240" fill="url(#kyotoSky)"/>
+                <circle cx="160" cy="115" r="42" fill="#E8B86D" opacity="0.85"/>
+                <path d="M-10 240 Q100 130 220 160 T420 140 L420 240 Z" fill="#1C1418"/>
+                <g fill="#0E0A0C">
+                  <polygon points="260,200 340,200 325,180 275,180"/>
+                  <path d="M250 180 Q300 174 350 180 L345 174 Q300 170 255 174 Z"/>
+                  <polygon points="268,174 332,174 320,154 280,154"/>
+                  <path d="M260 154 Q300 149 340 154 L336 148 Q300 144 264 148 Z"/>
+                  <polygon points="274,148 326,148 315,130 285,130"/>
+                  <path d="M268 130 Q300 125 332 130 L328 124 Q300 120 272 124 Z"/>
+                  <line x1="300" y1="120" x2="300" y2="85" stroke="#0E0A0C" stroke-width="2.5"/>
+                </g>
+                <path d="M-10 40 Q40 60 70 50 Q100 40 120 70" stroke="#0E0A0C" stroke-width="3" fill="none"/>
+                <circle cx="65" cy="48" r="5" fill="#F4B0B8"/>
+                <circle cx="85" cy="42" r="6" fill="#F4B0B8"/>
+                <circle cx="115" cy="65" r="5" fill="#F4B0B8"/>
+                <circle cx="125" cy="74" r="4" fill="#F4B0B8"/>
+              </svg>
+            </div>
+            <div class="destination-body">
+              <span class="destination-country">Japan</span>
+              <h3 class="destination-name">Kyoto</h3>
+              <p class="destination-desc">Ancient cedar temples, private tea ceremonies with 15th-generation masters, and secluded machiya estates in historic Gion.</p>
+              <div class="destination-meta-row">
+                <span class="destination-season">Best Season: <strong>Mar–May & Oct–Nov</strong></span>
+                <a href="#concierge" class="btn-text">Inquire</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Iceland -->
+          <article class="destination-card" data-category="polar">
+            <div class="destination-art-wrap">
+              <span class="destination-tag">Arctic Wilderness</span>
+              <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Iceland Aurora Borealis and glacier illustration">
+                <defs>
+                  <linearGradient id="iceSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#070E1A"/>
+                    <stop offset="100%" stop-color="#0E2338"/>
+                  </linearGradient>
+                  <linearGradient id="auroraGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#38EF7D" stop-opacity="0"/>
+                    <stop offset="30%" stop-color="#11998E" stop-opacity="0.85"/>
+                    <stop offset="70%" stop-color="#38EF7D" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#11998E" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <rect width="400" height="240" fill="url(#iceSky)"/>
+                <path d="M-20 80 Q100 30 200 70 T420 50 L420 110 Q300 130 200 90 T-20 120 Z" fill="url(#auroraGrad)" filter="blur(4px)"/>
+                <polygon points="-20,240 80,130 180,240" fill="#131B24"/>
+                <polygon points="120,240 240,110 360,240" fill="#0C141C"/>
+                <polygon points="280,240 370,140 430,240" fill="#16222E"/>
+                <polygon points="80,130 65,150 95,150" fill="#C5DCE8"/>
+                <polygon points="240,110 220,135 260,135" fill="#E2F1F8"/>
+                <polygon points="370,140 355,160 385,160" fill="#C5DCE8"/>
+                <ellipse cx="200" cy="225" rx="70" ry="15" fill="#48CAE4" opacity="0.65"/>
+              </svg>
+            </div>
+            <div class="destination-body">
+              <span class="destination-country">Iceland</span>
+              <h3 class="destination-name">Iceland</h3>
+              <p class="destination-desc">Thermal lagoons beneath the aurora borealis, private helicopter glacier landings, and volcanic geothermal retreats.</p>
+              <div class="destination-meta-row">
+                <span class="destination-season">Best Season: <strong>Sept – April</strong></span>
+                <a href="#concierge" class="btn-text">Inquire</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Patagonia -->
+          <article class="destination-card" data-category="polar">
+            <div class="destination-art-wrap">
+              <span class="destination-tag">Pristine Expedition</span>
+              <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Patagonia mountain horns illustration">
+                <defs>
+                  <linearGradient id="pataSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1B2936"/>
+                    <stop offset="60%" stop-color="#6F8695"/>
+                    <stop offset="100%" stop-color="#E5C7A5"/>
+                  </linearGradient>
+                </defs>
+                <rect width="400" height="240" fill="url(#pataSky)"/>
+                <polygon points="70,240 140,80 180,240" fill="#1C242B"/>
+                <polygon points="150,240 210,70 260,240" fill="#2E3942"/>
+                <polygon points="230,240 290,95 340,240" fill="#151C22"/>
+                <rect y="185" width="400" height="55" fill="#2A7B88"/>
+                <path d="M290 50 Q305 40 320 50 Q315 56 305 52 Q295 56 290 50 Z" fill="#0C1014"/>
+              </svg>
+            </div>
+            <div class="destination-body">
+              <span class="destination-country">Chile & Argentina</span>
+              <h3 class="destination-name">Patagonia</h3>
+              <p class="destination-desc">The edge of the inhabited earth: private estancia rides, calving glaciers, and bespoke wine cellars amidst ancient peaks.</p>
+              <div class="destination-meta-row">
+                <span class="destination-season">Best Season: <strong>Nov – March</strong></span>
+                <a href="#concierge" class="btn-text">Inquire</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Maldives -->
+          <article class="destination-card" data-category="islands">
+            <div class="destination-art-wrap">
+              <span class="destination-tag">Oceanic Reserve</span>
+              <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maldives overwater villa illustration">
+                <defs>
+                  <linearGradient id="maldivesSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#F2A679"/>
+                    <stop offset="50%" stop-color="#FCE1A8"/>
+                    <stop offset="100%" stop-color="#72D2D4"/>
+                  </linearGradient>
+                  <linearGradient id="lagoonGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#41C4CA"/>
+                    <stop offset="100%" stop-color="#0E5E72"/>
+                  </linearGradient>
+                </defs>
+                <rect width="400" height="240" fill="url(#maldivesSky)"/>
+                <circle cx="200" cy="110" r="30" fill="#FFF8E7"/>
+                <rect y="130" width="400" height="110" fill="url(#lagoonGrad)"/>
+                <polygon points="120,130 160,105 200,130" fill="#694C38"/>
+                <rect x="130" y="130" width="60" height="25" fill="#E8D5B5"/>
+                <line x1="135" y1="155" x2="135" y2="185" stroke="#3A281E" stroke-width="2"/>
+                <line x1="155" y1="155" x2="155" y2="185" stroke="#3A281E" stroke-width="2"/>
+                <line x1="175" y1="155" x2="175" y2="185" stroke="#3A281E" stroke-width="2"/>
+                <path d="M40 240 Q45 150 70 120" stroke="#253528" stroke-width="4" fill="none"/>
+                <path d="M70 120 Q50 110 30 125 M70 120 Q60 100 45 90 M70 120 Q80 95 100 95 M70 120 Q95 110 110 125" stroke="#253528" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+            <div class="destination-body">
+              <span class="destination-country">Maldives</span>
+              <h3 class="destination-name">Maldives</h3>
+              <p class="destination-desc">Exclusive private island reserves, personal marine biologists, submarine dining, and barefoot understated opulence.</p>
+              <div class="destination-meta-row">
+                <span class="destination-season">Best Season: <strong>Dec – April</strong></span>
+                <a href="#concierge" class="btn-text">Inquire</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Swiss Alps -->
+          <article class="destination-card" data-category="europe">
+            <div class="destination-art-wrap">
+              <span class="destination-tag">Alpine Grandeur</span>
+              <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Swiss Alps Matterhorn illustration">
+                <defs>
+                  <linearGradient id="alpsSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#141E28"/>
+                    <stop offset="70%" stop-color="#34495E"/>
+                    <stop offset="100%" stop-color="#D5E1DF"/>
+                  </linearGradient>
+                </defs>
+                <rect width="400" height="240" fill="url(#alpsSky)"/>
+                <polygon points="120,240 210,60 290,240" fill="#1C2833"/>
+                <polygon points="210,60 185,110 215,100 240,115" fill="#FFFFFF"/>
+                <polygon points="20,240 35,180 50,240" fill="#0E161D"/>
+                <polygon points="40,240 55,170 70,240" fill="#0E161D"/>
+                <polygon points="320,240 335,175 350,240" fill="#0E161D"/>
+                <polygon points="340,240 355,165 370,240" fill="#0E161D"/>
+                <polygon points="260,200 280,185 300,200" fill="#4A3525"/>
+                <rect x="265" y="200" width="30" height="20" fill="#2E2016"/>
+                <rect x="272" y="205" width="6" height="6" fill="#F1C40F"/>
+              </svg>
+            </div>
+            <div class="destination-body">
+              <span class="destination-country">Switzerland</span>
+              <h3 class="destination-name">Swiss Alps</h3>
+              <p class="destination-desc">Heli-skiing virgin powdered bowls, grand palace heritage, and private fireside spa suites overlooking glaciers.</p>
+              <div class="destination-meta-row">
+                <span class="destination-season">Best Season: <strong>Dec–Apr & Jul–Sep</strong></span>
+                <a href="#concierge" class="btn-text">Inquire</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Journeys -->
+    <section class="journeys-section section-spacing" id="journeys">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="eyebrow">The Grand Portfolio</span>
+            <h2 class="section-title">Curated sovereign journeys.</h2>
+            <p class="section-desc">Fully choreographed private expeditions featuring dedicated aircraft positioning, private villa access, and bespoke local guides.</p>
+          </div>
+        </div>
+
+        <div class="journey-editorial-grid">
+          <!-- Journey 1: Mediterranean Summer -->
+          <article class="journey-editorial-card">
+            <div class="journey-art-col">
+              <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mediterranean Summer voyage art">
+                <defs>
+                  <linearGradient id="medVoyage" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1F2A38"/>
+                    <stop offset="50%" stop-color="#E28D5C"/>
+                    <stop offset="100%" stop-color="#FCD39B"/>
+                  </linearGradient>
+                </defs>
+                <rect width="600" height="450" fill="url(#medVoyage)"/>
+                <circle cx="420" cy="180" r="60" fill="#FFF5DC" opacity="0.85"/>
+                <path d="M-20 450 Q120 280 260 330 T620 290 L620 450 Z" fill="#18202C"/>
+                <rect y="360" width="600" height="90" fill="#0C4860"/>
+                <path d="M380 390 Q430 390 480 380 Q460 372 420 372 Z" fill="#FAF7F2"/>
+              </svg>
+            </div>
+            <div class="journey-content-col">
+              <div class="journey-meta-pills">
+                <span class="journey-pill">7 days</span>
+                <span class="journey-pill">Italy</span>
+                <span class="journey-pill">From $4,800</span>
+              </div>
+              <h3 class="journey-title">Mediterranean Summer</h3>
+              <p class="journey-narrative">
+                Board your private Riva yacht along the Sirenuse archipelago to Ravello cliffside gardens. Enjoy after-hours access to ancient Roman grottos and private Michelin terrace dining overlooking the Tyrrhenian Sea.
+              </p>
+              <ul class="journey-highlights-list">
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Private Riva Super Aquarama yacht
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Secluded cliffside villa in Ravello
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Dedicated Sommelier & Butler
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Helicopter transfer from Rome / Naples
+                </li>
+              </ul>
+              <div class="journey-footer-row">
+                <div class="journey-price-wrap">
+                  <span class="journey-price-label">All-Inclusive Journey</span>
+                  <span class="journey-price-val">From $4,800 <small style="font-size:0.8rem; font-family:var(--font-sans); color:var(--text-muted);">/ patron</small></span>
+                </div>
+                <button class="btn btn-primary" onclick="openBookingModal('Mediterranean Summer', '$4,800')">Reserve Journey</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Journey 2: Arctic Light -->
+          <article class="journey-editorial-card reverse">
+            <div class="journey-art-col">
+              <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Arctic Light expedition art">
+                <defs>
+                  <linearGradient id="arcticVoyage" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#08101E"/>
+                    <stop offset="100%" stop-color="#1A2D4A"/>
+                  </linearGradient>
+                  <linearGradient id="auroraGlow2" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#00FFA3" stop-opacity="0"/>
+                    <stop offset="50%" stop-color="#00FFA3" stop-opacity="0.75"/>
+                    <stop offset="100%" stop-color="#00FFA3" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <rect width="600" height="450" fill="url(#arcticVoyage)"/>
+                <path d="M-50 140 Q150 40 300 120 T650 90 L650 200 Q400 240 200 160 T-50 220 Z" fill="url(#auroraGlow2)" filter="blur(6px)"/>
+                <polygon points="40,450 220,240 400,450" fill="#0C1420"/>
+                <polygon points="220,240 190,280 250,280" fill="#E8F4F8"/>
+                <polygon points="320,450 450,270 580,450" fill="#141E2C"/>
+              </svg>
+            </div>
+            <div class="journey-content-col">
+              <div class="journey-meta-pills">
+                <span class="journey-pill">6 days</span>
+                <span class="journey-pill">Iceland</span>
+                <span class="journey-pill">From $3,900</span>
+              </div>
+              <h3 class="journey-title">Arctic Light</h3>
+              <p class="journey-narrative">
+                Traverse untouched glacial tongues via private super-jeep, land atop remote active volcanic calderas by helicopter, and soak in private geothermal lagoons surrounded by untouched arctic stillness under the Aurora Borealis.
+              </p>
+              <ul class="journey-highlights-list">
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Nightly Aurora flight safaris
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Private glass dome luxury lodge
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Exclusive Blue Lagoon ritual suite
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Glaciologist expedition leader
+                </li>
+              </ul>
+              <div class="journey-footer-row">
+                <div class="journey-price-wrap">
+                  <span class="journey-price-label">All-Inclusive Journey</span>
+                  <span class="journey-price-val">From $3,900 <small style="font-size:0.8rem; font-family:var(--font-sans); color:var(--text-muted);">/ patron</small></span>
+                </div>
+                <button class="btn btn-primary" onclick="openBookingModal('Arctic Light', '$3,900')">Reserve Journey</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Journey 3: Silk Road -->
+          <article class="journey-editorial-card">
+            <div class="journey-art-col">
+              <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Silk Road oasis journey art">
+                <defs>
+                  <linearGradient id="silkVoyage" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#261B2E"/>
+                    <stop offset="50%" stop-color="#A24B5E"/>
+                    <stop offset="100%" stop-color="#F7C488"/>
+                  </linearGradient>
+                </defs>
+                <rect width="600" height="450" fill="url(#silkVoyage)"/>
+                <circle cx="300" cy="190" r="50" fill="#FFF2CE" opacity="0.8"/>
+                <path d="M120 450 L120 300 Q180 230 240 300 L240 450 Z" fill="#1C1422"/>
+                <path d="M240 450 L240 260 Q340 180 440 260 L440 450 Z" fill="#120D16"/>
+                <rect x="470" y="200" width="24" height="250" fill="#1C1422"/>
+                <polygon points="465,200 482,160 499,200" fill="#C29B38"/>
+              </svg>
+            </div>
+            <div class="journey-content-col">
+              <div class="journey-meta-pills">
+                <span class="journey-pill">10 days</span>
+                <span class="journey-pill">Central Asia</span>
+                <span class="journey-pill">From $5,400</span>
+              </div>
+              <h3 class="journey-title">Silk Road</h3>
+              <p class="journey-narrative">
+                Step into thousand-year-old azure madrasahs illuminated exclusively for your private viewing after dusk. Dine inside restored royal caravanserais with regional historians, private sufi music ensembles, and master carpet weavers.
+              </p>
+              <ul class="journey-highlights-list">
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  VIP Night access to Registan Square
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Restored Emir's private palace stay
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Private charter flight positioning
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Lead curator guide throughout
+                </li>
+              </ul>
+              <div class="journey-footer-row">
+                <div class="journey-price-wrap">
+                  <span class="journey-price-label">All-Inclusive Journey</span>
+                  <span class="journey-price-val">From $5,400 <small style="font-size:0.8rem; font-family:var(--font-sans); color:var(--text-muted);">/ patron</small></span>
+                </div>
+                <button class="btn btn-primary" onclick="openBookingModal('Silk Road', '$5,400')">Reserve Journey</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Journey 4: Pacific Escape -->
+          <article class="journey-editorial-card reverse">
+            <div class="journey-art-col">
+              <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pacific Escape French Polynesia art">
+                <defs>
+                  <linearGradient id="pacificVoyage" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#E88261"/>
+                    <stop offset="45%" stop-color="#FCD59A"/>
+                    <stop offset="70%" stop-color="#55C9C8"/>
+                    <stop offset="100%" stop-color="#0E5E72"/>
+                  </linearGradient>
+                </defs>
+                <rect width="600" height="450" fill="url(#pacificVoyage)"/>
+                <circle cx="300" cy="170" r="45" fill="#FFFCEB"/>
+                <polygon points="160,330 300,160 440,330" fill="#132F2A"/>
+                <polygon points="260,330 300,180 340,330" fill="#0C201C"/>
+                <rect y="310" width="600" height="140" fill="#0B4B5C"/>
+                <path d="M-10 450 Q30 350 80 310" stroke="#081A16" stroke-width="6" fill="none"/>
+              </svg>
+            </div>
+            <div class="journey-content-col">
+              <div class="journey-meta-pills">
+                <span class="journey-pill">8 days</span>
+                <span class="journey-pill">French Polynesia</span>
+                <span class="journey-pill">From $7,200</span>
+              </div>
+              <h3 class="journey-title">Pacific Escape</h3>
+              <p class="journey-narrative">
+                Step off your seaplane directly onto a private motu with no other footprints. Cruise crystal turquoise barrier reefs aboard an 80-foot luxury catamaran, diving alongside gentle manta rays and sea turtles with private marine biologists.
+              </p>
+              <ul class="journey-highlights-list">
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Presidential overwater villa estate
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Private catamaran cruising
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Polynesian fire feast on private motu
+                </li>
+                <li class="journey-highlight-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Inter-island twin-otter transfer
+                </li>
+              </ul>
+              <div class="journey-footer-row">
+                <div class="journey-price-wrap">
+                  <span class="journey-price-label">All-Inclusive Journey</span>
+                  <span class="journey-price-val">From $7,200 <small style="font-size:0.8rem; font-family:var(--font-sans); color:var(--text-muted);">/ patron</small></span>
+                </div>
+                <button class="btn btn-primary" onclick="openBookingModal('Pacific Escape', '$7,200')">Reserve Journey</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experiences -->
+    <section class="experiences-section section-spacing" id="experiences">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="eyebrow">Rare Pursuits</span>
+            <h2 class="section-title">Experiences designed without precedent.</h2>
+            <p class="section-desc">We unlock private doors closed to the public — from private Michelin cellars to untracked alpine peaks.</p>
+          </div>
+        </div>
+
+        <div class="experiences-grid">
+          <!-- Private Dining -->
+          <article class="experience-card featured-span">
+            <div class="experience-top-row">
+              <span class="experience-num">01 / Curated Pursuit</span>
+              <div class="experience-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                  <line x1="6" y1="1" x2="6" y2="4"></line>
+                  <line x1="10" y1="1" x2="10" y2="4"></line>
+                  <line x1="14" y1="1" x2="14" y2="4"></line>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="experience-title">Private dining</h3>
+              <p class="experience-desc">
+                Private three-star Michelin masterclasses inside 16th-century Tuscan estates, candlelit subterranean cellars in Bordeaux, and bespoke dinners prepared atop cliffside terraces overlooking the sea.
+              </p>
+              <a href="#concierge" class="btn btn-gold" style="padding:0.6rem 1.2rem; font-size:0.75rem;">Inquire Experience</a>
+            </div>
+          </article>
+
+          <!-- Sailing -->
+          <article class="experience-card">
+            <div class="experience-top-row">
+              <span class="experience-num">02</span>
+              <div class="experience-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M2 20h20M4 17l8-14 8 14H4z"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="experience-title">Sailing</h3>
+              <p class="experience-desc">Exclusive bareboat or fully crewed charters navigating the secluded coves of the Cyclades, Balearics, and Caribbean Virgin passages.</p>
+              <a href="#concierge" class="btn-text">Explore Fleets</a>
+            </div>
+          </article>
+
+          <!-- Mountain retreats -->
+          <article class="experience-card">
+            <div class="experience-top-row">
+              <span class="experience-num">03</span>
+              <div class="experience-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M8 3l4 8 5-5 5 15H2L8 3z"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="experience-title">Mountain retreats</h3>
+              <p class="experience-desc">Helicopter drops into virgin powder bowls in the Swiss Engadin and private cedar saunas overlooking snowy Japanese Alps peaks.</p>
+              <a href="#concierge" class="btn-text">Explore Retreats</a>
+            </div>
+          </article>
+
+          <!-- Wellness -->
+          <article class="experience-card">
+            <div class="experience-top-row">
+              <span class="experience-num">04</span>
+              <div class="experience-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 6v6l4 2"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="experience-title">Wellness</h3>
+              <p class="experience-desc">Holistic Ayurvedic sanctums in Bhutan, Swiss cellular revitalisation clinics, and thermal onsen sanctuaries with ancient natural spring sources.</p>
+              <a href="#concierge" class="btn-text">Discover Wellness</a>
+            </div>
+          </article>
+
+          <!-- Art & culture -->
+          <article class="experience-card">
+            <div class="experience-top-row">
+              <span class="experience-num">05</span>
+              <div class="experience-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                  <path d="M2 12h20"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="experience-title">Art & culture</h3>
+              <p class="experience-desc">Private curator-guided after-hours walkthroughs of the Uffizi, private Venetian palazzos, and confidential artist ateliers.</p>
+              <a href="#concierge" class="btn-text">View Ateliers</a>
+            </div>
+          </article>
+
+          <!-- Adventure -->
+          <article class="experience-card">
+            <div class="experience-top-row">
+              <span class="experience-num">06</span>
+              <div class="experience-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <polygon points="12 2 15 8 21 9.5 16.5 14 18 20 12 16.5 6 20 7.5 14 3 9.5 9 8 12 2"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="experience-title">Adventure</h3>
+              <p class="experience-desc">White Desert luxury camps in Antarctica, private safari concessions in Botswana, and camel caravans across the golden dunes of Oman.</p>
+              <a href="#concierge" class="btn-text">Begin Expedition</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Aurelia Difference -->
+    <section class="difference-section section-spacing" id="difference">
+      <div class="container">
+        <div style="text-align: center; max-width: 680px; margin: 0 auto;">
+          <span class="eyebrow">The Standard</span>
+          <h2 class="section-title">The Aurelia Difference.</h2>
+          <p class="section-desc" style="margin: 0 auto;">We reject algorithmic travel. Every itinerary is an original masterpiece shaped by deep personal relationships and uncompromising standards.</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <span class="pillar-number">Pillar I</span>
+            <h3 class="pillar-title">Personal concierge</h3>
+            <p class="pillar-desc">A single dedicated director of travel assigned to your household, anticipating every nuance before you even speak it.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </div>
+            <span class="pillar-number">Pillar II</span>
+            <h3 class="pillar-title">Handpicked stays</h3>
+            <p class="pillar-desc">Only properties that fulfill our 120-point architectural, privacy, and hospitality benchmark make our sovereign list.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <span class="pillar-number">Pillar III</span>
+            <h3 class="pillar-title">Private experiences</h3>
+            <p class="pillar-desc">Direct access to royal estates, private islands, and closed art archives unreachable through conventional booking channels.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <span class="pillar-number">Pillar IV</span>
+            <h3 class="pillar-title">Seamless planning</h3>
+            <p class="pillar-desc">Door-to-door private aviation logistics, tarmac escort, and zero paperwork friction from departure to return.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Travel Map -->
+    <section class="map-section section-spacing" id="map">
+      <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.5rem;">
+          <div>
+            <span class="eyebrow-simple">Global Sovereignty</span>
+            <h2 class="section-title">The Sovereign Flight Corridors.</h2>
+            <p class="section-desc">Active private aviation routes, partner FBO terminals, and dedicated haven coordinates across 6 continents.</p>
+          </div>
+          <div style="font-size:0.8rem; color:var(--accent-gold-light);">
+            <span>● Active Hubs: <strong>Europe · Asia · North America · South America · Africa · Oceania</strong></span>
+          </div>
+        </div>
+
+        <div class="map-canvas-container">
+          <div class="map-svg-wrap">
+            <svg viewBox="0 0 1000 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aurelia Interactive Global Flight Corridors Map">
+              <defs>
+                <linearGradient id="mapArcGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#C29B38" stop-opacity="0.3"/>
+                  <stop offset="50%" stop-color="#F1C27D" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#C29B38" stop-opacity="0.3"/>
+                </linearGradient>
+              </defs>
+
+              <g stroke="rgba(250, 247, 242, 0.05)" stroke-width="0.75" stroke-dasharray="2 4">
+                <line x1="0" y1="125" x2="1000" y2="125"/>
+                <line x1="0" y1="250" x2="1000" y2="250"/>
+                <line x1="0" y1="375" x2="1000" y2="375"/>
+                <line x1="200" y1="0" x2="200" y2="500"/>
+                <line x1="400" y1="0" x2="400" y2="500"/>
+                <line x1="600" y1="0" x2="600" y2="500"/>
+                <line x1="800" y1="0" x2="800" y2="500"/>
+              </g>
+
+              <!-- Continents -->
+              <g fill="#24211D" stroke="rgba(194, 155, 56, 0.2)" stroke-width="0.8">
+                <!-- North America -->
+                <path d="M120 70 Q180 50 250 80 Q290 120 280 180 Q250 240 190 260 Q170 230 140 180 Q100 130 120 70 Z"/>
+                <!-- South America -->
+                <path d="M250 280 Q320 290 350 350 Q330 440 280 470 Q240 400 230 340 Z"/>
+                <!-- Europe -->
+                <path d="M460 80 Q540 60 560 120 Q540 180 480 190 Q440 160 450 110 Z"/>
+                <!-- Africa -->
+                <path d="M460 200 Q560 190 580 270 Q560 380 500 420 Q440 340 440 250 Z"/>
+                <!-- Asia -->
+                <path d="M580 80 Q780 60 860 130 Q880 240 760 270 Q660 260 600 200 Q570 140 580 80 Z"/>
+                <!-- Oceania -->
+                <path d="M780 340 Q880 330 900 390 Q860 450 780 440 Q750 390 780 340 Z"/>
+              </g>
+
+              <!-- Routes -->
+              <g stroke="url(#mapArcGold)" stroke-width="1.8" fill="none" stroke-dasharray="5 5">
+                <path d="M500 130 Q360 40 240 140"/>
+                <path d="M500 130 Q580 140 640 190"/>
+                <path d="M640 190 Q750 150 830 140"/>
+                <path d="M500 130 Q580 220 680 280"/>
+                <path d="M240 140 Q220 290 280 450"/>
+                <path d="M830 140 Q920 250 940 330"/>
+                <path d="M500 130 Q510 240 520 350"/>
+              </g>
+
+              <!-- Pins -->
+              <g class="map-pin" cursor="pointer" onclick="showMapToast('Europe: Geneva FBO Hub')">
+                <circle cx="500" cy="130" r="10" fill="#C29B38" class="map-pin-pulse"/>
+                <circle cx="500" cy="130" r="4" fill="#FFFFFF"/>
+                <text x="500" y="118" font-family="system-ui" font-size="10" font-weight="600" fill="#FAF7F2" text-anchor="middle">EUROPE (GENEVA)</text>
+              </g>
+
+              <g class="map-pin" cursor="pointer" onclick="showMapToast('North America: New York Teterboro')">
+                <circle cx="240" cy="140" r="8" fill="#C29B38" class="map-pin-pulse"/>
+                <circle cx="240" cy="140" r="3.5" fill="#FFFFFF"/>
+                <text x="240" y="128" font-family="system-ui" font-size="9" font-weight="600" fill="#FAF7F2" text-anchor="middle">NORTH AMERICA</text>
+              </g>
+
+              <g class="map-pin" cursor="pointer" onclick="showMapToast('Asia: Tokyo Haneda VIP')">
+                <circle cx="830" cy="140" r="8" fill="#C29B38" class="map-pin-pulse"/>
+                <circle cx="830" cy="140" r="3.5" fill="#FFFFFF"/>
+                <text x="830" y="128" font-family="system-ui" font-size="9" font-weight="600" fill="#FAF7F2" text-anchor="middle">ASIA (TOKYO)</text>
+              </g>
+
+              <g class="map-pin" cursor="pointer" onclick="showMapToast('Africa: Cape Town & Serengeti Concessions')">
+                <circle cx="520" cy="350" r="7" fill="#C29B38" class="map-pin-pulse"/>
+                <circle cx="520" cy="350" r="3" fill="#FFFFFF"/>
+                <text x="520" y="370" font-family="system-ui" font-size="9" fill="#E0C37B" text-anchor="middle">AFRICA</text>
+              </g>
+
+              <g class="map-pin" cursor="pointer" onclick="showMapToast('South America: Patagonia Andes')">
+                <circle cx="280" cy="450" r="6" fill="#C29B38" class="map-pin-pulse"/>
+                <circle cx="280" cy="450" r="2.5" fill="#FFFFFF"/>
+                <text x="280" y="468" font-family="system-ui" font-size="9" fill="#E0C37B" text-anchor="middle">SOUTH AMERICA</text>
+              </g>
+
+              <g class="map-pin" cursor="pointer" onclick="showMapToast('Oceania: French Polynesia & Sydney Passage')">
+                <circle cx="850" cy="390" r="6" fill="#C29B38" class="map-pin-pulse"/>
+                <circle cx="850" cy="390" r="2.5" fill="#FFFFFF"/>
+                <text x="850" y="408" font-family="system-ui" font-size="9" fill="#E0C37B" text-anchor="middle">OCEANIA</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="map-hud-bar">
+            <div class="map-hud-item">
+              <span class="map-hud-label">Direct Air Corridors</span>
+              <span class="map-hud-value">124 Global Slots</span>
+            </div>
+            <div class="map-hud-item">
+              <span class="map-hud-label">Dedicated Aircraft</span>
+              <span class="map-hud-value">Gulfstream G700 & Global 7500</span>
+            </div>
+            <div class="map-hud-item">
+              <span class="map-hud-label">Average Clearance</span>
+              <span class="map-hud-value">4 min Diplomatic VIP</span>
+            </div>
+            <div class="map-hud-item">
+              <span class="map-hud-label">Carbon Neutral</span>
+              <span class="map-hud-value">100% Certified SAF Offset</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Journal -->
+    <section class="journal-section section-spacing" id="journal">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="eyebrow">The Aurelia Dispatch</span>
+            <h2 class="section-title">Essays from the quiet corners.</h2>
+            <p class="section-desc">Reflections on architecture, solitary landscapes, culinary heritage, and the philosophy of deliberate exploration.</p>
+          </div>
+        </div>
+
+        <div class="journal-grid">
+          <!-- Article 1 -->
+          <article class="journal-card">
+            <div class="journal-art-wrap">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="200" fill="#1C1815"/>
+                <circle cx="200" cy="100" r="45" fill="#3D3228"/>
+                <circle cx="200" cy="100" r="28" fill="#C29B38" opacity="0.8"/>
+                <line x1="80" y1="100" x2="320" y2="100" stroke="#FAF7F2" stroke-width="0.8" stroke-dasharray="4 4"/>
+              </svg>
+            </div>
+            <div class="journal-body">
+              <div class="journal-meta">
+                <span>Philosophy</span> · <span>6 Min Read</span>
+              </div>
+              <h3 class="journal-title">The art of slow travel</h3>
+              <p class="journal-excerpt">In an age of hyper-connectivity, the greatest luxury is not seeing everything, but giving yourself the space to truly inhabit one quiet piazza.</p>
+              <button class="btn-text" onclick="readArticle('The art of slow travel')">Read Essay</button>
+            </div>
+          </article>
+
+          <!-- Article 2 -->
+          <article class="journal-card">
+            <div class="journal-art-wrap">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="200" fill="#141E26"/>
+                <polygon points="100,200 200,60 300,200" fill="#2A3B49"/>
+                <polygon points="200,60 180,100 220,100" fill="#FFF"/>
+              </svg>
+            </div>
+            <div class="journal-body">
+              <div class="journal-meta">
+                <span>Destinations</span> · <span>8 Min Read</span>
+              </div>
+              <h3 class="journal-title">Seven places to see before everyone else</h3>
+              <p class="journal-excerpt">From remote fjord villages in eastern Greenland to secluded mountain monasteries in Ladakh untouched by mass tourism.</p>
+              <button class="btn-text" onclick="readArticle('Seven places to see before everyone else')">Read Essay</button>
+            </div>
+          </article>
+
+          <!-- Article 3 -->
+          <article class="journal-card">
+            <div class="journal-art-wrap">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="200" fill="#251F1B"/>
+                <rect x="140" y="40" width="120" height="160" fill="#3D332C"/>
+                <circle cx="200" cy="110" r="18" fill="#C29B38"/>
+              </svg>
+            </div>
+            <div class="journal-body">
+              <div class="journal-meta">
+                <span>Sanctuaries</span> · <span>5 Min Read</span>
+              </div>
+              <h3 class="journal-title">Inside the world's quietest retreats</h3>
+              <p class="journal-excerpt">How acoustic architects and historic monastic estates are engineering spaces of complete acoustic serenity in the desert.</p>
+              <button class="btn-text" onclick="readArticle('Inside the world\'s quietest retreats')">Read Essay</button>
+            </div>
+          </article>
+
+          <!-- Article 4 -->
+          <article class="journal-card">
+            <div class="journal-art-wrap">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="200" fill="#0F1824"/>
+                <path d="M60 140 Q200 40 340 120" stroke="#C29B38" stroke-width="1.5" fill="none"/>
+                <circle cx="340" cy="120" r="4" fill="#FAF7F2"/>
+              </svg>
+            </div>
+            <div class="journal-body">
+              <div class="journal-meta">
+                <span>Aviation</span> · <span>7 Min Read</span>
+              </div>
+              <h3 class="journal-title">Why the journey matters</h3>
+              <p class="journal-excerpt">Reinventing private terminal aesthetics and non-stop global travel into an effortless continuum of stillness and refined hospitality.</p>
+              <button class="btn-text" onclick="readArticle('Why the journey matters')">Read Essay</button>
+            </div>
+          </article>
+
+          <!-- Article 5 -->
+          <article class="journal-card">
+            <div class="journal-art-wrap">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="200" fill="#241B20"/>
+                <path d="M120 180 Q200 100 280 180" stroke="#8C424E" stroke-width="2" fill="none"/>
+                <circle cx="200" cy="90" r="25" fill="#E8B86D" opacity="0.7"/>
+              </svg>
+            </div>
+            <div class="journal-body">
+              <div class="journal-meta">
+                <span>Architecture</span> · <span>6 Min Read</span>
+              </div>
+              <h3 class="journal-title">Architectural sanctuaries of Kyoto</h3>
+              <p class="journal-excerpt">The cedar joinery, inner courtyards, and subtle light filtration that have given Japanese residential architecture timeless power for 800 years.</p>
+              <button class="btn-text" onclick="readArticle('Architectural sanctuaries of Kyoto')">Read Essay</button>
+            </div>
+          </article>
+
+          <!-- Article 6 -->
+          <article class="journal-card">
+            <div class="journal-art-wrap">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="200" fill="#1C2122"/>
+                <polygon points="80,200 160,110 240,200" fill="#2D3A3B"/>
+                <polygon points="200,200 280,90 360,200" fill="#3D4E50"/>
+              </svg>
+            </div>
+            <div class="journal-body">
+              <div class="journal-meta">
+                <span>Gastronomy</span> · <span>5 Min Read</span>
+              </div>
+              <h3 class="journal-title">Tasting Patagonia: Fire, wine and wilderness</h3>
+              <p class="journal-excerpt">An intimate exploration into open-fire asado traditions and biodynamic high-latitude viticulture at the southern end of the earth.</p>
+              <button class="btn-text" onclick="readArticle('Tasting Patagonia: Fire, wine and wilderness')">Read Essay</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Membership -->
+    <section class="membership-section section-spacing" id="membership">
+      <div class="container">
+        <div class="membership-card-wrap">
+          <svg class="membership-watermark" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+            <circle cx="50" cy="50" r="45" stroke="#FFF" stroke-width="1"/>
+            <path d="M50 10 L55 35 L80 40 L60 55 L65 80 L50 65 L35 80 L40 55 L20 40 L45 35 Z" fill="#FFF"/>
+          </svg>
+
+          <div class="membership-grid">
+            <div class="membership-content">
+              <span class="eyebrow-simple">Private Concierge Tier</span>
+              <h2 class="membership-title">AURELIA PRIVATE</h2>
+              <p class="membership-desc">
+                An exclusive circle of 250 global patrons granted uninhibited private fleet positioning, confidential haven access, and a senior director managing all worldwide residence and travel affairs.
+              </p>
+
+              <ul class="membership-benefits-list">
+                <li class="membership-benefit-item">
+                  <div class="membership-benefit-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                  </div>
+                  <span><strong>Priority planning:</strong> Guaranteed 4-hour jet dispatch & allocation.</span>
+                </li>
+                <li class="membership-benefit-item">
+                  <div class="membership-benefit-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                  </div>
+                  <span><strong>Private access:</strong> Unlisted royal estates & private islands.</span>
+                </li>
+                <li class="membership-benefit-item">
+                  <div class="membership-benefit-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                  </div>
+                  <span><strong>Dedicated concierge:</strong> Personal Senior Director 24/7.</span>
+                </li>
+                <li class="membership-benefit-item">
+                  <div class="membership-benefit-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                  </div>
+                  <span><strong>Exclusive experiences:</strong> Diplomatic tarmac clearance & closed doors.</span>
+                </li>
+              </ul>
+
+              <button class="btn btn-gold" onclick="openModal('membershipModal')">Request access</button>
+            </div>
+
+            <div class="membership-tier-badge">
+              <div class="membership-crest">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C29B38" stroke-width="1.5">
+                  <path d="M12 2L15 8L21 9.5L16.5 14L18 20L12 16.5L6 20L7.5 14L3 9.5L9 8L12 2Z"></path>
+                </svg>
+              </div>
+              <h3 class="membership-badge-title">PATRON GUILD</h3>
+              <p class="membership-badge-sub">Limited to 250 Worldwide Keyholders</p>
+              <div style="padding:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#BFB5A6;">
+                Annual Selection Board · Geneva & New York
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section section-spacing">
+      <div class="container">
+        <div style="text-align: center; max-width: 640px; margin: 0 auto;">
+          <span class="eyebrow">Patron Words</span>
+          <h2 class="section-title">The Journal of Patrons.</h2>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div>
+              <div class="testimonial-quote-mark">“</div>
+              <p class="testimonial-quote">
+                Aurelia transformed our Kyoto journey from a vacation into a spiritual rediscovery. Having a private 15th-generation master open his temple garden at dawn with no other soul in sight was profoundly moving.
+              </p>
+            </div>
+            <div class="testimonial-author-row">
+              <div class="testimonial-avatar-monogram">EV</div>
+              <div class="testimonial-author-info">
+                <h4>Lady Evelyn Vance</h4>
+                <p>Architectural Historian · London</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div>
+              <div class="testimonial-quote-mark">“</div>
+              <p class="testimonial-quote">
+                The aviation logistics were flawless. From our Geneva chalet tarmac to the private atoll in French Polynesia, we never touched a line, waited for a bag, or felt rushed for a single second.
+              </p>
+            </div>
+            <div class="testimonial-author-row">
+              <div class="testimonial-avatar-monogram">MB</div>
+              <div class="testimonial-author-info">
+                <h4>Marcus von Berg</h4>
+                <p>Managing Partner · Zurich</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div>
+              <div class="testimonial-quote-mark">“</div>
+              <p class="testimonial-quote">
+                Their attention to quiet discretion and private museum access is unmatched globally. The Amalfi villa they arranged in Ravello was easily the most exquisite property we have ever inhabited.
+              </p>
+            </div>
+            <div class="testimonial-author-row">
+              <div class="testimonial-avatar-monogram">ER</div>
+              <div class="testimonial-author-info">
+                <h4>Dr. Elena Rostova</h4>
+                <p>Private Art Collector · Milan</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing / Tiers -->
+    <section class="pricing-section section-spacing" id="pricing">
+      <div class="container">
+        <div style="text-align: center; max-width: 640px; margin: 0 auto;">
+          <span class="eyebrow">Arrangement Tiers</span>
+          <h2 class="section-title">Curated Engagements.</h2>
+          <p class="section-desc" style="margin: 0 auto;">Transparent bespoke structures designed for independent travelers, seasonal voyagers, and private aviation keyholders.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Essential -->
+          <div class="pricing-card">
+            <div>
+              <h3 class="tier-name">Essential</h3>
+              <p class="tier-for">For independent travelers</p>
+              
+              <div class="tier-price-row">
+                <div class="tier-price-amount">From $2,500</div>
+                <div class="tier-price-sub">Per completed custom itinerary</div>
+              </div>
+
+              <ul class="tier-features-list">
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Complete bespoke journey design
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Vetted 5-star haven reservations
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Commercial First Class routing
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Digital luxury travel dispatch
+                </li>
+              </ul>
+            </div>
+            <a href="#concierge" class="btn btn-outline" style="width: 100%;">Select Essential</a>
+          </div>
+
+          <!-- Signature -->
+          <div class="pricing-card featured-tier">
+            <span class="tier-badge-label">Most Requested</span>
+            <div>
+              <h3 class="tier-name">Signature</h3>
+              <p class="tier-for">For curated journeys</p>
+              
+              <div class="tier-price-row">
+                <div class="tier-price-amount">From $5,000</div>
+                <div class="tier-price-sub">Per journey full host management</div>
+              </div>
+
+              <ul class="tier-features-list">
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Everything in Essential tier
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Private charter aircraft booking
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Exclusive VIP after-hours access
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  24/7 dedicated travel director
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Private villa butler & sommelier
+                </li>
+              </ul>
+            </div>
+            <a href="#concierge" class="btn btn-gold" style="width: 100%;">Select Signature</a>
+          </div>
+
+          <!-- Private -->
+          <div class="pricing-card">
+            <div>
+              <h3 class="tier-name">Private</h3>
+              <p class="tier-for">For personalized travel</p>
+              
+              <div class="tier-price-row">
+                <div class="tier-price-amount">By request</div>
+                <div class="tier-price-sub">Annual private guild retainer</div>
+              </div>
+
+              <ul class="tier-features-list">
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Guaranteed 4-hr jet positioning
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Confidential unlisted haven key
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Dedicated Senior Director team
+                </li>
+                <li class="tier-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Unlimited global itineraries
+                </li>
+              </ul>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('membershipModal')" style="width: 100%;">Request Access</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="about-section section-spacing" id="about">
+      <div class="container">
+        <div class="about-layout">
+          <div class="about-text-content">
+            <span class="eyebrow">Our Heritage</span>
+            <h2 class="section-title">Our philosophy & approach.</h2>
+            <p class="section-desc">
+              <strong>Our Philosophy:</strong> We believe true luxury is not excess, but stillness, time, and flawless execution. Modern travel had sacrificed its poetry to mass automation; we return to the grand tradition of bespoke voyage.
+            </p>
+            <p class="section-desc">
+              <strong>Our Approach:</strong> Every journey is an original composition shaped around your personal rhythm. We do not use off-the-shelf packages or automated algorithms.
+            </p>
+            <p class="section-desc">
+              <strong>Our People:</strong> Lifelong aviation directors, former Swiss hoteliers, cultural historians, and private marine captains across Geneva, Tokyo, London, and New York.
+            </p>
+            <div style="margin-top: 2rem;">
+              <a href="#concierge" class="btn btn-outline">Meet our directors</a>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="about-timeline-grid">
+            <div class="timeline-item">
+              <div class="timeline-year">2019</div>
+              <h3 class="timeline-title">The Geneva Inception</h3>
+              <p class="timeline-desc">Established as a discreet private aviation and alpine chalet concierge for multi-generational families.</p>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-year">2021</div>
+              <h3 class="timeline-title">Global Concierge Guild</h3>
+              <p class="timeline-desc">Expansion of dedicated bureaus into London Mayfair, Tokyo Ginza, and New York Manhattan.</p>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-year">2024</div>
+              <h3 class="timeline-title">Sovereign Aviation Fleet</h3>
+              <p class="timeline-desc">Launch of dedicated transatlantic light, mid, and ultra-long-range jet access corridors.</p>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-year">2026</div>
+              <h3 class="timeline-title">The Global Haven Collection</h3>
+              <p class="timeline-desc">Over 48 private residences, islands, and architectural sanctuaria available exclusively to Aurelia patrons.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section section-spacing" id="faq">
+      <div class="container">
+        <div style="text-align: center; max-width: 640px; margin: 0 auto;">
+          <span class="eyebrow">Patron Inquiries</span>
+          <h2 class="section-title">Frequently Asked Questions.</h2>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary class="faq-question">
+              <span>How does planning work?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              Every engagement begins with a private consultation with your assigned Travel Director. We map your culinary, architectural, timing, and aircraft preferences before presenting a preliminary narrative itinerary within 48 hours.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Can journeys be customized?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              Yes. Every single element — from departure times and aircraft cabin configurations to specific villa wings and private after-hours museum entries — is customized strictly around your schedule.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Do you arrange private experiences?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              Yes. Through our Sovereign Aviation and Maritime partnerships, we coordinate light jets, ultra-long-range aircraft, superyachts, after-hours museum viewings, and private Michelin chef dining.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How far in advance should I book?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              For peak seasons (Amalfi Coast in July, Swiss Alps in February, Kyoto cherry blossoms in April), we recommend 3 to 6 months in advance. However, our Aurelia Private members enjoy guaranteed 4-hour jet dispatch and emergency priority villa allocation year-round.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Can you plan multi-country journeys?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              Seamlessly. We frequently choreograph multi-continental voyages (e.g. London to Reykjavik, then private flight to Patagonia and Polynesia), managing all diplomatic clearances, luggage handling, and medical-grade security.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact / Concierge -->
+    <section class="contact-section section-spacing" id="concierge">
+      <div class="container">
+        <div class="contact-card">
+          <div class="contact-layout">
+            <div class="contact-sidebar-info">
+              <div>
+                <span class="eyebrow-simple">The Bureau Desk</span>
+                <h2 class="section-title" style="font-size:2.4rem;">Contact concierge.</h2>
+                <p class="section-desc">
+                  Entrust us with your next voyage. A senior director will review your preferences and initiate communication within four business hours.
+                </p>
+              </div>
+
+              <ul class="contact-direct-points">
+                <li class="contact-point-item">
+                  <h5>Geneva Headquarters</h5>
+                  <p>Rue du Rhône 42, 1204 Genève, Switzerland</p>
+                </li>
+                <li class="contact-point-item">
+                  <h5>Private Aviation Operations</h5>
+                  <p>ops@aureliatravel.com · +41 22 819 9000</p>
+                </li>
+                <li class="contact-point-item">
+                  <h5>Patron Desk Hours</h5>
+                  <p>24 Hours · 365 Days a Year</p>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <form id="concierge-form" onsubmit="handleContactSubmit(event)">
+                <div class="contact-form-grid">
+                  <div class="form-group">
+                    <label for="contact-name" class="form-label">Name</label>
+                    <input type="text" id="contact-name" class="form-control" placeholder="Lady Eleanor Vance" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="contact-email" class="form-label">Email</label>
+                    <input type="email" id="contact-email" class="form-control" placeholder="e.vance@residence.com" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="contact-dest" class="form-label">Destination</label>
+                    <input type="text" id="contact-dest" class="form-control" placeholder="e.g. Amalfi Coast & Capri" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="contact-dates" class="form-label">Travel dates</label>
+                    <input type="text" id="contact-dates" class="form-control" placeholder="e.g. September 2026 (10 Days)">
+                  </div>
+
+                  <div class="form-group full-span">
+                    <label for="contact-message" class="form-label">Message</label>
+                    <textarea id="contact-message" class="form-control" placeholder="Please outline your preferred travel party size, aviation charter requirements, or special dietary and haven preferences..."></textarea>
+                  </div>
+
+                  <div class="full-span">
+                    <button type="submit" class="btn btn-primary" style="width:100%; padding:1.1rem;" id="contact-submit-btn">
+                      <span>Contact concierge</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+              <div class="form-success-message" id="contact-success">
+                <div style="width:48px; height:48px; border-radius:50%; background:var(--accent-gold); color:#171513; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <h3>Your message has reached our Director.</h3>
+                <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:1rem;">
+                  Reference: <strong id="contact-ref-id" style="color:var(--accent-gold-dark);">AUR-2026-8942</strong>
+                </p>
+                <p style="font-size:0.88rem; color:var(--text-muted);">
+                  A dedicated concierge director has been assigned and will connect with your household shortly.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section section-spacing">
+      <div class="container">
+        <div class="newsletter-box">
+          <span class="eyebrow">Private Gazette</span>
+          <h2 class="section-title">Notes from the world.</h2>
+          <p class="section-desc" style="margin: 0 auto;">
+            Curated dispatches on rare destinations, private aviation developments, and quiet sanctuaries delivered on the first Sunday of each month.
+          </p>
+
+          <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+            <input type="email" class="newsletter-input" id="newsletter-email" placeholder="Your email address" required aria-label="Your email address for newsletter">
+            <button type="submit" class="btn btn-primary" id="newsletter-btn">Subscribe</button>
+          </form>
+
+          <div class="newsletter-success-state" id="newsletter-success">
+            ✓ Welcome to the Aurelia Gazette. A confirmation dispatch has been sent.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta-section" id="final-cta">
+      <div class="container">
+        <span class="eyebrow-simple">Your Horizon Awaits</span>
+        <h2 class="final-cta-title">The world is waiting.</h2>
+        <p class="final-cta-sub">Let us design your next extraordinary journey.</p>
+        <div class="final-cta-buttons">
+          <a href="#concierge" class="btn btn-gold">Begin your journey</a>
+          <button class="btn btn-outline" style="border-color:rgba(255,255,255,0.3); color:#FAF7F2;" onclick="openModal('membershipModal')">Request Aurelia Private</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="brand-logo">
+            <div class="brand-monogram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2L15 8L21 9.5L16.5 14L18 20L12 16.5L6 20L7.5 14L3 9.5L9 8L12 2Z" fill="#C29B38" fill-opacity="0.3"/>
+                <path d="M12 4L14 9L19 10L15.5 13.5L16.5 18.5L12 15.5L7.5 18.5L8.5 13.5L5 10L10 9L12 4Z" stroke="#C29B38"/>
+              </svg>
+            </div>
+            <div class="brand-title-wrap">
+              <span class="brand-title" style="color:#FAF7F2;">AURELIA</span>
+              <span class="brand-subtitle">Haute Voyage & Aviation</span>
+            </div>
+          </div>
+          <p>
+            An international luxury travel maison and private aviation concierge dedicated to curating extraordinary sanctuaries worldwide.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Destinations</h4>
+          <ul class="footer-links-list">
+            <li><a href="#destinations" class="footer-link">Amalfi Coast</a></li>
+            <li><a href="#destinations" class="footer-link">Kyoto & Hakone</a></li>
+            <li><a href="#destinations" class="footer-link">Swiss Alps</a></li>
+            <li><a href="#destinations" class="footer-link">Patagonia</a></li>
+            <li><a href="#destinations" class="footer-link">Maldives Atolls</a></li>
+            <li><a href="#destinations" class="footer-link">Icelandic Highlands</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Journeys</h4>
+          <ul class="footer-links-list">
+            <li><a href="#journeys" class="footer-link">Mediterranean Summer</a></li>
+            <li><a href="#journeys" class="footer-link">Arctic Light</a></li>
+            <li><a href="#journeys" class="footer-link">Silk Road</a></li>
+            <li><a href="#journeys" class="footer-link">Pacific Escape</a></li>
+            <li><a href="#pricing" class="footer-link">Arrangements</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Experiences</h4>
+          <ul class="footer-links-list">
+            <li><a href="#experiences" class="footer-link">Private dining</a></li>
+            <li><a href="#experiences" class="footer-link">Sailing & Yachts</a></li>
+            <li><a href="#experiences" class="footer-link">Mountain retreats</a></li>
+            <li><a href="#experiences" class="footer-link">Wellness & Spa</a></li>
+            <li><a href="#experiences" class="footer-link">Art & culture</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Journal & Bureau</h4>
+          <ul class="footer-links-list">
+            <li><a href="#journal" class="footer-link">Journal</a></li>
+            <li><a href="#about" class="footer-link">About</a></li>
+            <li><a href="#concierge" class="footer-link">Concierge</a></li>
+            <li><a href="#privacy" onclick="event.preventDefault(); showMapToast('Privacy: Confidential end-to-end data encryption.');" class="footer-link">Privacy</a></li>
+            <li><a href="#terms" onclick="event.preventDefault(); showMapToast('Terms: Swiss law governed luxury travel contracts.');" class="footer-link">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>
+          © 2026 AURELIA
+        </div>
+        <div class="footer-legal-links">
+          <span style="color:#A0988C;">Geneva · London · New York · Tokyo · Dubai</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <div class="modal-backdrop" id="signInModal" role="dialog" aria-modal="true" aria-labelledby="signInTitle">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeModal('signInModal')" aria-label="Close dialog">✕</button>
+      <span class="eyebrow-simple">Patron Access</span>
+      <h3 class="modal-title" id="signInTitle">Sign in to Aurelia.</h3>
+      <p class="modal-sub">Access your private flight manifests, haven keys, and dedicated concierge channel.</p>
+      
+      <form onsubmit="handleSignIn(event)">
+        <div class="form-group" style="margin-bottom:1.2rem;">
+          <label for="signin-id" class="form-label">Patron ID or Email</label>
+          <input type="text" id="signin-id" class="form-control" placeholder="patron@aurelia.com" required>
+        </div>
+        <div class="form-group" style="margin-bottom:1.8rem;">
+          <label for="signin-key" class="form-label">Private Keycode</label>
+          <input type="password" id="signin-key" class="form-control" placeholder="••••••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Access Patron Portal</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="membershipModal" role="dialog" aria-modal="true" aria-labelledby="membershipModalTitle">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeModal('membershipModal')" aria-label="Close dialog">✕</button>
+      <span class="eyebrow-simple">Aurelia Private Guild</span>
+      <h3 class="modal-title" id="membershipModalTitle">Request access.</h3>
+      <p class="modal-sub">Membership is limited to 250 global patrons and subject to board approval.</p>
+      
+      <form onsubmit="handleMembershipSubmit(event)">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label for="mem-name" class="form-label">Full Name</label>
+          <input type="text" id="mem-name" class="form-control" placeholder="Lord / Lady / Dr. / Mr." required>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label for="mem-email" class="form-label">Private Email</label>
+          <input type="email" id="mem-email" class="form-control" placeholder="principal@familyoffice.ch" required>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label for="mem-hub" class="form-label">Primary Residence Hub</label>
+          <select id="mem-hub" class="form-control">
+            <option>Geneva / Zurich</option>
+            <option>London / Mayfair</option>
+            <option>New York / Manhattan</option>
+            <option>Tokyo / Minato</option>
+            <option>Dubai / Emirates Hills</option>
+            <option>Singapore / Sentosa</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem;">
+          <label for="mem-interest" class="form-label">Aviation & Travel Scope</label>
+          <input type="text" id="mem-interest" class="form-control" placeholder="e.g. 50+ Flight Hours Annually / Villa Portfolios">
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%;">Submit Candidacy</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="itineraryModal" role="dialog" aria-modal="true" aria-labelledby="itineraryModalTitle">
+    <div class="modal-window" style="max-width:640px;">
+      <button class="modal-close-btn" onclick="closeModal('itineraryModal')" aria-label="Close dialog">✕</button>
+      <span class="eyebrow-simple">Curated Blueprint</span>
+      <h3 class="modal-title" id="itineraryModalTitle">Amalfi & Ravello Private Voyage</h3>
+      <p class="modal-sub">Custom Flight Routing & Villa Allocation</p>
+      
+      <div style="background:var(--bg-secondary); padding:1.2rem; border-radius:var(--radius-sm); margin-bottom:1.5rem; font-size:0.88rem; line-height:1.7;">
+        <p><strong>Aircraft:</strong> Dassault Falcon 8X (Geneva GVA → Naples NAP direct)</p>
+        <p><strong>Haven:</strong> Villa Cimbrone Private Belvedere Suite, Ravello</p>
+        <p><strong>Marine:</strong> Riva Dolceriva Yacht at full charter disposal</p>
+        <p><strong>Host:</strong> Senior Director of Italian Voyages Marco Bellini</p>
+      </div>
+
+      <div style="display:flex; gap:1rem;">
+        <a href="#concierge" class="btn btn-primary" onclick="closeModal('itineraryModal')" style="flex:1;">Confirm with Concierge</a>
+        <button class="btn btn-outline" onclick="closeModal('itineraryModal')" style="flex:1;">Adjust Parameters</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="articleModalTitle">
+    <div class="modal-window" style="max-width:680px;">
+      <button class="modal-close-btn" onclick="closeModal('articleModal')" aria-label="Close dialog">✕</button>
+      <span class="eyebrow-simple" id="articleCategory">Editorial Essay</span>
+      <h3 class="modal-title" id="articleModalTitle">The art of slow travel</h3>
+      <p class="modal-sub" id="articleByline">By Aurelia Editorial Staff · Geneva</p>
+      
+      <div id="articleContent" style="font-size:0.95rem; line-height:1.8; color:var(--text-secondary); margin-bottom:2rem;">
+        <p>
+          In an era where travel has been accelerated into a frantic checklist of digital captures, true luxury resides in the deliberate slowing of pulse and perspective. When we choose to stay longer in a single valley, the landscape ceases to be a backdrop and begins to speak.
+        </p>
+        <p style="margin-top:1rem; font-family:var(--font-serif); font-size:1.15rem; font-style:italic; color:var(--text-primary); border-left:2px solid var(--accent-gold); padding-left:1rem;">
+          “The greatest journey is not the one that traverses the most meridians, but the one that leaves the deepest stillness in the soul.”
+        </p>
+        <p style="margin-top:1rem;">
+          Our directors select properties not merely for their marble or linens, but for their acoustic quietude, their architectural reverence for native stone, and their ability to restore the timeless rhythm of human thought.
+        </p>
+      </div>
+
+      <button class="btn btn-outline" onclick="closeModal('articleModal')" style="width:100%;">Close Dispatch</button>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="backToTopBtn" onclick="scrollToTop()" aria-label="Scroll back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script>
+    function updateClocks() {
+      const options = { hour: '2-digit', minute: '2-digit', hour12: false };
+      try {
+        const genevaTime = new Intl.DateTimeFormat('en-GB', { ...options, timeZone: 'Europe/Zurich' }).format(new Date());
+        const tokyoTime = new Intl.DateTimeFormat('en-GB', { ...options, timeZone: 'Asia/Tokyo' }).format(new Date());
+        const nyTime = new Intl.DateTimeFormat('en-GB', { ...options, timeZone: 'America/New_York' }).format(new Date());
+        document.getElementById('clock-geneva').textContent = genevaTime;
+        document.getElementById('clock-tokyo').textContent = tokyoTime;
+        document.getElementById('clock-ny').textContent = nyTime;
+      } catch (e) {}
+    }
+    updateClocks();
+    setInterval(updateClocks, 10000);
+
+    const header = document.getElementById('main-header');
+    const backToTopBtn = document.getElementById('backToTopBtn');
+
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY;
+      if (scrollPos > 40) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+
+      if (scrollPos > 400) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    }, { passive: true });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+
+    function toggleMobileMenu() {
+      mobileToggle.classList.toggle('active');
+      mobileDrawer.classList.toggle('open');
+      document.body.style.overflow = mobileDrawer.classList.contains('open') ? 'hidden' : '';
+    }
+
+    mobileToggle.addEventListener('click', toggleMobileMenu);
+
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C29B38" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 8v4M12 16h.01"></path>
+        </svg>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        toast.style.transition = 'all 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    function showMapToast(msg) {
+      showToast(msg);
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop.active').forEach(modal => {
+          modal.classList.remove('active');
+        });
+        if (mobileDrawer.classList.contains('open')) {
+          toggleMobileMenu();
+        }
+        document.body.style.overflow = '';
+      }
+    });
+
+    function filterDestinations(category, button) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      const cards = document.querySelectorAll('.destination-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'flex';
+          card.style.animation = 'fadeIn 0.4s ease-out forwards';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function handlePlanJourney(e) {
+      e.preventDefault();
+      const from = document.getElementById('plan-from').value;
+      const to = document.getElementById('plan-to').value;
+      const dates = document.getElementById('plan-dates').value;
+      const travelers = document.getElementById('plan-travelers').value;
+
+      const resultPanel = document.getElementById('planner-result');
+      const resultTitle = document.getElementById('result-title');
+      const resultDesc = document.getElementById('result-desc');
+
+      resultTitle.textContent = "Your journey is ready to explore.";
+      resultDesc.textContent = `Flight Corridor: ${from} → ${to} · Travel Window: ${dates} · Configuration: ${travelers}. Private aircraft slot and suite reserve matched.`;
+
+      resultPanel.style.display = 'block';
+      resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      showToast(`Itinerary matched: ${to}`);
+    }
+
+    function closeResultPanel() {
+      document.getElementById('planner-result').style.display = 'none';
+    }
+
+    function openBookingModal(journeyName, price) {
+      const destInput = document.getElementById('contact-dest');
+      const msgInput = document.getElementById('contact-message');
+      
+      if (destInput) destInput.value = journeyName;
+      if (msgInput) msgInput.value = `Inquiry regarding the ${journeyName} journey (${price} tier). Please contact with cabin and suite availability.`;
+      
+      const conciergeSection = document.getElementById('concierge');
+      if (conciergeSection) {
+        conciergeSection.scrollIntoView({ behavior: 'smooth' });
+        showToast(`Preparing inquiry for ${journeyName}`);
+      }
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value;
+      const randomRef = 'AUR-' + (new Date().getFullYear()) + '-' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('contact-ref-id').textContent = randomRef;
+
+      document.getElementById('concierge-form').style.display = 'none';
+      document.getElementById('contact-success').style.display = 'block';
+      showToast(`Thank you, ${name}. Request ${randomRef} logged.`);
+    }
+
+    function handleNewsletterSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('newsletter-email').value;
+      document.getElementById('newsletter-btn').textContent = 'Subscribed';
+      document.getElementById('newsletter-btn').disabled = true;
+      document.getElementById('newsletter-success').style.display = 'block';
+      showToast(`Gazette subscription active for ${email}`);
+    }
+
+    function handleSignIn(e) {
+      e.preventDefault();
+      closeModal('signInModal');
+      showToast('Patron authenticated. Welcome back to Aurelia Bureau.');
+    }
+
+    function handleMembershipSubmit(e) {
+      e.preventDefault();
+      closeModal('membershipModal');
+      showToast('Candidacy received. Our Geneva Selection Board will contact your office.');
+    }
+
+    function readArticle(title) {
+      const modalTitle = document.getElementById('articleModalTitle');
+      modalTitle.textContent = title;
+      openModal('articleModal');
+    }
+  </script>
+</body>
+</html>
