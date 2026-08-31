@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nimbus Cloud — Инфраструктура нового поколения</title>
+<meta name="description" content="Nimbus Cloud — масштабируемая платформа для развёртывания, мониторинга и защиты ваших приложений." />
+<style>
+  :root {
+    --bg: #0b0f19;
+    --bg-soft: #111827;
+    --card: #151b2b;
+    --card-hover: #1b2336;
+    --border: #232c42;
+    --text: #e6ebf5;
+    --muted: #8a93a8;
+    --accent: #6d5efc;
+    --accent-2: #22d3ee;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --radius: 16px;
+    --shadow: 0 10px 40px rgba(0,0,0,.35);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, rgba(109,94,252,.18), transparent 60%),
+                radial-gradient(900px 500px at 0% 10%, rgba(34,211,238,.10), transparent 55%),
+                var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1160px, 92%); margin: 0 auto; }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(11,15,25,.72);
+    border-bottom: 1px solid var(--border);
+  }
+  nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.15rem; letter-spacing: .3px; }
+  .logo {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: grid; place-items: center; box-shadow: 0 6px 18px rgba(109,94,252,.5);
+  }
+  .logo span { width: 12px; height: 12px; border-radius: 4px; background: #fff; opacity: .92; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { color: var(--muted); font-size: .93rem; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { display: flex; gap: 12px; align-items: center; }
+  .btn {
+    border: 1px solid var(--border); background: transparent; color: var(--text);
+    padding: 9px 18px; border-radius: 10px; font-size: .9rem; cursor: pointer;
+    transition: all .2s; font-weight: 500;
+  }
+  .btn:hover { border-color: var(--accent); background: rgba(109,94,252,.08); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #8b7bff);
+    border: none; box-shadow: 0 8px 22px rgba(109,94,252,.4);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(109,94,252,.55); }
+  .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 96px 0 72px; text-align: center; position: relative; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--muted);
+    border: 1px solid var(--border); background: var(--bg-soft); padding: 6px 14px; border-radius: 999px; margin-bottom: 26px;
+  }
+  .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(52,211,153,.15); }
+  .hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.1; font-weight: 800; letter-spacing: -1px; }
+  .hero h1 .grad { background: linear-gradient(135deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { color: var(--muted); font-size: 1.15rem; max-width: 620px; margin: 22px auto 34px; }
+  .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-lg { padding: 14px 28px; font-size: 1rem; }
+
+  /* ---------- Console mock ---------- */
+  .console {
+    margin-top: 64px; border: 1px solid var(--border); border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--card), var(--bg-soft));
+    box-shadow: var(--shadow); overflow: hidden; text-align: left;
+  }
+  .console-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: rgba(0,0,0,.2); }
+  .console-bar .c { width: 12px; height: 12px; border-radius: 50%; }
+  .c.red { background: #ff5f57; } .c.amber { background: #febc2e; } .c.green { background: #28c840; }
+  .console-bar .url { margin-left: 14px; color: var(--muted); font-size: .82rem; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .console-body { display: grid; grid-template-columns: 210px 1fr; min-height: 340px; }
+  .side { border-right: 1px solid var(--border); padding: 18px 14px; background: rgba(0,0,0,.12); }
+  .side .grp { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; margin: 14px 8px 8px; }
+  .side .item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: .88rem; color: var(--muted); cursor: default; }
+  .side .item.active { background: rgba(109,94,252,.14); color: var(--text); }
+  .side .item .ic { width: 8px; height: 8px; border-radius: 3px; background: var(--accent); opacity:.7; }
+  .side .item.active .ic { opacity: 1; }
+  .panel { padding: 22px; }
+  .panel h3 { font-size: 1rem; margin-bottom: 4px; }
+  .panel .sub { color: var(--muted); font-size: .82rem; margin-bottom: 18px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+  .stat { border: 1px solid var(--border); border-radius: 12px; padding: 14px; background: var(--card); }
+  .stat .label { color: var(--muted); font-size: .74rem; text-transform: uppercase; letter-spacing: .5px; }
+  .stat .val { font-size: 1.5rem; font-weight: 700; margin-top: 4px; }
+  .stat .trend { font-size: .76rem; margin-top: 2px; }
+  .trend.up { color: var(--green); } .trend.down { color: var(--red); }
+  .chart { height: 90px; display: flex; align-items: flex-end; gap: 6px; padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
+  .bar { flex: 1; background: linear-gradient(180deg, var(--accent), rgba(109,94,252,.25)); border-radius: 4px 4px 0 0; transition: height .6s ease; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 84px 0; }
+  .sec-head { text-align: center; margin-bottom: 52px; }
+  .sec-head .kicker { color: var(--accent-2); font-size: .82rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+  .sec-head h2 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); margin-top: 10px; letter-spacing: -.5px; }
+  .sec-head p { color: var(--muted); max-width: 560px; margin: 14px auto 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .feature {
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; background: var(--card);
+    transition: transform .25s, border-color .25s, background .25s;
+  }
+  .feature:hover { transform: translateY(-4px); border-color: var(--accent); background: var(--card-hover); }
+  .feature .ficon {
+    width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 16px;
+    background: linear-gradient(135deg, rgba(109,94,252,.25), rgba(34,211,238,.18)); font-size: 1.3rem;
+  }
+  .feature h4 { font-size: 1.08rem; margin-bottom: 8px; }
+  .feature p { color: var(--muted); font-size: .92rem; }
+
+  /* ---------- Metrics band ---------- */
+  .band { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-soft); }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+  .metric .num { font-size: 2.4rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .metric .cap { color: var(--muted); font-size: .9rem; margin-top: 4px; }
+
+  /* ---------- Pricing ---------- */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+  .plan { border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; background: var(--card); display: flex; flex-direction: column; }
+  .plan.popular { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); position: relative; }
+  .plan.popular::before { content: "Популярный"; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--accent), #8b7bff); font-size: .74rem; padding: 4px 14px; border-radius: 999px; font-weight: 600; }
+  .plan .pname { font-size: 1.1rem; font-weight: 600; }
+  .plan .price { font-size: 2.6rem; font-weight: 800; margin: 14px 0 4px; }
+  .plan .price span { font-size: .95rem; color: var(--muted); font-weight: 400; }
+  .plan ul { list-style: none; margin: 20px 0; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .plan li { color: var(--muted); font-size: .92rem; display: flex; gap: 10px; }
+  .plan li::before { content: "✓"; color: var(--green); font-weight: 700; }
+
+  /* ---------- CTA ---------- */
+  .cta-box { text-align: center; border: 1px solid var(--border); border-radius: 22px; padding: 60px 30px; background: linear-gradient(135deg, rgba(109,94,252,.16), rgba(34,211,238,.10)); }
+  .cta-box h2 { font-size: clamp(1.7rem, 3.5vw, 2.4rem); }
+  .cta-box p { color: var(--muted); margin: 14px auto 26px; max-width: 480px; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--border); padding: 54px 0 30px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 40px; }
+  .foot-grid h5 { font-size: .78rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 14px; }
+  .foot-grid a { display: block; color: var(--muted); font-size: .9rem; margin-bottom: 10px; transition: color .2s; }
+  .foot-grid a:hover { color: var(--text); }
+  .foot-grid p { color: var(--muted); font-size: .9rem; max-width: 260px; }
+  .foot-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 24px; color: var(--muted); font-size: .85rem; flex-wrap: wrap; gap: 12px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .menu-toggle { display: block; }
+    .grid, .plans, .metrics { grid-template-columns: 1fr; }
+    .metrics { gap: 30px; }
+    .console-body { grid-template-columns: 1fr; }
+    .side { display: none; }
+    .stats { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a class="brand" href="#top">
+        <span class="logo"><span></span></span> Nimbus<span style="color:var(--accent-2)">Cloud</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Возможности</a>
+        <a href="#metrics">Показатели</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#docs">Документация</a>
+      </div>
+      <div class="nav-cta">
+        <button class="btn" onclick="notify('Раздел входа скоро откроется')">Войти</button>
+        <button class="btn btn-primary" onclick="notify('Регистрация скоро откроется')">Начать бесплатно</button>
+      </div>
+      <button class="menu-toggle" aria-label="Меню" onclick="notify('Меню скоро появится')">☰</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="container">
+      <span class="badge"><span class="dot"></span> Все системы работают штатно · v3.2 доступна</span>
+      <h1>Разворачивайте приложения <br><span class="grad">за секунды, а не дни</span></h1>
+      <p>Nimbus Cloud — единая платформа для деплоя, мониторинга и защиты ваших сервисов. Масштабируйтесь автоматически и платите только за то, что используете.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" onclick="notify('Демо-стенд готовится')">Запустить демо →</button>
+        <button class="btn btn-lg" onclick="document.getElementById('features').scrollIntoView()">Узнать больше</button>
+      </div>
+
+      <!-- Console mock -->
+      <div class="console">
+        <div class="console-bar">
+          <span class="c red"></span><span class="c amber"></span><span class="c green"></span>
+          <span class="url">https://console.nimbuscloud.io/dashboard</span>
+        </div>
+        <div class="console-body">
+          <aside class="side">
+            <div class="grp">Обзор</div>
+            <div class="item active"><span class="ic"></span> Дашборд</div>
+            <div class="item"><span class="ic"></span> Проекты</div>
+            <div class="item"><span class="ic"></span> Метрики</div>
+            <div class="grp">Инфраструктура</div>
+            <div class="item"><span class="ic"></span> Контейнеры</div>
+            <div class="item"><span class="ic"></span> Базы данных</div>
+            <div class="item"><span class="ic"></span> Сеть</div>
+            <div class="grp">Прочее</div>
+            <div class="item"><span class="ic"></span> Логи</div>
+            <div class="item"><span class="ic"></span> Настройки</div>
+          </aside>
+          <div class="panel">
+            <h3>Production · eu-central-1</h3>
+            <div class="sub">Обновлено <span id="clock">только что</span></div>
+            <div class="stats">
+              <div class="stat">
+                <div class="label">Запросы / сек</div>
+                <div class="val" id="rps">2 481</div>
+                <div class="trend up" id="rps-t">▲ 4.2%</div>
+              </div>
+              <div class="stat">
+                <div class="label">Задержка p95</div>
+                <div class="val" id="lat">42 мс</div>
+                <div class="trend up">▼ 1.8%</div>
+              </div>
+              <div class="stat">
+                <div class="label">Аптайм</div>
+                <div class="val">99.98%</div>
+                <div class="trend up">30 дней</div>
+              </div>
+            </div>
+            <div class="chart" id="chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="sec-head">
+        <div class="kicker">Возможности</div>
+        <h2>Всё для запуска и роста</h2>
+        <p>Готовая инфраструктура, чтобы вы сосредоточились на продукте, а не на серверах.</p>
+      </div>
+      <div class="grid">
+        <div class="feature">
+          <div class="ficon">⚡</div>
+          <h4>Мгновенный деплой</h4>
+          <p>Push-to-deploy из Git. Сборка, тесты и раскатка на глобальную сеть за считанные секунды.</p>
+        </div>
+        <div class="feature">
+          <div class="ficon">📈</div>
+          <h4>Автомасштабирование</h4>
+          <p>Ресурсы подстраиваются под нагрузку в реальном времени. Никаких ручных вмешательств.</p>
+        </div>
+        <div class="feature">
+          <div class="ficon">🛡️</div>
+          <h4>Защита из коробки</h4>
+          <p>DDoS-фильтрация, WAF и автоматические TLS-сертификаты для каждого домена.</p>
+        </div>
+        <div class="feature">
+          <div class="ficon">🌍</div>
+          <h4>Глобальная сеть</h4>
+          <p>32 региона и 180+ точек присутствия — контент близко к каждому пользователю.</p>
+        </div>
+        <div class="feature">
+          <div class="ficon">🔍</div>
+          <h4>Наблюдаемость</h4>
+          <p>Метрики, трейсы и логи в одном окне. Алерты приходят раньше, чем клиенты заметят сбой.</p>
+        </div>
+        <div class="feature">
+          <div class="ficon">🔗</div>
+          <h4>Интеграции</h4>
+          <p>Более 120 готовых коннекторов и открытый API для любых сценариев автоматизации.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section class="band" id="metrics">
+    <div class="container">
+      <div class="metrics">
+        <div class="metric"><div class="num" data-count="99.99">0</div><div class="cap">SLA аптайм, %</div></div>
+        <div class="metric"><div class="num" data-count="180">0</div><div class="cap">точек присутствия</div></div>
+        <div class="metric"><div class="num" data-count="47">0</div><div class="cap">млрд запросов / день</div></div>
+        <div class="metric"><div class="num" data-count="12000">0</div><div class="cap">команд доверяют нам</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <div class="sec-head">
+        <div class="kicker">Тарифы</div>
+        <h2>Простые и честные цены</h2>
+        <p>Начните бесплатно, платите по мере роста. Без скрытых платежей.</p>
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <div class="pname">Hobby</div>
+          <div class="price">0 ₽ <span>/ мес</span></div>
+          <ul>
+            <li>1 проект</li>
+            <li>100 ГБ трафика</li>
+            <li>Автоматический HTTPS</li>
+            <li>Поддержка сообщества</li>
+          </ul>
+          <button class="btn" onclick="notify('Регистрация скоро откроется')">Выбрать</button>
+        </div>
+        <div class="plan popular">
+          <div class="pname">Pro</div>
+          <div class="price">1 490 ₽ <span>/ мес</span></div>
+          <ul>
+            <li>Неограниченно проектов</li>
+            <li>1 ТБ трафика</li>
+            <li>Автомасштабирование</li>
+            <li>Метрики и алерты</li>
+            <li>Приоритетная поддержка</li>
+          </ul>
+          <button class="btn btn-primary" onclick="notify('Регистрация скоро откроется')">Выбрать</button>
+        </div>
+        <div class="plan">
+          <div class="pname">Enterprise</div>
+          <div class="price">По запросу</div>
+          <ul>
+            <li>Выделенная инфраструктура</li>
+            <li>SLA 99.99% в договоре</li>
+            <li>SSO и аудит-логи</li>
+            <li>Персональный менеджер</li>
+          </ul>
+          <button class="btn" onclick="notify('Свяжитесь с отделом продаж')">Связаться</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="docs">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Готовы к запуску?</h2>
+        <p>Создайте аккаунт за минуту и разверните первое приложение уже сегодня.</p>
+        <button class="btn btn-primary btn-lg" onclick="notify('Регистрация скоро откроется')">Начать бесплатно →</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top"><span class="logo"><span></span></span> Nimbus<span style="color:var(--accent-2)">Cloud</span></a>
+        <p style="margin-top:14px">Инфраструктура нового поколения для команд любого масштаба.</p>
+      </div>
+      <div>
+        <h5>Продукт</h5>
+        <a href="#features">Возможности</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#docs">Документация</a>
+        <a href="#top">Статус</a>
+      </div>
+      <div>
+        <h5>Компания</h5>
+        <a href="#top">О нас</a>
+        <a href="#top">Блог</a>
+        <a href="#top">Карьера</a>
+        <a href="#top">Контакты</a>
+      </div>
+      <div>
+        <h5>Правовое</h5>
+        <a href="#top">Конфиденциальность</a>
+        <a href="#top">Условия</a>
+        <a href="#top">Безопасность</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Nimbus Cloud. Все права защищены.</span>
+      <span><span class="badge"><span class="dot"></span> Все системы работают</span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- toast -->
+<div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--card);border:1px solid var(--border);padding:12px 20px;border-radius:12px;box-shadow:var(--shadow);font-size:.9rem;transition:transform .35s ease;z-index:100;"></div>
+
+<script>
+  // Lightweight, purely client-side — no network calls, no server load.
+
+  // Toast helper
+  var toastTimer;
+  function notify(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){
+      t.style.transform = 'translateX(-50%) translateY(120px)';
+    }, 2600);
+  }
+
+  // Animated chart bars in the console mock
+  (function buildChart(){
+    var chart = document.getElementById('chart');
+    var bars = 24;
+    for (var i = 0; i < bars; i++) {
+      var b = document.createElement('div');
+      b.className = 'bar';
+      b.style.height = (20 + Math.random() * 70) + '%';
+      chart.appendChild(b);
+    }
+  })();
+
+  // Gently animate the fake metrics so the console feels "live"
+  function jitter(base, spread) { return Math.round(base + (Math.random() - 0.5) * spread); }
+  setInterval(function(){
+    var rps = jitter(2481, 260);
+    document.getElementById('rps').textContent = rps.toLocaleString('ru-RU');
+    document.getElementById('lat').textContent = jitter(42, 10) + ' мс';
+    var t = document.getElementById('rps-t');
+    var up = Math.random() > 0.4;
+    t.textContent = (up ? '▲ ' : '▼ ') + (Math.random()*5).toFixed(1) + '%';
+    t.className = 'trend ' + (up ? 'up' : 'down');
+    // nudge chart
+    var bars = document.querySelectorAll('.bar');
+    if (bars.length) {
+      bars[Math.floor(Math.random()*bars.length)].style.height = (20 + Math.random()*70) + '%';
+    }
+  }, 2000);
+
+  // Live "updated X ago" clock
+  var started = Date.now();
+  setInterval(function(){
+    var s = Math.floor((Date.now() - started)/1000);
+    var el = document.getElementById('clock');
+    if (s < 5) el.textContent = 'только что';
+    else if (s < 60) el.textContent = s + ' сек назад';
+    else el.textContent = Math.floor(s/60) + ' мин назад';
+  }, 1000);
+
+  // Count-up animation for metrics (runs once when scrolled into view)
+  var counted = false;
+  function runCounters(){
+    if (counted) return;
+    counted = true;
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      var target = parseFloat(el.getAttribute('data-count'));
+      var decimals = (target % 1 !== 0) ? 2 : 0;
+      var steps = 60, step = 0;
+      var timer = setInterval(function(){
+        step++;
+        var val = target * (step/steps);
+        if (step >= steps) { val = target; clearInterval(timer); }
+        el.textContent = decimals ? val.toFixed(decimals) : Math.floor(val).toLocaleString('ru-RU');
+      }, 18);
+    });
+  }
+  var band = document.getElementById('metrics');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) runCounters(); });
+    }, { threshold: 0.4 }).observe(band);
+  } else {
+    runCounters();
+  }
+</script>
+</body>
+</html>
