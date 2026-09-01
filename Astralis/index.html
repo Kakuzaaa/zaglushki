@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astralis — Интеллектуальное управление умным офисом</title>
+  <meta name="description" content="Astralis — платформа нового поколения для интеллектуального управления умным офисом. Мониторинг устройств, автоматизация, аналитика в реальном времени.">
+  <meta property="og:title" content="Astralis — Умный офис будущего">
+  <meta property="og:description" content="Управляйте пространством, как звездолётом. Интеллектуальные сценарии, мгновенный мониторинг и бесшовная интеграция.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <style>
+    :root {
+      --bg-deep: #0B0E1A;
+      --bg-card: rgba(26, 31, 58, 0.65);
+      --bg-card-solid: #1A1F3A;
+      --gradient-start: #1A1F3A;
+      --gradient-end: #2D1B4E;
+      --accent-cyan: #00D4FF;
+      --accent-pink: #FF3D8A;
+      --text-primary: #F0F4FF;
+      --text-secondary: #A0AEC0;
+      --text-muted: #6B7280;
+      --border-glass: rgba(0, 212, 255, 0.25);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+      --shadow-glow: 0 0 24px rgba(0, 212, 255, 0.15);
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35);
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Dynamic background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(45, 27, 78, 0.6), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 10%, rgba(0, 212, 255, 0.08), transparent),
+        radial-gradient(ellipse 50% 30% at 50% 100%, rgba(255, 61, 138, 0.06), transparent),
+        linear-gradient(180deg, var(--bg-deep) 0%, #0F1225 100%);
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(0, 212, 255, 0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* Utilities */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      padding: 80px 0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      font-weight: 300;
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    /* Glass card */
+    .glass {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      font-weight: 500;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.25), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .btn:active::after { opacity: 1; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
+      color: #0B0E1A;
+      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-cyan);
+      border: 1px solid var(--accent-cyan);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 212, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .btn-pink {
+      background: linear-gradient(135deg, var(--accent-pink), #cc2d6e);
+      color: white;
+      box-shadow: 0 4px 20px rgba(255, 61, 138, 0.3);
+    }
+
+    .btn-pink:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(255, 61, 138, 0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid rgba(160, 174, 192, 0.3);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-cyan);
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 14, 26, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.12);
+      padding: 14px 0;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-slogan {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .nav {
+      display: flex;
+      gap: 6px;
+    }
+
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all var(--transition);
+    }
+
+    .nav a:hover, .nav a:focus {
+      color: var(--accent-cyan);
+      background: rgba(0, 212, 255, 0.08);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lang-switch {
+      display: flex;
+      background: rgba(26, 31, 58, 0.8);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .lang-btn.active {
+      background: var(--accent-cyan);
+      color: var(--bg-deep);
+    }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .burger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-cyan) 50%, var(--accent-pink) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin: 0 auto 40px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      text-align: left;
+    }
+
+    .feature-card {
+      padding: 28px 24px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: var(--shadow-glow), var(--shadow-card);
+      border-color: var(--accent-cyan);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(255, 61, 138, 0.1));
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    /* Devices */
+    .devices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .device-card {
+      padding: 22px;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .device-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-cyan);
+    }
+
+    .device-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .device-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .status {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .status-online {
+      background: rgba(0, 212, 255, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .status-offline {
+      background: rgba(255, 61, 138, 0.15);
+      color: var(--accent-pink);
+    }
+
+    .device-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    .stat-value {
+      font-weight: 500;
+    }
+
+    .devices-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .demo-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 16px;
+      font-style: italic;
+    }
+
+    /* Automation */
+    .scenarios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .scenario-card {
+      padding: 24px;
+      transition: transform var(--transition);
+    }
+
+    .scenario-card:hover { transform: translateY(-4px); }
+
+    .scenario-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .scenario-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .rule-editor {
+      padding: 32px;
+      max-width: 700px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    select, input, textarea {
+      font-family: var(--font);
+      font-size: 0.95rem;
+      padding: 12px 14px;
+      background: rgba(11, 14, 26, 0.6);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+      width: 100%;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15);
+    }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    /* Dashboard */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-card .label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 160px;
+      padding: 16px 0;
+    }
+
+    .bar {
+      flex: 1;
+      background: linear-gradient(180deg, var(--accent-cyan), rgba(0, 212, 255, 0.2));
+      border-radius: 6px 6px 0 0;
+      min-height: 20px;
+      transition: height 1s ease;
+      position: relative;
+    }
+
+    .bar:hover { filter: brightness(1.2); }
+
+    .bar span {
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .office-map {
+      width: 100%;
+      height: 220px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .events-list {
+      list-style: none;
+    }
+
+    .events-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .events-list li:last-child { border-bottom: none; }
+
+    .event-time {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .booking {
+      padding: 24px;
+    }
+
+    .booking-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .slot {
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .slot:hover, .slot.selected {
+      background: rgba(0, 212, 255, 0.15);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .slot.busy {
+      opacity: 0.4;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    /* Pricing */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .price-card {
+      padding: 32px 28px;
+      position: relative;
+      transition: transform var(--transition);
+    }
+
+    .price-card:hover { transform: translateY(-6px); }
+
+    .price-card.featured {
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 40px rgba(255, 61, 138, 0.2);
+    }
+
+    .price-card.featured::before {
+      content: attr(data-badge);
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--accent-pink), #cc2d6e);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 16px;
+      border-radius: 20px;
+    }
+
+    .price-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .price-value {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .price-value span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+
+    .price-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .price-features {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+
+    .price-features li {
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .price-features li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    /* FAQ & Contact */
+    .support-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(0, 212, 255, 0.12);
+    }
+
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 18px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .faq-question:hover { color: var(--accent-cyan); }
+
+    .faq-icon {
+      transition: transform var(--transition);
+      font-size: 1.2rem;
+      color: var(--accent-cyan);
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding-bottom: 18px;
+    }
+
+    .contact-form {
+      padding: 28px;
+    }
+
+    .contact-form .form-group { margin-bottom: 16px; }
+
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .testimonial {
+      padding: 24px;
+    }
+
+    .testimonial p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-author {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .testimonial-role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .demo-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: rgba(255, 61, 138, 0.15);
+      color: var(--accent-pink);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 60px 0 30px;
+      border-top: 1px solid rgba(0, 212, 255, 0.1);
+      margin-top: 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 12px;
+      max-width: 280px;
+    }
+
+    .footer-links h4 {
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .footer-links a {
+      display: block;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover { color: var(--accent-cyan); }
+
+    .socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .socials a {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      color: var(--text-secondary);
+      transition: all var(--transition);
+    }
+
+    .socials a:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(0, 212, 255, 0.1);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0, 212, 255, 0.08);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 15, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--bg-card-solid);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.92);
+      transition: transform 0.3s;
+      position: relative;
+    }
+
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color var(--transition);
+    }
+
+    .modal-close:hover { color: var(--accent-pink); }
+
+    .modal h2 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    .modal .form-group { margin-bottom: 16px; }
+
+    .modal-legal {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .modal-legal .warning {
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(255, 61, 138, 0.1);
+      border-left: 3px solid var(--accent-pink);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.8rem;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--bg-card-solid);
+      border: 1px solid var(--accent-cyan);
+      color: var(--text-primary);
+      padding: 14px 22px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-glow);
+      z-index: 300;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s ease;
+      font-size: 0.95rem;
+      max-width: 340px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .nav { display: none; }
+      .nav.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(11, 14, 26, 0.97);
+        padding: 16px;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+        gap: 4px;
+      }
+      .burger { display: flex; }
+      .header-actions .btn { display: none; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .support-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .stat-cards { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 70px 0 50px; }
+      .section { padding: 50px 0; }
+      .hero-cta { flex-direction: column; align-items: stretch; }
+      .devices-actions { flex-direction: column; }
+    }
+
+    /* Focus visible for a11y */
+    :focus-visible {
+      outline: 2px solid var(--accent-cyan);
+      outline-offset: 3px;
+    }
+
+    button:focus:not(:focus-visible),
+    a:focus:not(:focus-visible) {
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="header" role="banner">
+    <div class="container header-inner">
+      <a href="#" class="logo" aria-label="Astralis — главная">
+        <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00D4FF"/>
+              <stop offset="100%" stop-color="#FF3D8A"/>
+            </linearGradient>
+          </defs>
+          <path d="M24 4L28.5 16.5L42 18L32 27.5L35 41L24 34L13 41L16 27.5L6 18L19.5 16.5L24 4Z" stroke="url(#logoGrad)" stroke-width="2" fill="url(#logoGrad)" fill-opacity="0.15"/>
+          <circle cx="24" cy="24" r="4" fill="#00D4FF"/>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-name">Astralis</span>
+          <span class="logo-slogan" data-i18n="logoSlogan">Умный офис будущего</span>
+        </div>
+      </a>
+
+      <nav class="nav" id="mainNav" role="navigation" aria-label="Основная навигация">
+        <a href="#devices" data-i18n="navDevices">Устройства</a>
+        <a href="#automation" data-i18n="navAutomation">Автоматизация</a>
+        <a href="#dashboard" data-i18n="navAnalytics">Аналитика</a>
+        <a href="#pricing" data-i18n="navPricing">Тарифы</a>
+        <a href="#support" data-i18n="navSupport">Поддержка</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-switch" role="group" aria-label="Переключатель языка">
+          <button class="lang-btn active" data-lang="ru" aria-pressed="true">RU</button>
+          <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="btn btn-ghost" data-i18n="btnLogin" onclick="showToast(i18n[currentLang].toastLogin)">Войти</button>
+        <button class="btn btn-primary" data-i18n="btnDemo" onclick="openModal('demoModal')">Запросить демо</button>
+        <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== HERO ==================== -->
+    <section class="hero section visible" id="hero">
+      <div class="container">
+        <h1 class="hero-title" data-i18n="heroTitle">Управляйте пространством,<br>как звездолётом</h1>
+        <p class="hero-subtitle" data-i18n="heroSubtitle">
+          Astralis — экосистема интеллектуального управления офисом. Объединяйте устройства, создавайте сценарии и получайте аналитику в реальном времени.
+        </p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" data-i18n="btnLaunchDemo" onclick="openModal('demoModal')">Запустить демо</button>
+          <a href="#pricing" class="btn btn-secondary" data-i18n="btnViewPricing">Смотреть тарифы</a>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card glass">
+            <div class="feature-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <h3 data-i18n="feat1Title">Интеллектуальные сценарии</h3>
+            <p data-i18n="feat1Desc">Автоматизируйте освещение, климат и доступ по событиям и расписанию без кода.</p>
+          </article>
+          <article class="feature-card glass">
+            <div class="feature-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3 data-i18n="feat2Title">Мгновенный мониторинг</h3>
+            <p data-i18n="feat2Desc">Статус всех устройств, энергопотребление и алерты — на одном экране в реальном времени.</p>
+          </article>
+          <article class="feature-card glass">
+            <div class="feature-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 data-i18n="feat3Title">Бесшовная интеграция</h3>
+            <p data-i18n="feat3Desc">Подключайте датчики, камеры, HVAC и IoT-устройства через открытые протоколы.</p>
+          </article>
+          <article class="feature-card glass">
+            <div class="feature-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 data-i18n="feat4Title">Безопасность и SLA</h3>
+            <p data-i18n="feat4Desc">Шифрование, ролевая модель доступа и гарантированная доступность 99.9%.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== DEVICES ==================== -->
+    <section class="section" id="devices">
+      <div class="container">
+        <h2 class="section-title" data-i18n="devicesTitle">Устройства</h2>
+        <p class="section-subtitle" data-i18n="devicesSubtitle">Все устройства под контролем — в реальном времени. Демонстрационный реестр.</p>
+
+        <div class="devices-grid" id="devicesGrid">
+          <!-- Filled by JS -->
+        </div>
+
+        <div class="devices-actions">
+          <button class="btn btn-primary" data-i18n="btnAddDevice" onclick="openModal('addDeviceModal')">Добавить устройство</button>
+          <button class="btn btn-ghost" data-i18n="btnExport" onclick="showToast(i18n[currentLang].toastExport)">Экспорт</button>
+        </div>
+        <p class="demo-note" data-i18n="demoNoteDevices">* Данные устройств являются демонстрационными и не связаны с реальными объектами.</p>
+      </div>
+    </section>
+
+    <!-- ==================== AUTOMATION ==================== -->
+    <section class="section" id="automation">
+      <div class="container">
+        <h2 class="section-title" data-i18n="autoTitle">Автоматизация</h2>
+        <p class="section-subtitle" data-i18n="autoSubtitle">Создавайте правила, которые работают за вас. Готовые сценарии и простой редактор.</p>
+
+        <div class="scenarios-grid">
+          <article class="scenario-card glass">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+              <span data-i18n="scen1Title">Умная вентиляция</span>
+            </h3>
+            <p data-i18n="scen1Desc">При превышении CO₂ > 800 ppm автоматически увеличивает приток воздуха на 30%.</p>
+            <button class="btn btn-ghost" style="font-size:0.85rem" data-i18n="btnActivate" onclick="showToast(i18n[currentLang].toastScenario)">Активировать</button>
+          </article>
+          <article class="scenario-card glass">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              <span data-i18n="scen2Title">Экономия энергии</span>
+            </h3>
+            <p data-i18n="scen2Desc">Выключает свет и снижает климат-контроль в пустых зонах после 19:00.</p>
+            <button class="btn btn-ghost" style="font-size:0.85rem" data-i18n="btnActivate" onclick="showToast(i18n[currentLang].toastScenario)">Активировать</button>
+          </article>
+          <article class="scenario-card glass">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span data-i18n="scen3Title">Безопасная ночь</span>
+            </h3>
+            <p data-i18n="scen3Desc">Активирует камеры, датчики движения и уведомления при обнаружении активности.</p>
+            <button class="btn btn-ghost" style="font-size:0.85rem" data-i18n="btnActivate" onclick="showToast(i18n[currentLang].toastScenario)">Активировать</button>
+          </article>
+          <article class="scenario-card glass">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span data-i18n="scen4Title">Подготовка к встрече</span>
+            </h3>
+            <p data-i18n="scen4Desc">За 15 минут до брони включает свет, экран и климат в переговорной.</p>
+            <button class="btn btn-ghost" style="font-size:0.85rem" data-i18n="btnActivate" onclick="showToast(i18n[currentLang].toastScenario)">Активировать</button>
+          </article>
+        </div>
+
+        <div class="rule-editor glass">
+          <h3 style="margin-bottom:20px;font-size:1.15rem" data-i18n="ruleEditorTitle">Редактор правил</h3>
+          <form id="ruleForm" onsubmit="return saveRule(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="trigger" data-i18n="labelTrigger">Триггер</label>
+                <select id="trigger" required>
+                  <option value="" data-i18n="optSelect">— Выберите —</option>
+                  <option value="time" data-i18n="optTime">По времени</option>
+                  <option value="sensor" data-i18n="optSensor">Датчик</option>
+                  <option value="motion" data-i18n="optMotion">Движение</option>
+                  <option value="occupancy" data-i18n="optOccupancy">Занятость зоны</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="condition" data-i18n="labelCondition">Условие</label>
+                <select id="condition" required>
+                  <option value="" data-i18n="optSelect">— Выберите —</option>
+                  <option value="gt" data-i18n="optGt">Больше чем</option>
+                  <option value="lt" data-i18n="optLt">Меньше чем</option>
+                  <option value="eq" data-i18n="optEq">Равно</option>
+                  <option value="between" data-i18n="optBetween">В диапазоне</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="action" data-i18n="labelAction">Действие</label>
+                <select id="action" required>
+                  <option value="" data-i18n="optSelect">— Выберите —</option>
+                  <option value="light" data-i18n="optLight">Управление светом</option>
+                  <option value="hvac" data-i18n="optHvac">Климат-контроль</option>
+                  <option value="notify" data-i18n="optNotify">Уведомление</option>
+                  <option value="lock" data-i18n="optLock">Блокировка доступа</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" data-i18n="btnSaveRule">Сохранить правило</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== DASHBOARD ==================== -->
+    <section class="section" id="dashboard">
+      <div class="container">
+        <h2 class="section-title" data-i18n="dashTitle">Аналитика и панель</h2>
+        <p class="section-subtitle" data-i18n="dashSubtitle">Обзор состояния офиса, нагрузка и события. Демонстрационные данные.</p>
+
+        <div class="stat-cards">
+          <div class="stat-card glass">
+            <div class="number" id="statTotal">24</div>
+            <div class="label" data-i18n="statTotal">Всего устройств</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="number" id="statOnline">21</div>
+            <div class="label" data-i18n="statOnline">Онлайн</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="number" id="statOffline">3</div>
+            <div class="label" data-i18n="statOffline">Офлайн</div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="glass" style="padding:24px">
+            <h3 style="margin-bottom:8px;font-size:1.05rem" data-i18n="chartTitle">Нагрузка по зонам (кВт·ч)</h3>
+            <div class="chart-bars" id="chartBars" aria-hidden="true">
+              <div class="bar" style="height:0%" data-h="65"><span>A</span></div>
+              <div class="bar" style="height:0%" data-h="40"><span>B</span></div>
+              <div class="bar" style="height:0%" data-h="85"><span>C</span></div>
+              <div class="bar" style="height:0%" data-h="55"><span>D</span></div>
+              <div class="bar" style="height:0%" data-h="70"><span>E</span></div>
+              <div class="bar" style="height:0%" data-h="30"><span>F</span></div>
+              <div class="bar" style="height:0%" data-h="90"><span>G</span></div>
+            </div>
+          </div>
+
+          <div class="glass" style="padding:24px">
+            <h3 style="margin-bottom:12px;font-size:1.05rem" data-i18n="mapTitle">Схема офиса</h3>
+            <svg class="office-map" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Схема офиса">
+              <rect x="10" y="10" width="180" height="100" rx="8" fill="rgba(0,212,255,0.12)" stroke="#00D4FF" stroke-width="1.5"/>
+              <text x="100" y="65" text-anchor="middle" fill="#A0AEC0" font-size="13" font-family="system-ui">Open Space</text>
+              <rect x="210" y="10" width="180" height="60" rx="8" fill="rgba(255,61,138,0.12)" stroke="#FF3D8A" stroke-width="1.5"/>
+              <text x="300" y="45" text-anchor="middle" fill="#A0AEC0" font-size="13" font-family="system-ui">Meeting A</text>
+              <rect x="210" y="80" width="85" height="80" rx="8" fill="rgba(0,212,255,0.08)" stroke="#00D4FF" stroke-width="1.5"/>
+              <text x="252" y="125" text-anchor="middle" fill="#A0AEC0" font-size="12" font-family="system-ui">Kitchen</text>
+              <rect x="305" y="80" width="85" height="80" rx="8" fill="rgba(0,212,255,0.08)" stroke="#00D4FF" stroke-width="1.5"/>
+              <text x="347" y="125" text-anchor="middle" fill="#A0AEC0" font-size="12" font-family="system-ui">Server</text>
+              <rect x="10" y="130" width="180" height="80" rx="8" fill="rgba(45,27,78,0.4)" stroke="#2D1B4E" stroke-width="1.5"/>
+              <text x="100" y="175" text-anchor="middle" fill="#A0AEC0" font-size="13" font-family="system-ui">Focus Rooms</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="booking glass">
+            <h3 style="margin-bottom:8px;font-size:1.05rem" data-i18n="bookingTitle">Бронирование переговорных</h3>
+            <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:8px" data-i18n="bookingRoom">Переговорная «Орбита»</p>
+            <div class="booking-slots" id="bookingSlots">
+              <button class="slot" data-time="09:00">09:00</button>
+              <button class="slot busy" data-time="10:00" disabled>10:00</button>
+              <button class="slot" data-time="11:00">11:00</button>
+              <button class="slot" data-time="12:00">12:00</button>
+              <button class="slot busy" data-time="13:00" disabled>13:00</button>
+              <button class="slot" data-time="14:00">14:00</button>
+              <button class="slot" data-time="15:00">15:00</button>
+              <button class="slot" data-time="16:00">16:00</button>
+            </div>
+            <button class="btn btn-primary" style="margin-top:20px" data-i18n="btnBook" onclick="bookSlot()">Забронировать</button>
+          </div>
+
+          <div class="glass" style="padding:24px">
+            <h3 style="margin-bottom:12px;font-size:1.05rem" data-i18n="eventsTitle">Последние события</h3>
+            <ul class="events-list" id="eventsList">
+              <!-- Filled by JS -->
+            </ul>
+          </div>
+        </div>
+        <p class="demo-note" data-i18n="demoNoteDash">* Графики, схема и события — демонстрационный контент.</p>
+      </div>
+    </section>
+
+    <!-- ==================== PRICING & SUPPORT ==================== -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <h2 class="section-title" data-i18n="pricingTitle">Тарифы</h2>
+        <p class="section-subtitle" data-i18n="pricingSubtitle">Выберите план, который подходит вашему офису. Цены демонстрационные.</p>
+
+        <div class="pricing-grid">
+          <article class="price-card glass">
+            <div class="price-name">Starter</div>
+            <div class="price-value">0 <span data-i18n="perMonth">₽/мес</span></div>
+            <p class="price-desc" data-i18n="planStarterDesc">Для знакомства с платформой</p>
+            <ul class="price-features">
+              <li data-i18n="plan1f1">До 10 устройств</li>
+              <li data-i18n="plan1f2">Базовые сценарии</li>
+              <li data-i18n="plan1f3">Email-поддержка</li>
+              <li data-i18n="plan1f4">Демо-дашборд</li>
+            </ul>
+            <button class="btn btn-secondary" style="width:100%" data-i18n="btnStartFree" onclick="showToast(i18n[currentLang].toastStart)">Начать бесплатно</button>
+          </article>
+
+          <article class="price-card glass featured" data-badge="Популярный">
+            <div class="price-name">Pro</div>
+            <div class="price-value">24 900 <span data-i18n="perMonth">₽/мес</span></div>
+            <p class="price-desc" data-i18n="planProDesc">Для растущих команд</p>
+            <ul class="price-features">
+              <li data-i18n="plan2f1">До 150 устройств</li>
+              <li data-i18n="plan2f2">Расширенная автоматизация</li>
+              <li data-i18n="plan2f3">Приоритетная поддержка</li>
+              <li data-i18n="plan2f4">Аналитика и отчёты</li>
+              <li data-i18n="plan2f5">API-доступ</li>
+            </ul>
+            <button class="btn btn-primary" style="width:100%" data-i18n="btnChoosePro" onclick="openModal('demoModal')">Выбрать Pro</button>
+          </article>
+
+          <article class="price-card glass">
+            <div class="price-name">Enterprise</div>
+            <div class="price-value" data-i18n="planEntPrice">По запросу</div>
+            <p class="price-desc" data-i18n="planEntDesc">Для крупных офисов и кампусов</p>
+            <ul class="price-features">
+              <li data-i18n="plan3f1">Безлимит устройств</li>
+              <li data-i18n="plan3f2">SLA 99.95%</li>
+              <li data-i18n="plan3f3">Выделенный менеджер</li>
+              <li data-i18n="plan3f4">On-premise опция</li>
+              <li data-i18n="plan3f5">Кастомные интеграции</li>
+            </ul>
+            <button class="btn btn-pink" style="width:100%" data-i18n="btnContactSales" onclick="openModal('demoModal')">Связаться с отделом продаж</button>
+          </article>
+        </div>
+
+        <!-- Testimonials -->
+        <h3 style="font-size:1.3rem;margin-bottom:20px" data-i18n="testimonialsTitle">Отзывы клиентов</h3>
+        <div class="testimonials">
+          <article class="testimonial glass">
+            <p data-i18n="test1Text">«Astralis сократил время на настройку сценариев в 4 раза. Теперь офис сам адаптируется под команду.»</p>
+            <div class="testimonial-author">Анна К. <span class="demo-badge">Демо</span></div>
+            <div class="testimonial-role" data-i18n="test1Role">Операционный директор, TechSpace</div>
+          </article>
+          <article class="testimonial glass">
+            <p data-i18n="test2Text">«Единая панель вместо пяти разных приложений. Экономия энергии за первый квартал — 18%.»</p>
+            <div class="testimonial-author">Михаил Р. <span class="demo-badge">Демо</span></div>
+            <div class="testimonial-role" data-i18n="test2Role">Facility Manager, NovaHub</div>
+          </article>
+          <article class="testimonial glass">
+            <p data-i18n="test3Text">«Интеграция заняла меньше недели. Поддержка отвечает быстро, документация понятная.»</p>
+            <div class="testimonial-author">Елена В. <span class="demo-badge">Демо</span></div>
+            <div class="testimonial-role" data-i18n="test3Role">CTO, Orbit Labs</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="support" style="padding-top:40px">
+      <div class="container">
+        <h2 class="section-title" data-i18n="supportTitle">Поддержка</h2>
+        <div class="support-grid">
+          <div>
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span data-i18n="faq1q">Как подключить первое устройство?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" data-i18n="faq1a">Добавьте устройство через раздел «Устройства» → «Добавить». Укажите тип, идентификатор и зону. Платформа автоматически обнаружит совместимые протоколы.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span data-i18n="faq2q">Можно ли использовать on-premise?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" data-i18n="faq2a">Да, на тарифе Enterprise доступна локальная установка с синхронизацией и полным контролем данных.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                <span data-i18n="faq3q">Какие протоколы поддерживаются?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" data-i18n="faq3a">MQTT, Modbus, BACnet, REST API, а также популярные IoT-платформы через коннекторы.</div>
+            </div>
+          </div>
+
+          <div class="contact-form glass">
+            <h3 style="margin-bottom:16px;font-size:1.1rem" data-i18n="contactTitle">Связаться с нами</h3>
+            <form id="contactForm" onsubmit="return submitContact(event)">
+              <div class="form-group">
+                <label for="cName" data-i18n="labelName">Имя</label>
+                <input type="text" id="cName" required minlength="2" autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label for="cEmail" data-i18n="labelEmail">Email</label>
+                <input type="email" id="cEmail" required autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label for="cMsg" data-i18n="labelMessage">Сообщение</label>
+                <textarea id="cMsg" required minlength="10"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" data-i18n="btnSend">Отправить</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <svg class="logo-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M24 4L28.5 16.5L42 18L32 27.5L35 41L24 34L13 41L16 27.5L6 18L19.5 16.5L24 4Z" stroke="url(#logoGrad)" stroke-width="2" fill="url(#logoGrad)" fill-opacity="0.15"/>
+              <circle cx="24" cy="24" r="4" fill="#00D4FF"/>
+            </svg>
+            <span class="logo-name">Astralis</span>
+          </a>
+          <p data-i18n="footerDesc">Платформа интеллектуального управления умным офисом нового поколения.</p>
+          <div class="socials">
+            <a href="#" aria-label="Telegram" onclick="return false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn" onclick="return false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            </a>
+            <a href="#" aria-label="X" onclick="return false">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.837L1.25 2.25h7.694l4.255 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4 data-i18n="footerProduct">Продукт</h4>
+          <a href="#devices" data-i18n="navDevices">Устройства</a>
+          <a href="#automation" data-i18n="navAutomation">Автоматизация</a>
+          <a href="#dashboard" data-i18n="navAnalytics">Аналитика</a>
+          <a href="#pricing" data-i18n="navPricing">Тарифы</a>
+        </div>
+        <div class="footer-links">
+          <h4 data-i18n="footerLegal">Правовая информация</h4>
+          <a href="#" onclick="openModal('privacyModal'); return false;" data-i18n="linkPrivacy">Политика конфиденциальности</a>
+          <a href="#" onclick="openModal('termsModal'); return false;" data-i18n="linkTerms">Условия использования</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-i18n="copyright">© 2026 Astralis. Все права защищены. Демонстрационный сайт.</span>
+        <span data-i18n="address">г. Москва, ул. Космическая, 42 · demo@astralis.example · +7 (495) 000-00-00</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS ==================== -->
+  <div class="modal-overlay" id="demoModal" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('demoModal')" aria-label="Закрыть">×</button>
+      <h2 id="demoTitle" data-i18n="modalDemoTitle">Запросить демо</h2>
+      <form id="demoForm" onsubmit="return submitDemo(event)">
+        <div class="form-group">
+          <label for="dName" data-i18n="labelName">Имя</label>
+          <input type="text" id="dName" required minlength="2">
+        </div>
+        <div class="form-group">
+          <label for="dEmail" data-i18n="labelEmail">Email</label>
+          <input type="email" id="dEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="dCompany" data-i18n="labelCompany">Компания</label>
+          <input type="text" id="dCompany">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%" data-i18n="btnRequestDemo">Отправить запрос</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="addDeviceModal" role="dialog" aria-modal="true" aria-labelledby="addDevTitle">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('addDeviceModal')" aria-label="Закрыть">×</button>
+      <h2 id="addDevTitle" data-i18n="modalAddDevTitle">Добавить устройство</h2>
+      <form id="addDevForm" onsubmit="return addDevice(event)">
+        <div class="form-group">
+          <label for="devName" data-i18n="labelDevName">Название</label>
+          <input type="text" id="devName" required>
+        </div>
+        <div class="form-group">
+          <label for="devType" data-i18n="labelDevType">Тип</label>
+          <select id="devType" required>
+            <option value="sensor" data-i18n="typeSensor">Сенсор</option>
+            <option value="camera" data-i18n="typeCamera">Камера</option>
+            <option value="printer" data-i18n="typePrinter">Принтер</option>
+            <option value="hvac" data-i18n="typeHvac">HVAC</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="devZone" data-i18n="labelZone">Зона</label>
+          <input type="text" id="devZone" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%" data-i18n="btnAdd">Добавить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="privacyModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('privacyModal')" aria-label="Закрыть">×</button>
+      <h2 data-i18n="modalPrivacyTitle">Политика конфиденциальности</h2>
+      <div class="modal-legal">
+        <p data-i18n="privacyText">Настоящий документ является демонстрационным. Astralis уважает конфиденциальность пользователей и обрабатывает данные в соответствии с применимым законодательством. Мы собираем только необходимую информацию для предоставления сервиса, не передаём данные третьим лицам без согласия и применяем современные методы защиты.</p>
+        <div class="warning" data-i18n="legalWarning">⚠ Это демонстрационный текст. Перед использованием в реальном продукте необходима юридическая проверка и адаптация под требования законодательства.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="termsModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('termsModal')" aria-label="Закрыть">×</button>
+      <h2 data-i18n="modalTermsTitle">Условия использования</h2>
+      <div class="modal-legal">
+        <p data-i18n="termsText">Используя платформу Astralis, вы соглашаетесь с правилами предоставления услуг. Сервис предоставляется «как есть». Пользователь несёт ответственность за корректность настроек автоматизации. Запрещается использование платформы в незаконных целях.</p>
+        <div class="warning" data-i18n="legalWarning">⚠ Это демонстрационный текст. Перед использованием в реальном продукте необходима юридическая проверка и адаптация под требования законодательства.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* ==================== i18n ==================== */
+    const i18n = {
+      ru: {
+        logoSlogan: "Умный офис будущего",
+        navDevices: "Устройства",
+        navAutomation: "Автоматизация",
+        navAnalytics: "Аналитика",
+        navPricing: "Тарифы",
+        navSupport: "Поддержка",
+        btnLogin: "Войти",
+        btnDemo: "Запросить демо",
+        heroTitle: "Управляйте пространством,<br>как звездолётом",
+        heroSubtitle: "Astralis — экосистема интеллектуального управления офисом. Объединяйте устройства, создавайте сценарии и получайте аналитику в реальном времени.",
+        btnLaunchDemo: "Запустить демо",
+        btnViewPricing: "Смотреть тарифы",
+        feat1Title: "Интеллектуальные сценарии",
+        feat1Desc: "Автоматизируйте освещение, климат и доступ по событиям и расписанию без кода.",
+        feat2Title: "Мгновенный мониторинг",
+        feat2Desc: "Статус всех устройств, энергопотребление и алерты — на одном экране в реальном времени.",
+        feat3Title: "Бесшовная интеграция",
+        feat3Desc: "Подключайте датчики, камеры, HVAC и IoT-устройства через открытые протоколы.",
+        feat4Title: "Безопасность и SLA",
+        feat4Desc: "Шифрование, ролевая модель доступа и гарантированная доступность 99.9%.",
+        devicesTitle: "Устройства",
+        devicesSubtitle: "Все устройства под контролем — в реальном времени. Демонстрационный реестр.",
+        btnAddDevice: "Добавить устройство",
+        btnExport: "Экспорт",
+        demoNoteDevices: "* Данные устройств являются демонстрационными и не связаны с реальными объектами.",
+        autoTitle: "Автоматизация",
+        autoSubtitle: "Создавайте правила, которые работают за вас. Готовые сценарии и простой редактор.",
+        scen1Title: "Умная вентиляция",
+        scen1Desc: "При превышении CO₂ > 800 ppm автоматически увеличивает приток воздуха на 30%.",
+        scen2Title: "Экономия энергии",
+        scen2Desc: "Выключает свет и снижает климат-контроль в пустых зонах после 19:00.",
+        scen3Title: "Безопасная ночь",
+        scen3Desc: "Активирует камеры, датчики движения и уведомления при обнаружении активности.",
+        scen4Title: "Подготовка к встрече",
+        scen4Desc: "За 15 минут до брони включает свет, экран и климат в переговорной.",
+        btnActivate: "Активировать",
+        ruleEditorTitle: "Редактор правил",
+        labelTrigger: "Триггер",
+        labelCondition: "Условие",
+        labelAction: "Действие",
+        optSelect: "— Выберите —",
+        optTime: "По времени",
+        optSensor: "Датчик",
+        optMotion: "Движение",
+        optOccupancy: "Занятость зоны",
+        optGt: "Больше чем",
+        optLt: "Меньше чем",
+        optEq: "Равно",
+        optBetween: "В диапазоне",
+        optLight: "Управление светом",
+        optHvac: "Климат-контроль",
+        optNotify: "Уведомление",
+        optLock: "Блокировка доступа",
+        btnSaveRule: "Сохранить правило",
+        dashTitle: "Аналитика и панель",
+        dashSubtitle: "Обзор состояния офиса, нагрузка и события. Демонстрационные данные.",
+        statTotal: "Всего устройств",
+        statOnline: "Онлайн",
+        statOffline: "Офлайн",
+        chartTitle: "Нагрузка по зонам (кВт·ч)",
+        mapTitle: "Схема офиса",
+        bookingTitle: "Бронирование переговорных",
+        bookingRoom: "Переговорная «Орбита»",
+        btnBook: "Забронировать",
+        eventsTitle: "Последние события",
+        demoNoteDash: "* Графики, схема и события — демонстрационный контент.",
+        pricingTitle: "Тарифы",
+        pricingSubtitle: "Выберите план, который подходит вашему офису. Цены демонстрационные.",
+        perMonth: "₽/мес",
+        planStarterDesc: "Для знакомства с платформой",
+        plan1f1: "До 10 устройств",
+        plan1f2: "Базовые сценарии",
+        plan1f3: "Email-поддержка",
+        plan1f4: "Демо-дашборд",
+        btnStartFree: "Начать бесплатно",
+        planProDesc: "Для растущих команд",
+        plan2f1: "До 150 устройств",
+        plan2f2: "Расширенная автоматизация",
+        plan2f3: "Приоритетная поддержка",
+        plan2f4: "Аналитика и отчёты",
+        plan2f5: "API-доступ",
+        btnChoosePro: "Выбрать Pro",
+        planEntPrice: "По запросу",
+        planEntDesc: "Для крупных офисов и кампусов",
+        plan3f1: "Безлимит устройств",
+        plan3f2: "SLA 99.95%",
+        plan3f3: "Выделенный менеджер",
+        plan3f4: "On-premise опция",
+        plan3f5: "Кастомные интеграции",
+        btnContactSales: "Связаться с отделом продаж",
+        testimonialsTitle: "Отзывы клиентов",
+        test1Text: "«Astralis сократил время на настройку сценариев в 4 раза. Теперь офис сам адаптируется под команду.»",
+        test1Role: "Операционный директор, TechSpace",
+        test2Text: "«Единая панель вместо пяти разных приложений. Экономия энергии за первый квартал — 18%.»",
+        test2Role: "Facility Manager, NovaHub",
+        test3Text: "«Интеграция заняла меньше недели. Поддержка отвечает быстро, документация понятная.»",
+        test3Role: "CTO, Orbit Labs",
+        supportTitle: "Поддержка",
+        faq1q: "Как подключить первое устройство?",
+        faq1a: "Добавьте устройство через раздел «Устройства» → «Добавить». Укажите тип, идентификатор и зону. Платформа автоматически обнаружит совместимые протоколы.",
+        faq2q: "Можно ли использовать on-premise?",
+        faq2a: "Да, на тарифе Enterprise доступна локальная установка с синхронизацией и полным контролем данных.",
+        faq3q: "Какие протоколы поддерживаются?",
+        faq3a: "MQTT, Modbus, BACnet, REST API, а также популярные IoT-платформы через коннекторы.",
+        contactTitle: "Связаться с нами",
+        labelName: "Имя",
+        labelEmail: "Email",
+        labelMessage: "Сообщение",
+        btnSend: "Отправить",
+        footerDesc: "Платформа интеллектуального управления умным офисом нового поколения.",
+        footerProduct: "Продукт",
+        footerLegal: "Правовая информация",
+        linkPrivacy: "Политика конфиденциальности",
+        linkTerms: "Условия использования",
+        copyright: "© 2026 Astralis. Все права защищены. Демонстрационный сайт.",
+        address: "г. Москва, ул. Космическая, 42 · demo@astralis.example · +7 (495) 000-00-00",
+        modalDemoTitle: "Запросить демо",
+        labelCompany: "Компания",
+        btnRequestDemo: "Отправить запрос",
+        modalAddDevTitle: "Добавить устройство",
+        labelDevName: "Название",
+        labelDevType: "Тип",
+        labelZone: "Зона",
+        typeSensor: "Сенсор",
+        typeCamera: "Камера",
+        typePrinter: "Принтер",
+        typeHvac: "HVAC",
+        btnAdd: "Добавить",
+        modalPrivacyTitle: "Политика конфиденциальности",
+        privacyText: "Настоящий документ является демонстрационным. Astralis уважает конфиденциальность пользователей и обрабатывает данные в соответствии с применимым законодательством. Мы собираем только необходимую информацию для предоставления сервиса, не передаём данные третьим лицам без согласия и применяем современные методы защиты.",
+        modalTermsTitle: "Условия использования",
+        termsText: "Используя платформу Astralis, вы соглашаетесь с правилами предоставления услуг. Сервис предоставляется «как есть». Пользователь несёт ответственность за корректность настроек автоматизации. Запрещается использование платформы в незаконных целях.",
+        legalWarning: "⚠ Это демонстрационный текст. Перед использованием в реальном продукте необходима юридическая проверка и адаптация под требования законодательства.",
+        toastLogin: "Демо: вход в систему (функционал недоступен)",
+        toastExport: "Демо: экспорт данных запущен",
+        toastScenario: "Сценарий активирован (демо)",
+        toastRule: "Правило успешно сохранено!",
+        toastBook: "Слот забронирован (демо)",
+        toastBookSelect: "Выберите свободный слот",
+        toastContact: "Сообщение отправлено! Мы свяжемся с вами.",
+        toastDemo: "Запрос на демо отправлен! Ожидайте письма.",
+        toastDevice: "Устройство добавлено в реестр (демо)",
+        toastStart: "Демо-доступ активирован",
+        online: "Онлайн",
+        offline: "Офлайн",
+        temp: "Температура",
+        power: "Энергия",
+        updated: "Обновлено"
+      },
+      en: {
+        logoSlogan: "Smart office of the future",
+        navDevices: "Devices",
+        navAutomation: "Automation",
+        navAnalytics: "Analytics",
+        navPricing: "Pricing",
+        navSupport: "Support",
+        btnLogin: "Sign in",
+        btnDemo: "Request demo",
+        heroTitle: "Command your space<br>like a starship",
+        heroSubtitle: "Astralis is a next-gen intelligent office management ecosystem. Unify devices, build scenarios and get real-time analytics.",
+        btnLaunchDemo: "Launch demo",
+        btnViewPricing: "View pricing",
+        feat1Title: "Intelligent scenarios",
+        feat1Desc: "Automate lighting, climate and access based on events and schedules — no code required.",
+        feat2Title: "Instant monitoring",
+        feat2Desc: "Device status, energy usage and alerts — all on one screen in real time.",
+        feat3Title: "Seamless integration",
+        feat3Desc: "Connect sensors, cameras, HVAC and IoT devices via open protocols.",
+        feat4Title: "Security & SLA",
+        feat4Desc: "Encryption, role-based access and 99.9% guaranteed uptime.",
+        devicesTitle: "Devices",
+        devicesSubtitle: "All devices under control — in real time. Demo registry.",
+        btnAddDevice: "Add device",
+        btnExport: "Export",
+        demoNoteDevices: "* Device data is demonstrational and not linked to real objects.",
+        autoTitle: "Automation",
+        autoSubtitle: "Create rules that work for you. Ready-made scenarios and a simple editor.",
+        scen1Title: "Smart ventilation",
+        scen1Desc: "When CO₂ exceeds 800 ppm, automatically increases air intake by 30%.",
+        scen2Title: "Energy saving",
+        scen2Desc: "Turns off lights and reduces climate control in empty zones after 7 PM.",
+        scen3Title: "Safe night",
+        scen3Desc: "Activates cameras, motion sensors and alerts upon detected activity.",
+        scen4Title: "Meeting prep",
+        scen4Desc: "15 minutes before a booking, turns on lights, screen and climate in the room.",
+        btnActivate: "Activate",
+        ruleEditorTitle: "Rule editor",
+        labelTrigger: "Trigger",
+        labelCondition: "Condition",
+        labelAction: "Action",
+        optSelect: "— Select —",
+        optTime: "By time",
+        optSensor: "Sensor",
+        optMotion: "Motion",
+        optOccupancy: "Zone occupancy",
+        optGt: "Greater than",
+        optLt: "Less than",
+        optEq: "Equals",
+        optBetween: "In range",
+        optLight: "Lighting control",
+        optHvac: "Climate control",
+        optNotify: "Notification",
+        optLock: "Access lock",
+        btnSaveRule: "Save rule",
+        dashTitle: "Analytics & dashboard",
+        dashSubtitle: "Office overview, load and events. Demonstrational data.",
+        statTotal: "Total devices",
+        statOnline: "Online",
+        statOffline: "Offline",
+        chartTitle: "Load by zone (kWh)",
+        mapTitle: "Office map",
+        bookingTitle: "Meeting room booking",
+        bookingRoom: "Meeting room «Orbit»",
+        btnBook: "Book",
+        eventsTitle: "Recent events",
+        demoNoteDash: "* Charts, map and events are demonstrational content.",
+        pricingTitle: "Pricing",
+        pricingSubtitle: "Choose the plan that fits your office. Prices are demonstrational.",
+        perMonth: "₽/mo",
+        planStarterDesc: "To get familiar with the platform",
+        plan1f1: "Up to 10 devices",
+        plan1f2: "Basic scenarios",
+        plan1f3: "Email support",
+        plan1f4: "Demo dashboard",
+        btnStartFree: "Start for free",
+        planProDesc: "For growing teams",
+        plan2f1: "Up to 150 devices",
+        plan2f2: "Advanced automation",
+        plan2f3: "Priority support",
+        plan2f4: "Analytics & reports",
+        plan2f5: "API access",
+        btnChoosePro: "Choose Pro",
+        planEntPrice: "Custom",
+        planEntDesc: "For large offices and campuses",
+        plan3f1: "Unlimited devices",
+        plan3f2: "SLA 99.95%",
+        plan3f3: "Dedicated manager",
+        plan3f4: "On-premise option",
+        plan3f5: "Custom integrations",
+        btnContactSales: "Contact sales",
+        testimonialsTitle: "Customer stories",
+        test1Text: "«Astralis cut scenario setup time by 4×. Now the office adapts to the team on its own.»",
+        test1Role: "COO, TechSpace",
+        test2Text: "«One panel instead of five apps. Energy savings in the first quarter — 18%.»",
+        test2Role: "Facility Manager, NovaHub",
+        test3Text: "«Integration took less than a week. Support responds fast, docs are clear.»",
+        test3Role: "CTO, Orbit Labs",
+        supportTitle: "Support",
+        faq1q: "How do I connect the first device?",
+        faq1a: "Add a device via Devices → Add. Specify type, ID and zone. The platform will auto-detect compatible protocols.",
+        faq2q: "Is on-premise available?",
+        faq2a: "Yes, the Enterprise plan offers local deployment with sync and full data control.",
+        faq3q: "Which protocols are supported?",
+        faq3a: "MQTT, Modbus, BACnet, REST API, and popular IoT platforms via connectors.",
+        contactTitle: "Contact us",
+        labelName: "Name",
+        labelEmail: "Email",
+        labelMessage: "Message",
+        btnSend: "Send",
+        footerDesc: "Next-generation intelligent office management platform.",
+        footerProduct: "Product",
+        footerLegal: "Legal",
+        linkPrivacy: "Privacy policy",
+        linkTerms: "Terms of use",
+        copyright: "© 2026 Astralis. All rights reserved. Demo website.",
+        address: "Moscow, Kosmicheskaya st. 42 · demo@astralis.example · +7 (495) 000-00-00",
+        modalDemoTitle: "Request a demo",
+        labelCompany: "Company",
+        btnRequestDemo: "Submit request",
+        modalAddDevTitle: "Add device",
+        labelDevName: "Name",
+        labelDevType: "Type",
+        labelZone: "Zone",
+        typeSensor: "Sensor",
+        typeCamera: "Camera",
+        typePrinter: "Printer",
+        typeHvac: "HVAC",
+        btnAdd: "Add",
+        modalPrivacyTitle: "Privacy policy",
+        privacyText: "This document is demonstrational. Astralis respects user privacy and processes data in accordance with applicable law. We collect only necessary information to provide the service, do not share data with third parties without consent, and apply modern protection methods.",
+        modalTermsTitle: "Terms of use",
+        termsText: "By using the Astralis platform you agree to the service terms. The service is provided «as is». The user is responsible for the correctness of automation settings. Use of the platform for illegal purposes is prohibited.",
+        legalWarning: "⚠ This is demonstrational text. Legal review and adaptation to applicable law is required before use in a real product.",
+        toastLogin: "Demo: sign-in (feature unavailable)",
+        toastExport: "Demo: data export started",
+        toastScenario: "Scenario activated (demo)",
+        toastRule: "Rule saved successfully!",
+        toastBook: "Slot booked (demo)",
+        toastBookSelect: "Please select an available slot",
+        toastContact: "Message sent! We will contact you.",
+        toastDemo: "Demo request sent! Check your inbox.",
+        toastDevice: "Device added to registry (demo)",
+        toastStart: "Demo access activated",
+        online: "Online",
+        offline: "Offline",
+        temp: "Temperature",
+        power: "Power",
+        updated: "Updated"
+      }
+    };
+
+    let currentLang = "ru";
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (i18n[lang][key] !== undefined) {
+          if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") return;
+          el.innerHTML = i18n[lang][key];
+        }
+      });
+      document.querySelectorAll(".lang-btn").forEach(btn => {
+        const active = btn.dataset.lang === lang;
+        btn.classList.toggle("active", active);
+        btn.setAttribute("aria-pressed", active);
+      });
+      renderDevices();
+      renderEvents();
+      // Update featured badge
+      const featured = document.querySelector(".price-card.featured");
+      if (featured) featured.setAttribute("data-badge", lang === "ru" ? "Популярный" : "Popular");
+    }
+
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+      btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+    });
+
+    /* ==================== Devices data ==================== */
+    const devices = [
+      { name: "Сенсор-Альфа", nameEn: "Sensor-Alpha", status: "online", temp: "22.4°C", power: "3.2 W", updated: "2 мин назад", updatedEn: "2 min ago" },
+      { name: "Принтер-Квант", nameEn: "Printer-Quantum", status: "online", temp: "41.1°C", power: "48 W", updated: "5 мин назад", updatedEn: "5 min ago" },
+      { name: "Камера-Орбита", nameEn: "Camera-Orbit", status: "online", temp: "28.0°C", power: "6.8 W", updated: "1 мин назад", updatedEn: "1 min ago" },
+      { name: "HVAC-Небула", nameEn: "HVAC-Nebula", status: "offline", temp: "—", power: "0 W", updated: "1 ч назад", updatedEn: "1 h ago" },
+      { name: "Датчик-Пульсар", nameEn: "Sensor-Pulsar", status: "online", temp: "21.8°C", power: "1.9 W", updated: "3 мин назад", updatedEn: "3 min ago" },
+      { name: "Светильник-Сириус", nameEn: "Light-Sirius", status: "online", temp: "34.5°C", power: "12 W", updated: "сейчас", updatedEn: "now" }
+    ];
+
+    function renderDevices() {
+      const grid = document.getElementById("devicesGrid");
+      const t = i18n[currentLang];
+      grid.innerHTML = devices.map(d => `
+        <article class="device-card glass">
+          <div class="device-header">
+            <span class="device-name">${currentLang === "ru" ? d.name : d.nameEn}</span>
+            <span class="status status-${d.status}">${d.status === "online" ? t.online : t.offline}</span>
+          </div>
+          <div class="device-stats">
+            <div><div class="stat-label">${t.temp}</div><div class="stat-value">${d.temp}</div></div>
+            <div><div class="stat-label">${t.power}</div><div class="stat-value">${d.power}</div></div>
+            <div style="grid-column:1/-1"><div class="stat-label">${t.updated}</div><div class="stat-value">${currentLang === "ru" ? d.updated : d.updatedEn}</div></div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    /* ==================== Events ==================== */
+    const events = [
+      { text: "Сценарий «Экономия энергии» выполнен", textEn: "Scenario «Energy saving» executed", time: "14:32", timeEn: "14:32" },
+      { text: "Камера-Орбита: движение в зоне B", textEn: "Camera-Orbit: motion in zone B", time: "14:18", timeEn: "14:18" },
+      { text: "HVAC-Небула перешла в офлайн", textEn: "HVAC-Nebula went offline", time: "13:05", timeEn: "13:05" },
+      { text: "Новое бронирование: Орбита 15:00", textEn: "New booking: Orbit 15:00", time: "12:47", timeEn: "12:47" },
+      { text: "Обновление прошивки Сенсор-Альфа", textEn: "Firmware update Sensor-Alpha", time: "11:20", timeEn: "11:20" }
+    ];
+
+    function renderEvents() {
+      const list = document.getElementById("eventsList");
+      list.innerHTML = events.map(e => `
+        <li>
+          <span>${currentLang === "ru" ? e.text : e.textEn}</span>
+          <span class="event-time">${currentLang === "ru" ? e.time : e.timeEn}</span>
+        </li>
+      `).join("");
+    }
+
+    /* ==================== Chart animation ==================== */
+    function animateCharts() {
+      document.querySelectorAll(".bar").forEach(bar => {
+        bar.style.height = bar.dataset.h + "%";
+      });
+    }
+
+    /* ==================== Intersection Observer ==================== */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          if (entry.target.id === "dashboard") animateCharts();
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".section").forEach(s => observer.observe(s));
+
+    /* ==================== FAQ ==================== */
+    document.querySelectorAll(".faq-question").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const item = btn.parentElement;
+        const isOpen = item.classList.contains("open");
+        document.querySelectorAll(".faq-item").forEach(i => {
+          i.classList.remove("open");
+          i.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+        });
+        if (!isOpen) {
+          item.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+    /* ==================== Booking ==================== */
+    let selectedSlot = null;
+    document.getElementById("bookingSlots").addEventListener("click", e => {
+      if (e.target.classList.contains("slot") && !e.target.classList.contains("busy")) {
+        document.querySelectorAll(".slot").forEach(s => s.classList.remove("selected"));
+        e.target.classList.add("selected");
+        selectedSlot = e.target.dataset.time;
+      }
+    });
+
+    function bookSlot() {
+      if (!selectedSlot) {
+        showToast(i18n[currentLang].toastBookSelect);
+        return;
+      }
+      showToast(i18n[currentLang].toastBook + ": " + selectedSlot);
+      selectedSlot = null;
+      document.querySelectorAll(".slot").forEach(s => s.classList.remove("selected"));
+    }
+
+    /* ==================== Forms ==================== */
+    function saveRule(e) {
+      e.preventDefault();
+      const t = document.getElementById("trigger").value;
+      const c = document.getElementById("condition").value;
+      const a = document.getElementById("action").value;
+      if (!t || !c || !a) return false;
+      showToast(i18n[currentLang].toastRule);
+      e.target.reset();
+      return false;
+    }
+
+    function submitContact(e) {
+      e.preventDefault();
+      showToast(i18n[currentLang].toastContact);
+      e.target.reset();
+      return false;
+    }
+
+    function submitDemo(e) {
+      e.preventDefault();
+      showToast(i18n[currentLang].toastDemo);
+      e.target.reset();
+      closeModal("demoModal");
+      return false;
+    }
+
+    function addDevice(e) {
+      e.preventDefault();
+      const name = document.getElementById("devName").value;
+      devices.unshift({
+        name: name,
+        nameEn: name,
+        status: "online",
+        temp: "—",
+        power: "—",
+        updated: "только что",
+        updatedEn: "just now"
+      });
+      renderDevices();
+      showToast(i18n[currentLang].toastDevice);
+      e.target.reset();
+      closeModal("addDeviceModal");
+      return false;
+    }
+
+    /* ==================== Modals ==================== */
+    function openModal(id) {
+      document.getElementById(id).classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll(".modal-overlay").forEach(overlay => {
+      overlay.addEventListener("click", e => {
+        if (e.target === overlay) closeModal(overlay.id);
+      });
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal-overlay.active").forEach(m => closeModal(m.id));
+      }
+    });
+
+    /* ==================== Toast ==================== */
+    let toastTimer;
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    /* ==================== Burger ==================== */
+    const burger = document.getElementById("burger");
+    const nav = document.getElementById("mainNav");
+    burger.addEventListener("click", () => {
+      const open = nav.classList.toggle("open");
+      burger.setAttribute("aria-expanded", open);
+    });
+
+    nav.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        nav.classList.remove("open");
+        burger.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    /* ==================== Ripple on buttons ==================== */
+    document.querySelectorAll(".btn").forEach(btn => {
+      btn.addEventListener("click", function(e) {
+        const rect = this.getBoundingClientRect();
+        this.style.setProperty("--x", (e.clientX - rect.left) + "px");
+        this.style.setProperty("--y", (e.clientY - rect.top) + "px");
+      });
+    });
+
+    /* ==================== Init ==================== */
+    renderDevices();
+    renderEvents();
+    setLanguage("ru");
+  </script>
+</body>
+</html>
