@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ContentHypeTube - Discover, watch, and share the best videos from around the world.">
+    <title>ContentHypeTube | Discover. Watch. Hype.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a68;
+            --text-muted: #6c757d;
+            --accent-gradient: linear-gradient(135deg, #6C3CE1 0%, #4A90E2 100%);
+            --accent-color: #6C3CE1;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --modal-overlay: rgba(0, 0, 0, 0.6);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0b0c10;
+            --bg-secondary: #1f1f2e;
+            --bg-tertiary: #2a2a3c;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0c0;
+            --text-muted: #8888a0;
+            --accent-gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+            --accent-color: #8B5CF6;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+            --glass-bg: rgba(31, 31, 46, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --modal-overlay: rgba(0, 0, 0, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            background: var(--accent-gradient);
+            color: white;
+            font-weight: 600;
+            border-radius: 50px;
+            font-size: 1rem;
+            box-shadow: 0 4px 16px rgba(108, 60, 225, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(108, 60, 225, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        nav {
+            display: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            display: none;
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 10px 16px 10px 40px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            width: 240px;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(108, 60, 225, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border-color);
+            transform: rotate(15deg);
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 80px;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: #6C3CE1;
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: #4A90E2;
+            bottom: -50px;
+            left: -100px;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: #E040FB;
+            top: 40%;
+            left: 40%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .hero-content {
+            max-width: 700px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 540px;
+        }
+
+        /* Sections General */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Categories */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .category-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-color);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .video-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .video-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-card.hidden {
+            display: none;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: var(--bg-tertiary);
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .video-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            transform: scale(0.8);
+            transition: var(--transition);
+        }
+
+        .video-card:hover .play-icon {
+            transform: scale(1);
+        }
+
+        .video-info {
+            padding: 16px;
+        }
+
+        .video-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: var(--text-primary);
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .video-author {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .meta-separator {
+            width: 3px;
+            height: 3px;
+            background: var(--text-muted);
+            border-radius: 50%;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+        }
+
+        .testimonial-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .stars {
+            color: #FFC107;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 64px 0 32px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            margin-top: 16px;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-gradient);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--modal-overlay);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            padding: 24px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.95) translateY(20px);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: rotate(90deg);
+        }
+
+        .modal-player {
+            aspect-ratio: 16 / 9;
+            background: #000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-player-placeholder {
+            text-align: center;
+            color: white;
+        }
+
+        .modal-player-placeholder .play-icon {
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+            margin: 0 auto 16px;
+            background: var(--accent-gradient);
+            color: white;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .modal-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .action-btn:hover {
+            background: var(--border-color);
+        }
+
+        .action-btn.active {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .similar-videos h3 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+
+        .similar-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .similar-card {
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .similar-card:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .similar-thumb {
+            width: 160px;
+            aspect-ratio: 16 / 9;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .similar-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .similar-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .similar-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Mobile Menu */
+        .mobile-nav {
+            position: fixed;
+            top: 72px;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .mobile-nav.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mobile-nav a {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: block;
+            padding: 8px 0;
+        }
+
+        .mobile-search {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .mobile-search input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (min-width: 481px) {
+            .categories-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .similar-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 769px) {
+            nav {
+                display: block;
+            }
+            .mobile-menu-btn {
+                display: none;
+            }
+            .search-box {
+                display: block;
+            }
+            .video-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+            }
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .video-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .testimonials-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Utility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">▶</div>
+                <span class="gradient-text">ContentHypeTube</span>
+            </a>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#explore">Explore</a></li>
+                    <li><a href="#trending">Trending</a></li>
+                    <li><a href="#featured">Library</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <div class="search-box">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="searchInput" placeholder="Search videos..." aria-label="Search videos">
+                </div>
+
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    <span id="themeIcon">🌙</span>
+                </button>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mobile-nav" id="mobileNav">
+            <ul>
+                <li><a href="#home" class="mobile-link">Home</a></li>
+                <li><a href="#explore" class="mobile-link">Explore</a></li>
+                <li><a href="#trending" class="mobile-link">Trending</a></li>
+                <li><a href="#featured" class="mobile-link">Library</a></li>
+            </ul>
+            <div class="mobile-search">
+                <input type="text" id="mobileSearchInput" placeholder="Search videos..." aria-label="Search videos mobile">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-bg">
+                <div class="hero-blob blob-1"></div>
+                <div class="hero-blob blob-2"></div>
+                <div class="hero-blob blob-3"></div>
+            </div>
+            <div class="container hero-content">
+                <h1>Discover. Watch. <span class="gradient-text">Hype.</span></h1>
+                <p>Immerse yourself in the world's most captivating videos. From cutting-edge technology and epic gaming montages to relaxing music and global travel adventures.</p>
+                <a href="#featured" class="btn-primary">Explore Now</a>
+            </div>
+        </section>
+
+        <section id="explore">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Browse Categories</h2>
+                    <p>Find exactly what you're in the mood for</p>
+                </div>
+                <div class="categories-grid">
+                    <div class="category-card" data-category="music">
+                        <span class="category-icon">🎵</span>
+                        <span class="category-name">Music</span>
+                    </div>
+                    <div class="category-card" data-category="gaming">
+                        <span class="category-icon">🎮</span>
+                        <span class="category-name">Gaming</span>
+                    </div>
+                    <div class="category-card" data-category="education">
+                        <span class="category-icon">📚</span>
+                        <span class="category-name">Education</span>
+                    </div>
+                    <div class="category-card" data-category="sports">
+                        <span class="category-icon">⚽</span>
+                        <span class="category-name">Sports</span>
+                    </div>
+                    <div class="category-card" data-category="tech">
+                        <span class="category-icon">💻</span>
+                        <span class="category-name">Technology</span>
+                    </div>
+                    <div class="category-card" data-category="travel">
+                        <span class="category-icon">✈️</span>
+                        <span class="category-name">Travel</span>
+                    </div>
+                    <div class="category-card" data-category="food">
+                        <span class="category-icon">🍔</span>
+                        <span class="category-name">Food</span>
+                    </div>
+                    <div class="category-card" data-category="fashion">
+                        <span class="category-icon">👗</span>
+                        <span class="category-name">Fashion</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="featured">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Featured Videos</h2>
+                    <p>Handpicked quality content just for you</p>
+                </div>
+                <div class="video-grid" id="featuredGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <section id="trending" style="background: var(--bg-secondary);">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Trending Now</h2>
+                    <p>What the world is watching right now</p>
+                </div>
+                <div class="video-grid" id="trendingGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Our Users Say</h2>
+                    <p>Join millions of satisfied viewers worldwide</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img src="https://picsum.photos/seed/user1/100/100" alt="Sarah Jenkins" class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h4>Sarah Jenkins</h4>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"ContentHypeTube has completely changed how I discover new content. The recommendations are spot-on, and the video quality is consistently outstanding."</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img src="https://picsum.photos/seed/user2/100/100" alt="Marcus Chen" class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h4>Marcus Chen</h4>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"As a creator, having a platform that truly highlights quality over clickbait is refreshing. The community here is incredibly supportive and engaged."</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img src="https://picsum.photos/seed/user3/100/100" alt="Elena Rodriguez" class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h4>Elena Rodriguez</h4>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"The dark mode is gorgeous, and the interface is so intuitive. I spend hours exploring the travel and tech categories. Absolutely love it!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">▶</div>
+                        <span class="gradient-text">ContentHypeTube</span>
+                    </a>
+                    <p>The premier destination for discovering, watching, and sharing the world's most captivating video content.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#explore">Explore</a></li>
+                        <li><a href="#trending">Trending</a></li>
+                        <li><a href="#">Creators</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Copyright</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> ContentHypeTube. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="YouTube">▶</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal-player">
+                <div class="modal-player-placeholder">
+                    <div class="play-icon">▶</div>
+                    <p>Click to Play Video</p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle">Video Title</h2>
+                <div class="modal-meta">
+                    <span id="modalViews">0 views</span>
+                    <span class="meta-separator"></span>
+                    <span id="modalDate">Date</span>
+                    <span class="meta-separator"></span>
+                    <span id="modalAuthor" style="color: var(--accent-color); font-weight: 600;">Author</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="action-btn" id="likeBtn">
+                        <span>👍</span> <span id="likeCount">12K</span>
+                    </button>
+                    <button class="action-btn" id="dislikeBtn">
+                        <span>👎</span> <span>Dislike</span>
+                    </button>
+                    <button class="action-btn">
+                        <span>↗️</span> <span>Share</span>
+                    </button>
+                    <button class="action-btn">
+                        <span>🔖</span> <span>Save</span>
+                    </button>
+                </div>
+                <div class="similar-videos">
+                    <h3>Up Next</h3>
+                    <div class="similar-grid" id="similarGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Video Data
+        const videos = [
+            { id: 1, title: "Epic Cinematic Drone Footage", author: "SkyHigh Media", views: "2.3M", date: "2 days ago", duration: "12:34", category: "travel", seed: 10, trending: false },
+            { id: 2, title: "Learn Python in 10 Minutes", author: "CodeAcademy", views: "1.5M", date: "1 week ago", duration: "10:05", category: "education", seed: 11, trending: true },
+            { id: 3, title: "Ultimate Gaming Montage 2026", author: "GameMaster", views: "890K", date: "3 days ago", duration: "15:20", category: "gaming", seed: 12, trending: true },
+            { id: 4, title: "Street Food Tour Tokyo", author: "TravelBug", views: "3.1M", date: "5 days ago", duration: "22:15", category: "food", seed: 13, trending: false },
+            { id: 5, title: "SpaceX Starship Launch Highlights", author: "TechVision", views: "4.2M", date: "1 day ago", duration: "08:45", category: "tech", seed: 14, trending: true },
+            { id: 6, title: "Jazz Relaxing Music for Work", author: "MusicLab", views: "5.0M", date: "2 weeks ago", duration: "45:00", category: "music", seed: 15, trending: false },
+            { id: 7, title: "AI Explained Simply", author: "FutureTech", views: "1.1M", date: "4 days ago", duration: "14:30", category: "tech", seed: 16, trending: true },
+            { id: 8, title: "Parkour POV: Urban Movement", author: "UrbanMover", views: "750K", date: "6 days ago", duration: "05:12", category: "sports", seed: 17, trending: false },
+            { id: 9, title: "Cooking with Gordon: Masterclass", author: "ChefMaster", views: "2.8M", date: "3 days ago", duration: "18:40", category: "food", seed: 18, trending: true },
+            { id: 10, title: "How to Paint Like a Pro", author: "ArtStudio", views: "600K", date: "1 month ago", duration: "25:10", category: "education", seed: 19, trending: false },
+            { id: 11, title: "Fitness Motivation 2026", author: "FitLife", views: "1.9M", date: "2 days ago", duration: "11:20", category: "sports", seed: 20, trending: true },
+            { id: 12, title: "Vlog: Bali Adventure", author: "Wanderlust", views: "1.3M", date: "1 week ago", duration: "20:05", category: "travel", seed: 21, trending: false }
+        ];
+
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+        const featuredGrid = document.getElementById('featuredGrid');
+        const trendingGrid = document.getElementById('trendingGrid');
+        const modal = document.getElementById('videoModal');
+        const modalClose = document.getElementById('modalClose');
+        const currentYearSpan = document.getElementById('currentYear');
+
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            html.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Mobile Menu
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                mobileNav.classList.remove('active');
+            });
+        });
+
+        // Render Video Card
+        function createVideoCard(video, isTrending = false) {
+            const card = document.createElement('article');
+            card.className = 'video-card';
+            card.dataset.title = video.title.toLowerCase();
+            card.dataset.author = video.author.toLowerCase();
+            card.dataset.category = video.category;
+            
+            const badge = isTrending || video.trending ? '<span class="video-badge">🔥 Trending</span>' : '';
+            
+            card.innerHTML = `
+                <div class="video-thumbnail">
+                    <img src="https://picsum.photos/seed/${video.seed}/400/225" alt="${video.title}" loading="lazy">
+                    ${badge}
+                    <span class="video-duration">${video.duration}</span>
+                    <div class="play-overlay">
+                        <div class="play-icon">▶</div>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">${video.title}</h3>
+                    <div class="video-meta">
+                        <span class="video-author">${video.author}</span>
+                        <span class="meta-separator"></span>
+                        <span>${video.views} views</span>
+                        <span class="meta-separator"></span>
+                        <span>${video.date}</span>
+                    </div>
+                </div>
+            `;
+            
+            card.addEventListener('click', () => openModal(video));
+            return card;
+        }
+
+        // Render Grids
+        function renderVideos() {
+            featuredGrid.innerHTML = '';
+            trendingGrid.innerHTML = '';
+            
+            const featured = videos.filter(v => !v.trending).slice(0, 8);
+            const trending = videos.filter(v => v.trending);
+            
+            featured.forEach((video, index) => {
+                const card = createVideoCard(video, false);
+                card.style.animationDelay = `${index * 0.1}s`;
+                featuredGrid.appendChild(card);
+            });
+            
+            trending.forEach((video, index) => {
+                const card = createVideoCard(video, true);
+                card.style.animationDelay = `${index * 0.1}s`;
+                trendingGrid.appendChild(card);
+            });
+
+            // Trigger fade-in animation
+            setTimeout(() => {
+                document.querySelectorAll('.video-card').forEach(card => {
+                    card.classList.add('visible');
+                });
+            }, 100);
+        }
+
+        // Search Functionality
+        function handleSearch(query) {
+            const lowerQuery = query.toLowerCase();
+            const cards = document.querySelectorAll('.video-card');
+            
+            cards.forEach(card => {
+                const title = card.dataset.title;
+                const author = card.dataset.author;
+                const category = card.dataset.category;
+                
+                if (title.includes(lowerQuery) || author.includes(lowerQuery) || category.includes(lowerQuery)) {
+                    card.classList.remove('hidden');
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        if (!card.style.opacity || card.style.opacity === '0') {
+                            card.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
+        mobileSearchInput.addEventListener('input', (e) => handleSearch(e.target.value));
+
+        // Modal Logic
+        function openModal(video) {
+            document.getElementById('modalTitle').textContent = video.title;
+            document.getElementById('modalViews').textContent = `${video.views} views`;
+            document.getElementById('modalDate').textContent = video.date;
+            document.getElementById('modalAuthor').textContent = video.author;
+            document.getElementById('likeCount').textContent = Math.floor(Math.random() * 50 + 10) + 'K';
+            
+            // Reset buttons
+            document.getElementById('likeBtn').classList.remove('active');
+            document.getElementById('dislikeBtn').classList.remove('active');
+            
+            // Populate similar videos (exclude current)
+            const similarGrid = document.getElementById('similarGrid');
+            similarGrid.innerHTML = '';
+            const similar = videos.filter(v => v.id !== video.id).sort(() => 0.5 - Math.random()).slice(0, 3);
+            
+            similar.forEach(v => {
+                const div = document.createElement('div');
+                div.className = 'similar-card';
+                div.innerHTML = `
+                    <div class="similar-thumb">
+                        <img src="https://picsum.photos/seed/${v.seed}/160/90" alt="${v.title}">
+                    </div>
+                    <div class="similar-info">
+                        <h4>${v.title}</h4>
+                        <p>${v.author}</p>
+                        <p>${v.views} views • ${v.date}</p>
+                    </div>
+                `;
+                div.addEventListener('click', () => openModal(v));
+                similarGrid.appendChild(div);
+            });
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Like/Dislike Logic
+        const likeBtn = document.getElementById('likeBtn');
+        const dislikeBtn = document.getElementById('dislikeBtn');
+
+        likeBtn.addEventListener('click', () => {
+            likeBtn.classList.toggle('active');
+            if (likeBtn.classList.contains('active')) {
+                dislikeBtn.classList.remove('active');
+            }
+        });
+
+        dislikeBtn.addEventListener('click', () => {
+            dislikeBtn.classList.toggle('active');
+            if (dislikeBtn.classList.contains('active')) {
+                likeBtn.classList.remove('active');
+            }
+        });
+
+        // Category Filter
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const category = card.dataset.category;
+                searchInput.value = category;
+                mobileSearchInput.value = category;
+                handleSearch(category);
+                document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Active Nav Link on Scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            renderVideos();
+            currentYearSpan.textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LexiBon Tech - Intelligent Systems for Next-Gen Hardware. AI, edge computing and robotics for self-optimizing industrial solutions.">
+    <meta name="keywords" content="IoT, robotics, AI, edge computing, industrial automation, smart hardware">
+    <meta name="author" content="LexiBon Tech">
+    <meta property="og:title" content="LexiBon Tech - Engineering the Future, Today">
+    <meta property="og:description" content="We combine AI, edge computing and robotics to create self-optimizing industrial solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lexibontech.com">
+    <title>LexiBon Tech — Engineering the Future, Today</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS VARIABLES & THEME ===== */
+        :root {
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: 0.3s ease;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.16);
+            --shadow-glow: 0 0 20px rgba(59,130,246,0.3);
+        }
+
+        /* Light Theme (default) */
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: rgba(255,255,255,0.8);
+            --bg-card-hover: rgba(255,255,255,0.95);
+            --bg-glass: rgba(255,255,255,0.6);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #94a3b8;
+            --accent-primary: #1e3a8a;
+            --accent-secondary: #4338ca;
+            --accent-tertiary: #d97706;
+            --accent-gold: #f59e0b;
+            --border-color: rgba(15,23,42,0.08);
+            --gradient-hero: linear-gradient(135deg, #1e3a8a 0%, #4338ca 50%, #6366f1 100%);
+            --gradient-btn: linear-gradient(135deg, #1e3a8a, #4338ca);
+            --gradient-accent: linear-gradient(135deg, #d97706, #f59e0b);
+            --nav-bg: rgba(255,255,255,0.85);
+            --particle-color: rgba(30,58,138,0.3);
+            --particle-line: rgba(67,56,202,0.15);
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1e293b;
+            --bg-card: rgba(30,41,59,0.7);
+            --bg-card-hover: rgba(30,41,59,0.9);
+            --bg-glass: rgba(15,23,42,0.6);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #64748b;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --accent-tertiary: #06b6d4;
+            --accent-gold: #22d3ee;
+            --border-color: rgba(241,245,249,0.08);
+            --gradient-hero: linear-gradient(135deg, #0a0e1a 0%, #1e1b4b 50%, #312e81 100%);
+            --gradient-btn: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            --gradient-accent: linear-gradient(135deg, #06b6d4, #22d3ee);
+            --nav-bg: rgba(10,14,26,0.85);
+            --particle-color: rgba(59,130,246,0.4);
+            --particle-line: rgba(139,92,246,0.2);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color var(--transition), color var(--transition);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color var(--transition);
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: all var(--transition);
+        }
+
+        input, textarea {
+            font-family: var(--font-body);
+            transition: all var(--transition);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 clamp(1rem, 4vw, 2rem);
+        }
+
+        .section {
+            padding: clamp(4rem, 8vw, 8rem) 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: clamp(2rem, 5vw, 4rem);
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            background: var(--gradient-btn);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Fade-up animation */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all var(--transition);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-btn);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 0.25rem 0;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-btn);
+            transition: width var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: rotate(180deg);
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            width: 28px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .burger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all var(--transition);
+        }
+
+        .burger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .burger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: min(320px, 80vw);
+            height: 100vh;
+            background: var(--bg-primary);
+            z-index: 999;
+            padding: 6rem 2rem 2rem;
+            transition: right 0.4s ease;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .mobile-menu a:hover {
+            color: var(--accent-primary);
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition);
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: var(--gradient-hero);
+        }
+
+        .hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .hero-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .hero-shape:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-primary);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .hero-shape:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-secondary);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -5s;
+        }
+
+        .hero-shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: var(--accent-tertiary);
+            top: 50%;
+            left: 50%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -30px) rotate(5deg); }
+            50% { transform: translate(-20px, 20px) rotate(-5deg); }
+            75% { transform: translate(20px, 10px) rotate(3deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all var(--transition);
+        }
+
+        .btn-primary {
+            background: white;
+            color: #1e3a8a;
+            box-shadow: 0 4px 20px rgba(255,255,255,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255,255,255,0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+        }
+
+        .btn-accent {
+            background: var(--gradient-btn);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        /* Hero Stats */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+            opacity: 0.7;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* ===== SOLUTIONS SECTION ===== */
+        .solutions {
+            background: var(--bg-secondary);
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .solution-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-btn);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            background: var(--bg-card-hover);
+        }
+
+        .solution-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .solution-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-md);
+            background: var(--gradient-btn);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            transition: transform var(--transition);
+        }
+
+        .solution-card:hover .solution-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .solution-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .solution-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .solution-link {
+            font-weight: 600;
+            color: var(--accent-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .solution-link:hover {
+            gap: 0.75rem;
+        }
+
+        /* ===== PRODUCTS SECTION ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            perspective: 1000px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: inherit;
+            opacity: 0.9;
+        }
+
+        .product-image span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-card:nth-child(1) .product-image { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .product-card:nth-child(2) .product-image { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .product-card:nth-child(3) .product-image { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .product-card:nth-child(4) .product-image { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .product-card:nth-child(5) .product-image { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .product-card:nth-child(6) .product-image { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .product-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .product-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-size: 1.1rem;
+        }
+
+        .product-tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .btn-sm {
+            padding: 0.625rem 1.25rem;
+            font-size: 0.9rem;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about {
+            background: var(--bg-secondary);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-values {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition);
+        }
+
+        .value-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .value-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .value-item h4 {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .value-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Team */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            border: 3px solid var(--border-color);
+            transition: all var(--transition);
+        }
+
+        .team-member:nth-child(1) .team-avatar { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .team-member:nth-child(2) .team-avatar { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .team-member:nth-child(3) .team-avatar { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .team-member:nth-child(4) .team-avatar { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+
+        .team-member:hover .team-avatar {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        .team-member h4 {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .team-member p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: all var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .testimonial-stars {
+            color: #f59e0b;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card:nth-child(1) .testimonial-avatar { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .testimonial-card:nth-child(2) .testimonial-avatar { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .testimonial-card:nth-child(3) .testimonial-avatar { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact {
+            background: var(--bg-secondary);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #ef4444;
+        }
+
+        .error-message {
+            font-size: 0.8rem;
+            color: #ef4444;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .contact-info-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            background: var(--gradient-btn);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .contact-info-text h4 {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-info-text p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .map-placeholder {
+            margin-top: 2rem;
+            height: 200px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, var(--accent-primary) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, var(--accent-secondary) 0%, transparent 50%);
+            opacity: 0.1;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-column h4 {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-column a {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.35rem 0;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-bottom-links a {
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(16px);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-success {
+            border-left: 4px solid #10b981;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-values {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== PARALLAX ===== */
+        .parallax-element {
+            transition: transform 0.1s linear;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">⚡</div>
+                LexiBon Tech
+            </a>
+            <nav class="nav-menu">
+                <a href="#home">Home</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#products">Products</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <div class="burger" id="burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="#home">Home</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="home">
+        <canvas class="hero-canvas" id="heroCanvas"></canvas>
+        <div class="hero-shapes">
+            <div class="hero-shape"></div>
+            <div class="hero-shape"></div>
+            <div class="hero-shape"></div>
+        </div>
+        <div class="container hero-content">
+            <h1>Intelligent Systems for<br>Next‑Gen Hardware</h1>
+            <p>LexiBon Tech combines AI, edge computing and robotics to create self‑optimizing industrial solutions.</p>
+            <div class="hero-buttons">
+                <a href="#solutions" class="btn btn-primary">Explore Solutions →</a>
+                <a href="#contact" class="btn btn-secondary">Contact Sales</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">Years of Innovation</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">Patents Filed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="200">0</div>
+                    <div class="stat-label">Deployments</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="99.9" data-suffix="%">0</div>
+                    <div class="stat-label">Uptime SLA</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ===== SOLUTIONS SECTION ===== -->
+    <section class="section solutions" id="solutions">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>Our Solutions</h2>
+                <p>End-to-end intelligent systems designed for the most demanding industrial environments.</p>
+            </div>
+            <div class="solutions-grid">
+                <div class="solution-card fade-up">
+                    <div class="solution-icon">🧠</div>
+                    <h3>Edge AI Modules</h3>
+                    <p>Deploy machine learning models directly on industrial hardware with our ultra-low-latency edge computing modules. Real-time inference at the point of action.</p>
+                    <a href="#" class="solution-link">Learn More →</a>
+                </div>
+                <div class="solution-card fade-up">
+                    <div class="solution-icon">🤖</div>
+                    <h3>Robotic Control Systems</h3>
+                    <p>Advanced kinematic control platforms for autonomous robotic arms and mobile platforms. Adaptive learning for dynamic manufacturing environments.</p>
+                    <a href="#" class="solution-link">Learn More →</a>
+                </div>
+                <div class="solution-card fade-up">
+                    <div class="solution-icon">🔧</div>
+                    <h3>Predictive Maintenance</h3>
+                    <p>AI-driven monitoring that anticipates equipment failures before they occur. Reduce downtime by up to 85% with sensor fusion analytics.</p>
+                    <a href="#" class="solution-link">Learn More →</a>
+                </div>
+                <div class="solution-card fade-up">
+                    <div class="solution-icon">🌐</div>
+                    <h3>Digital Twin Platform</h3>
+                    <p>Create precise virtual replicas of your physical systems. Simulate, optimize, and predict outcomes without risking real-world assets.</p>
+                    <a href="#" class="solution-link">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRODUCTS SECTION ===== -->
+    <section class="section products" id="products">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>Products</h2>
+                <p>Purpose-built hardware and software platforms engineered for performance, reliability, and scale.</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card fade-up">
+                    <div class="product-image"><span>⚙️</span></div>
+                    <div class="product-info">
+                        <h3>NeuRo‑Core</h3>
+                        <p>High-performance neural processing unit for real-time AI inference in industrial edge environments.</p>
+                        <div class="product-meta">
+                            <span class="product-price">From $4,990</span>
+                            <span class="product-tag">AI Hardware</span>
+                        </div>
+                        <a href="#contact" class="btn btn-accent btn-sm">Inquire</a>
+                    </div>
+                </div>
+                <div class="product-card fade-up">
+                    <div class="product-image"><span>📡</span></div>
+                    <div class="product-info">
+                        <h3>OmniSense</h3>
+                        <p>Multi-modal sensor array with integrated signal processing for comprehensive environmental monitoring.</p>
+                        <div class="product-meta">
+                            <span class="product-price">From $2,490</span>
+                            <span class="product-tag">IoT Sensors</span>
+                        </div>
+                        <a href="#contact" class="btn btn-accent btn-sm">Inquire</a>
+                    </div>
+                </div>
+                <div class="product-card fade-up">
+                    <div class="product-image"><span>🦾</span></div>
+                    <div class="product-info">
+                        <h3>Actuator AI</h3>
+                        <p>Intelligent actuation system with self-calibrating precision control for robotic manipulators.</p>
+                        <div class="product-meta">
+                            <span class="product-price">From $7,200</span>
+                            <span class="product-tag">Robotics</span>
+                        </div>
+                        <a href="#contact" class="btn btn-accent btn-sm">Inquire</a>
+                    </div>
+                </div>
+                <div class="product-card fade-up">
+                    <div class="product-image"><span>💻</span></div>
+                    <div class="product-info">
+                        <h3>Spectra OS</h3>
+                        <p>Real-time operating system optimized for cyber-physical systems with built-in security protocols.</p>
+                        <div class="product-meta">
+                            <span class="product-price">From $1,890/yr</span>
+                            <span class="product-tag">Software</span>
+                        </div>
+                        <a href="#contact" class="btn btn-accent btn-sm">Inquire</a>
+                    </div>
+                </div>
+                <div class="product-card fade-up">
+                    <div class="product-image"><span>🖐️</span></div>
+                    <div class="product-info">
+                        <h3>CyberGrip</h3>
+                        <p>Adaptive gripper system with tactile feedback for delicate material handling in automated assembly lines.</p>
+                        <div class="product-meta">
+                            <span class="product-price">From $3,750</span>
+                            <span class="product-tag">End Effectors</span>
+                        </div>
+                        <a href="#contact" class="btn btn-accent btn-sm">Inquire</a>
+                    </div>
+                </div>
+                <div class="product-card fade-up">
+                    <div class="product-image"><span>🌊</span></div>
+                    <div class="product-info">
+                        <h3>Vortex Edge</h3>
+                        <p>Compact edge computing gateway with 5G connectivity for distributed industrial IoT deployments.</p>
+                        <div class="product-meta">
+                            <span class="product-price">From $1,290</span>
+                            <span class="product-tag">Edge Gateway</span>
+                        </div>
+                        <a href="#contact" class="btn btn-accent btn-sm">Inquire</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>About LexiBon Tech</h2>
+                <p>Pioneering the convergence of artificial intelligence and physical systems since 2014.</p>
+            </div>
+            <div class="about-content fade-up">
+                <div class="about-text">
+                    <h3>Engineering the Future, Today</h3>
+                    <p>Founded in San Francisco, LexiBon Tech has grown from a small research lab into a global technology leader. We specialize in creating intelligent hardware systems that bridge the gap between digital intelligence and physical operations.</p>
+                    <p>Our multidisciplinary team of engineers, researchers, and industry experts works at the intersection of machine learning, robotics, and embedded systems to deliver solutions that transform how industries operate.</p>
+                    <p>With offices in San Francisco, London, and Tokyo, we serve clients across manufacturing, logistics, energy, and aerospace sectors worldwide.</p>
+                </div>
+                <div class="about-values">
+                    <div class="value-item">
+                        <div class="value-icon">💡</div>
+                        <h4>Innovation</h4>
+                        <p>Pushing boundaries with cutting-edge research and development.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">🛡️</div>
+                        <h4>Reliability</h4>
+                        <p>Enterprise-grade systems built for mission-critical operations.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">🌱</div>
+                        <h4>Sustainability</h4>
+                        <p>Designing solutions that reduce waste and optimize resource usage.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="team-grid fade-up">
+                <div class="team-member">
+                    <div class="team-avatar">AK</div>
+                    <h4>Alexandra Kim</h4>
+                    <p>Chief Executive Officer</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">MR</div>
+                    <h4>Marcus Reeves</h4>
+                    <p>Chief Technology Officer</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">SP</div>
+                    <h4>Sofia Petrov</h4>
+                    <p>VP of Engineering</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">JT</div>
+                    <h4>James Tanaka</h4>
+                    <p>Head of Product</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>What Our Clients Say</h2>
+                <p>Trusted by industry leaders across the globe.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"LexiBon Tech's edge AI modules reduced our production line downtime by 72%. The integration was seamless and their support team is exceptional."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RH</div>
+                        <div>
+                            <div class="testimonial-name">Robert Harrison</div>
+                            <div class="testimonial-role">CTO, Meridian Manufacturing</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The Digital Twin Platform transformed how we approach system optimization. We can now simulate months of operational data in hours."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">LC</div>
+                        <div>
+                            <div class="testimonial-name">Laura Chen</div>
+                            <div class="testimonial-role">Director of Operations, Pacific Logistics</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Their robotic control systems are years ahead of the competition. We've deployed Actuator AI across three facilities with outstanding results."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">DW</div>
+                        <div>
+                            <div class="testimonial-name">David Whitmore</div>
+                            <div class="testimonial-role">VP Engineering, Atlas Aerospace</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT SECTION ===== -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>Get in Touch</h2>
+                <p>Ready to transform your operations? Let's discuss how we can help.</p>
+            </div>
+            <div class="contact-grid">
+                <form class="contact-form fade-up" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="John Smith">
+                        <div class="error-message" id="nameError">Please enter your name.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="john@company.com">
+                        <div class="error-message" id="emailError">Please enter a valid email address.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company</label>
+                        <input type="text" id="company" name="company" placeholder="Your Company Inc.">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required placeholder="Tell us about your project..."></textarea>
+                        <div class="error-message" id="messageError">Please enter your message.</div>
+                    </div>
+                    <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;">Send Message →</button>
+                </form>
+                <div class="contact-info fade-up">
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">📍</div>
+                        <div class="contact-info-text">
+                            <h4>Headquarters</h4>
+                            <p>450 Innovation Drive, Suite 300<br>San Francisco, CA 94107, USA</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">🏢</div>
+                        <div class="contact-info-text">
+                            <h4>European Office</h4>
+                            <p>22 Finsbury Square, Floor 8<br>London EC2A 1DX, United Kingdom</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">🏢</div>
+                        <div class="contact-info-text">
+                            <h4>Asia-Pacific Office</h4>
+                            <p>1-6-1 Marunouchi, Chiyoda-ku<br>Tokyo 100-0005, Japan</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">📞</div>
+                        <div class="contact-info-text">
+                            <h4>Phone</h4>
+                            <p>+1 (415) 555‑0199<br>+44 (20) 7946‑0958</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">✉️</div>
+                        <div class="contact-info-text">
+                            <h4>Email</h4>
+                            <p>info@lexibontech.com<br>sales@lexibontech.com</p>
+                        </div>
+                    </div>
+                    <div class="map-placeholder">
+                        <span>🗺️ Our Global Locations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">⚡</div>
+                        LexiBon Tech
+                    </a>
+                    <p>Engineering the future of intelligent hardware systems. We combine AI, robotics, and edge computing to build the infrastructure of tomorrow.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                        <a href="#" aria-label="Twitter">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="#" aria-label="GitHub">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                        <a href="#" aria-label="YouTube">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Solutions</h4>
+                    <a href="#">Edge AI Modules</a>
+                    <a href="#">Robotic Control</a>
+                    <a href="#">Predictive Maintenance</a>
+                    <a href="#">Digital Twin Platform</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Newsroom</a>
+                    <a href="#">Partners</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">API Reference</a>
+                    <a href="#">Case Studies</a>
+                    <a href="#">Support</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 LexiBon Tech, Inc. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast toast-success" id="toast">
+        <strong>Message sent successfully!</strong><br>
+        <small>We'll get back to you within 24 hours.</small>
+    </div>
+
+    <script>
+        /* ===== THEME TOGGLE ===== */
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        themeToggle.addEventListener('click', () => {
+            const current = body.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            themeIcon.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
+
+        /* ===== MOBILE MENU ===== */
+        const burger = document.getElementById('burger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+
+        function toggleMobileMenu() {
+            burger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            mobileOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        burger.addEventListener('click', toggleMobileMenu);
+        mobileOverlay.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        /* ===== HERO CANVAS ANIMATION ===== */
+        const canvas = document.getElementById('heroCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouseX = 0;
+        let mouseY = 0;
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Mouse interaction
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    this.x -= dx * 0.01;
+                    this.y -= dy * 0.01;
+                }
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                const theme = body.getAttribute('data-theme');
+                const color = theme === 'dark' ? `rgba(59, 130, 246, ${this.opacity})` : `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles = [];
+            const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        initParticles();
+
+        function drawConnections() {
+            const theme = body.getAttribute('data-theme');
+            const lineColor = theme === 'dark' ? 'rgba(139, 92, 246,' : 'rgba(255, 255, 255,';
+            
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `${lineColor} ${0.15 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            drawConnections();
+            requestAnimationFrame(animateCanvas);
+        }
+
+        animateCanvas();
+
+        // Track mouse position on hero
+        document.querySelector('.hero').addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+        });
+
+        /* ===== INTERSECTION OBSERVER - FADE UP ===== */
+        const fadeElements = document.querySelectorAll('.fade-up');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        /* ===== COUNTER ANIMATION ===== */
+        const statNumbers = document.querySelectorAll('.stat-number');
+        let countersStarted = false;
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !countersStarted) {
+                    countersStarted = true;
+                    statNumbers.forEach(stat => {
+                        const target = parseFloat(stat.getAttribute('data-target'));
+                        const suffix = stat.getAttribute('data-suffix') || '+';
+                        const isDecimal = target % 1 !== 0;
+                        const duration = 2000;
+                        const start = performance.now();
+
+                        function updateCounter(currentTime) {
+                            const elapsed = currentTime - start;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            const current = target * eased;
+
+                            if (isDecimal) {
+                                stat.textContent = current.toFixed(1) + suffix;
+                            } else {
+                                stat.textContent = Math.floor(current) + suffix;
+                            }
+
+                            if (progress < 1) {
+                                requestAnimationFrame(updateCounter);
+                            }
+                        }
+
+                        requestAnimationFrame(updateCounter);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelector('.hero-stats') && statsObserver.observe(document.querySelector('.hero-stats'));
+
+        /* ===== CONTACT FORM VALIDATION ===== */
+        const contactForm = document.getElementById('contactForm');
+        const toast = document.getElementById('toast');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            // Name validation
+            const name = document.getElementById('name');
+            const nameError = document.getElementById('nameError');
+            if (!name.value.trim()) {
+                name.classList.add('error');
+                nameError.style.display = 'block';
+                isValid = false;
+            } else {
+                name.classList.remove('error');
+                nameError.style.display = 'none';
+            }
+
+            // Email validation
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value.trim() || !emailRegex.test(email.value)) {
+                email.classList.add('error');
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                email.classList.remove('error');
+                emailError.style.display = 'none';
+            }
+
+            // Message validation
+            const message = document.getElementById('message');
+            const messageError = document.getElementById('messageError');
+            if (!message.value.trim()) {
+                message.classList.add('error');
+                messageError.style.display = 'block';
+                isValid = false;
+            } else {
+                message.classList.remove('error');
+                messageError.style.display = 'none';
+            }
+
+            if (isValid) {
+                // Show toast
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 4000);
+                contactForm.reset();
+            }
+        });
+
+        // Remove error on input
+        document.querySelectorAll('#contactForm input, #contactForm textarea').forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('error');
+                const errorEl = input.nextElementSibling;
+                if (errorEl && errorEl.classList.contains('error-message')) {
+                    errorEl.style.display = 'none';
+                }
+            });
+        });
+
+        /* ===== PARALLAX ON SCROLL ===== */
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.hero-shape');
+            shapes.forEach((shape, i) => {
+                const speed = (i + 1) * 0.05;
+                shape.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        /* ===== SMOOTH SCROLL FOR ANCHOR LINKS ===== */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        /* ===== RESIZE HANDLER FOR PARTICLES ===== */
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                resizeCanvas();
+                initParticles();
+            }, 250);
+        });
+    </script>
+</body>
+</html>

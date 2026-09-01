@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="HyperStream – AI-powered cinematic streaming, live interactions and social viewing in 4K HDR." />
+<title>HyperStream – Stream Beyond the Ordinary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* =========================================================
+   HYPERSTREAM – Global styles & design tokens
+   ========================================================= */
+
+:root {
+  /* Dark theme (default) */
+  --bg-primary: #0a0b1e;
+  --bg-secondary: #0f1030;
+  --bg-tertiary: #141638;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-strong: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text-primary: #ffffff;
+  --text-secondary: #b8bcd4;
+  --text-muted: #7b80a0;
+
+  --accent-1: #7b2ffc;   /* violet */
+  --accent-2: #00d4ff;   /* cyan */
+  --accent-3: #ff3ea5;   /* pink */
+  --gradient-primary: linear-gradient(135deg, #7b2ffc 0%, #00d4ff 100%);
+  --gradient-accent: linear-gradient(135deg, #ff3ea5 0%, #7b2ffc 50%, #00d4ff 100%);
+  --gradient-soft: linear-gradient(135deg, rgba(123,47,252,0.15), rgba(0,212,255,0.15));
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 40px rgba(123, 47, 252, 0.35);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --container: 1240px;
+  --header-h: 76px;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8f9fe;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eef0fb;
+  --surface: rgba(10, 11, 30, 0.03);
+  --surface-strong: rgba(10, 11, 30, 0.06);
+  --border: rgba(10, 11, 30, 0.08);
+  --border-strong: rgba(10, 11, 30, 0.14);
+
+  --text-primary: #0a0b1e;
+  --text-secondary: #4a4e6a;
+  --text-muted: #7b80a0;
+
+  --accent-1: #6b1fe0;
+  --accent-2: #0099cc;
+  --accent-3: #e0258a;
+  --gradient-primary: linear-gradient(135deg, #6b1fe0 0%, #0099cc 100%);
+  --gradient-accent: linear-gradient(135deg, #e0258a 0%, #6b1fe0 50%, #0099cc 100%);
+  --gradient-soft: linear-gradient(135deg, rgba(107,31,224,0.1), rgba(0,153,204,0.1));
+
+  --shadow-sm: 0 4px 12px rgba(10, 11, 30, 0.06);
+  --shadow-md: 0 10px 30px rgba(10, 11, 30, 0.08);
+  --shadow-lg: 0 20px 60px rgba(10, 11, 30, 0.12);
+  --shadow-glow: 0 0 30px rgba(107, 31, 224, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  overflow-x: hidden;
+  transition: background var(--transition-base), color var(--transition-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* =========================================================
+   Utility classes
+   ========================================================= */
+.gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.section {
+  padding: 120px 0;
+  position: relative;
+}
+
+.section-head {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 64px;
+}
+
+.section-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--gradient-soft);
+  border: 1px solid var(--border-strong);
+  color: var(--accent-2);
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: clamp(32px, 5vw, 52px);
+  margin-bottom: 18px;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: all var(--transition-base);
+  position: relative;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(123, 47, 252, 0.35);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(123, 47, 252, 0.55), 0 0 30px rgba(0, 212, 255, 0.3);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.btn-secondary:hover {
+  background: var(--surface-strong);
+  border-color: var(--accent-2);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-primary);
+  padding: 10px 18px;
+}
+.btn-ghost:hover {
+  color: var(--accent-2);
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  z-index: 100;
+  transition: all var(--transition-base);
+  background: transparent;
+}
+
+.header.scrolled {
+  background: rgba(10, 11, 30, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+}
+[data-theme="light"] .header.scrolled {
+  background: rgba(248, 249, 254, 0.82);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.logo-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--gradient-primary);
+  display: grid;
+  place-items: center;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(123, 47, 252, 0.4);
+}
+.logo-mark::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 9px;
+  background: var(--bg-primary);
+}
+.logo-mark svg {
+  position: relative;
+  z-index: 1;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-link {
+  padding: 10px 16px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 100px;
+  transition: all var(--transition-fast);
+}
+.nav-link:hover {
+  color: var(--text-primary);
+  background: var(--surface);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  transition: all var(--transition-base);
+}
+.theme-toggle:hover {
+  background: var(--surface-strong);
+  transform: rotate(20deg);
+}
+.theme-toggle .fa-moon,
+.theme-toggle .fa-sun {
+  transition: transform var(--transition-base), opacity var(--transition-fast);
+}
+[data-theme="dark"] .theme-toggle .fa-sun { display: none; }
+[data-theme="light"] .theme-toggle .fa-moon { display: none; }
+
+.burger {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.burger span {
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all var(--transition-base);
+}
+.burger span:nth-child(1) { top: 14px; }
+.burger span:nth-child(2) { top: 20px; }
+.burger span:nth-child(3) { top: 26px; }
+.burger.open span:nth-child(1) { top: 20px; transform: rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { top: 20px; transform: rotate(-45deg); }
+
+/* =========================================================
+   Hero
+   ========================================================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 0 80px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(600px 400px at 15% 20%, rgba(123, 47, 252, 0.35), transparent 60%),
+    radial-gradient(500px 350px at 85% 30%, rgba(0, 212, 255, 0.25), transparent 60%),
+    radial-gradient(700px 500px at 50% 90%, rgba(255, 62, 165, 0.2), transparent 60%);
+  animation: drift 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+[data-theme="light"] .hero-bg::before {
+  background:
+    radial-gradient(600px 400px at 15% 20%, rgba(107, 31, 224, 0.18), transparent 60%),
+    radial-gradient(500px 350px at 85% 30%, rgba(0, 153, 204, 0.15), transparent 60%),
+    radial-gradient(700px 500px at 50% 90%, rgba(224, 37, 138, 0.12), transparent 60%);
+}
+
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-30px, 20px, 0) scale(1.05); }
+  100% { transform: translate3d(30px, -20px, 0) scale(1); }
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  opacity: 0.5;
+}
+
+#particles-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  animation: heroIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 100px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.hero-badge .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #00d4ff;
+  box-shadow: 0 0 10px #00d4ff;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.3); opacity: 0.6; }
+}
+
+.hero-title {
+  font-size: clamp(42px, 7vw, 88px);
+  line-height: 1.02;
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+}
+.hero-title .word {
+  display: inline-block;
+}
+
+.hero-subtitle {
+  font-size: clamp(16px, 1.6vw, 20px);
+  color: var(--text-secondary);
+  max-width: 680px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.stat {
+  text-align: center;
+}
+.stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   Features
+   ========================================================= */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature-card {
+  position: relative;
+  padding: 36px 30px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all var(--transition-base);
+  overflow: hidden;
+}
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--gradient-accent);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+.feature-card:hover {
+  transform: translateY(-6px);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-md);
+}
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: var(--gradient-soft);
+  border: 1px solid var(--border-strong);
+  font-size: 22px;
+  color: var(--accent-2);
+  margin-bottom: 22px;
+  transition: all var(--transition-base);
+}
+.feature-card:hover .feature-icon {
+  background: var(--gradient-primary);
+  color: #fff;
+  transform: rotate(-6deg) scale(1.05);
+  box-shadow: var(--shadow-glow);
+}
+
+.feature-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.feature-desc {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   Popular Now (carousel)
+   ========================================================= */
+.popular {
+  position: relative;
+}
+
+.carousel {
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 10px 4px 30px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+
+.poster {
+  flex: 0 0 260px;
+  aspect-ratio: 2/3;
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+.poster:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: var(--shadow-lg);
+  z-index: 2;
+}
+
+.poster-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 22px;
+}
+.poster-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%);
+}
+
+.poster-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  color: #fff;
+}
+.poster-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.poster-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+}
+.poster-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #ffd54a;
+}
+
+.poster-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(10, 11, 30, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  z-index: 2;
+}
+.poster:hover .poster-overlay {
+  opacity: 1;
+}
+.poster-play {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 22px;
+  box-shadow: 0 10px 30px rgba(123, 47, 252, 0.5);
+  transform: scale(0.8);
+  transition: transform var(--transition-base);
+}
+.poster:hover .poster-play {
+  transform: scale(1);
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--surface-strong);
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-primary);
+  display: grid;
+  place-items: center;
+  transition: all var(--transition-base);
+  z-index: 3;
+}
+.carousel-btn:hover {
+  background: var(--gradient-primary);
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+.carousel-btn.prev { left: -10px; }
+.carousel-btn.next { right: -10px; }
+
+/* =========================================================
+   Pricing
+   ========================================================= */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.plan {
+  position: relative;
+  padding: 40px 32px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+}
+.plan:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-md);
+}
+
+.plan.featured {
+  background: var(--gradient-soft);
+  border: 1px solid transparent;
+  position: relative;
+  box-shadow: var(--shadow-glow);
+}
+.plan.featured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: var(--gradient-accent);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.plan-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: var(--gradient-accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 20px rgba(123, 47, 252, 0.4);
+}
+
+.plan-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 12px;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.plan-price .amount {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+}
+.plan-price .period {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.plan-desc {
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  margin-bottom: 28px;
+  min-height: 44px;
+}
+
+.plan-features {
+  list-style: none;
+  margin-bottom: 32px;
+  flex: 1;
+}
+.plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 14.5px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+}
+.plan-features li:last-child { border-bottom: none; }
+.plan-features i {
+  color: var(--accent-2);
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.plan .btn {
+  width: 100%;
+}
+
+/* =========================================================
+   Testimonials
+   ========================================================= */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.testimonial {
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all var(--transition-base);
+  position: relative;
+}
+.testimonial:hover {
+  transform: translateY(-4px);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.testimonial-quote {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 60px;
+  line-height: 1;
+  color: var(--accent-1);
+  opacity: 0.2;
+  font-family: 'Space Grotesk', serif;
+}
+
+.testimonial-stars {
+  display: flex;
+  gap: 3px;
+  color: #ffd54a;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.testimonial-text {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+.avatar-1 { background: linear-gradient(135deg, #7b2ffc, #ff3ea5); }
+.avatar-2 { background: linear-gradient(135deg, #00d4ff, #7b2ffc); }
+.avatar-3 { background: linear-gradient(135deg, #ff3ea5, #00d4ff); }
+.avatar-4 { background: linear-gradient(135deg, #00d4ff, #ff3ea5); }
+
+.author-info .name {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+.author-info .role {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+.faq-list {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-item {
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+.faq-item.open {
+  background: var(--surface-strong);
+  border-color: var(--border-strong);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  text-align: left;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+}
+.faq-question:hover {
+  color: var(--accent-2);
+}
+.faq-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gradient-soft);
+  border: 1px solid var(--border-strong);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all var(--transition-base);
+  font-size: 13px;
+}
+.faq-item.open .faq-icon {
+  background: var(--gradient-primary);
+  color: #fff;
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-base);
+}
+.faq-answer-inner {
+  padding: 0 26px 24px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.footer {
+  padding: 80px 0 32px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.footer::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(123, 47, 252, 0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.newsletter {
+  max-width: 640px;
+  margin: 0 auto 64px;
+  text-align: center;
+  padding: 40px 30px;
+  border-radius: var(--radius-lg);
+  background: var(--gradient-soft);
+  border: 1px solid var(--border-strong);
+  position: relative;
+}
+.newsletter h3 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.newsletter p {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+.newsletter-form input {
+  flex: 1;
+  padding: 14px 20px;
+  border-radius: 100px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  font-size: 14.5px;
+  font-family: inherit;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+.newsletter-form input:focus {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.footer-brand p {
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  margin: 16px 0 22px;
+  max-width: 320px;
+}
+
+.socials {
+  display: flex;
+  gap: 10px;
+}
+.socials a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  color: var(--text-secondary);
+  transition: all var(--transition-base);
+}
+.socials a:hover {
+  background: var(--gradient-primary);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-3px);
+}
+
+.footer-col h4 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 18px;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-col a {
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  transition: color var(--transition-fast);
+}
+.footer-col a:hover {
+  color: var(--accent-2);
+}
+
+.footer-bottom {
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--text-muted);
+  font-size: 13.5px;
+}
+.footer-bottom .legal {
+  display: flex;
+  gap: 24px;
+}
+.footer-bottom a:hover { color: var(--text-primary); }
+
+/* =========================================================
+   Scroll-to-top
+   ========================================================= */
+.scroll-top {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  box-shadow: 0 10px 30px rgba(123, 47, 252, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: all var(--transition-base);
+  z-index: 90;
+}
+.scroll-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.scroll-top:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(123, 47, 252, 0.6);
+}
+
+/* =========================================================
+   Reveal animations
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal.delay-1 { transition-delay: 0.1s; }
+.reveal.delay-2 { transition-delay: 0.2s; }
+.reveal.delay-3 { transition-delay: 0.3s; }
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 1024px) {
+  .features-grid,
+  .pricing-grid,
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :root { --header-h: 68px; }
+  .section { padding: 80px 0; }
+  .section-head { margin-bottom: 48px; }
+
+  .nav {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 20px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    transform: translateY(-120%);
+    transition: transform var(--transition-base);
+    max-height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+  }
+  .nav.open { transform: translateY(0); }
+  .nav-link { padding: 14px 18px; font-size: 16px; }
+
+  .burger { display: block; }
+
+  .header-actions .btn { display: none; }
+
+  .hero { padding: 120px 0 60px; }
+  .hero-stats {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 24px;
+  }
+  .stat { padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .stat:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .features-grid,
+  .pricing-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .poster { flex: 0 0 200px; }
+  .carousel-btn { display: none; }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  .newsletter-form { flex-direction: column; }
+  .newsletter-form input,
+  .newsletter-form .btn { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; }
+  .plan { padding: 32px 24px; }
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+<header class="header" id="header">
+  <div class="container header-inner">
+    <a href="#home" class="logo" aria-label="HyperStream home">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M8 5v14l11-7L8 5z" fill="url(#lg)"/>
+          <defs>
+            <linearGradient id="lg" x1="0" y1="0" x2="24" y2="24">
+              <stop offset="0" stop-color="#7b2ffc"/>
+              <stop offset="1" stop-color="#00d4ff"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <span>Hyper<span class="gradient-text">Stream</span></span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#popular" class="nav-link">Popular</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <i class="fa-solid fa-moon"></i>
+        <i class="fa-solid fa-sun"></i>
+      </button>
+      <a href="#pricing" class="btn btn-primary">Get Started</a>
+      <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+<section class="hero" id="home">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span>New · Interactive live events now available</span>
+      </div>
+
+      <h1 class="hero-title">
+        Stream <span class="gradient-text">Beyond</span><br>
+        the Ordinary
+      </h1>
+
+      <p class="hero-subtitle">
+        HyperStream is an AI‑powered cinematic experience — 4K HDR movies, interactive live events,
+        social watch parties, and personalized recommendations, all in one premium platform.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#pricing" class="btn btn-primary">
+          <i class="fa-solid fa-play"></i> Start Free Trial
+        </a>
+        <a href="#features" class="btn btn-secondary">
+          Explore Features <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-value" data-count="10" data-suffix="M+">0</div>
+          <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" data-count="50" data-suffix="K+">0</div>
+          <div class="stat-label">Titles Available</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" data-count="4.9" data-suffix="★" data-decimal="1">0</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FEATURES
+     ========================================================= -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">Features</span>
+      <h2 class="section-title">Everything you need, <span class="gradient-text">reimagined</span></h2>
+      <p class="section-subtitle">
+        A streaming platform built for the next decade — where every frame, every sound,
+        and every interaction feels crafted just for you.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <article class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <h3 class="feature-title">AI Recommendations</h3>
+        <p class="feature-desc">
+          Our mood-aware engine studies your taste, time of day, and viewing rhythm to surface
+          the perfect title — before you even start searching.
+        </p>
+      </article>
+
+      <article class="feature-card reveal delay-1">
+        <div class="feature-icon"><i class="fa-solid fa-film"></i></div>
+        <h3 class="feature-title">4K HDR &amp; Spatial Audio</h3>
+        <p class="feature-desc">
+          Cinema-grade picture with Dolby Vision HDR and immersive spatial audio that places
+          you right inside the scene — on any supported device.
+        </p>
+      </article>
+
+      <article class="feature-card reveal delay-2">
+        <div class="feature-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+        <h3 class="feature-title">Interactive Live Events</h3>
+        <p class="feature-desc">
+          Concerts, sports, and tournaments with multi-angle viewing, real-time chat, and
+          audience votes that actually influence the show.
+        </p>
+      </article>
+
+      <article class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-people-group"></i></div>
+        <h3 class="feature-title">Watch Parties</h3>
+        <p class="feature-desc">
+          Sync playback with friends across the globe. Share reactions via voice, video,
+          or text — like sitting on the same couch, from anywhere.
+        </p>
+      </article>
+
+      <article class="feature-card reveal delay-1">
+        <div class="feature-icon"><i class="fa-solid fa-star"></i></div>
+        <h3 class="feature-title">Exclusive Originals</h3>
+        <p class="feature-desc">
+          Award-winning series, documentaries, and artist interviews produced in-house —
+          stories you can only watch on HyperStream.
+        </p>
+      </article>
+
+      <article class="feature-card reveal delay-2">
+        <div class="feature-icon"><i class="fa-solid fa-devices"></i></div>
+        <h3 class="feature-title">Multi-Device Sync</h3>
+        <p class="feature-desc">
+          Start on your TV, continue on your phone, finish on your tablet. Your progress,
+          lists, and preferences follow you everywhere, instantly.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     POPULAR NOW
+     ========================================================= -->
+<section class="section popular" id="popular">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">Trending</span>
+      <h2 class="section-title">Popular <span class="gradient-text">right now</span></h2>
+      <p class="section-subtitle">
+        Hand-picked titles our community can't stop watching this week.
+      </p>
+    </div>
+
+    <div class="carousel reveal">
+      <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Posters injected via JS for cleaner markup -->
+      </div>
+
+      <button class="carousel-btn next" id="carouselNext" aria-label="Next">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     PRICING
+     ========================================================= -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">Pricing</span>
+      <h2 class="section-title">Simple plans, <span class="gradient-text">serious value</span></h2>
+      <p class="section-subtitle">
+        Start with a 14-day free trial on any plan. Cancel anytime, no questions asked.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+      <article class="plan reveal">
+        <div class="plan-name">Basic</div>
+        <div class="plan-price">
+          <span class="amount">$9.99</span>
+          <span class="period">/ month</span>
+        </div>
+        <p class="plan-desc">Great for casual viewers who want the essentials.</p>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> SD &amp; HD streaming</li>
+          <li><i class="fa-solid fa-check"></i> Watch on 1 device at a time</li>
+          <li><i class="fa-solid fa-check"></i> Full catalog access</li>
+          <li><i class="fa-solid fa-check"></i> AI recommendations</li>
+          <li><i class="fa-solid fa-check"></i> Ad-free experience</li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Choose Basic</a>
+      </article>
+
+      <article class="plan featured reveal delay-1">
+        <span class="plan-badge">Most Popular</span>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">
+          <span class="amount">$19.99</span>
+          <span class="period">/ month</span>
+        </div>
+        <p class="plan-desc">The complete HyperStream experience for true fans.</p>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> 4K HDR &amp; Spatial Audio</li>
+          <li><i class="fa-solid fa-check"></i> Watch on up to 4 devices</li>
+          <li><i class="fa-solid fa-check"></i> Offline downloads</li>
+          <li><i class="fa-solid fa-check"></i> Exclusive originals</li>
+          <li><i class="fa-solid fa-check"></i> Interactive live events</li>
+          <li><i class="fa-solid fa-check"></i> Watch parties (up to 8)</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Choose Pro</a>
+      </article>
+
+      <article class="plan reveal delay-2">
+        <div class="plan-name">Ultimate</div>
+        <div class="plan-price">
+          <span class="amount">$29.99</span>
+          <span class="period">/ month</span>
+        </div>
+        <p class="plan-desc">Built for families and power users who want it all.</p>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Everything in Pro</li>
+          <li><i class="fa-solid fa-check"></i> Up to 6 family profiles</li>
+          <li><i class="fa-solid fa-check"></i> Kids mode with parental controls</li>
+          <li><i class="fa-solid fa-check"></i> Priority 24/7 support</li>
+          <li><i class="fa-solid fa-check"></i> Early access to new releases</li>
+          <li><i class="fa-solid fa-check"></i> Lossless audio tier</li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Choose Ultimate</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     TESTIMONIALS
+     ========================================================= -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">Testimonials</span>
+      <h2 class="section-title">Loved by <span class="gradient-text">millions</span></h2>
+      <p class="section-subtitle">
+        Real stories from real members of the HyperStream community.
+      </p>
+    </div>
+
+    <div class="testimonials-grid">
+      <article class="testimonial reveal">
+        <div class="testimonial-quote" aria-hidden="true">"</div>
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <p class="testimonial-text">
+          HyperStream completely changed how I watch movies. The AI recommendations are
+          eerily accurate — it feels like the platform actually knows my mood.
+        </p>
+        <div class="testimonial-author">
+          <div class="avatar avatar-1">JM</div>
+          <div class="author-info">
+            <div class="name">Jessica M.</div>
+            <div class="role">Content Creator</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="testimonial reveal delay-1">
+        <div class="testimonial-quote" aria-hidden="true">"</div>
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <p class="testimonial-text">
+          The watch party feature kept my friends and me connected during lockdown —
+          absolute genius. It's the closest thing to a shared couch.
+        </p>
+        <div class="testimonial-author">
+          <div class="avatar avatar-2">DK</div>
+          <div class="author-info">
+            <div class="name">David K.</div>
+            <div class="role">Software Engineer</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="testimonial reveal delay-2">
+        <div class="testimonial-quote" aria-hidden="true">"</div>
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <p class="testimonial-text">
+          Exclusive originals are top-tier. Cinematography, writing, sound — everything
+          is crafted at a level that rivals the best studios. Worth every penny.
+        </p>
+        <div class="testimonial-author">
+          <div class="avatar avatar-3">SL</div>
+          <div class="author-info">
+            <div class="name">Sarah L.</div>
+            <div class="role">Film Critic</div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FAQ
+     ========================================================= -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Questions, <span class="gradient-text">answered</span></h2>
+      <p class="section-subtitle">
+        Everything you need to know before joining the HyperStream community.
+      </p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">
+          <span>What exactly is HyperStream?</span>
+          <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            HyperStream is a premium streaming platform that combines on-demand 4K HDR movies
+            and series, interactive live events, AI-powered recommendations, and social watch
+            parties — all in a single subscription.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-1">
+        <button class="faq-question" aria-expanded="false">
+          <span>How does the free trial work?</span>
+          <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Every new member gets a full 14-day free trial on any plan. You'll have complete
+            access to all features. If you don't cancel before the trial ends, your chosen
+            plan will automatically start — and you can cancel anytime.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-2">
+        <button class="faq-question" aria-expanded="false">
+          <span>Can I cancel my subscription anytime?</span>
+          <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Absolutely. There are no long-term contracts. You can cancel your subscription
+            in two clicks from your account settings, and you'll keep access until the end
+            of your current billing cycle.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">
+          <span>Can I download content for offline viewing?</span>
+          <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes — offline downloads are available on Pro and Ultimate plans. You can save
+            movies and episodes to your mobile devices and watch them anywhere, even without
+            an internet connection.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-1">
+        <button class="faq-question" aria-expanded="false">
+          <span>How many devices can I use at the same time?</span>
+          <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Basic supports 1 concurrent stream, Pro supports up to 4, and Ultimate supports
+            up to 6 — perfect for families. You can install the app on as many devices as
+            you like; the limit applies only to simultaneous streams.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-2">
+        <button class="faq-question" aria-expanded="false">
+          <span>Is there kid-friendly content?</span>
+          <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes. All plans include a curated Kids profile with age-appropriate content.
+            Ultimate adds advanced parental controls, viewing reports, and a dedicated
+            kids-only interface that's safe and fun to explore.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="newsletter reveal">
+      <h3>Stay in the loop</h3>
+      <p>Get exclusive drops, early access to originals, and member-only offers — straight to your inbox.</p>
+      <form class="newsletter-form" id="newsletterForm" novalidate>
+        <input type="email" placeholder="you@example.com" aria-label="Email address" required>
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#home" class="logo">
+          <span class="logo-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M8 5v14l11-7L8 5z" fill="url(#lg2)"/>
+              <defs>
+                <linearGradient id="lg2" x1="0" y1="0" x2="24" y2="24">
+                  <stop offset="0" stop-color="#7b2ffc"/>
+                  <stop offset="1" stop-color="#00d4ff"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </span>
+          <span>Hyper<span class="gradient-text">Stream</span></span>
+        </a>
+        <p>The next-generation streaming platform — built for fans, creators, and everyone in between.</p>
+        <div class="socials" aria-label="Social media">
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#popular">Popular</a></li>
+          <li><a href="#">Devices</a></li>
+          <li><a href="#">Apps</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Partners</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Account</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Community</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 HyperStream Inc. All rights reserved.</div>
+      <div class="legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<script>
+/* =========================================================
+   HYPERSTREAM – Client-side logic
+   ========================================================= */
+(() => {
+  'use strict';
+
+  /* ---------- Theme toggle with localStorage ---------- */
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const storedTheme = localStorage.getItem('hs-theme');
+  if (storedTheme) root.setAttribute('data-theme', storedTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('hs-theme', next);
+  });
+
+  /* ---------- Header scroll state ---------- */
+  const header = document.getElementById('header');
+  const onScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Mobile menu ---------- */
+  const burger = document.getElementById('burger');
+  const nav = document.getElementById('nav');
+  burger.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  nav.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ---------- Scroll-to-top ---------- */
+  const scrollTopBtn = document.getElementById('scrollTop');
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---------- Reveal on scroll ---------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  /* ---------- Animated counters ---------- */
+  const counters = document.querySelectorAll('[data-count]');
+  const animateCount = (el) => {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const decimals = parseInt(el.dataset.decimal || '0', 10);
+    const duration = 1800;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = target * eased;
+      el.textContent = val.toFixed(decimals) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toFixed(decimals) + suffix;
+    };
+    requestAnimationFrame(tick);
+  };
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCount(entry.target);
+        counterIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => counterIO.observe(c));
+
+  /* ---------- FAQ accordion ---------- */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      // close others
+      document.querySelectorAll('.faq-item.open').forEach(other => {
+        if (other !== item) {
+          other.classList.remove('open');
+          other.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          other.querySelector('.faq-answer').style.maxHeight = '0';
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      answer.style.maxHeight = isOpen ? '0' : answer.scrollHeight + 'px';
+    });
+  });
+
+  /* ---------- Popular Now: posters ---------- */
+  const posters = [
+    { title: 'Neon Shadows',        genre: 'Sci-Fi',    year: 2026, rating: 4.8, grad: 'linear-gradient(135deg,#7b2ffc,#00d4ff)' },
+    { title: 'Echoes of Tomorrow',  genre: 'Drama',     year: 2025, rating: 4.6, grad: 'linear-gradient(135deg,#ff3ea5,#7b2ffc)' },
+    { title: 'Galactic Rift',       genre: 'Action',    year: 2026, rating: 4.9, grad: 'linear-gradient(135deg,#00d4ff,#0a0b1e)' },
+    { title: 'The Last Symphony',   genre: 'Music',     year: 2025, rating: 4.7, grad: 'linear-gradient(135deg,#ff3ea5,#ffd54a)' },
+    { title: 'Cyber Heist',         genre: 'Thriller',  year: 2026, rating: 4.5, grad: 'linear-gradient(135deg,#0a0b1e,#7b2ffc)' },
+    { title: 'Starlight Memories',  genre: 'Romance',   year: 2025, rating: 4.4, grad: 'linear-gradient(135deg,#7b2ffc,#ff3ea5)' },
+    { title: 'Void Runners',        genre: 'Sci-Fi',    year: 2026, rating: 4.7, grad: 'linear-gradient(135deg,#00d4ff,#ff3ea5)' },
+    { title: 'Crimson Horizon',     genre: 'Adventure', year: 2025, rating: 4.6, grad: 'linear-gradient(135deg,#ff3ea5,#0a0b1e)' }
+  ];
+  const track = document.getElementById('carouselTrack');
+  track.innerHTML = posters.map(p => `
+    <article class="poster" tabindex="0" aria-label="${p.title}, ${p.genre}, ${p.year}">
+      <div class="poster-bg" style="background:${p.grad}"></div>
+      <div class="poster-overlay"><div class="poster-play"><i class="fa-solid fa-play"></i></div></div>
+      <div class="poster-content">
+        <div class="poster-title">${p.title}</div>
+        <div class="poster-meta">
+          <span>${p.genre} · ${p.year}</span>
+          <span class="poster-rating"><i class="fa-solid fa-star"></i> ${p.rating.toFixed(1)}</span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+
+  const prev = document.getElementById('carouselPrev');
+  const next = document.getElementById('carouselNext');
+  const step = () => track.clientWidth * 0.8;
+  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left: step(),  behavior: 'smooth' }));
+
+  /* ---------- Newsletter (no-op) ---------- */
+  const form = document.getElementById('newsletterForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = form.querySelector('input');
+    if (!input.value || !input.checkValidity()) {
+      input.focus();
+      return;
+    }
+    const btn = form.querySelector('button');
+    const original = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Subscribed!';
+    btn.disabled = true;
+    input.value = '';
+    setTimeout(() => { btn.innerHTML = original; btn.disabled = false; }, 2600);
+  });
+
+  /* ---------- Hero particles (canvas) ---------- */
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles, shootingStars;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const resize = () => {
+    w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+    h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+  };
+
+  const initParticles = () => {
+    const count = Math.min(90, Math.floor((canvas.offsetWidth * canvas.offsetHeight) / 14000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: (Math.random() * 1.6 + 0.4) * devicePixelRatio,
+      vx: (Math.random() - 0.5) * 0.15 * devicePixelRatio,
+      vy: (Math.random() - 0.5) * 0.15 * devicePixelRatio,
+      a: Math.random() * 0.6 + 0.2,
+      hue: Math.random() > 0.5 ? 270 : 190
+    }));
+    shootingStars = [];
+  };
+
+  const spawnShootingStar = () => {
+    if (prefersReduced) return;
+    shootingStars.push({
+      x: Math.random() * w,
+      y: Math.random() * h * 0.5,
+      len: (Math.random() * 80 + 60) * devicePixelRatio,
+      speed: (Math.random() * 6 + 4) * devicePixelRatio,
+      life: 1
+    });
+  };
+
+  const draw = () => {
+    ctx.clearRect(0, 0, w, h);
+
+    // particles
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h;
+      if (p.y > h) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${p.hue}, 90%, 70%, ${p.a})`;
+      ctx.shadowBlur = 8 * devicePixelRatio;
+      ctx.shadowColor = `hsla(${p.hue}, 90%, 70%, ${p.a})`;
+      ctx.fill();
+    });
+    ctx.shadowBlur = 0;
+
+    // shooting stars
+    for (let i = shootingStars.length - 1; i >= 0; i--) {
+      const s = shootingStars[i];
+      const tailX = s.x - s.len;
+      const tailY = s.y + s.len * 0.5;
+      const grad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
+      grad.addColorStop(0, `rgba(255,255,255,${s.life})`);
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2 * devicePixelRatio;
+      ctx.beginPath();
+      ctx.moveTo(s.x, s.y);
+      ctx.lineTo(tailX, tailY);
+      ctx.stroke();
+
+      s.x += s.speed;
+      s.y += s.speed * 0.5;
+      s.life -= 0.012;
+      if (s.life <= 0 || s.x > w || s.y > h) shootingStars.splice(i, 1);
+    }
+
+    requestAnimationFrame(draw);
+  };
+
+  const init = () => {
+    resize();
+    initParticles();
+    draw();
+  };
+
+  if (!prefersReduced) {
+    window.addEventListener('resize', () => { resize(); initParticles(); });
+    setInterval(spawnShootingStar, 2200);
+    setTimeout(spawnShootingStar, 800);
+  } else {
+    window.addEventListener('resize', resize);
+    resize();
+    initParticles();
+    draw();
+  }
+
+  init();
+
+})();
+</script>
+</body>
+</html>
