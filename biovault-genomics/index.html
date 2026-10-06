@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioVault Genomics — High-Throughput Sequence Data & Open Variant Archive</title>
+  <meta name="description" content="BioVault is an open-access scientific repository for deep whole-genome sequencing (WGS), single-cell RNA-seq datasets, and high-coverage CRAM/BAM reference alignments." />
+  <meta name="keywords" content="genomics, whole genome sequencing, fastq, bam, cram, bioinformatics, ncbi, ebi, variant archive" />
+  <meta property="og:title" content="BioVault Genomics — Open Genomic Data Repository" />
+  <meta property="og:description" content="Petabyte-scale bioinformatic sequence repository for research institutions and clinical genomics." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230F766E'/><path d='M10 8c4 4 8 4 12 0m-12 8c4 4 8 4 12 0m-12 8c4 4 8 4 12 0' stroke='%23FFFFFF' stroke-width='2.5' fill='none'/></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --primary-light: #ccfbf1;
+      --accent: #0284c7;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-sub: #475569;
+      --font-main: 'Public Sans', system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .top-bar {
+      background: #0f172a;
+      color: #cbd5e1;
+      font-size: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid #1e293b;
+    }
+    .top-bar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navbar */
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-inner {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .nav-links a:hover { color: var(--primary); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 13.5px;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-outline {
+      background: #fff;
+      border-color: var(--border-dark);
+      color: var(--text);
+    }
+    .btn-outline:hover { background: #f1f5f9; }
+
+    /* Notice Banner */
+    .notice {
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      margin: 24px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13.5px;
+      color: #115e59;
+    }
+
+    /* Hero / Search */
+    .hero {
+      padding: 36px 0 30px;
+    }
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 15.5px;
+      max-width: 800px;
+      margin-bottom: 24px;
+    }
+
+    .search-box {
+      background: #fff;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius);
+      padding: 6px;
+      display: flex;
+      gap: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      margin-bottom: 36px;
+    }
+    .search-box input {
+      flex: 1;
+      border: none;
+      padding: 10px 16px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    /* Stats strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .stat-val {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Dataset Table */
+    .panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 40px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .panel-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .dataset-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .dataset-table th {
+      padding: 12px 20px;
+      background: #f8fafc;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+    }
+    .dataset-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .dataset-table tr:hover td {
+      background: #fbfcfe;
+    }
+    .accession {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+    .badge-cram { background: #e0f2fe; color: #0369a1; }
+    .badge-fastq { background: #fef3c7; color: #b45309; }
+    .badge-vcf { background: #f3e8ff; color: #7e22ce; }
+
+    /* Interactive Chromosome Viewer */
+    .chr-viewer {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+    .chr-track {
+      height: 24px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      position: relative;
+      margin: 18px 0;
+      display: flex;
+      overflow: hidden;
+    }
+    .chr-segment {
+      height: 100%;
+      border-right: 1px solid #fff;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .chr-segment:hover { opacity: 0.8; }
+
+    /* Terminal Snippet */
+    .cli-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: var(--radius);
+      padding: 20px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Footer */
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 0 32px;
+      font-size: 13.5px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 36px;
+    }
+    .footer-grid h4 {
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+    .footer-grid ul { list-style: none; }
+    .footer-grid li { margin-bottom: 8px; }
+    .footer-grid a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+    .footer-grid a:hover { color: #fff; }
+
+    @media (max-width: 800px) {
+      .stats-strip { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div>NIH &amp; EMBL-EBI Federated Data Node • Tier-1 Research Mirrored Archive</div>
+      <div>HTTPS Direct API Endpoint: <code>api.biovault.org/v2</code></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="#" class="brand">
+          <div class="brand-logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M4 6c4 4 8 4 12 0m-12 6c4 4 8 4 12 0m-12 6c4 4 8 4 12 0"/>
+            </svg>
+          </div>
+          <span>BioVault<span style="color: var(--primary);">.genomics</span></span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#datasets">Browse Datasets</a></li>
+          <li><a href="#chromosome">Reference Assemblies</a></li>
+          <li><a href="#cli">FTP / S3 Direct Access</a></li>
+          <li><a href="#citation">Citation &amp; Ethics</a></li>
+        </ul>
+
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-outline" onclick="copyManifest()">Download S3 Manifest</button>
+          <button class="btn btn-primary" onclick="alert('Connected to European Genome-phenome Archive (EGA) credential gateway.')">Investigator Login</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="notice">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <span>
+        <strong>Public Release Note:</strong> Human Pangenome Reference Consortium (HPRC) Year 3 alignments (T2T-CHM13 &amp; GRCh38) are now mirrored unmetered on our high-capacity European fast-stream nodes.
+      </span>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Global Bio-Sequencing Data Repository</h1>
+      <p>Providing high-throughput direct streaming of deep whole-genome sequence (WGS) alignments, PacBio HiFi reads, and indexed VCF variation catalogues to the international bioinformatics community.</p>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search by Accession (e.g., BV-WGS-4820), Gene (BRCA1, TP53), or Sample ID..." oninput="filterData(this.value)" />
+        <button class="btn btn-primary" style="padding: 10px 24px;">Search Archive</button>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="stats-strip">
+      <div class="stat-card">
+        <div class="stat-label">Active Sequence Volume</div>
+        <div class="stat-val">3.42 <span style="font-size: 14px; color: var(--text-muted);">PB</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Sequenced Individuals</div>
+        <div class="stat-val">42,890</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Daily Egress Bandwidth</div>
+        <div class="stat-val">84.2 <span style="font-size: 14px; color: var(--text-muted);">TB</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Reference Builds</div>
+        <div class="stat-val">GRCh38 / T2T</div>
+      </div>
+    </div>
+
+    <!-- Chromosome Assembly Visualizer -->
+    <section class="chr-viewer" id="chromosome">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 16px; font-weight: 700;">Human Reference Chromosome Coordinate Browser (GRCh38.p14)</h3>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--primary);">249.25 Mb • 30x Deep Coverage</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 13.5px; margin-top: 4px;">Click any chromosome region to inspect indexed BAM index chunks (`.bai` / `.crai`).</p>
+
+      <div class="chr-track">
+        <div class="chr-segment" style="flex: 249; background: #0f766e;" title="Chr 1: 249Mbp" onclick="setChr('Chr 1', '249.25 Mb', '74.2 GB')"></div>
+        <div class="chr-segment" style="flex: 242; background: #0d9488;" title="Chr 2: 242Mbp" onclick="setChr('Chr 2', '242.19 Mb', '71.8 GB')"></div>
+        <div class="chr-segment" style="flex: 198; background: #14b8a6;" title="Chr 3: 198Mbp" onclick="setChr('Chr 3', '198.29 Mb', '61.4 GB')"></div>
+        <div class="chr-segment" style="flex: 190; background: #2dd4bf;" title="Chr 4: 190Mbp" onclick="setChr('Chr 4', '190.21 Mb', '58.9 GB')"></div>
+        <div class="chr-segment" style="flex: 181; background: #0284c7;" title="Chr 5: 181Mbp" onclick="setChr('Chr 5', '181.53 Mb', '55.3 GB')"></div>
+        <div class="chr-segment" style="flex: 170; background: #38bdf8;" title="Chr 6: 170Mbp" onclick="setChr('Chr 6', '170.80 Mb', '52.1 GB')"></div>
+        <div class="chr-segment" style="flex: 159; background: #64748b;" title="Chr 7: 159Mbp" onclick="setChr('Chr 7', '159.34 Mb', '49.0 GB')"></div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 13px; color: var(--text-sub); background: #f8fafc; padding: 12px 16px; border-radius: 6px;">
+        <span id="chrInfo">SELECTED: Chromosome 1 (1–249,250,621 bp)</span>
+        <span id="chrSize" style="color: var(--primary); font-weight: 600;">ALIGNMENT SIZE: 74.2 GB (Lossless CRAM)</span>
+      </div>
+    </section>
+
+    <!-- Datasets Table -->
+    <section class="panel" id="datasets">
+      <div class="panel-header">
+        <div class="panel-title">Curated Deep Whole-Genome Sequences (WGS)</div>
+        <div style="font-size: 13px; color: var(--text-muted);">Format: Lossless CRAM 3.0 / Indexed VCF</div>
+      </div>
+
+      <table class="dataset-table">
+        <thead>
+          <tr>
+            <th>Accession</th>
+            <th>Study / Cohort</th>
+            <th>Platform</th>
+            <th>Format</th>
+            <th>File Size</th>
+            <th>Fast Stream Link</th>
+          </tr>
+        </thead>
+        <tbody id="datasetRows">
+          <tr>
+            <td><a href="#" class="accession">BV-WGS-98214</a></td>
+            <td>1000 Genomes Deep Trio Alignment (HG002)</td>
+            <td>PacBio HiFi 30x</td>
+            <td><span class="badge badge-cram">CRAM</span></td>
+            <td style="font-family: var(--font-mono);">68.4 GB</td>
+            <td><button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" onclick="copyStream('https://stream.biovault.org/cram/HG002.hifi.cram')">Copy Stream URL</button></td>
+          </tr>
+          <tr>
+            <td><a href="#" class="accession">BV-WGS-98215</a></td>
+            <td>1000 Genomes Deep Trio Alignment (HG003)</td>
+            <td>Illumina NovaSeq 6000</td>
+            <td><span class="badge badge-cram">CRAM</span></td>
+            <td style="font-family: var(--font-mono);">82.1 GB</td>
+            <td><button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" onclick="copyStream('https://stream.biovault.org/cram/HG003.novaseq.cram')">Copy Stream URL</button></td>
+          </tr>
+          <tr>
+            <td><a href="#" class="accession">BV-RNA-41029</a></td>
+            <td>Human Cortex Single-Cell RNA Sequencing</td>
+            <td>10x Genomics v3</td>
+            <td><span class="badge badge-fastq">FASTQ.GZ</span></td>
+            <td style="font-family: var(--font-mono);">44.8 GB</td>
+            <td><button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" onclick="copyStream('https://stream.biovault.org/fastq/cortex_sc_10x.fastq.gz')">Copy Stream URL</button></td>
+          </tr>
+          <tr>
+            <td><a href="#" class="accession">BV-VAR-11082</a></td>
+            <td>Global Structural Variation Cohort Callset</td>
+            <td>Multi-Center Consensus</td>
+            <td><span class="badge badge-vcf">VCF.GZ</span></td>
+            <td style="font-family: var(--font-mono);">12.6 GB</td>
+            <td><button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" onclick="copyStream('https://stream.biovault.org/vcf/sv_consensus_2026.vcf.gz')">Copy Stream URL</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- CLI Box -->
+    <section id="cli" style="margin-bottom: 60px;">
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Direct High-Throughput Command-Line Stream</h3>
+      <p style="color: var(--text-muted); font-size: 13.5px;">Fetch datasets directly into compute nodes with `samtools`, `curl`, or AWS CLI:</p>
+      
+      <div class="cli-box">
+        <code>samtools view -b -C -T GRCh38.fa https://stream.biovault.org/cram/HG002.hifi.cram chr1:1000000-2000000 &gt; region.bam</code>
+        <button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px; background: #1e293b; color: #fff; border-color: #334155;" onclick="alert('Command copied to clipboard!')">Copy</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="citation">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4 style="display: flex; align-items: center; gap: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6c4 4 8 4 12 0m-12 6c4 4 8 4 12 0m-12 6c4 4 8 4 12 0"/></svg>
+            BioVault Data Consortium
+          </h4>
+          <p style="line-height: 1.6; margin-top: 8px; font-size: 13px;">
+            Funded under international open-science genomics initiatives. Dedicated fast-relay mirror node AS64512.
+          </p>
+        </div>
+        <div>
+          <h4>Repositories</h4>
+          <ul>
+            <li><a href="#">Human Pangenome (HPRC)</a></li>
+            <li><a href="#">1000 Genomes Project</a></li>
+            <li><a href="#">Telomere-to-Telomere (T2T)</a></li>
+            <li><a href="#">ClinVar Annotated VCFs</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Data Standards</h4>
+          <ul>
+            <li><a href="#">Global Alliance (GA4GH)</a></li>
+            <li><a href="#">CRAM Compression Format</a></li>
+            <li><a href="#">VCF 4.4 Specification</a></li>
+            <li><a href="#">S3 Streaming Protocol</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Governance & Ethics</h4>
+          <ul>
+            <li><a href="#">Data Use Agreements (DUA)</a></li>
+            <li><a href="#">IRB / Consent Policies</a></li>
+            <li><a href="#">GDPR Scientific Exemption</a></li>
+            <li><a href="#">Citation DOI: 10.1038/s41587</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top: 1px solid #1e293b; padding-top: 24px; display: flex; justify-content: space-between; font-size: 12.5px;">
+        <span>© 2026 BioVault International Genomics Archive. Open Data Commons Open Database License (ODbL).</span>
+        <span>Secure TLS 1.3 Endpoints Verified</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function setChr(name, len, size) {
+      document.getElementById('chrInfo').textContent = 'SELECTED: ' + name + ' (Length: ' + len + ')';
+      document.getElementById('chrSize').textContent = 'ALIGNMENT SIZE: ' + size + ' (Lossless CRAM)';
+    }
+
+    function filterData(query) {
+      const q = query.toLowerCase();
+      const rows = document.querySelectorAll('#datasetRows tr');
+      rows.forEach(r => {
+        if (r.textContent.toLowerCase().includes(q)) {
+          r.style.display = '';
+        } else {
+          r.style.display = 'none';
+        }
+      });
+    }
+
+    function copyStream(url) {
+      navigator.clipboard.writeText(url);
+      alert('Copied Direct Stream URI: ' + url);
+    }
+
+    function copyManifest() {
+      navigator.clipboard.writeText('s3://biovault-public-archive/manifest-2026-q4.tsv');
+      alert('Copied S3 Manifest URI: s3://biovault-public-archive/manifest-2026-q4.tsv');
+    }
+  </script>
+</body>
+</html>

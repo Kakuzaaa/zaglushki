@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UrbanPulse Live — Municipal Traffic Sensor & Open Surveillance Stream Relay</title>
+  <meta name="description" content="UrbanPulse is an open municipal smart city telemetry portal providing continuous high-bitrate RTSP/HLS streams of metropolitan road conditions and traffic sensors." />
+  <meta name="keywords" content="traffic cameras, smart city, rtsp stream, hls, surveillance relay, road telemetry, municipal open data" />
+  <meta property="og:title" content="UrbanPulse Live — Municipal Traffic Stream Relay" />
+  <meta property="og:description" content="Continuous 24/7 high-definition smart city traffic camera and telemetry distribution." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23059669'/><circle cx='16' cy='16' r='6' fill='%23EF4444'/><path d='M8 16h3m10 0h3M16 8v3m0 10v3' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round'/></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090c10;
+      --bg-surface: #0f141c;
+      --bg-card: #151c27;
+      --border: rgba(255, 255, 255, 0.08);
+      --red: #ef4444;
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.3);
+      --amber: #f59e0b;
+      --blue: #38bdf8;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-main: 'Inter', system-ui, sans-serif;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.5;
+      font-size: 14px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    .nav {
+      height: 68px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(9, 12, 16, 0.92);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    .brand-badge {
+      width: 32px;
+      height: 32px;
+      background: #111b27;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #fca5a5;
+    }
+    .rec-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 8px var(--red);
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Live Ticker Bar */
+    .ticker-bar {
+      background: #0d1219;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .ticker-content {
+      white-space: nowrap;
+      animation: marquee 25s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Camera Grid Section */
+    .cctv-stage {
+      padding: 30px 0 40px;
+    }
+    .stage-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .view-switchers {
+      display: flex;
+      gap: 8px;
+    }
+    .view-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .view-btn.active {
+      background: #1e293b;
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    .cam-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+    .cam-tile {
+      background: #06090e;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+    }
+    .cam-canvas-box {
+      width: 100%;
+      height: 280px;
+      position: relative;
+      background: #05070a;
+      overflow: hidden;
+    }
+    .cam-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .cam-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 25%, transparent 75%, rgba(0,0,0,0.7) 100%);
+    }
+    .cam-top-info {
+      display: flex;
+      justify-content: space-between;
+      color: #fff;
+    }
+    .cam-bottom-info {
+      display: flex;
+      justify-content: space-between;
+      color: #38bdf8;
+    }
+
+    /* Telemetry Info Cards */
+    .telemetry-deck {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 50px;
+    }
+    .tele-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .tele-label {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .tele-val {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .tele-sub {
+      font-size: 12px;
+      color: var(--green);
+      margin-top: 2px;
+    }
+
+    /* Stream URL Generator */
+    .rtsp-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 60px;
+    }
+    .code-row {
+      background: #06090e;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #38bdf8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0 32px;
+      background: #06080c;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    .footer-grid h4 {
+      color: #fff;
+      font-size: 13.5px;
+      margin-bottom: 12px;
+    }
+    .footer-grid ul { list-style: none; }
+    .footer-grid li { margin-bottom: 8px; }
+    .footer-grid a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .footer-grid a:hover { color: #fff; }
+
+    @media (max-width: 860px) {
+      .cam-grid { grid-template-columns: 1fr; }
+      .telemetry-deck { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ticker -->
+  <div class="ticker-bar">
+    <div class="ticker-content">
+      [INCIDENT REPORT: JUNCTION 4A TRAFFIC FLOW NORMALIZED] • [SENSOR ARRAY 12: VEHICLE DENSITY 48 V/MIN] • [H.265 ENCODER PIPELINE 100% HEALTHY] • [TRANSIT NODE 8: AIR QUALITY AQI 24 (GOOD)]
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="brand">
+          <div class="brand-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M23 7l-7 5 7 5V7z"></path>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+          </div>
+          <span>UrbanPulse<span style="color: var(--green);">.live</span></span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#streams">Live Surveillance Feeds</a></li>
+          <li><a href="#stats">Throughput Telemetry</a></li>
+          <li><a href="#rtsp">RTSP / HLS Feed Access</a></li>
+          <li><a href="#license">Open Municipal Data</a></li>
+        </ul>
+
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div class="live-indicator">
+            <span class="rec-dot"></span>
+            <span>4 FEEDS STREAMING</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- CCTV Grid -->
+    <section class="cctv-stage" id="streams">
+      <div class="stage-head">
+        <div>
+          <h1 style="font-size: 1.85rem; font-weight: 700; color: #fff;">Metropolitan Traffic Video Stream Relay</h1>
+          <p style="color: var(--text-muted); font-size: 13.5px; margin-top: 4px;">Low-latency H.265 / WebRTC multi-stream distribution from municipality highway sensors.</p>
+        </div>
+
+        <div class="view-switchers">
+          <button class="view-btn active" onclick="setViewMode(4, this)">QUAD 2x2</button>
+          <button class="view-btn" onclick="setViewMode(1, this)">SINGLE FOCUS</button>
+        </div>
+      </div>
+
+      <div class="cam-grid" id="camGrid">
+        <!-- Cam 1 -->
+        <div class="cam-tile">
+          <div class="cam-canvas-box">
+            <canvas id="cam1" class="cam-canvas"></canvas>
+            <div class="cam-overlay">
+              <div class="cam-top-info">
+                <span>CAM-04A • CENTRAL RING JUNCTION</span>
+                <span class="timestamp" id="time1">2026-10-06 21:12:04 UTC</span>
+              </div>
+              <div class="cam-bottom-info">
+                <span>FPS: 59.9 • 3840x2160 (4K)</span>
+                <span>BITRATE: 8.42 Mbps (H.265)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cam 2 -->
+        <div class="cam-tile">
+          <div class="cam-canvas-box">
+            <canvas id="cam2" class="cam-canvas"></canvas>
+            <div class="cam-overlay">
+              <div class="cam-top-info">
+                <span>CAM-12C • HARBOR SUSPENSION CROSSING</span>
+                <span class="timestamp" id="time2">2026-10-06 21:12:04 UTC</span>
+              </div>
+              <div class="cam-bottom-info">
+                <span>FPS: 60.0 • 1920x1080 (FHD)</span>
+                <span>BITRATE: 5.18 Mbps (H.265)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cam 3 -->
+        <div class="cam-tile">
+          <div class="cam-canvas-box">
+            <canvas id="cam3" class="cam-canvas"></canvas>
+            <div class="cam-overlay">
+              <div class="cam-top-info">
+                <span>CAM-08B • FINANCIAL PLAZA TERMINUS</span>
+                <span class="timestamp" id="time3">2026-10-06 21:12:04 UTC</span>
+              </div>
+              <div class="cam-bottom-info">
+                <span>FPS: 59.9 • 3840x2160 (4K)</span>
+                <span>BITRATE: 8.14 Mbps (H.265)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cam 4 -->
+        <div class="cam-tile">
+          <div class="cam-canvas-box">
+            <canvas id="cam4" class="cam-canvas"></canvas>
+            <div class="cam-overlay">
+              <div class="cam-top-info">
+                <span>CAM-19F • AIRPORT CARGO ACCESS CORRIDOR</span>
+                <span class="timestamp" id="time4">2026-10-06 21:12:04 UTC</span>
+              </div>
+              <div class="cam-bottom-info">
+                <span>FPS: 60.0 • 1920x1080 (FHD)</span>
+                <span>BITRATE: 4.92 Mbps (H.265)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Telemetry Cards -->
+    <div class="telemetry-deck" id="stats">
+      <div class="tele-card">
+        <div class="tele-label">Aggregated Ingress Stream</div>
+        <div class="tele-val"><span id="liveBitrate">26.66</span> <span style="font-size: 14px; color: var(--green);">Mbps</span></div>
+        <div class="tele-sub">Hardware NVENC encoder</div>
+      </div>
+      <div class="tele-card">
+        <div class="tele-label">Active HLS Viewers</div>
+        <div class="tele-val">4,280</div>
+        <div class="tele-sub">Distributed CDN edges</div>
+      </div>
+      <div class="tele-card">
+        <div class="tele-label">Sensor Drop Rate</div>
+        <div class="tele-val">0.00 <span style="font-size: 14px; color: var(--green);">%</span></div>
+        <div class="tele-sub">UDP RTP buffer clean</div>
+      </div>
+      <div class="tele-card">
+        <div class="tele-label">Operational Cameras</div>
+        <div class="tele-val">128 <span style="font-size: 14px; color: var(--green);">Active</span></div>
+        <div class="tele-sub">Full metropolitan grid</div>
+      </div>
+    </div>
+
+    <!-- RTSP URL Box -->
+    <section class="rtsp-box" id="rtsp">
+      <h3 style="font-size: 15px; font-weight: 700; color: #fff;">Direct RTSP / HLS Integration Link</h3>
+      <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">Integrate directly with FFmpeg, OpenCV computer vision pipelines, or municipal VLC players:</p>
+
+      <div class="code-row">
+        <span>rtsp://live.urbanpulse.traffic.net:8554/feed/cam04a-junction?auth=public_relay</span>
+        <button class="view-btn" onclick="alert('Copied RTSP URL to clipboard!')">Copy</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="license">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4 style="display: flex; align-items: center; gap: 8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            UrbanPulse Telemetry Initiative
+          </h4>
+          <p style="font-size: 12.5px; line-height: 1.6; margin-top: 8px;">
+            Municipal Smart Cities Open Data Network. Licensed under Open Government License (OGL). Stream relay AS64512.
+          </p>
+        </div>
+        <div>
+          <h4>Feeds</h4>
+          <ul>
+            <li><a href="#">Highway Corridors</a></li>
+            <li><a href="#">Bridge Crossings</a></li>
+            <li><a href="#">Transit Terminals</a></li>
+            <li><a href="#">Air Quality Sensors</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Protocols</h4>
+          <ul>
+            <li><a href="#">RTSP / RTP H.265</a></li>
+            <li><a href="#">Apple HLS (m3u8)</a></li>
+            <li><a href="#">WebRTC Ultra-Low Lag</a></li>
+            <li><a href="#">OpenCV Python Bindings</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Privacy</h4>
+          <ul>
+            <li><a href="#">License Plate Masking</a></li>
+            <li><a href="#">Pedestrian Face Blurring</a></li>
+            <li><a href="#">Retention Policy (Zero)</a></li>
+            <li><a href="#">Terms of Open Access</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--border); padding-top: 20px; display: flex; justify-content: space-between; font-size: 12px;">
+        <span>© 2026 UrbanPulse Municipal Transportation Authority. Public Domain Open Video Feed.</span>
+        <span>Secure Uninterrupted RTSP Relay</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Live ticking timecodes
+    setInterval(() => {
+      const now = new Date();
+      const str = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById('time' + i);
+        if (el) el.textContent = str;
+      }
+    }, 1000);
+
+    // Live canvas traffic simulation (moving headlight streams)
+    function setupCam(canvasId, speed, density) {
+      const cvs = document.getElementById(canvasId);
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      cvs.width = 480;
+      cvs.height = 280;
+
+      let cars = [];
+      for (let i = 0; i < 24; i++) {
+        cars.push({
+          x: Math.random() * cvs.width,
+          y: 70 + Math.random() * 140,
+          v: (Math.random() * 2 + 1.5) * speed,
+          color: Math.random() > 0.5 ? '#fef08a' : '#ef4444',
+          len: Math.random() * 12 + 8
+        });
+      }
+
+      function draw() {
+        ctx.fillStyle = '#070a0f';
+        ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+        // Road lanes
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, 100); ctx.lineTo(cvs.width, 100);
+        ctx.moveTo(0, 150); ctx.lineTo(cvs.width, 150);
+        ctx.moveTo(0, 200); ctx.lineTo(cvs.width, 200);
+        ctx.stroke();
+
+        // Cars / Headlights
+        cars.forEach(car => {
+          car.x += car.v;
+          if (car.x > cvs.width + 20) car.x = -20;
+
+          ctx.fillStyle = car.color;
+          ctx.fillRect(car.x, car.y, car.len, 3);
+
+          // Glow
+          ctx.fillStyle = car.color === '#ef4444' ? 'rgba(239, 68, 68, 0.2)' : 'rgba(254, 240, 138, 0.2)';
+          ctx.beginPath();
+          ctx.arc(car.x, car.y + 1.5, 6, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Scanline effect
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        for (let y = 0; y < cvs.height; y += 4) {
+          ctx.fillRect(0, y, cvs.width, 2);
+        }
+
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    }
+
+    setupCam('cam1', 1.2, 1);
+    setupCam('cam2', 0.8, 1);
+    setupCam('cam3', 1.0, 1);
+    setupCam('cam4', 1.5, 1);
+
+    function setViewMode(mode, btn) {
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const grid = document.getElementById('camGrid');
+      if (mode === 1) {
+        grid.style.gridTemplateColumns = '1fr';
+        document.querySelectorAll('.cam-tile').forEach((t, i) => {
+          if (i > 0) t.style.display = 'none';
+        });
+      } else {
+        grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        document.querySelectorAll('.cam-tile').forEach(t => t.style.display = 'block');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EdgeFlow CDN — Global Anycast Edge Network & High-Throughput Mirror</title>
+  <meta name="description" content="EdgeFlow is a next-generation Anycast Content Delivery Network and open-source mirror infrastructure delivering 120+ Tbps edge capacity with sub-15ms global latency." />
+  <meta name="keywords" content="CDN, Anycast, edge computing, open source mirror, linux mirror, cache acceleration, high bandwidth delivery" />
+  <meta property="og:title" content="EdgeFlow CDN — Global Edge Acceleration & Mirror Network" />
+  <meta property="og:description" content="Sub-15ms edge caching, anycast routing, and high-capacity OSS binary mirrors worldwide." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230066FF'/><path d='M10 16l4-4v3h8v2h-8v3z' fill='%23FFFFFF'/></svg>" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --bg-surface: #111827;
+      --bg-elevated: #1f293d;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(0, 140, 255, 0.5);
+      --primary: #0080ff;
+      --primary-hover: #0066d6;
+      --primary-glow: rgba(0, 128, 255, 0.25);
+      --accent: #00e5ff;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 20px;
+      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient background mesh */
+    .bg-mesh {
+      position: fixed;
+      top: 0; left: 0; right: 0; height: 100vh;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(0, 128, 255, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar */
+    .navbar {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(16px);
+      z-index: 100;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 90px 0 60px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(0, 128, 255, 0.1);
+      border: 1px solid rgba(0, 128, 255, 0.2);
+      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 760px;
+      margin: 0 auto 36px;
+      font-size: 1.18rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+    }
+
+    /* Live Telemetry Ticker */
+    .telemetry-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 80px;
+    }
+    .stat-card {
+      text-align: left;
+      border-right: 1px solid var(--border);
+      padding-right: 16px;
+    }
+    .stat-card:last-child { border-right: none; }
+    .stat-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .stat-unit {
+      font-size: 1rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .stat-sub {
+      font-size: 0.8rem;
+      color: var(--success);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Interactive Graph / Visualizer */
+    .traffic-section {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 80px;
+      box-shadow: var(--shadow-card);
+    }
+    .traffic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .traffic-title h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .traffic-title p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .time-selector {
+      display: flex;
+      gap: 6px;
+      background: var(--bg);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+    .time-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .time-btn.active, .time-btn:hover {
+      background: var(--bg-elevated);
+      color: #fff;
+    }
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      background: #090d16;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      overflow: hidden;
+    }
+    #trafficCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Mirror Directory Section */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 600px;
+    }
+    .mirror-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 80px;
+    }
+    .mirror-tabs {
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: rgba(0, 128, 255, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(0, 128, 255, 0.3);
+    }
+    .mirror-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .mirror-table th {
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mirror-table td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.92rem;
+    }
+    .mirror-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .pkg-name {
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pkg-badge {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+    .code-pill {
+      background: #090d16;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #93c5fd;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .code-pill:hover {
+      border-color: var(--primary);
+    }
+
+    /* Edge PoP Infrastructure Grid */
+    .pop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 80px;
+    }
+    .pop-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .pop-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 128, 255, 0.3);
+    }
+    .pop-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .pop-city {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .pop-code {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      background: rgba(0, 229, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .pop-specs {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    /* Quick Test / Curl Box */
+    .curl-box {
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+    .curl-cmd {
+      color: #38bdf8;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 0 40px;
+      background: #080b12;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-col h4 {
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col li {
+      margin-bottom: 10px;
+    }
+    .footer-col a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.85rem;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      max-width: 540px;
+      width: 100%;
+      padding: 32px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .telemetry-bar { grid-template-columns: 1fr 1fr; }
+      .stat-card:nth-child(2) { border-right: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 540px) {
+      .telemetry-bar { grid-template-columns: 1fr; }
+      .stat-card { border-right: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline>
+          </svg>
+        </div>
+        <span>EdgeFlow<span style="color: var(--accent);">.cdn</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#network">Network PoPs</a></li>
+        <li><a href="#mirrors">OSS Mirrors</a></li>
+        <li><a href="#telemetry">Live Traffic</a></li>
+        <li><a href="#benchmarks">Routing Benchmarks</a></li>
+        <li><a href="#docs">API & Edge Rules</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span>AS64512 • 100% OPERATIONAL</span>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('edgeModal')">Edge Console</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="m9 12 2 2 4-4"></path>
+        </svg>
+        Anycast BGP Routed • 194 PoPs Worldwide
+      </div>
+      <h1>Hyper-Scale Edge CDN &<br><span>Open-Source Mirror Fabric</span></h1>
+      <p>Delivering high-capacity packet streaming, terabit-scale binary distributions, and ultra-low latency cache distribution across our global Anycast backbone.</p>
+
+      <div class="hero-actions">
+        <a href="#mirrors" class="btn btn-primary" style="padding: 14px 28px; font-size: 1rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Explore Binary Mirrors
+        </a>
+        <button class="btn btn-outline" style="padding: 14px 28px; font-size: 1rem;" onclick="openModal('purgeModal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+          Instant Cache Purge
+        </button>
+      </div>
+    </section>
+
+    <!-- Telemetry Bar -->
+    <section class="telemetry-bar">
+      <div class="stat-card">
+        <div class="stat-label">Active Edge Throughput</div>
+        <div class="stat-value"><span id="liveThroughput">84.7</span> <span class="stat-unit">Tbps</span></div>
+        <div class="stat-sub">↑ 4.2% peak surge (15m window)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Global Cache Hit Ratio</div>
+        <div class="stat-value">99.42 <span class="stat-unit">%</span></div>
+        <div class="stat-sub">Optimized byte-level caching</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Average Edge Latency</div>
+        <div class="stat-value">11.8 <span class="stat-unit">ms</span></div>
+        <div class="stat-sub">Direct Tier-1 peering</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Daily Egress</div>
+        <div class="stat-value">4.18 <span class="stat-unit">PB</span></div>
+        <div class="stat-sub">Synchronized across 194 points</div>
+      </div>
+    </section>
+
+    <!-- Live Traffic Canvas Section -->
+    <section class="traffic-section" id="telemetry">
+      <div class="traffic-header">
+        <div class="traffic-title">
+          <h3>Real-Time Backbone Egress Stream</h3>
+          <p>Live telemetry aggregated across tier-1 transatlantic and transpacific peering pipes</p>
+        </div>
+        <div class="time-selector">
+          <button class="time-btn active" onclick="setTimeScale('realtime', this)">Realtime</button>
+          <button class="time-btn" onclick="setTimeScale('1h', this)">1 Hour</button>
+          <button class="time-btn" onclick="setTimeScale('24h', this)">24 Hours</button>
+          <button class="time-btn" onclick="setTimeScale('7d', this)">7 Days</button>
+        </div>
+      </div>
+      <div class="canvas-container">
+        <canvas id="trafficCanvas"></canvas>
+      </div>
+      <div class="curl-box">
+        <span style="color: var(--text-dim); margin-right: 12px;">EDGE SPEEDTEST:</span>
+        <span class="curl-cmd" id="speedTestCmd">curl -s https://speed.edgeflow.net/100mb.bin --output /dev/null</span>
+        <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.78rem;" onclick="copyCmd('speedTestCmd')">Copy</button>
+      </div>
+    </section>
+
+    <!-- Mirrors Explorer -->
+    <section class="mirror-panel" id="mirrors">
+      <h2 class="section-title">High-Capacity Mirror Repositories</h2>
+      <p class="section-subtitle">Synced every 15 minutes directly with upstream masters. Zero rate-limits on public mirrors.</p>
+
+      <div class="mirror-tabs">
+        <button class="tab-btn active" onclick="filterTab('all', this)">All Repositories</button>
+        <button class="tab-btn" onclick="filterTab('distros', this)">Linux Distros</button>
+        <button class="tab-btn" onclick="filterTab('packages', this)">Language Registries</button>
+        <button class="tab-btn" onclick="filterTab('kernels', this)">Kernels & Firmware</button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="mirror-table">
+          <thead>
+            <tr>
+              <th>Repository / Project</th>
+              <th>Status</th>
+              <th>Upstream Latency</th>
+              <th>Bandwidth Cap</th>
+              <th>Quick Mirror URL</th>
+            </tr>
+          </thead>
+          <tbody id="mirrorRows">
+            <tr data-cat="distros">
+              <td>
+                <div class="pkg-name">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+                  Ubuntu Releases & Archive
+                  <span class="pkg-badge">24.04 LTS / Jammy</span>
+                </div>
+              </td>
+              <td><span style="color: var(--success); font-weight: 600;">● Synced</span></td>
+              <td style="font-family: var(--font-mono);">3.2 ms</td>
+              <td style="font-family: var(--font-mono);">Unmetered 100G</td>
+              <td><span class="code-pill" onclick="copyText('https://mirror.edgeflow.net/ubuntu/')">https://mirror.edgeflow.net/ubuntu/</span></td>
+            </tr>
+            <tr data-cat="distros">
+              <td>
+                <div class="pkg-name">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6"/></svg>
+                  Debian Official Packages
+                  <span class="pkg-badge">Bookworm 12.7</span>
+                </div>
+              </td>
+              <td><span style="color: var(--success); font-weight: 600;">● Synced</span></td>
+              <td style="font-family: var(--font-mono);">4.1 ms</td>
+              <td style="font-family: var(--font-mono);">Unmetered 100G</td>
+              <td><span class="code-pill" onclick="copyText('https://mirror.edgeflow.net/debian/')">https://mirror.edgeflow.net/debian/</span></td>
+            </tr>
+            <tr data-cat="distros">
+              <td>
+                <div class="pkg-name">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polygon points="12 2 2 22 22 22"/></svg>
+                  Arch Linux Core & Extra
+                  <span class="pkg-badge">Rolling 2026.10</span>
+                </div>
+              </td>
+              <td><span style="color: var(--success); font-weight: 600;">● Synced</span></td>
+              <td style="font-family: var(--font-mono);">2.8 ms</td>
+              <td style="font-family: var(--font-mono);">Unmetered 100G</td>
+              <td><span class="code-pill" onclick="copyText('https://mirror.edgeflow.net/archlinux/')">https://mirror.edgeflow.net/archlinux/</span></td>
+            </tr>
+            <tr data-cat="packages">
+              <td>
+                <div class="pkg-name">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
+                  Python PyPI Global Wheel Cache
+                  <span class="pkg-badge">PEP 503 Simple</span>
+                </div>
+              </td>
+              <td><span style="color: var(--success); font-weight: 600;">● Live Proxy</span></td>
+              <td style="font-family: var(--font-mono);">5.4 ms</td>
+              <td style="font-family: var(--font-mono);">Tier-1 Peered</td>
+              <td><span class="code-pill" onclick="copyText('https://mirror.edgeflow.net/pypi/simple/')">https://mirror.edgeflow.net/pypi/simple/</span></td>
+            </tr>
+            <tr data-cat="packages">
+              <td>
+                <div class="pkg-name">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                  NPM Enterprise Registry Replica
+                  <span class="pkg-badge">v10.8 Cache</span>
+                </div>
+              </td>
+              <td><span style="color: var(--success); font-weight: 600;">● Synced</span></td>
+              <td style="font-family: var(--font-mono);">3.9 ms</td>
+              <td style="font-family: var(--font-mono);">Unmetered 100G</td>
+              <td><span class="code-pill" onclick="copyText('https://mirror.edgeflow.net/npm/')">https://mirror.edgeflow.net/npm/</span></td>
+            </tr>
+            <tr data-cat="kernels">
+              <td>
+                <div class="pkg-name">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                  Linux Kernel Source & Tarballs
+                  <span class="pkg-badge">v6.14.2 Mainline</span>
+                </div>
+              </td>
+              <td><span style="color: var(--success); font-weight: 600;">● Synced</span></td>
+              <td style="font-family: var(--font-mono);">6.0 ms</td>
+              <td style="font-family: var(--font-mono);">Unmetered 100G</td>
+              <td><span class="code-pill" onclick="copyText('https://mirror.edgeflow.net/kernel/')">https://mirror.edgeflow.net/kernel/</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Edge PoP Infrastructure -->
+    <section id="network">
+      <h2 class="section-title">Global Anycast PoP Mesh</h2>
+      <p class="section-subtitle">Traffic automatically directs to the nearest edge node via BGP shortest AS path.</p>
+
+      <div class="pop-grid">
+        <div class="pop-card">
+          <div class="pop-head">
+            <span class="pop-city">Frankfurt am Main</span>
+            <span class="pop-code">FRA-01</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 8px;">DE-CIX Core / Equinix FR5</div>
+          <div class="pop-specs">
+            <span>Capacity: 400 Gbps</span>
+            <span style="color: var(--success); font-weight: 600;">● 0.8ms Ping</span>
+          </div>
+        </div>
+
+        <div class="pop-card">
+          <div class="pop-head">
+            <span class="pop-city">Amsterdam</span>
+            <span class="pop-code">AMS-02</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 8px;">AMS-IX / Nikhef Gateway</div>
+          <div class="pop-specs">
+            <span>Capacity: 800 Gbps</span>
+            <span style="color: var(--success); font-weight: 600;">● 1.4ms Ping</span>
+          </div>
+        </div>
+
+        <div class="pop-card">
+          <div class="pop-head">
+            <span class="pop-city">London</span>
+            <span class="pop-code">LON-01</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 8px;">LINX / Telehouse North</div>
+          <div class="pop-specs">
+            <span>Capacity: 400 Gbps</span>
+            <span style="color: var(--success); font-weight: 600;">● 2.1ms Ping</span>
+          </div>
+        </div>
+
+        <div class="pop-card">
+          <div class="pop-head">
+            <span class="pop-city">Ashburn (Virginia)</span>
+            <span class="pop-code">IAD-03</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 8px;">Equinix DC2 / CoreSite</div>
+          <div class="pop-specs">
+            <span>Capacity: 1.2 Tbps</span>
+            <span style="color: var(--success); font-weight: 600;">● 72ms Transatlantic</span>
+          </div>
+        </div>
+
+        <div class="pop-card">
+          <div class="pop-head">
+            <span class="pop-city">Tokyo</span>
+            <span class="pop-code">NRT-01</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 8px;">JPIX / Equinix TY2</div>
+          <div class="pop-specs">
+            <span>Capacity: 600 Gbps</span>
+            <span style="color: var(--success); font-weight: 600;">● 140ms Asia-Pac</span>
+          </div>
+        </div>
+
+        <div class="pop-card">
+          <div class="pop-head">
+            <span class="pop-city">Singapore</span>
+            <span class="pop-code">SIN-02</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 8px;">SGIX / Global Switch</div>
+          <div class="pop-specs">
+            <span>Capacity: 500 Gbps</span>
+            <span style="color: var(--success); font-weight: 600;">● 165ms SEA</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modals -->
+  <div class="modal-overlay" id="edgeModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('edgeModal')">&times;</button>
+      <h3 style="margin-bottom: 12px; font-size: 1.3rem;">EdgeFlow Console Gateway</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px;">Authenticate with your hardware token or enterprise SSO credentials to manage BGP announcements and edge caching policies.</p>
+      
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-muted);">ENTERPRISE ACCOUNT ID / EMAIL</label>
+        <input type="text" placeholder="admin@asn64512.net" style="width: 100%; padding: 12px; background: #090d16; border: 1px solid var(--border); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-mono);" />
+      </div>
+      <div style="margin-bottom: 24px;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-muted);">MFA TOKEN / HARDWARE KEY</label>
+        <input type="password" placeholder="••••••••" style="width: 100%; padding: 12px; background: #090d16; border: 1px solid var(--border); border-radius: var(--radius-sm); color: #fff;" />
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="simulateAuth(this)">Authenticate Session</button>
+      <div id="authNotice" style="display: none; margin-top: 14px; color: var(--warning); font-size: 0.82rem; text-align: center;">Direct console access restricted to registered BGP peering partners. Contact NOC.</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="purgeModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('purgeModal')">&times;</button>
+      <h3 style="margin-bottom: 12px; font-size: 1.3rem;">Instant Global Cache Invalidation</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Purge URL tags across all 194 edge PoPs simultaneously in &lt;150ms.</p>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-muted);">TARGET PATH OR SURROGATE-KEY</label>
+        <input type="text" id="purgeInput" value="/assets/v2/*" style="width: 100%; padding: 12px; background: #090d16; border: 1px solid var(--border); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-mono);" />
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="runPurge(this)">Broadcast Invalidation</button>
+      <div id="purgeStatus" style="display: none; margin-top: 14px; color: var(--success); font-size: 0.85rem; text-align: center; font-family: var(--font-mono);">
+        ✓ Invalidation broadcasted to 194 edge nodes (112ms)
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" style="position: fixed; bottom: 24px; right: 24px; background: #1e293b; border: 1px solid var(--border); padding: 12px 20px; border-radius: var(--radius-sm); color: #fff; font-size: 0.88rem; box-shadow: var(--shadow-card); display: none; z-index: 300;">
+    Copied to clipboard!
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom: 14px;">
+            <div class="logo-icon" style="width: 28px; height: 28px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline></svg>
+            </div>
+            <span>EdgeFlow CDN</span>
+          </div>
+          <p style="font-size: 0.85rem; line-height: 1.6; max-width: 320px;">
+            Autonomous Anycast routing fabric and tier-1 OSS mirror provider. Autonomous System AS64512.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Infrastructure</h4>
+          <ul>
+            <li><a href="#network">Edge PoP Map</a></li>
+            <li><a href="#mirrors">Mirror Health Status</a></li>
+            <li><a href="#">BGP Looking Glass</a></li>
+            <li><a href="#">PeeringDB AS64512</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Developer API</h4>
+          <ul>
+            <li><a href="#">Surrogate-Key Rules</a></li>
+            <li><a href="#">Edge Worker Engine</a></li>
+            <li><a href="#">Logpush Streamers</a></li>
+            <li><a href="#">Rate Limiting Specs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal & Compliance</h4>
+          <ul>
+            <li><a href="#">99.999% SLA Policy</a></li>
+            <li><a href="#">Acceptable Use (AUP)</a></li>
+            <li><a href="#">DMCA Notice Agent</a></li>
+            <li><a href="#">Security Disclosures</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 EdgeFlow Networks B.V. All rights reserved. Registered Autonomous System AS64512.</div>
+        <div style="display: flex; gap: 20px;">
+          <span>ISO/IEC 27001 Certified</span>
+          <span>SOC 2 Type II Audited</span>
+          <span>GDPR / CCPA Compliant</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Live throughput animated fluctuations
+    let currentThroughput = 84.7;
+    setInterval(() => {
+      currentThroughput += (Math.random() - 0.48) * 0.6;
+      if (currentThroughput < 81.0) currentThroughput = 81.0;
+      if (currentThroughput > 89.0) currentThroughput = 89.0;
+      const el = document.getElementById('liveThroughput');
+      if (el) el.textContent = currentThroughput.toFixed(1);
+    }, 2500);
+
+    // Canvas Live Traffic Wave
+    const canvas = document.getElementById('trafficCanvas');
+    const ctx = canvas.getContext('2d');
+    let points = [];
+    const maxPoints = 80;
+
+    function resizeCanvas() {
+      if (!canvas) return;
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+      if (points.length === 0) {
+        for (let i = 0; i < maxPoints; i++) {
+          points.push(65 + Math.sin(i * 0.15) * 15 + Math.random() * 8);
+        }
+      }
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function drawWave() {
+      if (!canvas || !ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Grid lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      ctx.lineWidth = 1;
+      for (let y = 30; y < canvas.height; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      }
+
+      // Step data
+      points.shift();
+      const last = points[points.length - 1];
+      const next = Math.max(30, Math.min(100, last + (Math.random() - 0.49) * 4));
+      points.push(next);
+
+      const step = canvas.width / (maxPoints - 1);
+
+      // Gradient Fill
+      const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      grad.addColorStop(0, 'rgba(0, 128, 255, 0.35)');
+      grad.addColorStop(1, 'rgba(0, 128, 255, 0.0)');
+
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height);
+      for (let i = 0; i < maxPoints; i++) {
+        const x = i * step;
+        const y = canvas.height - (points[i] / 120) * canvas.height;
+        if (i === 0) ctx.lineTo(x, y);
+        else {
+          const prevX = (i - 1) * step;
+          const prevY = canvas.height - (points[i - 1] / 120) * canvas.height;
+          const cx = (prevX + x) / 2;
+          ctx.bezierCurveTo(cx, prevY, cx, y, x, y);
+        }
+      }
+      ctx.lineTo(canvas.width, canvas.height);
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Stroke Line
+      ctx.beginPath();
+      for (let i = 0; i < maxPoints; i++) {
+        const x = i * step;
+        const y = canvas.height - (points[i] / 120) * canvas.height;
+        if (i === 0) ctx.moveTo(x, y);
+        else {
+          const prevX = (i - 1) * step;
+          const prevY = canvas.height - (points[i - 1] / 120) * canvas.height;
+          const cx = (prevX + x) / 2;
+          ctx.bezierCurveTo(cx, prevY, cx, y, x, y);
+        }
+      }
+      ctx.strokeStyle = '#00e5ff';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      requestAnimationFrame(drawWave);
+    }
+    requestAnimationFrame(drawWave);
+
+    // Filter tabs
+    function filterTab(category, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const rows = document.querySelectorAll('#mirrorRows tr');
+      rows.forEach(r => {
+        if (category === 'all' || r.getAttribute('data-cat') === category) {
+          r.style.display = '';
+        } else {
+          r.style.display = 'none';
+        }
+      });
+    }
+
+    // Modal controls
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    }
+
+    function simulateAuth(btn) {
+      btn.textContent = 'Verifying with NOC...';
+      setTimeout(() => {
+        btn.textContent = 'Authenticate Session';
+        document.getElementById('authNotice').style.display = 'block';
+      }, 900);
+    }
+
+    function runPurge(btn) {
+      btn.textContent = 'Invalidating Edge Caches...';
+      setTimeout(() => {
+        btn.textContent = 'Broadcast Invalidation';
+        document.getElementById('purgeStatus').style.display = 'block';
+      }, 700);
+    }
+
+    function copyCmd(id) {
+      const text = document.getElementById(id).textContent;
+      copyText(text);
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt);
+      showToast('Copied to clipboard: ' + txt);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2500);
+    }
+
+    function setTimeScale(scale, btn) {
+      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showToast('Time scale adjusted: ' + scale);
+    }
+  </script>
+</body>
+</html>
