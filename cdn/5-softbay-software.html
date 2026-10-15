@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Softbay — Каталог опенсорс программ и Anycast-зеркало дистрибутивов</title>
+  <meta name="description" content="Безопасная скоростная загрузка открытого программного обеспечения, компиляторов и системных утилит через проверенные CDN-зеркала.">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --card-hover: #21262d;
+      --accent: #238636;
+      --accent-grad: linear-gradient(135deg, #2ea043, #238636);
+      --blue: #58a6ff;
+      --text: #f0f6fc;
+      --text-muted: #8b949e;
+      --border: #30363d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Header */
+    header {
+      background: #010409;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.45rem; font-weight: 800; color: #fff;
+    }
+    .logo-badge {
+      background: var(--accent); color: #fff;
+      font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;
+    }
+    .search-box {
+      flex: 1; max-width: 520px;
+      display: flex; align-items: center; gap: 8px;
+      background: #0d1117; border: 1px solid var(--border);
+      border-radius: 6px; padding: 7px 14px;
+    }
+    .search-box input {
+      background: none; border: none; outline: none;
+      color: #fff; width: 100%; font-size: 0.88rem;
+    }
+    nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
+    nav a:hover { color: #fff; }
+
+    /* Hero */
+    .hero {
+      padding: 44px 40px 24px;
+      max-width: 1140px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 40px;
+    }
+    .hero-text h1 { font-size: 2.3rem; font-weight: 800; line-height: 1.25; margin-bottom: 12px; }
+    .hero-text p { color: var(--text-muted); font-size: 1.05rem; max-width: 640px; }
+    .mirror-badge {
+      background: rgba(35,134,54,0.12);
+      border: 1px solid rgba(46,160,67,0.3);
+      padding: 14px 20px; border-radius: 10px;
+      text-align: right;
+    }
+    .mirror-badge div:first-child { color: #3fb950; font-weight: 700; font-size: 0.95rem; }
+    .mirror-badge div:last-child { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
+
+    /* Category Filter */
+    .categories {
+      max-width: 1140px; margin: 10px auto 20px; padding: 0 40px;
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .cat-btn {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text-muted); padding: 7px 16px; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cat-btn:hover, .cat-btn.active {
+      background: rgba(88,166,255,0.15); color: var(--blue); border-color: var(--blue);
+    }
+
+    /* Software Grid */
+    .catalog {
+      max-width: 1140px; margin: 0 auto 70px; padding: 0 40px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .app-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      gap: 16px; transition: border-color 0.2s, transform 0.2s;
+    }
+    .app-card:hover {
+      border-color: #58a6ff; transform: translateY(-3px);
+    }
+    .app-head { display: flex; gap: 14px; }
+    .app-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      background: linear-gradient(135deg, #1f293d, #2d3748);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .app-meta h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 2px; }
+    .app-meta p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+    .app-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .tag {
+      background: rgba(255,255,255,0.06); font-size: 0.72rem;
+      padding: 2px 8px; border-radius: 4px; color: var(--text-muted);
+    }
+    .app-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 14px; border-top: 1px solid var(--border);
+      font-size: 0.82rem; color: var(--text-muted);
+    }
+    .btn-download {
+      background: var(--accent); color: #fff;
+      border: 1px solid rgba(240,246,252,0.1);
+      padding: 6px 14px; border-radius: 6px;
+      font-weight: 600; font-size: 0.85rem; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-download:hover { background: #2ea043; }
+
+    /* Footer */
+    footer {
+      background: #010409; border-top: 1px solid var(--border);
+      padding: 40px; text-align: center; color: var(--text-muted); font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 12px 20px; }
+      nav { display: none; }
+      .hero { flex-direction: column; padding: 24px 20px; text-align: left; }
+      .mirror-badge { text-align: left; }
+      .catalog, .categories { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <span>💾</span> Softbay
+      <span class="logo-badge">CDN EDGE</span>
+    </div>
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" placeholder="Поиск программ, утилит, библиотек и ISO...">
+    </div>
+    <nav>
+      <a href="#">Топ загрузок</a>
+      <a href="#">Разработка</a>
+      <a href="#">Безопасность</a>
+      <a href="#">Зеркала Anycast</a>
+      <a href="#">Хэши SHA-256</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Каталог открытого ПО и высокоскоростное CDN-зеркало</h1>
+      <p>Официальные проверенные сборки системных инструментов, компиляторов, серверов и мультимедиа-пакетов без ограничений скорости скачивания.</p>
+    </div>
+    <div class="mirror-badge">
+      <div>✓ Edge-зеркало активно</div>
+      <div>Anycast пропускная способность: 40 Гбит/с</div>
+      <div>Проверено VirusTotal: 0 / 72 угроз</div>
+    </div>
+  </section>
+
+  <!-- Category Filter -->
+  <div class="categories">
+    <div class="cat-btn active">Все пакеты (850+)</div>
+    <div class="cat-btn">Инструменты разработчика</div>
+    <div class="cat-btn">Сетевые утилиты</div>
+    <div class="cat-btn">Системные оптимизаторы</div>
+    <div class="cat-btn">Мультимедиа & Кодеки</div>
+    <div class="cat-btn">Виртуализация & Docker</div>
+  </div>
+
+  <!-- Software Catalog -->
+  <main class="catalog">
+
+    <!-- Card 1 -->
+    <div class="app-card">
+      <div class="app-head">
+        <div class="app-icon">⚡</div>
+        <div class="app-meta">
+          <h3>DevStudio IDE 2026</h3>
+          <p>Сверхбыстрая среда разработки с нативной компиляцией Rust и C++23.</p>
+          <div class="app-tags">
+            <span class="tag">Windows x64</span>
+            <span class="tag">Linux AppImage</span>
+            <span class="tag">macOS Silicon</span>
+          </div>
+        </div>
+      </div>
+      <div class="app-footer">
+        <span>📦 128 МБ • 840k скачиваний</span>
+        <button class="btn-download" onclick="startDl('DevStudio IDE 2026', '128 MB')">⬇ Скачать</button>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="app-card">
+      <div class="app-head">
+        <div class="app-icon">🌐</div>
+        <div class="app-meta">
+          <h3>NetProbe Analyzer Pro</h3>
+          <p>Анализатор сетевых пакетов, MTU, пинга и Anycast-маршрутов в реальном времени.</p>
+          <div class="app-tags">
+            <span class="tag">CLI + GUI</span>
+            <span class="tag">Open Source</span>
+            <span class="tag">v3.8.4</span>
+          </div>
+        </div>
+      </div>
+      <div class="app-footer">
+        <span>📦 42 МБ • 490k скачиваний</span>
+        <button class="btn-download" onclick="startDl('NetProbe Analyzer', '42 MB')">⬇ Скачать</button>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="app-card">
+      <div class="app-head">
+        <div class="app-icon">🎬</div>
+        <div class="app-meta">
+          <h3>OmniCodec Player 4K</h3>
+          <p>Аппаратный медиаплеер с поддержкой AV1, HEVC, ProRes и 10-bit HDR.</p>
+          <div class="app-tags">
+            <span class="tag">Cross-platform</span>
+            <span class="tag">Hardware Accel</span>
+          </div>
+        </div>
+      </div>
+      <div class="app-footer">
+        <span>📦 86 МБ • 1.2M скачиваний</span>
+        <button class="btn-download" onclick="startDl('OmniCodec Player', '86 MB')">⬇ Скачать</button>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="app-card">
+      <div class="app-head">
+        <div class="app-icon">🗜</div>
+        <div class="app-meta">
+          <h3>TeraArchive Ultimate</h3>
+          <p>Многопоточный архиватор алгоритмов Zstandard, Brotli и 7z для терабайтных данных.</p>
+          <div class="app-tags">
+            <span class="tag">Multi-threaded</span>
+            <span class="tag">SIMD AVX-512</span>
+          </div>
+        </div>
+      </div>
+      <div class="app-footer">
+        <span>📦 18 МБ • 670k скачиваний</span>
+        <button class="btn-download" onclick="startDl('TeraArchive', '18 MB')">⬇ Скачать</button>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="app-card">
+      <div class="app-head">
+        <div class="app-icon">🛡</div>
+        <div class="app-meta">
+          <h3>CryptaGuard Vault</h3>
+          <p>Локальный менеджер учетных записей с квантово-устойчивым шифрованием Kyber-768.</p>
+          <div class="app-tags">
+            <span class="tag">Post-Quantum</span>
+            <span class="tag">Zero-Knowledge</span>
+          </div>
+        </div>
+      </div>
+      <div class="app-footer">
+        <span>📦 34 МБ • 310k скачиваний</span>
+        <button class="btn-download" onclick="startDl('CryptaGuard Vault', '34 MB')">⬇ Скачать</button>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="app-card">
+      <div class="app-head">
+        <div class="app-icon">🐳</div>
+        <div class="app-meta">
+          <h3>ContainerPilot Desktop</h3>
+          <p>Легковесный GUI-клиент для управления контейнерами Docker, Podman и k3s.</p>
+          <div class="app-tags">
+            <span class="tag">DevOps</span>
+            <span class="tag">v2.12.0</span>
+          </div>
+        </div>
+      </div>
+      <div class="app-footer">
+        <span>📦 95 МБ • 520k скачиваний</span>
+        <button class="btn-download" onclick="startDl('ContainerPilot Desktop', '95 MB')">⬇ Скачать</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Softbay Mirror Foundation. Все дистрибутивы подписаны GPG ключами и распространяются через Anycast CDN сеть.</p>
+  </footer>
+
+  <script>
+    function startDl(app, sz) {
+      alert(`Начата загрузка дистрибутива:\n${app} (${sz})\n\nЗеркало: Франкфурт Edge CDN Relay\nКонтрольная сумма SHA-256 проверена: OK`);
+    }
+  </script>
+</body>
+</html>

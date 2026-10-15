@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixelith — Фотосток и галерея 4K / 8K обоев без сжатия</title>
+  <meta name="description" content="Бесплатная коллекция сверхвысокого разрешения 4K, 8K и UltraWide обоев от лучших фотографов и 3D-художников.">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card: #13151f;
+      --accent: #8b5cf6;
+      --accent-grad: linear-gradient(135deg, #a855f7, #6366f1);
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --border: #1e2235;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(9,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.45rem; font-weight: 800;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .search-bar {
+      flex: 1; max-width: 540px;
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      padding: 8px 16px; border-radius: 24px;
+    }
+    .search-bar input {
+      background: none; border: none; outline: none;
+      color: #fff; width: 100%; font-size: 0.9rem;
+    }
+    .nav-links { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); }
+    .nav-links a:hover { color: #fff; }
+    .btn-submit {
+      background: var(--accent-grad);
+      color: #fff; border: none; padding: 8px 18px;
+      border-radius: 20px; font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; transition: transform 0.2s;
+    }
+    .btn-submit:hover { transform: scale(1.03); }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero h1 { font-size: 2.8rem; font-weight: 900; margin-bottom: 14px; letter-spacing: -0.5px; }
+    .hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px; }
+    .tag-cloud { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .tag-pill {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 0.82rem; color: #cbd5e1; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tag-pill:hover, .tag-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* Categories Tab */
+    .cat-bar {
+      display: flex; gap: 24px; justify-content: center;
+      padding: 16px 20px; border-bottom: 1px solid var(--border);
+      font-size: 0.92rem; font-weight: 600; color: var(--text-muted);
+      overflow-x: auto;
+    }
+    .cat-bar span { cursor: pointer; white-space: nowrap; padding-bottom: 8px; border-bottom: 2px solid transparent; }
+    .cat-bar span.active, .cat-bar span:hover { color: #fff; border-color: var(--accent); }
+
+    /* Gallery Grid */
+    .gallery {
+      padding: 30px 40px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .photo-card {
+      background: var(--card);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .photo-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.6);
+      border-color: #3b4263;
+    }
+    .photo-img {
+      width: 100%; aspect-ratio: 16/10;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      background: #1a1e2e;
+    }
+    .photo-badge {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 6px;
+    }
+    .photo-info {
+      padding: 14px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .author-box { display: flex; align-items: center; gap: 10px; }
+    .author-avatar { width: 30px; height: 30px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+    .author-name { font-size: 0.88rem; font-weight: 600; }
+    .photo-meta { display: flex; gap: 12px; font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Modal Viewer */
+    .modal {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.94); backdrop-filter: blur(16px);
+      align-items: center; justify-content: center; padding: 30px;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      max-width: 900px; width: 100%; background: #111420;
+      border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .modal-preview {
+      width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .modal-footer {
+      padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--border);
+    }
+    .btn-dl-8k {
+      background: var(--accent-grad); color: #fff; font-weight: 700;
+      padding: 10px 24px; border-radius: 8px; border: none; cursor: pointer;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px; text-align: center; color: var(--text-muted); font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 12px 20px; }
+      .nav-links { display: none; }
+      .gallery { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+      Pixelith
+    </div>
+    <div class="search-bar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" placeholder="Поиск среди 450,000+ обоев и фото...">
+    </div>
+    <div class="nav-links">
+      <a href="#">Популярное</a>
+      <a href="#">Коллекции</a>
+      <a href="#">8K Раздел</a>
+    </div>
+    <button class="btn-submit" onclick="alert('Для загрузки фото войдите в кабинет автора.')">+ Опубликовать</button>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Визуальное искусство без сжатия в 8K</h1>
+    <p>Более 450 000 оригинальных фотографий, 3D-рендеров и обоев для UltraWide и 4K/8K мониторов. Прямая отдача с высокоскоростной Anycast CDN.</p>
+    <div class="tag-cloud">
+      <span class="tag-pill active">#Киберпанк</span>
+      <span class="tag-pill">#Космос_8K</span>
+      <span class="tag-pill">#OLED_Черный</span>
+      <span class="tag-pill">#Горы_RAW</span>
+      <span class="tag-pill">#Минимализм</span>
+      <span class="tag-pill">#3D_Абстракция</span>
+      <span class="tag-pill">#Неоновый_Токио</span>
+    </div>
+  </section>
+
+  <!-- Category Bar -->
+  <div class="cat-bar">
+    <span class="active">🔥 В тренде сегодня</span>
+    <span>🌌 Глубокий космос & Туманности</span>
+    <span>🏙 Архитектура & Мегаполисы</span>
+    <span>🌿 Природа в макро 8K</span>
+    <span>🏎 Автомобили & Концепт-кары</span>
+    <span>🎮 Игровые миры</span>
+  </div>
+
+  <!-- Gallery Grid -->
+  <main class="gallery" id="galleryGrid"></main>
+
+  <!-- Modal -->
+  <div class="modal" id="modalView">
+    <div class="modal-content">
+      <div class="modal-preview" id="modalBg">
+        <button style="position:absolute; top:14px; right:16px; background:rgba(0,0,0,0.6); color:#fff; border:none; width:34px; height:34px; border-radius:50%; cursor:pointer;" onclick="closeModal()">✕</button>
+        <span id="modalRes" class="photo-badge" style="top:14px; left:16px;">8K ULTRA HD • 7680x4320</span>
+      </div>
+      <div class="modal-footer">
+        <div>
+          <h3 id="modalTitle">Неоновый мегаполис: Сектор 7</h3>
+          <small style="color:var(--text-muted);">Размер оригинала: 44.8 МБ • Hasselblad RAW 16-bit • Edge CDN</small>
+        </div>
+        <button class="btn-dl-8k" onclick="alert('Скачивание оригинала 8K (44.8 MB) начато через ближайший CDN-узел!')">📥 Скачать 8K (44.8 МБ)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Pixelith Visual Media. Все изображения оптимизированы для мгновенной доставки через глобальную сеть CDN кэшей.</p>
+  </footer>
+
+  <script>
+    const items = [
+      { t: "Неоновый мегаполис: Сектор 7", a: "Elena Rostova", q: "8K UHD", l: "28.4k", d: "84.2k", bg: "linear-gradient(135deg, #1e1b4b, #4338ca, #3b82f6)" },
+      { t: "Квантовая туманность Ориона", a: "CosmoLens", q: "8K RAW", l: "34.1k", d: "112k", bg: "linear-gradient(135deg, #311042, #701a75, #ec4899)" },
+      { t: "Хребет Альп на рассвете", a: "Markus V.", q: "8K HDR", l: "19.8k", d: "45.1k", bg: "linear-gradient(135deg, #064e3b, #047857, #10b981)" },
+      { t: "Минималистичный градиент OLED", a: "MinimalLab", q: "4K OLED", l: "42.0k", d: "168k", bg: "linear-gradient(135deg, #09090b, #18181b, #27272a)" },
+      { t: "Киберпанк Дождь в Токио", a: "Kenji Sato", q: "8K UHD", l: "51.2k", d: "140k", bg: "linear-gradient(135deg, #831843, #be185d, #0284c7)" },
+      { t: "Изумрудный каньон Исландии", a: "Astrid Lind", q: "8K RAW", l: "22.5k", d: "61.0k", bg: "linear-gradient(135deg, #083344, #0e7490, #22d3ee)" }
+    ];
+
+    const grid = document.getElementById("galleryGrid");
+    grid.innerHTML = items.map(item => `
+      <div class="photo-card" onclick="openModal('${item.t}', '${item.bg}', '${item.q}')">
+        <div class="photo-img" style="background:${item.bg};">
+          <span class="photo-badge">${item.q}</span>
+        </div>
+        <div class="photo-info">
+          <div class="author-box">
+            <div class="author-avatar">${item.a[0]}</div>
+            <div class="author-name">${item.a}</div>
+          </div>
+          <div class="photo-meta">
+            <span>❤️ ${item.l}</span>
+            <span>📥 ${item.d}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    function openModal(title, bg, q) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalBg").style.background = bg;
+      document.getElementById("modalRes").innerText = `${q} • 7680x4320`;
+      document.getElementById("modalView").classList.add("active");
+    }
+    function closeModal() {
+      document.getElementById("modalView").classList.remove("active");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wavelo — Музыкальный Hi-Fi стриминг и подкасты без потерь</title>
+  <meta name="description" content="Миллионы треков в Lossless FLAC и Spatial Audio. Быстрый стриминг через Anycast CDN без задержек.">
+  <style>
+    :root {
+      --bg-dark: #0c0e12;
+      --bg-panel: #13171f;
+      --bg-hover: #1e2430;
+      --accent: #1db954;
+      --accent-grad: linear-gradient(135deg, #1db954, #10b981);
+      --text: #ffffff;
+      --text-muted: #8b949e;
+      --border: #21262d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* App Layout */
+    .app-container {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 90px);
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    aside {
+      width: 260px;
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      gap: 24px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      padding: 0 8px;
+    }
+    .logo-wave {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 22px;
+    }
+    .logo-wave span {
+      width: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      animation: waveAnim 1.2s infinite ease-in-out;
+    }
+    .logo-wave span:nth-child(1) { height: 12px; animation-delay: 0.1s; }
+    .logo-wave span:nth-child(2) { height: 20px; animation-delay: 0.3s; }
+    .logo-wave span:nth-child(3) { height: 16px; animation-delay: 0.2s; }
+    .logo-wave span:nth-child(4) { height: 8px; animation-delay: 0.4s; }
+    @keyframes waveAnim { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
+
+    .menu { display: flex; flex-direction: column; gap: 4px; }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .menu-item:hover, .menu-item.active {
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+    }
+    .menu-item.active { color: var(--accent); }
+    .playlist-scroll {
+      flex: 1;
+      overflow-y: auto;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pl-title { font-size: 0.75rem; text-transform: uppercase; color: #57606a; font-weight: 700; margin-bottom: 4px; padding: 0 10px; }
+    .pl-link {
+      padding: 6px 12px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      border-radius: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+    .pl-link:hover { color: #fff; background: rgba(255,255,255,0.04); }
+
+    /* Main Area */
+    main {
+      flex: 1;
+      background: linear-gradient(180deg, #18202e 0%, var(--bg-dark) 280px);
+      overflow-y: auto;
+      padding: 32px 40px;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+    .search-input {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 8px 18px;
+      color: #fff;
+      font-size: 0.9rem;
+      width: 280px;
+      outline: none;
+    }
+    .badge-hifi {
+      background: rgba(29,185,84,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(29,185,84,0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* Hero Album */
+    .hero-album {
+      background: linear-gradient(135deg, #2b3a55, #141b27);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 40px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.4);
+    }
+    .album-art {
+      width: 170px;
+      height: 170px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #10b981, #06b6d4, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+    }
+    .album-art svg { width: 70px; height: 70px; fill: #fff; opacity: 0.9; }
+    .album-info h1 { font-size: 2.2rem; font-weight: 900; margin-bottom: 8px; line-height: 1.2; }
+    .album-info p { color: #a5b4fc; font-size: 1rem; margin-bottom: 18px; }
+    .btn-play-big {
+      background: var(--accent-grad);
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 30px;
+      border: none;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(29,185,84,0.4);
+      transition: transform 0.2s;
+    }
+    .btn-play-big:hover { transform: scale(1.03); }
+
+    /* Track Table */
+    .section-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 18px; }
+    .track-list { display: flex; flex-direction: column; gap: 4px; }
+    .track-row {
+      display: grid;
+      grid-template-columns: 36px 1fr 180px 140px 70px;
+      align-items: center;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .track-row:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .track-row.playing { color: var(--accent); background: rgba(29,185,84,0.08); }
+    .track-title-col { display: flex; flex-direction: column; color: #fff; }
+    .track-title-col small { color: var(--text-muted); font-size: 0.8rem; }
+    .track-plays { font-size: 0.82rem; }
+
+    /* Bottom Player Bar */
+    .player-bar {
+      height: 90px;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      z-index: 100;
+    }
+    .current-track { display: flex; align-items: center; gap: 14px; width: 260px; }
+    .track-thumb {
+      width: 52px; height: 52px; border-radius: 8px;
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    }
+    .controls { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; max-width: 580px; }
+    .control-buttons { display: flex; align-items: center; gap: 20px; }
+    .ctrl-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 1.1rem; }
+    .play-circle {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: #fff; color: #000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; cursor: pointer; transition: transform 0.15s;
+    }
+    .play-circle:hover { transform: scale(1.08); }
+    .playback-timeline { display: flex; align-items: center; gap: 12px; width: 100%; font-size: 0.78rem; color: var(--text-muted); }
+    .progress-bar-bg {
+      flex: 1; height: 4px; background: #30363d; border-radius: 2px;
+      cursor: pointer; position: relative;
+    }
+    .progress-bar-fill { width: 42%; height: 100%; background: var(--accent); border-radius: 2px; }
+    .extra-controls { display: flex; align-items: center; gap: 16px; width: 260px; justify-content: flex-end; font-size: 0.8rem; color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      aside { display: none; }
+      main { padding: 20px; }
+      .hero-album { flex-direction: column; text-align: center; }
+      .track-row { grid-template-columns: 30px 1fr 60px; }
+      .track-album, .track-plays { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside>
+      <div class="logo">
+        <div class="logo-wave">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        Wavelo
+      </div>
+      <div class="menu">
+        <div class="menu-item active">🏠 Главная</div>
+        <div class="menu-item">🔍 Поиск и Чарты</div>
+        <div class="menu-item">📻 Радио & Подкасты</div>
+        <div class="menu-item">⭐ Любимые треки</div>
+      </div>
+      <div class="playlist-scroll">
+        <div class="pl-title">Плейлисты недели</div>
+        <div class="pl-link">⚡ Top 50 Global Anycast</div>
+        <div class="pl-link">🎧 Lo-Fi Deep Focus & Code</div>
+        <div class="pl-link">🌃 Cyberpunk Synthwave 2026</div>
+        <div class="pl-link">☕ Morning Acoustic Vibes</div>
+        <div class="pl-link">🔥 Electronic Peak Hours</div>
+        <div class="pl-link">🚀 Future Bass Explosion</div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+      <div class="top-bar">
+        <input type="text" class="search-input" placeholder="Исполнитель, альбом или трек...">
+        <div class="badge-hifi">24-bit / 96kHz FLAC • Anycast CDN Active</div>
+      </div>
+
+      <!-- Featured Album -->
+      <div class="hero-album">
+        <div class="album-art">
+          <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        </div>
+        <div class="album-info">
+          <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:#34d399; font-weight:700;">Эксклюзивная премьера альбома</div>
+          <h1>NEURAL HORIZONS</h1>
+          <p>Solar Wave • 2026 • 14 треков, 58 минут • Студийный мастер Hi-Res</p>
+          <button class="btn-play-big" onclick="playTrack('Neon Cascade', 'Solar Wave')">
+            ▶ Слушать альбом в Lossless
+          </button>
+        </div>
+      </div>
+
+      <!-- Popular Tracks -->
+      <div class="section-title">🔥 Самые прослушиваемые треки</div>
+      <div class="track-list" id="trackList"></div>
+    </main>
+  </div>
+
+  <!-- Player Bar -->
+  <div class="player-bar">
+    <div class="current-track">
+      <div class="track-thumb" id="trackThumb"></div>
+      <div style="display:flex; flex-direction:column; overflow:hidden;">
+        <span id="playerTrackName" style="font-weight:600; font-size:0.9rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Neon Cascade</span>
+        <span id="playerArtistName" style="font-size:0.78rem; color:var(--text-muted);">Solar Wave</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="control-buttons">
+        <button class="ctrl-btn">🔀</button>
+        <button class="ctrl-btn">⏮</button>
+        <div class="play-circle" id="playBtnCenter" onclick="togglePlayback()">▶</div>
+        <button class="ctrl-btn">⏭</button>
+        <button class="ctrl-btn">🔁</button>
+      </div>
+      <div class="playback-timeline">
+        <span id="curTime">01:42</span>
+        <div class="progress-bar-bg" onclick="seekAudio(event)">
+          <div class="progress-bar-fill" id="trackProgress"></div>
+        </div>
+        <span>04:18</span>
+      </div>
+    </div>
+
+    <div class="extra-controls">
+      <span>🔊 85%</span>
+      <span style="color:#10b981; font-weight:600;">FLAC 1411 kbps</span>
+    </div>
+  </div>
+
+  <script>
+    const tracks = [
+      { id: 1, title: "Neon Cascade", artist: "Solar Wave", album: "Neural Horizons", time: "4:18", plays: "3 841 900", grad: "linear-gradient(135deg, #10b981, #06b6d4)" },
+      { id: 2, title: "Midnight Pulse", artist: "Kavinsky Resonance", album: "Night Drive OST", time: "3:45", plays: "2 190 400", grad: "linear-gradient(135deg, #f43f5e, #fb923c)" },
+      { id: 3, title: "Digital Sanctuary", artist: "Aetheria", album: "Virtual Realms", time: "5:12", plays: "1 784 210", grad: "linear-gradient(135deg, #8b5cf6, #3b82f6)" },
+      { id: 4, title: "Subterranean Bass", artist: "Hyperflux", album: "Underground Overload", time: "3:58", plays: "4 120 000", grad: "linear-gradient(135deg, #ec4899, #a855f7)" },
+      { id: 5, title: "Quantum Echoes", artist: "Orbital Collective", album: "Deep Space Session", time: "6:24", plays: "980 400", grad: "linear-gradient(135deg, #06b6d4, #3b82f6)" },
+      { id: 6, title: "Velocity 2026", artist: "Chrono Drift", album: "Turbulence", time: "3:30", plays: "2 840 100", grad: "linear-gradient(135deg, #f59e0b, #ef4444)" }
+    ];
+
+    const listEl = document.getElementById("trackList");
+    listEl.innerHTML = tracks.map((t, idx) => `
+      <div class="track-row ${idx === 0 ? 'playing' : ''}" onclick="playTrack('${t.title}', '${t.artist}', '${t.grad}')">
+        <span>${idx + 1}</span>
+        <div class="track-title-col">
+          <strong>${t.title}</strong>
+          <small>${t.artist}</small>
+        </div>
+        <div class="track-album">${t.album}</div>
+        <div class="track-plays">🎧 ${t.plays}</div>
+        <div>${t.time}</div>
+      </div>
+    `).join('');
+
+    function playTrack(title, artist, grad) {
+      document.getElementById("playerTrackName").innerText = title;
+      document.getElementById("playerArtistName").innerText = artist;
+      if (grad) document.getElementById("trackThumb").style.background = grad;
+      document.getElementById("playBtnCenter").innerText = "⏸";
+    }
+
+    function togglePlayback() {
+      const btn = document.getElementById("playBtnCenter");
+      btn.innerText = (btn.innerText === "▶") ? "⏸" : "▶";
+    }
+
+    function seekAudio(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pct = ((e.clientX - rect.left) / rect.width) * 100;
+      document.getElementById("trackProgress").style.width = pct + "%";
+    }
+  </script>
+</body>
+</html>
