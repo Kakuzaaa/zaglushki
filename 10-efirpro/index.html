@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЭфирПро — платформа вебинаров и прямых трансляций до 50 000 зрителей</title>
+<meta name="description" content="ЭфирПро: вебинары, онлайн-мероприятия и прямые трансляции с RTMP-входом и адаптивным HLS до 50 000 зрителей. Автозапись, чат, опросы, API и интеграции с LMS.">
+<style>
+:root{
+  --bg:#f7f7fd;--card:#ffffff;--ink:#22243a;--muted:#666a86;--line:#e3e4f2;
+  --indigo:#4f46e5;--indigo2:#3b34c4;--lilac:#eef0ff;--green:#16a34a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.top{background:var(--indigo2);color:#dcdfff;text-align:center;font-size:13px;padding:8px 14px}
+.top b{color:#fff}
+header{position:sticky;top:0;z-index:60;background:rgba(247,247,253,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+.logo .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--indigo),#8b5cf6);display:grid;place-items:center;color:#fff;font-size:14px}
+.logo em{color:var(--indigo);font-style:normal}
+nav ul{display:flex;gap:24px;list-style:none;font-size:14.5px;color:#4a4e6e}
+nav ul a:hover{color:var(--indigo)}
+.btn{display:inline-block;background:var(--indigo);color:#fff;font-weight:600;font-size:14.5px;padding:11px 24px;border-radius:9px;transition:.2s}
+.btn:hover{background:var(--indigo2)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid #c9cbe6}
+.btn.ghost:hover{border-color:var(--indigo);color:var(--indigo)}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding:70px 0 60px}
+.hero .tag{display:inline-block;background:var(--lilac);color:var(--indigo);font-size:12.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;border-radius:99px;padding:6px 15px;margin-bottom:18px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.16;font-weight:800}
+.hero h1 span{color:var(--indigo)}
+.hero p{color:var(--muted);font-size:16.5px;margin:18px 0 28px;max-width:520px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.trust{font-size:13px;color:var(--muted)}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 14px 40px rgba(79,70,229,.09)}
+.stage .screen{aspect-ratio:16/9;border-radius:10px;background:linear-gradient(150deg,#2e2a5e,#1b1840);display:grid;place-items:center;position:relative}
+.stage .screen .rec{position:absolute;top:10px;left:10px;background:rgba(220,38,38,.9);color:#fff;font-size:10.5px;font-weight:700;border-radius:5px;padding:3px 8px;letter-spacing:.5px}
+.stage .screen .br{position:absolute;bottom:10px;right:10px;background:rgba(10,10,20,.6);color:#c9cbf0;font-size:10.5px;border-radius:5px;padding:3px 8px;font-family:Consolas,monospace}
+.stage .screen .cam{font-size:36px}
+.stage .bar{display:flex;align-items:center;gap:10px;padding:12px 6px 2px;font-size:12px;color:var(--muted)}
+.stage .pill{background:var(--lilac);color:var(--indigo);border-radius:99px;padding:3px 10px;font-weight:600}
+.nums{background:var(--indigo2);color:#fff}
+.nums .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:26px 22px;text-align:center}
+.nums b{display:block;font-size:26px}
+.nums span{font-size:12.5px;color:#c7c9f5}
+section{padding:68px 0}
+h2{font-size:clamp(23px,3.1vw,32px);font-weight:800;margin-bottom:10px}
+.sub{color:var(--muted);max-width:640px;margin-bottom:38px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px}
+.feat .ico{font-size:23px;margin-bottom:12px}
+.feat h3{font-size:16px;margin-bottom:7px}
+.feat p{font-size:13.5px;color:var(--muted)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px}
+.plan.hot{border-color:var(--indigo);position:relative}
+.plan.hot::before{content:"Популярный";position:absolute;top:-11px;left:22px;background:var(--indigo);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:3px 12px}
+.plan h3{font-size:17px}
+.plan .price{font-size:32px;font-weight:800;margin:8px 0 2px}
+.plan .price small{font-size:13.5px;color:var(--muted);font-weight:400}
+.plan ul{list-style:none;display:grid;gap:9px;font-size:13.5px;color:#4a4e6e;margin:16px 0 22px}
+.plan li::before{content:"✓";color:var(--indigo);font-weight:700;margin-right:8px}
+.cases{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.case{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:22px 20px}
+.case .ico{font-size:22px;margin-bottom:10px}
+.case b{display:block;font-size:14.5px;margin-bottom:4px}
+.case p{font-size:12.5px;color:var(--muted)}
+.quote{max-width:780px;margin:0 auto;text-align:center;font-size:18px;font-style:italic;color:#3a3f60}
+.quote .who{font-style:normal;font-size:13.5px;color:var(--muted);margin-top:16px}
+.cta{background:linear-gradient(120deg,rgba(79,70,229,.10),rgba(139,92,246,.08));border:1px solid var(--line);border-radius:18px;padding:50px 40px;text-align:center}
+.cta h2{margin-bottom:10px}
+.cta p{color:var(--muted);margin-bottom:26px}
+footer{border-top:1px solid var(--line);background:var(--card);padding:46px 0 26px;font-size:13px;color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;margin-bottom:30px}
+footer h5{color:var(--ink);font-size:13px;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a:hover{color:var(--indigo)}
+.fbot{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px}
+@media(max-width:940px){.hero{grid-template-columns:1fr}.g3,.plans,.cgrid{grid-template-columns:1fr}.nums .wrap{grid-template-columns:1fr 1fr}.fgrid{grid-template-columns:1fr 1fr}nav ul{display:none}}
+</style>
+</head>
+<body>
+
+<div class="top">Летняя акция: 3 месяца тарифа «Бизнес» по цене двух · до 30 сентября · <b>промокод ЛЕТО26</b></div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#"><span class="dot">◉</span>Эфир<em>Про</em></a>
+      <ul>
+        <li><a href="#features">Возможности</a></li>
+        <li><a href="#plans">Тарифы</a></li>
+        <li><a href="#cases">Кейсы</a></li>
+        <li><a href="#">API</a></li>
+      </ul>
+      <a class="btn" href="#plans">Первый вебинар — бесплатно</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <div>
+    <span class="tag">Для школ, вузов и бизнеса</span>
+    <h1>Вебинары и трансляции, которые <span>не тормозят</span></h1>
+    <p>До 50 000 зрителей в прямом эфире, задержка 2 секунды, автоматическая запись и HLS-доставка, которая справляется с любым пиком аудитории.</p>
+    <div class="actions">
+      <a class="btn" href="#plans">Провести бесплатно</a>
+      <a class="btn ghost" href="#features">Возможности</a>
+      <span class="trust">Без установки программ · заходите из браузера</span>
+    </div>
+  </div>
+  <div class="stage">
+    <div class="screen">
+      <span class="rec">● REC 01:27:44</span>
+      <span class="cam">👨‍🏫</span>
+      <span class="br">src: rtmp://ingest.efirpro.ru/live · abr 5 лестниц</span>
+    </div>
+    <div class="bar"><span class="pill">4 812 онлайн</span><span>чат активен</span><span>опрос запущен</span><span>запись в облаке</span></div>
+  </div>
+</div>
+
+<div class="nums">
+  <div class="wrap">
+    <div><b>12 000</b><span>вебинаров в неделю</span></div>
+    <div><b>99,98 %</b><span>аптайм трансляций за год</span></div>
+    <div><b>2,1 с</b><span>задержка эфира</span></div>
+    <div><b>50 000</b><span>зрителей в одной комнате</span></div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Всё для эфира в одной комнате</h2>
+    <p class="sub">От доклада на 20 человек до всероссийской олимпиады — платформа сама подберёт качество и раздаст поток.</p>
+    <div class="g3">
+      <div class="feat"><div class="ico">🎬</div><h3>RTMP-вход</h3><p>Подключайте OBS, vMix или мобильный энкодер. SRT — для полевых трансляций со стадиона.</p></div>
+      <div class="feat"><div class="ico">📶</div><h3>Мультибитрейт HLS</h3><p>5 лестниц качества от 360p до 1080p60. Зритель с медленным LTE увидит стабильные 360p без зависаний.</p></div>
+      <div class="feat"><div class="ico">💬</div><h3>Чат, опросы, викторины</h3><p>Модерация с предмодерацией, банов и тихого режима. Опросы и сертификаты участникам одним кликом.</p></div>
+      <div class="feat"><div class="ico">⏺️</div><h3>Автозапись</h3><p>Каждая трансляция автоматически попадает в медиатеку: нарезка, субтитры, публикация по ссылке.</p></div>
+      <div class="feat"><div class="ico">🎨</div><h3>Брендирование</h3><p>Ваш логотип, цвета и фон комнаты. Комната на вашем домене — зрители не увидят чужого бренда.</p></div>
+      <div class="feat"><div class="ico">🔌</div><h3>API и LMS</h3><p>REST API и вебхуки. Готовые модули для Moodle, GetCourse и Talantix: расписание, автодоступы, отчёты.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="plans" style="background:var(--lilac);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <h2>Тарифы</h2>
+    <p class="sub">Тестовый период 14 дней без карты. Тариф меняется в любой момент, деньги пересчитываем пропорционально.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Старт</h3><div class="price">1 900 ₽<small> /мес</small></div>
+        <ul><li>До 500 зрителей</li><li>5 ГБ медиатеки</li><li>Чат и опросы</li><li>Автозапись 30 дней</li></ul>
+        <a class="btn ghost" href="#">Начать бесплатно</a>
+      </div>
+      <div class="plan hot">
+        <h3>Бизнес</h3><div class="price">5 900 ₽<small> /мес</small></div>
+        <ul><li>До 5 000 зрителей</li><li>50 ГБ медиатеки</li><li>Брендирование комнаты</li><li>API и вебхуки</li><li>2 организатора одновременно</li></ul>
+        <a class="btn" href="#">Начать бесплатно</a>
+      </div>
+      <div class="plan">
+        <h3>Корпорация</h3><div class="price">от 29 900 ₽<small> /мес</small></div>
+        <ul><li>До 50 000 зрителей</li><li>Выделенные серверы приёма</li><li>SSO и роли сотрудников</li><li>SLA 99,9% и менеджер</li></ul>
+        <a class="btn ghost" href="#">Запросить КП</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cases" class="cases">
+  <div class="wrap">
+    <h2>Для кого мы работаем</h2>
+    <p class="sub">Каждый месяц через ЭфирПро проходят тысячи учебных и деловых эфиров.</p>
+    <div class="cgrid">
+      <div class="case"><span class="ico">🎓</span><b>Вузы и школы</b><p>Лекции потоком, приёмная кампания, олимпиады на 10 000 абитуриентов.</p></div>
+      <div class="case"><span class="ico">📚</span><b>Онлайн-школы</b><p>Ежедневные уроки с автозаписью в курс и доступом по расписанию.</p></div>
+      <div class="case"><span class="ico">🏢</span><b>Корпорации</b><p>Общегородские созвоны, обучение персонала, интеграция с SSO.</p></div>
+      <div class="case"><span class="ico">🎪</span><b>Event-агентства</b><p>Гибридные мероприятия: зал плюс онлайн-билеты и оплата на месте.</p></div>
+    </div>
+    <p class="quote" style="margin-top:44px">«Осенью проводим дни открытых дверей для 12 тысяч абитуриентов. На ЭфирПро ни одного сбоя за три сезона — чат не падает, запись сама ложится на сайт факультета.»</p>
+    <p class="quote who">— Елена Тарасова, руководитель цифровых проектов, Политехнический университет Поволжья</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <h2>Проведите первый эфир уже сегодня</h2>
+      <p>Регистрация за минуту, комната готова сразу. Техподдержка отвечает в чате в среднем за 4 минуты.</p>
+      <a class="btn" href="mailto:sales@efirpro.ru">sales@efirpro.ru</a>
+      &nbsp;&nbsp;<a class="btn ghost" href="tel:+78003027763">8 (800) 302-77-63</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="logo"><span class="dot">◉</span>Эфир<em>Про</em></span>
+        <p style="margin-top:12px;max-width:270px">Платформа вебинаров и прямых трансляций. Приём сигнала — серверы в Москве, Петербурге и Новосибирске; раздача — адаптивный HLS через сеть партнёрских CDN.</p>
+      </div>
+      <div><h5>Продукт</h5><ul><li><a href="#features">Возможности</a></li><li><a href="#plans">Тарифы</a></li><li><a href="#">API и вебхуки</a></li><li><a href="#">Интеграции с LMS</a></li></ul></div>
+      <div><h5>Поддержка</h5><ul><li><a href="#">База знаний</a></li><li><a href="#">Проверить камеру</a></li><li><a href="#">Статус платформы</a></li><li><a href="#">Обучение организаторов</a></li></ul></div>
+      <div><h5>Контакты</h5><ul>
+        <li>ООО «ЭфирПро Технологии»<br>199406, Санкт-Петербург,<br>ул. Наличная, д. 40, офис 521</li>
+        <li><a href="tel:+78003027763">8 (800) 302-77-63</a> — звонок бесплатный</li>
+        <li><a href="mailto:sales@efirpro.ru">sales@efirpro.ru</a></li>
+      </ul></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 ООО «ЭфирПро Технологии» · ОГРН 1187847321569 · ИНН 7812476852 · Оператор персональных данных (152-ФЗ)</span>
+      <span><a href="#">Оферта</a> · <a href="#">Политика конфиденциальности</a> · <a href="#">Согласие на обработку ПДн</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

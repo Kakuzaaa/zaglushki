@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Holzwerk Möbelmanufaktur München – Massivholzmöbel nach Maß</title>
+<meta name="description" content="Holzwerk München: Massivholzmöbel nach Maß aus eigener Manufaktur. Tische, Schränke, Küchen – Eiche, Esche, Nussbaum. Schauraum in der Sendlinger Straße.">
+<style>
+:root{
+  --bg:#f7f5f1;--card:#ffffff;--ink:#2b2723;--muted:#7a736a;
+  --line:#e5e0d8;--brown:#7d5a3c;--brown2:#9a7350;--sand:#efe9e0;--green:#5c6b57;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.top{background:var(--ink);color:#d8d2c9;font-size:13px;text-align:center;padding:9px 14px}
+.top b{color:#e9c9a4}
+header{position:sticky;top:0;z-index:50;background:rgba(247,245,241,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:18px}
+.logo{display:flex;align-items:center;gap:11px}
+.logo .mark{width:38px;height:38px;background:var(--brown);border-radius:9px;display:grid;place-items:center;color:#f3e9dc;font-size:19px}
+.logo b{font-size:19px;letter-spacing:.4px}
+.logo small{display:block;font-size:11px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase}
+nav ul{display:flex;gap:26px;list-style:none;font-size:14.5px}
+nav ul a:hover{color:var(--brown)}
+.cart{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:9px 16px;font-size:14px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:76px 0 66px}
+.hero .eyebrow{color:var(--brown);font-size:12.5px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:clamp(30px,4.6vw,46px);line-height:1.16;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--brown)}
+.hero p{color:var(--muted);margin:20px 0 30px;font-size:16.5px;max-width:520px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--brown);color:#fff;font-size:14.5px;font-weight:600;padding:13px 26px;border-radius:9px;transition:.2s}
+.btn:hover{background:var(--brown2)}
+.btn.line{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.line:hover{border-color:var(--brown);color:var(--brown)}
+.usp{display:flex;gap:26px;margin-top:34px;flex-wrap:wrap}
+.usp span{font-size:13.5px;color:var(--muted)}
+.usp b{color:var(--ink)}
+.heroimg{background:linear-gradient(160deg,#e7ddcf,#d9cbb6 55%,#c9b493);border-radius:16px;height:400px;position:relative;overflow:hidden;display:grid;place-items:center}
+.heroimg svg{width:78%;height:auto;display:block}
+.badge{position:absolute;top:18px;left:18px;background:var(--card);border-radius:99px;font-size:12.5px;padding:7px 15px;box-shadow:0 4px 14px rgba(43,39,35,.12)}
+.kpis{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--sand)}
+.kpis .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;padding:0}
+.kpis .cell{background:var(--sand);text-align:center;padding:26px 16px}
+.kpis .cell+.cell{border-left:1px solid var(--line)}
+.kpis b{display:block;font-size:26px;color:var(--brown)}
+.kpis span{font-size:13px;color:var(--muted)}
+section{padding:78px 0}
+h2{font-size:clamp(24px,3.2vw,33px);font-weight:800;margin-bottom:10px}
+.sub{color:var(--muted);max-width:600px;margin-bottom:38px}
+.split{display:grid;grid-template-columns:350px 1fr;gap:44px;align-items:start}
+.cats{display:grid;gap:10px}
+.cat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;display:flex;justify-content:space-between;font-size:14.5px}
+.cat:hover{border-color:var(--brown)}
+.cat span{color:var(--muted);font-size:13px}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.prod{background:var(--card);border:1px solid var(--line);border-radius:13px;overflow:hidden;transition:.2s}
+.prod:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(43,39,35,.09)}
+.pimg{height:168px;display:grid;place-items:center}
+.p1{background:linear-gradient(150deg,#e8dfd2,#d6c6ae)}
+.p2{background:linear-gradient(150deg,#e3e6e3,#c9d1c8)}
+.p3{background:linear-gradient(150deg,#eaddd3,#dcc3ac)}
+.p4{background:linear-gradient(150deg,#e6e0d6,#d0c2b0)}
+.p5{background:linear-gradient(150deg,#dfe5e8,#c2ccd2)}
+.p6{background:linear-gradient(150deg,#ece3d4,#dbc7ae)}
+.pbody{padding:18px}
+.pbody .catg{font-size:11.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)}
+.pbody h3{font-size:16.5px;margin:6px 0 4px}
+.pbody .mat{font-size:13px;color:var(--muted)}
+.price{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.price b{font-size:17px}
+.price a{font-size:13px;color:var(--brown);font-weight:600;border-bottom:1px solid var(--brown)}
+.steps{background:var(--ink);color:#e9e4dc}
+.steps h2{color:#fff}
+.steps .sub{color:#b3aca1}
+.mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.made{border:1px solid #453f39;border-radius:13px;padding:28px 24px;background:#332e29}
+.made b{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:rgba(233,201,164,.14);color:#e9c9a4;margin-bottom:14px}
+.made h3{font-size:17px;margin-bottom:8px;color:#fff}
+.made p{font-size:14px;color:#b3aca1}
+.quote{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:34px;font-size:17px;color:#4a443d;font-style:italic}
+.quote .who{font-style:normal;font-size:13.5px;color:var(--muted);margin-top:16px}
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.map{background:repeating-linear-gradient(0deg,#e9e4db 0 38px,#e2dcd1 38px 39px),repeating-linear-gradient(90deg,#e9e4db 0 38px,#e2dcd1 38px 39px);border:1px solid var(--line);border-radius:14px;height:330px;position:relative;display:grid;place-items:center}
+.pin{width:20px;height:20px;background:var(--brown);border:4px solid #fff;border-radius:50%;box-shadow:0 3px 12px rgba(0,0,0,.28);margin-bottom:110px}
+.map .addr{position:absolute;bottom:20px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 18px;font-size:13.5px;box-shadow:0 6px 18px rgba(43,39,35,.10)}
+.hours{display:grid;gap:8px;font-size:14.5px;margin-top:16px}
+.hours div{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.hours span{color:var(--muted)}
+footer{background:var(--ink);color:#b3aca1;font-size:14px;padding:52px 0 30px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:34px;margin-bottom:36px}
+footer h5{color:#e9e4dc;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:13px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a:hover{color:#e9c9a4}
+.fbot{border-top:1px solid #453f39;padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px}
+@media(max-width:940px){.hero{grid-template-columns:1fr}.split{grid-template-columns:1fr}.products{grid-template-columns:1fr 1fr}.visit{grid-template-columns:1fr}.mrow{grid-template-columns:1fr}.kpis .wrap{grid-template-columns:1fr 1fr}.kpis .cell+.cell{border-left:none}.fgrid{grid-template-columns:1fr 1fr}nav ul{display:none}}
+@media(max-width:560px){.products{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="top">Versandkostenfrei ab 500 € in Deutschland &amp; Österreich · <b>Lieferzeit 4–8 Wochen</b> nach Maßanfertigung</div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#">
+        <span class="mark">▮</span>
+        <span><b>HOLZWERK</b><small>Möbelmanufaktur München</small></span>
+      </a>
+      <ul>
+        <li><a href="#kollektion">Kollektion</a></li>
+        <li><a href="#manufaktur">Manufaktur</a></li>
+        <li><a href="#material">Material</a></li>
+        <li><a href="#schauraum">Schauraum</a></li>
+      </ul>
+      <a class="cart" href="#kontakt">Beratung anfragen</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <div>
+    <p class="eyebrow">Massivholzmöbel seit 1998</p>
+    <h1>Möbel aus massivem Holz — <em>gefertigt nach Ihrem Maß</em></h1>
+    <p>In unserer Münchner Manufaktur entstehen Esstische, Schränke und Einbauküchen aus Eiche, Esche und Walnuss — von Hand gefertigt, ohne Spanplatten, für ein Leben lang.</p>
+    <div class="actions">
+      <a class="btn" href="#kollektion">Kollektion ansehen</a>
+      <a class="btn line" href="#schauraum">Schauraum besuchen</a>
+    </div>
+    <div class="usp">
+      <span><b>Maßanfertigung</b> ohne Aufpreis</span>
+      <span><b>PEFC-zertifiziertes</b> Holz aus Europa</span>
+      <span><b>10 Jahre Garantie</b> auf alle Möbel</span>
+    </div>
+  </div>
+  <div class="heroimg">
+    <span class="badge">Eiche natur · geölt</span>
+    <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+      <rect x="60" y="150" width="280" height="14" rx="4" fill="#8a6a48"/>
+      <rect x="60" y="164" width="280" height="8" rx="3" fill="#7a5c3e"/>
+      <rect x="78" y="172" width="12" height="80" rx="3" fill="#6e5236"/>
+      <rect x="310" y="172" width="12" height="80" rx="3" fill="#6e5236"/>
+      <rect x="120" y="120" width="160" height="10" rx="3" fill="#9c7a52"/>
+      <rect x="122" y="96" width="10" height="26" rx="3" fill="#836445"/>
+      <rect x="268" y="96" width="10" height="26" rx="3" fill="#836445"/>
+      <ellipse cx="200" cy="146" rx="46" ry="10" fill="#5f4630" opacity=".35"/>
+    </svg>
+  </div>
+</div>
+
+<div class="kpis">
+  <div class="wrap">
+    <div class="cell"><b>27 J.</b><span>Manufaktur-Erfahrung</span></div>
+    <div class="cell"><b>3.400+</b><span>gefertigte Möbel</span></div>
+    <div class="cell"><b>100 %</b><span>Massivholz, kein Furnier</span></div>
+    <div class="cell"><b>4,9 ★</b><span>aus 312 Kundenbewertungen</span></div>
+  </div>
+</div>
+
+<section id="kollektion">
+  <div class="wrap">
+    <h2>Unsere Kollektion</h2>
+    <p class="sub">Jedes Möbel fertigen wir in Ihren Wunschmaßen und in der Holzart Ihrer Wahl. Hier eine Auswahl unserer beliebtesten Serien.</p>
+    <div class="split">
+      <div class="cats">
+        <a class="cat" href="#">Esstische <span>18 Modelle</span></a>
+        <a class="cat" href="#">Beistellmöbel &amp; Sideboards <span>24 Modelle</span></a>
+        <a class="cat" href="#">Regale &amp; Schränke <span>21 Modelle</span></a>
+        <a class="cat" href="#">Einbauküchen <span>nach Planung</span></a>
+        <a class="cat" href="#">Büro &amp; Arbeitsplätze <span>12 Modelle</span></a>
+        <a class="cat" href="#">Außenmöbel <span>9 Modelle</span></a>
+      </div>
+      <div class="products">
+        <div class="prod"><div class="pimg p1"><svg width="90" height="70" viewBox="0 0 90 70"><rect x="5" y="20" width="80" height="8" rx="2" fill="#7d5a3c"/><rect x="12" y="28" width="6" height="38" fill="#6e4d33"/><rect x="72" y="28" width="6" height="38" fill="#6e4d33"/></svg></div>
+          <div class="pbody"><span class="catg">Esstische</span><h3>Tisch „Isar“</h3><p class="mat">Eiche, 200 × 95 cm, Naturöl</p>
+          <div class="price"><b>1.849 €</b><a href="#">Details →</a></div></div>
+        </div>
+        <div class="prod"><div class="pimg p2"><svg width="90" height="70" viewBox="0 0 90 70"><rect x="8" y="10" width="74" height="50" rx="3" fill="#8fa08c"/><rect x="12" y="14" width="30" height="20" fill="#f7f5f1"/><rect x="48" y="14" width="30" height="20" fill="#f7f5f1"/><rect x="12" y="38" width="66" height="18" fill="#7c8d79"/></svg></div>
+          <div class="pbody"><span class="catg">Schränke</span><h3>Schrank „Wetterstein“</h3><p class="mat">Esche weiß, 180 × 210 cm</p>
+          <div class="price"><b>2.730 €</b><a href="#">Details →</a></div></div>
+        </div>
+        <div class="prod"><div class="pimg p3"><svg width="90" height="70" viewBox="0 0 90 70"><rect x="5" y="26" width="80" height="8" rx="2" fill="#6b4a2f"/><rect x="9" y="34" width="5" height="32" fill="#5a3d26"/><rect x="76" y="34" width="5" height="32" fill="#5a3d26"/><rect x="30" y="12" width="8" height="16" fill="#5a3d26"/></svg></div>
+          <div class="pbody"><span class="catg">Esstische</span><h3>Tisch „Nussbaum rund“</h3><p class="mat">Amerikanischer Nussbaum, ⌀ 140 cm</p>
+          <div class="price"><b>2.990 €</b><a href="#">Details →</a></div></div>
+        </div>
+        <div class="prod"><div class="pimg p4"><svg width="90" height="70" viewBox="0 0 90 70"><rect x="10" y="14" width="70" height="10" fill="#9a7350"/><rect x="14" y="24" width="28" height="34" fill="#8a6647"/><rect x="48" y="24" width="28" height="15" fill="#8a6647"/><rect x="48" y="43" width="28" height="15" fill="#7a5a3e"/></svg></div>
+          <div class="pbody"><span class="catg">Sideboards</span><h3>Sideboard „Sendling“</h3><p class="mat">Eiche, 3 Türen, 160 × 48 cm</p>
+          <div class="price"><b>1.540 €</b><a href="#">Details →</a></div></div>
+        </div>
+        <div class="prod"><div class="pimg p5"><svg width="90" height="70" viewBox="0 0 90 70"><rect x="8" y="8" width="74" height="7" fill="#7d8a91"/><rect x="14" y="15" width="6" height="47" fill="#6b7780"/><rect x="40" y="15" width="6" height="47" fill="#6b7780"/><rect x="70" y="15" width="6" height="47" fill="#6b7780"/></svg></div>
+          <div class="pbody"><span class="catg">Regale</span><h3>Regal „Galerie“</h3><p class="mat">Esche, 5 Böden, 90 × 220 cm</p>
+          <div class="price"><b>989 €</b><a href="#">Details →</a></div></div>
+        </div>
+        <div class="prod"><div class="pimg p6"><svg width="90" height="70" viewBox="0 0 90 70"><rect x="5" y="18" width="80" height="8" rx="2" fill="#7d5a3c"/><rect x="10" y="26" width="6" height="40" fill="#6e4d33"/><rect x="74" y="26" width="6" height="40" fill="#6e4d33"/><rect x="24" y="34" width="42" height="8" rx="2" fill="#5a3d26"/></svg></div>
+          <div class="pbody"><span class="catg">Arbeitsplätze</span><h3>Schreibtisch „Atelier“</h3><p class="mat">Eiche mit Stahlkufen, 160 × 80 cm</p>
+          <div class="price"><b>1.190 €</b><a href="#">Details →</a></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="steps" id="manufaktur">
+  <div class="wrap">
+    <h2>Aus der Manufaktur — für München</h2>
+    <p class="sub">Wir sind ein Familienbetrieb in dritter Generation. Zwölf Tischlerinnen und Tischler fertigen in unserer Werkstatt in Obersendling.</p>
+    <div class="mrow">
+      <div class="made"><b>01</b><h3>Holzauswahl</h3><p>Sie wählen Holzart, Oberfläche und Maß — wir beraten Sie ehrlich zu Maserung, Härte und Pflegeaufwand.</p></div>
+      <div class="made"><b>02</b><h3>Handwerk</h3><p>Zapfenverbindungen statt Fachwerkträger, verleimte Platten statt Spanplatten — traditionelle Technik, moderne Präzision.</p></div>
+      <div class="made"><b>03</b><h3>Lieferung &amp; Montage</h3><p>Wir liefern selbst in München und Umgebung, montieren vor Ort und entsorgen auf Wunsch Ihr Altmöbel.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="material">
+  <div class="wrap">
+    <div class="quote">
+      „Der Esstisch ist das Herzstück unserer Wohnung. Die Beratung im Schauraum war unkompliziert, die Zeichnung kam in drei Tagen — und der Tisch passt auf den Millimeter. Nach zwei Jahren sieht er aus wie am ersten Tag.”
+      <div class="who">— Familie Reitinger, Grünwald · Tisch „Isar“, Eiche, 220 × 100 cm</div>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="schauraum">
+  <div class="wrap" style="display:contents">
+    <div class="map">
+      <span class="pin"></span>
+      <span class="addr"><b>HOLZWERK Möbelmanufaktur</b><br>Sendlinger Straße 17, 80331 München</span>
+    </div>
+    <div>
+      <h2>Schauraum &amp; Werkstatt</h2>
+      <p class="sub">Besuchen Sie uns in der Innenstadt: Über 400 m² Ausstellung, daneben unsere Werkstatt mit Sichtfenster. Termine nicht erforderlich.</p>
+      <div class="hours">
+        <div>Montag – Freitag <span>10:00 – 19:00</span></div>
+        <div>Samstag <span>10:00 – 16:00</span></div>
+        <div>Sonntag <span>geschlossen</span></div>
+      </div>
+      <p style="margin-top:20px;color:var(--muted);font-size:14.5px">
+        Tel: <a href="tel:+498941277350" style="color:var(--brown)">+49 89 412 773 50</a> ·
+        E-Mail: <a href="mailto:service@holzwerk-muenchen.de" style="color:var(--brown)">service@holzwerk-muenchen.de</a>
+      </p>
+      <a class="btn" href="mailto:service@holzwerk-muenchen.de" style="margin-top:22px">Unverbindliche Anfrage</a>
+    </div>
+  </div>
+</section>
+
+<footer id="kontakt">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="logo" style="color:#fff"><span class="mark">▮</span><span><b>HOLZWERK</b><small style="color:#8f867c">Möbelmanufaktur München</small></span></span>
+        <p style="margin-top:14px;max-width:280px">Massivholzmöbel nach Maß aus eigener Fertigung — seit 1998 in München.</p>
+      </div>
+      <div>
+        <h5>Shop</h5>
+        <ul><li><a href="#kollektion">Esstische</a></li><li><a href="#kollektion">Sideboards</a></li><li><a href="#kollektion">Einbauküchen</a></li><li><a href="#kollektion">Außenmöbel</a></li></ul>
+      </div>
+      <div>
+        <h5>Service</h5>
+        <ul><li><a href="#">Pflegeanleitungen</a></li><li><a href="#">Holzkunde</a></li><li><a href="#">Montage &amp; Lieferung</a></li><li><a href="#">Geschenkgutschein</a></li></ul>
+      </div>
+      <div>
+        <h5>Kontakt</h5>
+        <ul>
+          <li>Sendlinger Straße 17<br>80331 München</li>
+          <li><a href="tel:+498941277350">+49 89 412 773 50</a></li>
+          <li><a href="mailto:service@holzwerk-muenchen.de">service@holzwerk-muenchen.de</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Holzwerk Möbelmanufaktur GmbH · Sitz München, HRB 192 733 · USt-IdNr. DE 812 445 907</span>
+      <span><a href="#">Impressum</a> · <a href="#">Datenschutz</a> · <a href="#">AGB</a> · <a href="#">Widerruf</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

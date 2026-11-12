@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Walnut Bakery – Artisan Bakery &amp; Café, Broughton Street, Edinburgh</title>
+<meta name="description" content="The Walnut Bakery on Broughton Street, Edinburgh: slow-fermented sourdough, handmade pastries and single-origin coffee. Open seven days.">
+<style>
+:root{
+  --cream:#faf4ea;--paper:#f3ead9;--ink:#3a2e26;--brown:#6f4a2e;--brown2:#8a5f3c;
+  --crust:#c98d4b;--green:#5f7054;--line:#e5d8c3;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--cream);color:var(--ink);line-height:1.75}
+.sans{font-family:'Segoe UI',Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+.topbar{background:var(--brown);color:#f2e6d6;text-align:center;font-size:13.5px;padding:9px 14px;font-family:'Segoe UI',Arial,sans-serif}
+.topbar b{color:#f7d9ac}
+header{border-bottom:1px solid var(--line);background:var(--cream)}
+.headrow{display:flex;align-items:center;justify-content:space-between;padding:22px 0;gap:18px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:13px}
+.logo .nut{width:46px;height:46px;border-radius:50%;background:var(--crust);display:grid;place-items:center;font-size:22px}
+.logo h1{font-size:25px;font-weight:400;letter-spacing:.5px}
+.logo small{display:block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--brown2);font-family:'Segoe UI',Arial,sans-serif}
+.menu{display:flex;gap:26px;font-family:'Segoe UI',Arial,sans-serif;font-size:14.5px;color:var(--brown)}
+.menu a:hover{color:var(--crust)}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:64px 0 58px}
+.hero .eyebrow{color:var(--green);font-size:12.5px;letter-spacing:3px;text-transform:uppercase;font-family:'Segoe UI',Arial,sans-serif;margin-bottom:16px}
+.hero h2{font-size:clamp(30px,4.4vw,44px);line-height:1.18;font-weight:400}
+.hero h2 em{font-style:italic;color:var(--brown)}
+.hero p{margin:20px 0 30px;color:#6b5d50;font-size:16.5px;max-width:500px}
+.btn{display:inline-block;background:var(--brown);color:#faf4ea;padding:13px 28px;border-radius:99px;font-family:'Segoe UI',Arial,sans-serif;font-size:14.5px;font-weight:600}
+.btn:hover{background:var(--brown2)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.ghost:hover{border-color:var(--brown);color:var(--brown)}
+.hero .bakes{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.bake{border-radius:12px;aspect-ratio:1;display:grid;place-items:center;font-size:34px;position:relative}
+.bake span{position:absolute;bottom:10px;left:12px;right:12px;font-size:12.5px;font-family:'Segoe UI',Arial,sans-serif;color:rgba(255,255,255,.92);text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.b1{background:linear-gradient(150deg,#d9a05e,#b97e3e)}
+.b2{background:linear-gradient(150deg,#c98d6b,#a56a4a)}
+.b3{background:linear-gradient(150deg,#a87548,#845a36)}
+.b4{background:linear-gradient(150deg,#dcae6a,#bd8a43)}
+.strip{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:20px 0;gap:8px}
+.strip b{display:block;font-size:22px;color:var(--brown)}
+.strip span{font-size:12.5px;color:#8a7a68;font-family:'Segoe UI',Arial,sans-serif}
+section{padding:74px 0}
+h3.sec{font-size:clamp(24px,3.2vw,32px);font-weight:400;text-align:center;margin-bottom:8px}
+.rule{width:56px;height:3px;background:var(--crust);margin:0 auto 40px;border-radius:2px}
+.menu-list{max-width:720px;margin:0 auto;display:grid;gap:6px}
+.item{display:flex;align-items:baseline;gap:12px;padding:13px 4px;border-bottom:1px dashed var(--line)}
+.item .dots{flex:1;border-bottom:1.5px dotted #cbbca3;transform:translateY(-4px)}
+.item b{font-weight:400;font-size:17px}
+.item small{display:block;font-size:13px;color:#8a7a68}
+.item .price{font-size:16px;color:var(--brown);white-space:nowrap}
+.pills{display:flex;justify-content:center;gap:10px;margin-bottom:34px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:7px 18px;font-size:13.5px;font-family:'Segoe UI',Arial,sans-serif;color:#6b5d50}
+.pill b{color:var(--ink)}
+.story{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.story .cols{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+.story h3.sec{text-align:left;margin-bottom:14px}
+.story .rule{margin:0 0 24px}
+.story p{color:#5d5044;margin-bottom:14px;font-size:15.5px}
+.story .sig{font-style:italic;font-size:19px;color:var(--brown)}
+.oven{background:linear-gradient(160deg,#8a5f3c,#6f4a2e);border-radius:16px;height:320px;display:grid;place-items:center;color:#f2e6d6;position:relative}
+.oven .time{background:rgba(58,46,38,.55);border-radius:12px;padding:18px 26px;text-align:center;backdrop-filter:blur(2px)}
+.oven .time b{display:block;font-size:19px}
+.oven .time span{font-size:13px;color:#e6cfae;font-family:'Segoe UI',Arial,sans-serif}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rev{background:#fff;border:1px solid var(--line);border-radius:12px;padding:26px;font-size:14.5px;color:#5d5044}
+.rev .stars{color:var(--crust);letter-spacing:3px;margin-bottom:10px}
+.rev b{display:block;margin-top:12px;color:var(--ink);font-weight:600}
+.rev span{font-size:12.5px;color:#8a7a68;font-family:'Segoe UI',Arial,sans-serif}
+.visit{background:var(--brown);color:#f2e6d6}
+.visit h3.sec{color:#fff}
+.visit .rule{background:var(--crust)}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;text-align:center}
+.vbox{border:1px solid rgba(242,230,214,.28);border-radius:12px;padding:28px 22px}
+.vbox h4{font-size:19px;font-weight:400;margin-bottom:10px;color:#f7d9ac}
+.vbox p{font-size:14.5px;color:#e2d0b8;font-family:'Segoe UI',Arial,sans-serif}
+.vbox a{border-bottom:1px dotted #f7d9ac}
+.hours{display:grid;gap:6px;font-family:'Segoe UI',Arial,sans-serif;font-size:14.5px}
+.hours div{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(242,230,214,.25);padding-bottom:6px}
+footer{background:#332820;color:#a99b8a;padding:46px 0 26px;font-size:13.5px;font-family:'Segoe UI',Arial,sans-serif}
+.frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.frow a:hover{color:var(--crust)}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.story .cols{grid-template-columns:1fr}.reviews,.vgrid{grid-template-columns:1fr}.strip .wrap{grid-template-columns:1fr 1fr}.menu{display:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">Open Mon–Sun from 7:30 · <b>Sourdough baked twice daily</b> · Order by 4 pm for next-day collection</div>
+
+<header>
+  <div class="wrap headrow">
+    <a class="logo" href="#">
+      <span class="nut">🌰</span>
+      <span><h1>The Walnut Bakery</h1><small>Artisan Bakery &amp; Café · Edinburgh</small></span>
+    </a>
+    <nav class="menu">
+      <a href="#bakes">Today's Bakes</a>
+      <a href="#menu">Menu</a>
+      <a href="#story">Our Story</a>
+      <a href="#visit">Find Us</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <div>
+    <p class="eyebrow">Broughton Street since 2009</p>
+    <h2>Slow-fermented bread, <em>baked before the city wakes</em></h2>
+    <p>Every loaf that leaves our oven started three days earlier — a wild-yeast starter, stone-milled Scottish flour and nothing else. Come for the bread, stay for the coffee.</p>
+    <a class="btn" href="#menu">See the menu</a>
+    &nbsp;<a class="btn ghost" href="#visit">Visit the bakery</a>
+  </div>
+  <div class="bakes">
+    <div class="bake b1">🥖<span>Sourdough — 7:30 &amp; 12:30</span></div>
+    <div class="bake b2">🥐<span>Butter croissants</span></div>
+    <div class="bake b3">🍞<span>Rye &amp; treacle tin</span></div>
+    <div class="bake b4">🧁<span>Morning buns</span></div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap">
+    <div><b>17 yrs</b><span>on Broughton Street</span></div>
+    <div><b>3-day</b><span>fermentation</span></div>
+    <div><b>100%</b><span>Scottish stone-milled flour</span></div>
+    <div><b>4.8 ★</b><span>1,100+ Google reviews</span></div>
+  </div>
+</div>
+
+<section id="menu">
+  <div class="wrap">
+    <h3 class="sec">The Bakery Counter</h3>
+    <div class="rule"></div>
+    <div class="pills">
+      <span class="pill"><b>Bread</b></span><span class="pill">Pastry</span><span class="pill">Lunch</span><span class="pill">Coffee &amp; Tea</span><span class="pill">Whole Cakes</span>
+    </div>
+    <div class="menu-list">
+      <div class="item"><span><b>White sourdough loaf</b><small>1 kg · wild yeast, 72 h ferment</small></span><span class="dots"></span><span class="price">£4.20</span></div>
+      <div class="item"><span><b>Rye &amp; treacle tin</b><small>Dark rye, black treacle, whisky-soaked sultanas</small></span><span class="dots"></span><span class="price">£4.80</span></div>
+      <div class="item"><span><b>Seeded batch</b><small>Sunflower, pumpkin, linseed, sesame</small></span><span class="dots"></span><span class="price">£4.60</span></div>
+      <div class="item"><span><b>Butter croissant</b><small>French butter, 27 folds, baked at 6 a.m.</small></span><span class="dots"></span><span class="price">£2.60</span></div>
+      <div class="item"><span><b>Almond morning bun</b><small>Frangipane, toasted almonds, cinnamon sugar</small></span><span class="dots"></span><span class="price">£3.10</span></div>
+      <div class="item"><span><b>Bakery brunch roll</b><small>Lorne sausage, free-range egg, brown sauce</small></span><span class="dots"></span><span class="price">£5.90</span></div>
+      <div class="item"><span><b>Seasonal soup &amp; bread</b><small>With any half loaf, changes weekly</small></span><span class="dots"></span><span class="price">£6.50</span></div>
+      <div class="item"><span><b>Flat white</b><small>Single-origin, roasted in Leith</small></span><span class="dots"></span><span class="price">£3.20</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap cols">
+    <div>
+      <h3 class="sec">Our story</h3>
+      <div class="rule"></div>
+      <p>The Walnut Bakery opened its shutters on Broughton Street in March 2009, in what used to be a print shop. Fiona McCabe, who trained at a boulangerie in Lyon before coming home to Edinburgh, wanted one thing: a neighbourhood bakery where the bread has an ingredient list you can count on one hand.</p>
+      <p>Seventeen years later, the queue on Saturday mornings still stretches past the barber's next door. Our starter — affectionately known as "Nutkin" — has been fed twice a day, every day, since 2008.</p>
+      <p class="sig">— Fiona &amp; the Walnut bakers</p>
+    </div>
+    <div class="oven">
+      <div class="time"><b>Ovens fired at 4 a.m.</b><span>— every day, rain or haar —</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="bakes" style="padding-top:64px">
+  <div class="wrap">
+    <h3 class="sec">What regulars say</h3>
+    <div class="rule"></div>
+    <div class="reviews">
+      <div class="rev"><div class="stars">★★★★★</div>“The seeded loaf is the best bread in Edinburgh, full stop. We walk over from Stockbridge every Saturday and have never once regretted the hill.”<b>Eilidh R.</b><span>Google review · February 2026</span></div>
+      <div class="rev"><div class="stars">★★★★★</div>“Arrive before 9 if you want the almond buns — they're gone by half past. The flat white is properly good too.”<b>James T.</b><span>Google review · January 2026</span></div>
+      <div class="rev"><div class="stars">★★★★★</div>“Ordered our wedding loaf-table from the Walnut — three kinds of bread, butter from the Borders, and guests are still talking about it.”<b>Catriona &amp; Mark</b><span>Facebook review · November 2025</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="wrap">
+    <h3 class="sec">Find us</h3>
+    <div class="rule"></div>
+    <div class="vgrid">
+      <div class="vbox">
+        <h4>Address</h4>
+        <p>42 Broughton Street<br>Edinburgh EH1 3SA<br>Scotland, UK</p>
+      </div>
+      <div class="vbox">
+        <h4>Hours</h4>
+        <div class="hours">
+          <div>Mon – Fri <span>7:30 – 17:00</span></div>
+          <div>Saturday <span>8:00 – 17:00</span></div>
+          <div>Sunday <span>9:00 – 15:00</span></div>
+        </div>
+      </div>
+      <div class="vbox">
+        <h4>Get in touch</h4>
+        <p>
+          <a href="tel:+441315562748">+44 131 556 2748</a><br>
+          <a href="mailto:hello@walnutbakery.co.uk">hello@walnutbakery.co.uk</a><br>
+          Orders &amp; whole cakes: 24 h notice
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap frow">
+    <span>© 2026 The Walnut Bakery Ltd · Company No. SC398412 · Registered in Scotland</span>
+    <span><a href="#">Allergens</a> · <a href="#">Privacy</a> · <a href="#">Jobs</a> · <a href="#">Wholesale</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

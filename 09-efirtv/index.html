@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЭфирТВ — 200+ телеканалов онлайн в прямом эфире · 7 дней бесплатно</title>
+<meta name="description" content="Онлайн-ТВ ЭфирТВ: 200+ каналов в прямом эфире в любом городе России. Архив передач 7 суток, пауза эфира, HLS до 1080p, Smart TV и приложения. От 199 ₽/мес.">
+<style>
+:root{
+  --bg:#0e0a1a;--panel:#171128;--card:#1e1732;--line:#31264e;
+  --txt:#f1edf9;--muted:#a294c4;--amber:#f0b13c;--purple:#7c3aed;--live:#e8445c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:60;background:rgba(14,10,26,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
+.logo .tv{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--amber),#e8445c);display:grid;place-items:center;font-size:15px}
+.logo em{color:var(--amber);font-style:normal}
+nav ul{display:flex;gap:24px;list-style:none;font-size:14px;color:var(--muted)}
+nav ul a:hover{color:var(--txt)}
+.btn{display:inline-block;background:var(--amber);color:#1c1206;font-weight:700;font-size:14px;padding:10px 22px;border-radius:8px;transition:.2s}
+.btn:hover{background:#ffca5f}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
+.btn.ghost:hover{border-color:var(--amber);color:var(--amber)}
+.hero{padding:78px 0 60px;text-align:center;background:radial-gradient(800px 380px at 50% -10%,rgba(240,177,60,.13),transparent),radial-gradient(600px 300px at 85% 100%,rgba(124,58,237,.14),transparent)}
+.hero .tag{display:inline-block;background:rgba(232,68,92,.13);border:1px solid rgba(232,68,92,.4);color:#ff8a9b;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:99px;padding:6px 14px;margin-bottom:20px}
+.hero h1{font-size:clamp(30px,4.8vw,50px);font-weight:800;line-height:1.14;max-width:780px;margin:0 auto}
+.hero h1 span{color:var(--amber)}
+.hero p{max-width:560px;color:var(--muted);font-size:16.5px;margin:20px auto 30px}
+.hero .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.note{display:block;margin-top:14px;font-size:12.5px;color:var(--muted)}
+.channels{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
+.channels .wrap{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:26px 22px}
+.cat{text-align:center;font-size:12.5px;color:var(--muted)}
+.cat b{display:block;font-size:21px;color:var(--amber)}
+section{padding:66px 0}
+h2{font-size:clamp(23px,3.1vw,32px);font-weight:800;margin-bottom:10px}
+.sub{color:var(--muted);max-width:620px;margin-bottom:36px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px}
+.feat .ico{font-size:23px;margin-bottom:12px}
+.feat h3{font-size:16.5px;margin-bottom:7px}
+.feat p{font-size:13.5px;color:var(--muted)}
+.tvrow{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.now{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.chan{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.chan .poster{aspect-ratio:16/9;display:grid;place-items:center;font-weight:800;font-size:15px;letter-spacing:1px;color:rgba(255,255,255,.9);position:relative}
+.chan .poster::after{content:"● ЭФИР";position:absolute;top:10px;left:10px;font-size:9.5px;color:#fff;background:var(--live);border-radius:5px;padding:2px 7px;letter-spacing:1px}
+.k1{background:linear-gradient(140deg,#31456e,#1a2540)}
+.k2{background:linear-gradient(140deg,#6e3141,#401a25)}
+.k3{background:linear-gradient(140deg,#2d5e4f,#16302a)}
+.k4{background:linear-gradient(140deg,#5e5230,#2f2a18)}
+.chan .info{padding:13px 15px}
+.chan b{font-size:14px;display:block}
+.chan small{font-size:12px;color:var(--muted)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 24px}
+.plan.hot{border-color:var(--amber);position:relative}
+.plan.hot::before{content:"Хит";position:absolute;top:-11px;left:20px;background:var(--amber);color:#1c1206;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border-radius:99px;padding:3px 12px}
+.plan h3{font-size:16px;color:var(--muted)}
+.plan .price{font-size:32px;font-weight:800;margin:6px 0 16px}
+.plan .price small{font-size:13px;color:var(--muted);font-weight:400}
+.plan ul{list-style:none;display:grid;gap:9px;font-size:13.5px;color:#cdc4de;margin-bottom:20px}
+.plan li::before{content:"✓";color:var(--amber);font-weight:700;margin-right:8px}
+.devices{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.dev{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 26px;font-size:14px;text-align:center}
+.dev .ico{font-size:22px;display:block;margin-bottom:6px}
+footer{border-top:1px solid var(--line);background:var(--panel);padding:46px 0 26px;font-size:13px;color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;margin-bottom:30px}
+footer h5{color:var(--txt);font-size:13px;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a:hover{color:var(--amber)}
+.fbot{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px}
+@media(max-width:940px){.channels .wrap{grid-template-columns:repeat(3,1fr)}.now,.plans,.g3{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}nav ul{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#"><span class="tv">📺</span>Эфир<em>ТВ</em></a>
+      <ul>
+        <li><a href="#channels">Каналы</a></li>
+        <li><a href="#now">Сейчас в эфире</a></li>
+        <li><a href="#plans">Тарифы</a></li>
+        <li><a href="#devices">Устройства</a></li>
+      </ul>
+      <a class="btn" href="#plans">7 дней бесплатно</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="tag">Без приставки и антенны</span>
+    <h1>200+ телеканалов <span>в прямом эфире</span> — из любого города</h1>
+    <p>Федеральные, спортивные, детские и региональные каналы через интернет. Пауза эфира, архив передач 7 суток и качество до 1080p.</p>
+    <div class="actions">
+      <a class="btn" href="#plans">Смотреть бесплатно</a>
+      <a class="btn ghost" href="#channels">Список каналов</a>
+    </div>
+    <span class="note">Дальше — от 199 ₽ в месяц, отмена в один клик</span>
+  </div>
+</div>
+
+<div class="channels" id="channels">
+  <div class="wrap">
+    <div class="cat"><b>24</b>новостные</div>
+    <div class="cat"><b>35</b>кино и сериалы</div>
+    <div class="cat"><b>18</b>спортивные</div>
+    <div class="cat"><b>14</b>детские</div>
+    <div class="cat"><b>27</b>познавательные</div>
+    <div class="cat"><b>60+</b>региональные</div>
+  </div>
+</div>
+
+<section id="now">
+  <div class="wrap">
+    <h2>Сейчас в эфире</h2>
+    <p class="sub">Программа синхронизируется автоматически. Опоздали к началу — отмотайте: архив каждой передачи хранится 7 суток.</p>
+    <div class="now">
+      <div class="chan"><div class="poster k1">ПАНОРАМА</div><div class="info"><b>Панорама</b><small>Вести региона · 19:00</small></div></div>
+      <div class="chan"><div class="poster k2">КИНОКЛУБ</div><div class="info"><b>Киноклуб HD</b><small>Вечерний сеанс · «Зеркала пустоты»</small></div></div>
+      <div class="chan"><div class="poster k3">СПОРТСИТИ</div><div class="info"><b>СпортСити</b><small>Хоккей. КХЛ · прямая трансляция</small></div></div>
+      <div class="chan"><div class="poster k4">МУЗХИТ</div><div class="info"><b>МузХит</b><small>Чарт недели · 20 клипов подряд</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tvrow">
+  <div class="wrap">
+    <h2>Почему зрители выбирают ЭфирТВ</h2>
+    <p class="sub">Телевидение, которое едет вместе с вами: дача, командировка, отпуск — нужен только интернет.</p>
+    <div class="g3">
+      <div class="feat"><div class="ico">⏸️</div><h3>Пауза и перемотка</h3><p>Поставьте эфир на паузу, как видео. Вернулись — продолжили с того же места.</p></div>
+      <div class="feat"><div class="ico">🗓️</div><h3>Архив 7 суток</h3><p>Пропустили сериал или матч? Вся сетка программ доступна задним числом.</p></div>
+      <div class="feat"><div class="ico">📶</div><h3>Стабильно на LTE</h3><p>Адаптивная передача (HLS): качество падает и растёт вместе с сетью, без «квадратиков».</p></div>
+      <div class="feat"><div class="ico">👨‍👩‍👧</div><h3>Детский профиль</h3><p>Отдельная зона с мультканалами, ограничение по времени и PIN на взрослые категории.</p></div>
+      <div class="feat"><div class="ico">🔇</div><h3>Без навязчивой рекламы</h3><p>Только та реклама, что идёт в сетке самого канала. Мы ничего не доклеиваем.</p></div>
+      <div class="feat"><div class="ico">🎯</div><h3>Напоминания</h3><p>Отметьте передачу — приложение предупредит за 5 минут до начала.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <h2>Тарифы</h2>
+    <p class="sub">Первые 7 дней любой тариф бесплатный — карта не нужна.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Базовый</h3><div class="price">199 ₽<small> /мес</small></div>
+        <ul><li>120 каналов</li><li>1 устройство</li><li>720p</li><li>Архив 3 суток</li></ul>
+        <a class="btn ghost" href="#">Подключить</a>
+      </div>
+      <div class="plan hot">
+        <h3>Полный</h3><div class="price">299 ₽<small> /мес</small></div>
+        <ul><li>200+ каналов, включая спортивные</li><li>3 устройства одновременно</li><li>1080p</li><li>Архив 7 суток + пауза эфира</li></ul>
+        <a class="btn" href="#">Подключить</a>
+      </div>
+      <div class="plan">
+        <h3>Кино+</h3><div class="price">399 ₽<small> /мес</small></div>
+        <ul><li>Всё из «Полного»</li><li>8 кинопремиальных каналов</li><li>Онлайн-кинотеатр в подарок</li><li>4 устройства</li></ul>
+        <a class="btn ghost" href="#">Подключить</a>
+      </div>
+    </div>
+    <div class="devices" id="devices">
+      <div class="dev"><span class="ico">📺</span>Smart TV</div>
+      <div class="dev"><span class="ico">📱</span>iOS и Android</div>
+      <div class="dev"><span class="ico">💻</span>Браузер</div>
+      <div class="dev"><span class="ico">🎛️</span>Приставки Android TV</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="logo"><span class="tv">📺</span>Эфир<em>ТВ</em></span>
+        <p style="margin-top:12px;max-width:270px">Онлайн-телевидение: более 200 каналов в прямом эфире через интернет. Трансляция доставляется адаптивным потоком (HLS) с серверов в 9 городах России.</p>
+      </div>
+      <div><h5>Сервис</h5><ul><li><a href="#channels">Каналы</a></li><li><a href="#plans">Тарифы</a></li><li><a href="#">Программа передач</a></li><li><a href="#">Партнёрам</a></li></ul></div>
+      <div><h5>Помощь</h5><ul><li><a href="#">Частые вопросы</a></li><li><a href="#">Настройка Smart TV</a></li><li><a href="#">Проверить скорость</a></li><li><a href="#">Статус эфиров</a></li></ul></div>
+      <div><h5>Контакты</h5><ul>
+        <li>ООО «Эфир Медиа»<br>115093, Москва,<br>ул. Павловская, д. 7, офис 302</li>
+        <li><a href="tel:+74957894105">+7 (495) 789-41-05</a></li>
+        <li><a href="mailto:support@efirtv.ru">support@efirtv.ru</a></li>
+      </ul></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 ООО «Эфир Медиа» · ОГРН 1167746774901 · ИНН 7729405318 · Дистрибьюция телеканалов на основании договоров с правообладателями</span>
+      <span><a href="#">Пользовательское соглашение</a> · <a href="#">Политика конфиденциальности</a> · <a href="#">Правообладателям</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

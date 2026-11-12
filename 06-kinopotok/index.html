@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кинопоток — смотреть фильмы и сериалы онлайн в 4K бесплатно 7 дней</title>
+<meta name="description" content="Онлайн-кинотеатр Кинопоток: 30 000+ фильмов и сериалов в качестве до 4K HDR. Адаптивный HLS-плеер, просмотр на 5 устройствах, первый месяц со скидкой.">
+<style>
+:root{
+  --bg:#0a0c12;--panel:#131722;--card:#191f2e;--line:#252d40;
+  --txt:#eef1f7;--muted:#939db3;--red:#e4283c;--red2:#a8101f;--gold:#f5c542;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:60;background:rgba(10,12,18,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;gap:26px;height:64px}
+.logo{font-weight:800;font-size:20px;letter-spacing:.5px}
+.logo b{color:var(--red)}
+nav ul{display:flex;gap:22px;list-style:none;font-size:14px;color:var(--muted);margin-right:auto}
+nav ul a:hover{color:var(--txt)}
+.btn{display:inline-block;border:none;cursor:pointer;background:var(--red);color:#fff;font-weight:700;font-size:14.5px;padding:10px 22px;border-radius:8px;transition:.2s}
+.btn:hover{background:#f04050}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
+.btn.ghost:hover{border-color:var(--red)}
+.search{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:13.5px;padding:9px 14px;width:210px}
+.hero{position:relative;padding:88px 0 64px;background:linear-gradient(120deg,rgba(228,40,60,.16),transparent 55%),radial-gradient(900px 420px at 85% 0%,rgba(245,197,66,.07),transparent)}
+.hero .badge{display:inline-block;background:rgba(228,40,60,.15);border:1px solid rgba(228,40,60,.4);color:#ff8f99;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:99px;padding:6px 14px;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,4.8vw,50px);line-height:1.13;font-weight:800;max-width:720px}
+.hero h1 span{color:var(--red)}
+.hero p{max-width:560px;color:var(--muted);font-size:17px;margin:20px 0 30px}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero .note{font-size:13px;color:var(--muted)}
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
+.ticker .wrap{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;padding:15px 0;gap:10px}
+.ticker b{display:block;font-size:20px;color:var(--gold)}
+.ticker span{font-size:12.5px;color:var(--muted);letter-spacing:.4px}
+section{padding:64px 0}
+.h2{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px;gap:14px;flex-wrap:wrap}
+h2{font-size:26px;font-weight:800}
+.h2 a{font-size:13.5px;color:var(--red);font-weight:600}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.poster{border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line);transition:.2s}
+.poster:hover{transform:translateY(-4px);border-color:#3a4560}
+.poster .art{aspect-ratio:2/3;display:grid;place-items:end start;padding:14px;position:relative}
+.poster .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(5,7,12,.85))}
+.poster .info{padding:12px 14px 14px;position:relative}
+.poster b{font-size:14.5px;display:block}
+.poster small{font-size:12px;color:var(--muted)}
+.poster .rate{position:absolute;top:10px;right:10px;z-index:2;background:rgba(8,10,16,.75);border-radius:7px;font-size:12px;font-weight:700;color:var(--gold);padding:3px 8px}
+.a1{background:linear-gradient(160deg,#28405e,#101b2b)}
+.a2{background:linear-gradient(160deg,#5e2828,#2b1010)}
+.a3{background:linear-gradient(160deg,#2d5e4b,#12291f)}
+.a4{background:linear-gradient(160deg,#4b2d5e,#231229)}
+.a5{background:linear-gradient(160deg,#5e5428,#2b2610)}
+.a6{background:linear-gradient(160deg,#284f5e,#0f2129)}
+.a7{background:linear-gradient(160deg,#5e2840,#29101c)}
+.a8{background:linear-gradient(160deg,#3c3c48,#15151c)}
+.features{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 20px}
+.feat .ico{font-size:24px;margin-bottom:12px}
+.feat h3{font-size:15.5px;margin-bottom:6px}
+.feat p{font-size:13px;color:var(--muted)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px}
+.plan.hot{border-color:var(--red);position:relative}
+.plan.hot::before{content:"Выбор зрителей";position:absolute;top:-11px;left:22px;background:var(--red);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:99px;padding:3px 12px}
+.plan h3{font-size:17px;color:var(--muted);font-weight:600}
+.plan .price{font-size:34px;font-weight:800;margin:8px 0 2px}
+.plan .price small{font-size:14px;color:var(--muted);font-weight:400}
+.plan ul{list-style:none;display:grid;gap:9px;font-size:13.5px;color:#c3cbd9;margin:18px 0 22px}
+.plan li::before{content:"✓";color:var(--red);font-weight:700;margin-right:8px}
+.player{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:center}
+.screen{background:#05070c;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.screen .stage{aspect-ratio:16/9;display:grid;place-items:center;background:radial-gradient(600px 300px at 30% 20%,#1d2740,transparent),#070a12}
+.screen .playbtn{width:64px;height:64px;border-radius:50%;background:rgba(228,40,60,.92);display:grid;place-items:center;font-size:22px;box-shadow:0 8px 30px rgba(228,40,60,.4)}
+.screen .bar{padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line)}
+.screen .progress{flex:1;height:4px;border-radius:4px;background:#232a3c;position:relative}
+.screen .progress::before{content:"";position:absolute;left:0;top:0;bottom:0;width:38%;background:var(--red);border-radius:4px}
+.screen .qual{color:#9fe3b0;border:1px solid #2c4a36;border-radius:5px;padding:2px 7px}
+.player h2{font-size:28px;margin-bottom:12px}
+.player p{color:var(--muted);font-size:15px;margin-bottom:16px}
+.player .meta{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:12px;border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:5px 12px}
+.faq{max-width:760px;margin:0 auto;display:grid;gap:12px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+.q b{display:block;font-size:15px;margin-bottom:6px}
+.q p{font-size:13.5px;color:var(--muted)}
+footer{border-top:1px solid var(--line);background:var(--panel);padding:44px 0 28px;font-size:13px;color:var(--muted)}
+.fgrid2{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;margin-bottom:32px}
+footer h5{color:var(--txt);font-size:13px;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a:hover{color:var(--red)}
+.age{display:inline-grid;place-items:center;border:1px solid var(--muted);border-radius:6px;padding:2px 8px;font-weight:700;font-size:12px;color:var(--muted)}
+.fbot{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px}
+@media(max-width:940px){.row{grid-template-columns:1fr 1fr}.fgrid,.plans,.player{grid-template-columns:1fr}.ticker .wrap{grid-template-columns:1fr}.fgrid2{grid-template-columns:1fr 1fr}nav ul,.search{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#">КИНО<b>ПОТОК</b></a>
+      <ul>
+        <li><a href="#films">Фильмы</a></li>
+        <li><a href="#serials">Сериалы</a></li>
+        <li><a href="#plans">Подписка</a></li>
+        <li><a href="#devices">Устройства</a></li>
+      </ul>
+      <input class="search" type="text" placeholder="Поиск фильмов и сериалов" readonly>
+      <a class="btn ghost" href="#plans">Войти</a>
+      <a class="btn" href="#plans">Подписаться</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="badge">Первые 7 дней бесплатно</span>
+    <h1>Кино и сериалы в <span>4K HDR</span> — без рекламы и в любой момент</h1>
+    <p>Более 30 000 фильмов, сериалов и мультфильмов. Адаптивный плеер подстраивает качество под ваш интернет — от 3 Мбит/с до 4K.</p>
+    <div class="actions">
+      <a class="btn" href="#plans">Смотреть бесплатно</a>
+      <a class="btn ghost" href="#films">Каталог</a>
+      <span class="note">Отмена подписки в один клик</span>
+    </div>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="wrap">
+    <div><b>148 920</b><span>зрителей онлайн сейчас</span></div>
+    <div><b>842,6 ТБ</b><span>видеотрафика передано за сутки</span></div>
+    <div><b>23</b><span>сервера CDN по России и СНГ</span></div>
+  </div>
+</div>
+
+<section id="films">
+  <div class="wrap">
+    <div class="h2"><h2>Популярное сейчас</h2><a href="#">Весь каталог →</a></div>
+    <div class="row">
+      <div class="poster"><div class="art a1"><span class="rate">★ 8,4</span></div><div class="info"><b>Северная гавань</b><small>Драма · 2025 · 16+</small></div></div>
+      <div class="poster"><div class="art a2"><span class="rate">★ 7,9</span></div><div class="info"><b>Код тишины</b><small>Триллер · 2026 · 18+</small></div></div>
+      <div class="poster"><div class="art a3"><span class="rate">★ 8,1</span></div><div class="info"><b>Акватория</b><small>Фантастика · 2024 · 12+</small></div></div>
+      <div class="poster"><div class="art a4"><span class="rate">★ 9,0</span></div><div class="info"><b>Зеркала пустоты</b><small>Мистика · 2025 · 18+</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="serials" style="padding-top:0">
+  <div class="wrap">
+    <div class="h2"><h2>Сериалы недели</h2><a href="#">Все сериалы →</a></div>
+    <div class="row">
+      <div class="poster"><div class="art a5"><span class="rate">★ 8,6</span></div><div class="info"><b>Дорога на Восток</b><small>Приключения · 2 сезона · 16+</small></div></div>
+      <div class="poster"><div class="art a6"><span class="rate">★ 7,7</span></div><div class="info"><b>Тихий рубеж</b><small>Военная драма · 3 сезона · 16+</small></div></div>
+      <div class="poster"><div class="art a7"><span class="rate">★ 8,3</span></div><div class="info"><b>Ноль-Один</b><small>Детектив · 1 сезон · 18+</small></div></div>
+      <div class="poster"><div class="art a8"><span class="rate">★ 8,8</span></div><div class="info"><b>Последний вагон</b><small>Комедия · 2 сезона · 12+</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="devices">
+  <div class="wrap">
+    <div class="h2"><h2>Смотрите где удобно</h2></div>
+    <div class="fgrid">
+      <div class="feat"><div class="ico">📺</div><h3>Smart TV</h3><p>Приложения для Samsung, LG, Android TV и Apple TV. Плеер с HLS до 4K.</p></div>
+      <div class="feat"><div class="ico">📱</div><h3>Телефон и планшет</h3><p>iOS и Android. Скачивайте серии и смотрите офлайн в метро и самолёте.</p></div>
+      <div class="feat"><div class="ico">💻</div><h3>Браузер</h3><p>Без установки — заходите с любого компьютера, история просмотров синхронизируется.</p></div>
+      <div class="feat"><div class="ico">🎬</div><h3>До 4K HDR</h3><p>Адаптивный битрейт: качество растёт вместе со скоростью вашего канала.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="player">
+      <div class="screen">
+        <div class="stage"><span class="playbtn">▶</span></div>
+        <div class="bar"><span>37:12</span><span class="progress"></span><span>1:52:40</span><span class="qual">2160p 4K HDR</span><span>edge-04 · 94 Мбит/с</span></div>
+      </div>
+      <div>
+        <h2>Плеер, который не буферизирует</h2>
+        <p>Мы держим копии каталога на 23 серверах от Калининграда до Владивостока. Старт воспроизведения — меньше секунды, переключение качества — без паузы.</p>
+        <p>Поддерживаются современные кодеки и адаптивная потоковая передача (HLS/DASH): видео подстраивается под 3G, LTE и домашний Wi-Fi.</p>
+        <div class="meta"><span class="chip">HLS · adaptive</span><span class="chip">Dolby Digital 5.1</span><span class="chip">Субтитры</span><span class="chip">Без рекламы</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="plans" style="background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="h2"><h2>Подписка</h2><span style="color:var(--muted);font-size:13.5px">Первые 7 дней — бесплатно, дальше по тарифу</span></div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Базовый</h3><div class="price">199 ₽<small> /мес</small></div>
+        <ul><li>Full HD 1080p</li><li>1 устройство одновременно</li><li>Каталог фильмов и сериалов</li><li>Реклама: отсутствует</li></ul>
+        <a class="btn ghost" href="#">Подключить</a>
+      </div>
+      <div class="plan hot">
+        <h3>Премиум</h3><div class="price">399 ₽<small> /мес</small></div>
+        <ul><li>4K HDR + Dolby 5.1</li><li>5 устройств одновременно</li><li>Скачивание офлайн</li><li>Премьеры через 30 дней после проката</li><li>Родительский профиль</li></ul>
+        <a class="btn" href="#">Подключить</a>
+      </div>
+      <div class="plan">
+        <h3>Семейный</h3><div class="price">599 ₽<small> /мес</small></div>
+        <ul><li>Всё из «Премиум»</li><li>6 профилей для близких</li><li>Детский режим с ПДн-фильтрами</li><li>Скидка 40% на 2-й год</li></ul>
+        <a class="btn ghost" href="#">Подключить</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="faq">
+      <div class="q"><b>На какой скорости интернета работает 4K?</b><p>Для 4K HDR достаточно канала от 25 Мбит/с. Плеер сам подберёт качество: при скорости от 3 Мбит/с вы увидите устойчивое 720p без пауз.</p></div>
+      <div class="q"><b>Можно ли отменить подписку?</b><p>Да, в один клик из личного кабинета — деньги за неиспользованные дни возвращаются на карту в течение 3 рабочих дней.</p></div>
+      <div class="q"><b>Сколько устройств можно подключить?</b><p>На «Премиум» и «Семейном» — до 5 одновременных потоков, привязанных устройств не ограничиваем.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid2">
+      <div>
+        <span class="logo">КИНО<b>ПОТОК</b></span>
+        <p style="margin-top:12px;max-width:270px">Онлайн-кинотеатр: фильмы, сериалы и мультфильмы в качестве до 4K HDR. Доставка видео через собственную CDN-сеть в России и СНГ.</p>
+      </div>
+      <div><h5>Сервис</h5><ul><li><a href="#films">Каталог</a></li><li><a href="#plans">Подписка</a></li><li><a href="#">Приложения</a></li><li><a href="#">Партнёрам</a></li></ul></div>
+      <div><h5>Помощь</h5><ul><li><a href="#">Частые вопросы</a></li><li><a href="#">Поддержка 24/7</a></li><li><a href="#">Проверить скорость</a></li><li><a href="#">Статус сервиса</a></li></ul></div>
+      <div><h5>Контакты</h5><ul>
+        <li>ООО «Кинопоток»<br>127473, Москва,<br>ул. Складочная, д. 1, стр. 18, офис 412</li>
+        <li><a href="tel:+74951203476">+7 (495) 120-34-76</a></li>
+        <li><a href="mailto:support@kinopotok.ru">support@kinopotok.ru</a></li>
+      </ul></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 ООО «Кинопоток» · ОГРН 1187746053284 · ИНН 7722403156 · Данные обрабатываются в соответствии с 152-ФЗ <span class="age">18+</span></span>
+      <span><a href="#">Пользовательское соглашение</a> · <a href="#">Политика конфиденциальности</a> · <a href="#">Оферта</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

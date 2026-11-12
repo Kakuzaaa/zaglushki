@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nordlicht Fotografie – Studio in Hamburg: Portrait, Business, Hochzeit</title>
+<meta name="description" content="Nordlicht Fotografie: professionelles Fotostudio in Hamburg-Eppendorf. Portraits, Businessfotos, Hochzeitsreportagen und Foodfotografie.">
+<style>
+:root{
+  --ink:#101314;--panel:#171b1d;--card:#1d2225;--line:#2a3136;
+  --txt:#eef1f2;--muted:#98a4ab;--amber:#e0a458;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--ink);color:var(--txt);line-height:1.7}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.serif{font-family:Georgia,'Times New Roman',serif}
+header{position:sticky;top:0;z-index:60;background:rgba(16,19,20,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo b{font-family:Georgia,serif;font-size:21px;letter-spacing:1.5px;font-weight:400}
+.logo b em{color:var(--amber);font-style:normal}
+nav ul{display:flex;gap:30px;list-style:none;font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)}
+nav ul a:hover{color:var(--amber)}
+nav .btn{border-color:var(--amber);color:var(--amber)}
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:520px}
+.hero .txt{display:flex;flex-direction:column;justify-content:center;padding:70px 56px 70px 0}
+.hero .kicker{color:var(--amber);letter-spacing:3.5px;font-size:12px;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(32px,4.6vw,50px);line-height:1.18}
+.hero p{color:var(--muted);margin:22px 0 32px;max-width:460px;font-size:16px}
+.btn{display:inline-block;border:1px solid var(--line);padding:12px 28px;font-size:12.5px;letter-spacing:2.2px;text-transform:uppercase;border-radius:2px;transition:.2s}
+.btn.solid{background:var(--amber);border-color:var(--amber);color:#191410;font-weight:700}
+.btn.solid:hover{background:#eab876}
+.btn.line:hover{border-color:var(--amber);color:var(--amber)}
+.hero .vis{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:170px;gap:10px;padding:40px 0 40px 40px}
+.ph{border-radius:4px;display:grid;place-items:center;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.75);text-transform:uppercase}
+.h1{background:linear-gradient(160deg,#3d4a56,#232d36)}
+.h2{background:linear-gradient(160deg,#5a4a3a,#3a2f26)}
+.h3{background:linear-gradient(160deg,#3a4a45,#26332f)}
+.h4{background:linear-gradient(160deg,#4a3d52,#322839)}
+.ph .cam{font-size:30px;opacity:.85}
+.mrow{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
+.mrow .wrap{display:grid;grid-template-columns:repeat(3,1fr)}
+.mrow div{padding:22px 18px;text-align:center;font-size:13px;color:var(--muted);letter-spacing:1.2px}
+.mrow div+div{border-left:1px solid var(--line)}
+.mrow b{color:var(--txt);display:block;font-size:24px;letter-spacing:0;margin-bottom:2px}
+section{padding:84px 0}
+.head{display:flex;justify-content:space-between;align-items:end;margin-bottom:42px;gap:20px;flex-wrap:wrap}
+h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(26px,3.4vw,36px)}
+.head p{color:var(--muted);font-size:14.5px;max-width:420px}
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.shot{position:relative;border-radius:5px;overflow:hidden;aspect-ratio:4/5;display:grid;place-items:center;transition:.25s}
+.shot:hover{transform:scale(1.02)}
+.shot span{font-size:11.5px;letter-spacing:2px;color:rgba(255,255,255,.85);text-transform:uppercase}
+.s1{background:linear-gradient(165deg,#4e5a66,#2b3540)}
+.s2{background:linear-gradient(165deg,#6b5545,#453629)}
+.s3{background:linear-gradient(165deg,#3f5150,#263332)}
+.s4{background:linear-gradient(165deg,#544a68,#363046)}
+.s5{background:linear-gradient(165deg,#68503f,#443326)}
+.s6{background:linear-gradient(165deg,#42586b,#2a3a48)}
+.s7{background:linear-gradient(165deg,#4d6157,#2f3c36)}
+.s8{background:linear-gradient(165deg,#5d4a5e,#3c2f3e)}
+.shot.tall{grid-row:span 2;aspect-ratio:auto}
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pack{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:30px 26px}
+.pack.feat{border-color:var(--amber)}
+.pack .tag{font-size:11px;letter-spacing:2.5px;color:var(--amber);text-transform:uppercase}
+.pack h3{font-family:Georgia,serif;font-weight:400;font-size:22px;margin:10px 0 6px}
+.pack .dur{font-size:13px;color:var(--muted);margin-bottom:16px}
+.pack .price{font-size:27px;margin-bottom:18px}
+.pack .price small{font-size:13px;color:var(--muted)}
+.pack ul{list-style:none;display:grid;gap:9px;font-size:14px;color:#c4ccd1;margin-bottom:22px}
+.pack li::before{content:"—";color:var(--amber);margin-right:9px}
+.about{display:grid;grid-template-columns:.85fr 1.15fr;gap:52px;align-items:center}
+.about .portr{background:linear-gradient(165deg,#3a434c,#252d34);border-radius:8px;aspect-ratio:4/5;display:grid;place-items:center;max-width:380px}
+.about .portr span{font-family:Georgia,serif;font-size:52px;color:rgba(255,255,255,.8)}
+.about h2{margin-bottom:18px}
+.about p{color:var(--muted);margin-bottom:14px;font-size:15.5px}
+.about .sig{font-family:Georgia,serif;font-style:italic;font-size:21px;color:var(--amber);margin-top:20px}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rev{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:26px;font-size:14.5px;color:#c4ccd1}
+.rev .stars{color:var(--amber);letter-spacing:3px;margin-bottom:12px}
+.rev b{display:block;margin-top:14px;color:var(--txt);font-weight:600}
+.rev span{font-size:12.5px;color:var(--muted)}
+.cta{background:linear-gradient(120deg,rgba(224,164,88,.16),transparent 60%);border:1px solid var(--line);border-radius:12px;padding:56px 40px;text-align:center}
+.cta h2{margin-bottom:12px}
+.cta p{color:var(--muted);margin-bottom:28px}
+footer{border-top:1px solid var(--line);background:var(--panel);padding:52px 0 30px;font-size:14px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:34px;margin-bottom:36px}
+footer h5{font-size:12px;letter-spacing:2.2px;text-transform:uppercase;margin-bottom:14px;color:var(--txt)}
+footer ul{list-style:none;display:grid;gap:9px;color:var(--muted)}
+footer a:hover{color:var(--amber)}
+.fbot{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:var(--muted)}
+@media(max-width:960px){.hero{grid-template-columns:1fr}.hero .txt{padding-right:0}.hero .vis{padding-left:0}.gal{grid-template-columns:1fr 1fr}.packs,.reviews{grid-template-columns:1fr}.about{grid-template-columns:1fr}.mrow .wrap{grid-template-columns:1fr}.mrow div+div{border-left:none;border-top:1px solid var(--line)}nav ul{display:none}.fgrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#"><b>Nordlicht<em>.</em></b></a>
+      <ul>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#pakete">Pakete</a></li>
+        <li><a href="#studio">Studio</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <a class="btn" href="#kontakt">Termin buchen</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <div class="txt">
+    <p class="kicker">Fotostudio Hamburg-Eppendorf</p>
+    <h1>Licht, das Geschichten erzählt.</h1>
+    <p>Portrait, Business und Hochzeit — seit 2011 fotografiere ich Menschen in Hamburg und ganz Norddeutschland. Ungestellt, warm, ehrlich.</p>
+    <a class="btn solid" href="#kontakt">Shooting anfragen</a>
+  </div>
+  <div class="vis">
+    <div class="ph h1"><span class="cam">📷</span></div>
+    <div class="ph h2">Portrait</div>
+    <div class="ph h3">Business</div>
+    <div class="ph h4"><span class="cam">🕯️</span></div>
+  </div>
+</div>
+
+<div class="mrow">
+  <div class="wrap">
+    <div><b>14</b>Jahre hinter der Kamera</div>
+    <div><b>600+</b>Shootings pro Jahr</div>
+    <div><b>4,9 ★</b>Google-Bewertung (287)</div>
+  </div>
+</div>
+
+<section id="portfolio">
+  <div class="wrap">
+    <div class="head">
+      <h2>Portfolio</h2>
+      <p>Ausgewählte Arbeiten aus den Bereichen Portrait, Business, Editorial und Hochzeit.</p>
+    </div>
+    <div class="gal">
+      <div class="shot s1 tall"><span>Editorial</span></div>
+      <div class="shot s2"><span>Portrait</span></div>
+      <div class="shot s3"><span>Hochzeit</span></div>
+      <div class="shot s4"><span>Studio</span></div>
+      <div class="shot s5"><span>Food</span></div>
+      <div class="shot s6"><span>Business</span></div>
+      <div class="shot s7 tall"><span>Reportage</span></div>
+      <div class="shot s8"><span>Familie</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="mrow" style="border:none;background:var(--panel)">
+  <div class="wrap" id="pakete">
+    <div class="head" style="padding-top:56px">
+      <h2>Pakete &amp; Preise</h2>
+      <p>Transparente Festpreise — alle Bilder digital in hoher Auflösung, ohne Zusatzkosten pro Foto.</p>
+    </div>
+    <div class="packs" style="padding-bottom:70px;margin-top:42px">
+      <div class="pack">
+        <span class="tag">Portrait</span>
+        <h3>Klassik</h3>
+        <p class="dur">60 Minuten · Studio oder Outdoor</p>
+        <p class="price">149 €<small> inkl. MwSt.</small></p>
+        <ul>
+          <li>10 final bearbeitete Fotos</li>
+          <li>Online-Galerie zum Download</li>
+          <li>1 Outfitwechsel inklusive</li>
+          <li>Druckdateien in hoher Auflösung</li>
+        </ul>
+        <a class="btn line" href="#kontakt">Anfragen</a>
+      </div>
+      <div class="pack feat">
+        <span class="tag">Beliebt</span>
+        <h3>Business</h3>
+        <p class="dur">90 Minuten · inkl. 2 Locations</p>
+        <p class="price">329 €<small> inkl. MwSt.</small></p>
+        <ul>
+          <li>25 final bearbeitete Fotos</li>
+          <li>Studio &amp; Umgebung Eppendorf</li>
+          <li>Web- und Printformate</li>
+          <li>Lizenz für Website &amp; LinkedIn</li>
+          <li>Notfall-Bearbeitung in 48 h</li>
+        </ul>
+        <a class="btn solid" href="#kontakt">Anfragen</a>
+      </div>
+      <div class="pack">
+        <span class="tag">Hochzeit</span>
+        <h3>Reportage</h3>
+        <p class="dur">10 Stunden · Getting-ready bis Party</p>
+        <p class="price">ab 1.690 €<small> inkl. MwSt.</small></p>
+        <ul>
+          <li>400+ Fotos in Online-Galerie</li>
+          <li>Zweifotograf:in ab 250 €</li>
+          <li>Vorgespräch &amp; Location-Scouting</li>
+          <li>Fotobook ab 189 € zubuchbar</li>
+        </ul>
+        <a class="btn line" href="#kontakt">Anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="studio">
+  <div class="wrap">
+    <div class="about">
+      <div class="portr"><span>JK</span></div>
+      <div>
+        <h2>Hi, ich bin Jonas Krüger.</h2>
+        <p>Fotograf aus Leidenschaft, Hamburger aus Überzeugung. Nach der Ausbildung an der Fotografenschule Hamburg und Stationen in Kopenhagen führe ich seit 2011 mein eigenes Studio in Eppendorf — 120 m² mit Tageslicht, Zyklorama und einer Kaffeezone für Pausen zwischen den Sets.</p>
+        <p>Meine Arbeit ist ruhig und unaufgeregt: Ich inszeniere nicht, ich begleite. Die besten Fotos entstehen, wenn man die Kamera vergessen hat.</p>
+        <p class="sig">„Ein gutes Portrait sieht man mit beiden Augen — und macht mit einem.“</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="reviews">
+      <div class="rev"><div class="stars">★★★★★</div>„Jonas hat unsere Hochzeit in Blankenese begleitet — zurückhaltend, immer am richtigen Ort. Die Galerie bringt uns bis heute zum Lachen.“<b>Lena &amp; Tobias H.</b><span>Hochzeitsreportage, Mai 2026</span></div>
+      <div class="rev"><div class="stars">★★★★★</div>„Professionelle Businessfotos ohne Stockfotos-Feeling. Die Team-Fotos passen jetzt endlich zu unserer Website.“<b>Miriam Sandt</b><span>Marketing Lead, habcon GmbH</span></div>
+      <div class="rev"><div class="stars">★★★★★</div>„Ruhige Atmosphäre im Studio, super Beratung und die Bilder waren in drei Tagen online. Sehr empfehlenswert.“<b>Daniel Osei</b><span>Portraitshooting, Februar 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta">
+      <h2>Lassen Sie uns über Ihr Shooting sprechen</h2>
+      <p>Nordlicht Fotografie · Eppendorfer Baum 23 · 20249 Hamburg · Di–Sa 10–18 Uhr</p>
+      <a class="btn solid" href="mailto:studio@nordlicht-fotografie.de">studio@nordlicht-fotografie.de</a>
+      &nbsp;&nbsp;<a class="btn line" href="tel:+494022861784">+49 40 228 617 84</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="logo"><b style="font-size:19px">Nordlicht<em>.</em></b></span>
+        <p style="color:var(--muted);margin-top:12px;max-width:270px">Fotostudio für Portrait, Business und Hochzeit in Hamburg-Eppendorf.</p>
+      </div>
+      <div>
+        <h5>Angebot</h5>
+        <ul><li><a href="#pakete">Portrait</a></li><li><a href="#pakete">Business</a></li><li><a href="#pakete">Hochzeit</a></li><li><a href="#portfolio">Editorial</a></li></ul>
+      </div>
+      <div>
+        <h5>Studio</h5>
+        <ul><li><a href="#studio">Über mich</a></li><li><a href="#">Ausbildung</a></li><li><a href="#">Gästebuch</a></li><li><a href="#">FAQ</a></li></ul>
+      </div>
+      <div>
+        <h5>Kontakt</h5>
+        <ul>
+          <li>Eppendorfer Baum 23<br>20249 Hamburg</li>
+          <li><a href="tel:+494022861784">+49 40 228 617 84</a></li>
+          <li><a href="mailto:studio@nordlicht-fotografie.de">studio@nordlicht-fotografie.de</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Nordlicht Fotografie · Inhaber Jonas Krüger · Kleinunternehmer gem. § 19 UStG</span>
+      <span><a href="#">Impressum</a> · <a href="#">Datenschutz</a> · <a href="#">AGB</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

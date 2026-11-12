@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Каскад CDN — сеть доставки контента в России и СНГ · Видео, HLS, статика</title>
+<meta name="description" content="Каскад CDN: 23 точки присутствия, 4,2 Тбит/с суммарной ёмкости. Кэширование HLS/DASH-видео, статики, защита от DDoS. Тариф от 0,65 ₽/ГБ, SLA 99,95%.">
+<style>
+:root{
+  --bg:#070b14;--panel:#0c1220;--card:#111a2c;--line:#1d2a44;
+  --txt:#e8eef7;--muted:#8b9ab3;--cyan:#2fd4e6;--cyan2:#0ea5b7;--green:#4ade80;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+.top{background:var(--panel);border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.top .wrap{display:flex;justify-content:space-between;padding:8px 22px;gap:10px;flex-wrap:wrap}
+.top b{color:var(--green)}
+header{position:sticky;top:0;z-index:60;background:rgba(7,11,20,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:18px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+.logo .cube{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),#2563eb);display:grid;place-items:center;color:#04121a;font-size:15px;font-weight:900}
+.logo small{display:block;font-size:10.5px;letter-spacing:2.2px;color:var(--muted);font-weight:400;text-transform:uppercase}
+nav ul{display:flex;gap:24px;list-style:none;font-size:14px;color:var(--muted)}
+nav ul a:hover{color:var(--cyan)}
+.btn{display:inline-block;background:var(--cyan);color:#04121a;font-weight:700;font-size:14px;padding:11px 24px;border-radius:8px;transition:.2s}
+.btn:hover{background:#4ddceb}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
+.btn.ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+.hero{padding:86px 0 64px;background:radial-gradient(900px 460px at 80% -10%,rgba(47,212,230,.13),transparent),radial-gradient(700px 400px at 5% 110%,rgba(37,99,235,.10),transparent)}
+.hero .tag{display:inline-block;color:var(--cyan);border:1px solid rgba(47,212,230,.35);background:rgba(47,212,230,.07);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:99px;padding:6px 15px;margin-bottom:20px}
+.hero h1{font-size:clamp(30px,4.8vw,50px);line-height:1.14;font-weight:800;max-width:760px}
+.hero h1 span{color:var(--cyan)}
+.hero p{max-width:600px;color:var(--muted);font-size:16.5px;margin:20px 0 30px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:60px}
+.stats div{background:var(--panel);padding:24px 18px;text-align:center}
+.stats b{display:block;font-size:28px;color:var(--cyan)}
+.stats span{font-size:12.5px;color:var(--muted)}
+section{padding:72px 0}
+h2{font-size:clamp(24px,3.2vw,34px);font-weight:800;margin-bottom:10px}
+.sub{color:var(--muted);max-width:640px;margin-bottom:40px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.prod{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 24px;transition:.2s}
+.prod:hover{border-color:#2c4068;transform:translateY(-3px)}
+.prod .ico{font-size:24px;margin-bottom:14px}
+.prod h3{font-size:17px;margin-bottom:8px}
+.prod p{font-size:13.5px;color:var(--muted)}
+.prod .spec{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.spec span{font-size:11.5px;color:var(--cyan);background:rgba(47,212,230,.08);border:1px solid rgba(47,212,230,.25);border-radius:99px;padding:3px 10px}
+.net{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pops{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pop{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 17px;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.pop .n{color:var(--cyan);font-weight:700;font-size:13px;background:rgba(47,212,230,.09);border-radius:7px;padding:2px 9px}
+.pop small{display:block;font-size:11px;color:var(--muted)}
+.tariff{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.tier{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 22px;text-align:center}
+.tier.best{border-color:var(--cyan)}
+.tier b{display:block;font-size:24px;margin-bottom:4px}
+.tier .per{font-size:13px;color:var(--cyan);font-weight:700}
+.tier p{font-size:13px;color:var(--muted);margin-top:12px}
+.live{background:linear-gradient(120deg,rgba(47,212,230,.12),transparent 60%);border:1px solid var(--line);border-radius:16px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+.live h2{margin-bottom:10px}
+.live p{color:var(--muted);font-size:15px;margin-bottom:14px}
+.monitor{background:#05080f;border:1px solid var(--line);border-radius:12px;padding:20px;font-family:Consolas,'Courier New',monospace;font-size:12.5px;color:#9fb6c9;line-height:1.9}
+.monitor .ok{color:var(--green)}
+.monitor .cy{color:var(--cyan)}
+.cta{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:50px 40px;text-align:center}
+.cta h2{margin-bottom:10px}
+.cta p{color:var(--muted);margin-bottom:26px}
+footer{border-top:1px solid var(--line);background:var(--panel);padding:48px 0 28px;font-size:13px;color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;margin-bottom:32px}
+footer h5{color:var(--txt);font-size:13px;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a:hover{color:var(--cyan)}
+.fbot{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px}
+@media(max-width:940px){.g3,.tariff,.live{grid-template-columns:1fr}.pops{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.fgrid{grid-template-columns:1fr 1fr}nav ul{display:none}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <span>Статус сети: <b>все узлы в норме</b> · SLA 99,95% · NOC 24/7</span>
+    <span>Панель клиента · Документация API · <a href="mailto:noc@kaskad-cdn.ru">noc@kaskad-cdn.ru</a></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#"><span class="cube">▚</span><span>КАСКАД<small>CDN NETWORK</small></span></a>
+      <ul>
+        <li><a href="#products">Продукты</a></li>
+        <li><a href="#network">Сеть</a></li>
+        <li><a href="#tariffs">Тарифы</a></li>
+        <li><a href="#live">Мониторинг</a></li>
+        <li><a href="#">Документация</a></li>
+      </ul>
+      <a class="btn" href="#tariffs">Подключить</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="tag">CDN для медиа и статики</span>
+    <h1>Доставляем видео и контент <span>быстрее, чем кто-либо в РФ</span></h1>
+    <p>Каскад CDN — сеть доставки контента с 23 точками присутствия в России и СНГ. Кэшируем HLS- и DASH-сегменты, раздаём статику, гасим пики в 100 Гбит/с и держим SLA 99,95%.</p>
+    <div class="actions">
+      <a class="btn" href="#tariffs">Рассчитать трафик</a>
+      <a class="btn ghost" href="#network">Карта узлов</a>
+    </div>
+    <div class="stats">
+      <div><b>23</b><span>точки присутствия (PoP)</span></div>
+      <div><b>4,2 Тбит/с</b><span>суммарная ёмкость сети</span></div>
+      <div><b>18 мс</b><span>медианный TTFB по РФ</span></div>
+      <div><b>99,95 %</b><span>доступность по SLA</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="products">
+  <div class="wrap">
+    <h2>Продукты</h2>
+    <p class="sub">Подключение за один день: меняете CNAME домена — трафик уже идёт через нашу сеть.</p>
+    <div class="g3">
+      <div class="prod"><div class="ico">🎬</div><h3>Видеокэш (HLS/DASH)</h3><p>Кэширование VOD-каталогов и Live-трансляций. Съём токенов, подписи URL, защита контента, мультибитрейт.</p><div class="spec"><span>HLS · TS/fMP4</span><span>Low-Latency</span><span>Token Auth</span></div></div>
+      <div class="prod"><div class="ico">📦</div><h3>Статик-кэш</h3><p>Раздача файлов, картинок, архивов и дистрибутивов. Сжатие Brotli, автоматический WebP, правила очистки кэша.</p><div class="spec"><span>Brotli</span><span>WebP</span><span>Purge API</span></div></div>
+      <div class="prod"><div class="ico">🛡️</div><h3>Защита от DDoS</h3><p>Фильтрация L3–L7 на границах сети, WAF, rate limiting, защита API и авторизаций без заметной задержки.</p><div class="spec"><span>L3/L4/L7</span><span>WAF</span><span>до 1,5 Тбит/с</span></div></div>
+      <div class="prod"><div class="ico">⚡</div><h3>Веб-акселерация</h3><p>Ускорение сайтов и веб-приложений: TLS 1.3, HTTP/3, предзагрузка, умное кэширование HTML.</p><div class="spec"><span>HTTP/3</span><span>QUIC</span><span>Brotli</span></div></div>
+      <div class="prod"><div class="ico">📡</div><h3>Стриминг-платформа</h3><p>Приём RTMP/SRT, транскодинг в адаптивный лест-битрейт, запись эфиров, встраиваемый плеер.</p><div class="spec"><span>RTMP · SRT</span><span>ABR</span><span>DVR 12 ч</span></div></div>
+      <div class="prod"><div class="ico">🖥️</div><h3>Выделенные ноды</h3><p>Отдельные серверы в выбранных городах под ваш трафик: 2×100 Гбит/с аплинк, свои диски, ваш кэш.</p><div class="spec"><span>до 200 Гбит/с</span><span>NVMe</span><span>private PoP</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="net" id="network">
+  <div class="wrap">
+    <h2>Сеть: 23 узла в 15 городах</h2>
+    <p class="sub">Собственные стойки в точках обмена трафиком (MSK-IX, SPB-IX, DATAIX) и прямые стыки с всеми крупными операторами РФ.</p>
+    <div class="pops">
+      <div class="pop"><span>Москва<small>6 нод · MSK-IX</small></span><span class="n">×6</span></div>
+      <div class="pop"><span>Санкт-Петербург<small>3 ноды · SPB-IX</small></span><span class="n">×3</span></div>
+      <div class="pop"><span>Казань<small>2 ноды</small></span><span class="n">×2</span></div>
+      <div class="pop"><span>Екатеринбург<small>2 ноды</small></span><span class="n">×2</span></div>
+      <div class="pop"><span>Новосибирск<small>2 ноды</small></span><span class="n">×2</span></div>
+      <div class="pop"><span>Нижний Новгород<small>2 ноды</small></span><span class="n">×2</span></div>
+      <div class="pop"><span>Ростов-на-Дону<small>1 нода</small></span><span class="n">×1</span></div>
+      <div class="pop"><span>Краснодар<small>1 нода</small></span><span class="n">×1</span></div>
+      <div class="pop"><span>Самара<small>1 нода</small></span><span class="n">×1</span></div>
+      <div class="pop"><span>Владивосток<small>1 нода</small></span><span class="n">×1</span></div>
+      <div class="pop"><span>Красноярск<small>1 нода</small></span><span class="n">×1</span></div>
+      <div class="pop"><span>Минск<small>1 нода</small></span><span class="n">×1</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="tariffs">
+  <div class="wrap">
+    <h2>Тарифы на трафик</h2>
+    <p class="sub">Плата только за отгруженные гигабайты. Скидка растёт с объёмом, исходящий трафик внутри сети — бесплатно.</p>
+    <div class="tariff">
+      <div class="tier"><b>0,90 ₽</b><span class="per">за ГБ · до 10 ТБ/мес</span><p>Стартовый объём, без абонплаты и минимального платежа</p></div>
+      <div class="tier"><b>0,75 ₽</b><span class="per">за ГБ · до 50 ТБ/мес</span><p>Для онлайн-кинотеатров и медиа-порталов со стабильным трафиком</p></div>
+      <div class="tier best"><b>0,65 ₽</b><span class="per">за ГБ · до 200 ТБ/мес</span><p>Оптимально для стриминга 4K и крупных VOD-каталогов</p></div>
+      <div class="tier"><b>Индивид.</b><span class="per">от 200 ТБ/мес</span><p>Резервированные порты, выделенные ноды, персональный SLA</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="live" style="padding-top:0">
+  <div class="wrap">
+    <div class="live">
+      <div>
+        <h2>Живой мониторинг каждого узла</h2>
+        <p>Публичный статус-пейдж и API мониторинга: HIT/MISS по каждому URL, загрузка дисков нод, битрейт по регионам.</p>
+        <p>События дублируются в Telegram-бот вашего инженера раньше, чем заметят зрители.</p>
+        <a class="btn" href="#">Открыть статус-пейдж</a>
+      </div>
+      <div class="monitor">
+        <div><span class="cy">edge-01.msk</span> · hit-rate <span class="ok">98,4%</span> · 412 Gbps · load 0.42</div>
+        <div><span class="cy">edge-02.msk</span> · hit-rate <span class="ok">97,9%</span> · 388 Gbps · load 0.39</div>
+        <div><span class="cy">edge-01.spb</span> · hit-rate <span class="ok">98,1%</span> · 176 Gbps · load 0.31</div>
+        <div><span class="cy">edge-01.kzn</span> · hit-rate <span class="ok">97,2%</span> · 95 Gbps · load 0.28</div>
+        <div><span class="cy">edge-01.ekb</span> · hit-rate <span class="ok">97,6%</span> · 88 Gbps · load 0.25</div>
+        <div>GET /hls/live/1107/seg-84217.ts → <span class="ok">HIT</span> · 2 113 ms · cache</div>
+        <div>GET /vod/s2/e18/master.m3u8 → <span class="ok">HIT</span> · 14 ms · gzip</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <h2>Посчитаем ваш трафик за 15 минут</h2>
+      <p>Пришлите домен и объём — вернём расчёт с ценой за ГБ и тестовым CNAME на 14 дней бесплатно.</p>
+      <a class="btn" href="mailto:sales@kaskad-cdn.ru">sales@kaskad-cdn.ru</a>
+      &nbsp;&nbsp;<a class="btn ghost" href="tel:+78003501490">8 (800) 350-14-90</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="logo"><span class="cube">▚</span><span>КАСКАД<small style="color:#6d7d97">CDN NETWORK</small></span></span>
+        <p style="margin-top:12px;max-width:280px">Сеть доставки контента для медиа, игр и e-commerce. Работает в России и СНГ с 2017 года.</p>
+      </div>
+      <div><h5>Продукты</h5><ul><li><a href="#products">Видеокэш</a></li><li><a href="#products">Статик-кэш</a></li><li><a href="#products">Защита от DDoS</a></li><li><a href="#products">Выделенные ноды</a></li></ul></div>
+      <div><h5>Клиентам</h5><ul><li><a href="#">Панель управления</a></li><li><a href="#">Документация API</a></li><li><a href="#live">Статус сети</a></li><li><a href="#">Кейсы</a></li></ul></div>
+      <div><h5>Контакты</h5><ul>
+        <li>ООО «Каскад Дистрибьюшн»<br>105082, Москва,<br>ул. Большая Почтовая, д. 26В, офис 315</li>
+        <li><a href="tel:+74956472218">+7 (495) 647-22-18</a></li>
+        <li><a href="mailto:sales@kaskad-cdn.ru">sales@kaskad-cdn.ru</a></li>
+      </ul></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 ООО «Каскад Дистрибьюшн» · ОГРН 1177746591240 · ИНН 7715490223 · Оператор связи (лиц. № 172 340)</span>
+      <span><a href="#">Оферта</a> · <a href="#">Политика конфиденциальности</a> · <a href="#">Согласие на обработку данных</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

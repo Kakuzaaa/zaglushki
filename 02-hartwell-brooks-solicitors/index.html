@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hartwell &amp; Brooks Solicitors – Commercial &amp; Property Law, London</title>
+<meta name="description" content="Hartwell &amp; Brooks Solicitors of London. Commercial law, property conveyancing, employment and family law. Established 1987. SRA regulated.">
+<style>
+:root{
+  --navy:#1b2a41;--navy2:#22354f;--gold:#b08d46;--cream:#faf8f4;
+  --txt:#2a2f36;--muted:#6b7280;--line:#e3ded4;--white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;color:var(--txt);background:var(--white);line-height:1.7}
+.sans{font-family:'Segoe UI',Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.topbar{background:var(--navy);color:#c9d3e0;font-size:13px;padding:8px 0;font-family:'Segoe UI',Arial,sans-serif}
+.topbar .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.topbar a{color:#e8ddc0}
+header{border-bottom:4px double var(--gold);background:var(--cream)}
+.headrow{display:flex;align-items:center;justify-content:space-between;padding:26px 0;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:16px}
+.crest{width:54px;height:54px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#e8ddc0;font-weight:700;font-size:17px;letter-spacing:1px}
+.brand h1{font-size:25px;color:var(--navy);letter-spacing:.5px}
+.brand small{display:block;font-size:12.5px;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;font-family:'Segoe UI',Arial,sans-serif}
+.menu{display:flex;gap:26px;font-family:'Segoe UI',Arial,sans-serif;font-size:14.5px;color:var(--navy)}
+.menu a:hover{color:var(--gold)}
+.banner{background:linear-gradient(rgba(27,42,65,.90),rgba(27,42,65,.90)),repeating-linear-gradient(45deg,#22354f 0 14px,#1b2a41 14px 28px);color:#f2eee4;text-align:center;padding:78px 24px}
+.banner .est{color:var(--gold);letter-spacing:4px;font-size:13px;text-transform:uppercase;font-family:'Segoe UI',Arial,sans-serif}
+.banner h2{font-size:clamp(28px,4.4vw,44px);font-weight:400;max-width:760px;margin:16px auto}
+.banner p{max-width:640px;margin:0 auto 30px;color:#c9d3e0;font-size:16.5px}
+.btn{display:inline-block;background:var(--gold);color:#fff;padding:12px 30px;font-family:'Segoe UI',Arial,sans-serif;font-size:14.5px;letter-spacing:1px;border:none}
+.btn:hover{background:#9c7c39}
+.ribbon{background:var(--navy);color:#e8ddc0;text-align:center;font-size:13.5px;padding:11px 16px;font-family:'Segoe UI',Arial,sans-serif}
+section{padding:74px 0}
+.area h3{color:var(--navy);font-size:30px;font-weight:400;text-align:center;margin-bottom:10px}
+.rule{width:64px;height:3px;background:var(--gold);margin:0 auto 44px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.practice{border:1px solid var(--line);background:var(--cream);padding:30px 26px;text-align:center;transition:.2s}
+.practice:hover{box-shadow:0 10px 28px rgba(27,42,65,.10)}
+.practice .no{font-size:13px;color:var(--gold);letter-spacing:2.5px;font-family:'Segoe UI',Arial,sans-serif}
+.practice h4{color:var(--navy);font-size:20px;font-weight:400;margin:10px 0 12px}
+.practice p{font-size:14.5px;color:var(--muted)}
+.about{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.about .cols{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start}
+.about h3{color:var(--navy);font-size:29px;font-weight:400;margin-bottom:18px}
+.about p{margin-bottom:14px;color:#3d444e;font-size:15.5px}
+.facts{border-left:3px solid var(--gold);padding-left:24px;display:grid;gap:18px}
+.facts b{display:block;font-size:26px;color:var(--navy)}
+.facts span{font-size:13.5px;color:var(--muted);font-family:'Segoe UI',Arial,sans-serif}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;text-align:center}
+.member .ava{width:96px;height:96px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;color:#fff;font-size:24px;font-family:'Segoe UI',Arial,sans-serif}
+.m1{background:#33507a}.m2{background:#6d5a35}.m3{background:#3c5a52}
+.member h4{color:var(--navy);font-size:19px;font-weight:400}
+.member em{display:block;font-size:13px;color:var(--gold);font-style:normal;font-family:'Segoe UI',Arial,sans-serif;margin:4px 0 10px}
+.member p{font-size:14px;color:var(--muted)}
+.quote{max-width:780px;margin:0 auto;text-align:center;font-style:italic;font-size:19px;color:#3d444e}
+.quote .who{font-style:normal;font-size:14px;color:var(--muted);margin-top:18px;font-family:'Segoe UI',Arial,sans-serif}
+.contact{background:var(--navy);color:#e6ebf2}
+.contact h3{font-size:29px;font-weight:400;margin-bottom:34px;color:#fff}
+.contact h3 b{color:var(--gold);font-weight:400}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.cbox{border:1px solid #3a4d68;padding:26px;font-size:15px}
+.cbox h5{font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-family:'Segoe UI',Arial,sans-serif}
+.cbox a{color:#fff;border-bottom:1px dotted #7d8ba0}
+.cbox p{color:#c2cddd;font-size:14.5px}
+footer{background:#141f30;color:#8b98ab;font-size:13.5px;padding:40px 0;font-family:'Segoe UI',Arial,sans-serif}
+.frow{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+.frow a{color:#c2cddd}
+.frow a:hover{color:var(--gold)}
+@media(max-width:880px){.g3,.cgrid,.team{grid-template-columns:1fr 1fr}.about .cols{grid-template-columns:1fr}.menu{display:none}}
+@media(max-width:560px){.g3,.cgrid,.team{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span>Mon–Fri 9:00–18:00 · 128 Chancery Lane, London WC2A 1LG</span>
+    <span><a href="tel:+442079460821">+44 20 7946 0821</a> · <a href="mailto:enquiries@hartwellbrooks.co.uk">enquiries@hartwellbrooks.co.uk</a></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap headrow">
+    <a class="brand" href="#">
+      <span class="crest">H&amp;B</span>
+      <span><h1>Hartwell &amp; Brooks</h1><small>Solicitors · Est. 1987</small></span>
+    </a>
+    <nav class="menu">
+      <a href="#practice">Practice Areas</a>
+      <a href="#about">About Us</a>
+      <a href="#team">Our People</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="banner">
+  <p class="est">Established 1987 · Lincoln's Inn Fields, London</p>
+  <h2>Clear, considered legal advice for businesses and families</h2>
+  <p>For nearly four decades our solicitors have represented clients across England &amp; Wales — with the personal attention of a chambers practice and the resources of a modern firm.</p>
+  <a class="btn" href="#contact">Request a Consultation</a>
+</div>
+
+<div class="ribbon sans">Regulated by the Solicitors Regulation Authority · SRA No. 259 401 · Recognised Body</div>
+
+<section id="practice">
+  <div class="wrap area">
+    <h3>Areas of Practice</h3>
+    <div class="rule"></div>
+    <div class="g3">
+      <div class="practice"><span class="no">01</span><h4>Commercial Law</h4><p>Contracts, company formation, shareholder agreements, M&amp;A due diligence and commercial dispute resolution.</p></div>
+      <div class="practice"><span class="no">02</span><h4>Property &amp; Conveyancing</h4><p>Residential and commercial conveyancing, leases, remortgages and freehold/leasehold enfranchisement.</p></div>
+      <div class="practice"><span class="no">03</span><h4>Employment Law</h4><p>Settlement agreements, contracts of employment, tribunal claims and HR support for SMEs.</p></div>
+      <div class="practice"><span class="no">04</span><h4>Family Law</h4><p>Divorce and financial remedies, children matters, prenuptial agreements and mediation — with sensitivity and discretion.</p></div>
+      <div class="practice"><span class="no">05</span><h4>Wills &amp; Probate</h4><p>Will drafting, lasting powers of attorney, estate administration and inheritance tax planning.</p></div>
+      <div class="practice"><span class="no">06</span><h4>Dispute Resolution</h4><p>Litigation, arbitration and mediation, from county court claims to High Court proceedings.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h3>A tradition of straightforward counsel</h3>
+        <p>Hartwell &amp; Brooks was founded in 1987 by Margaret Hartwell and the late James Brooks, two Lincoln's Inn barristers who believed that good legal advice should be plain-spoken, fairly priced and firmly on the client's side.</p>
+        <p>Today the firm comprises eleven solicitors and a support team of eight, operating from our offices on Chancery Lane — a stone's throw from the Royal Courts of Justice. We act for owner-managed businesses, property investors, families and private individuals across Greater London and the Home Counties.</p>
+        <p>We are proud of our retention: more than half of our new instructions come from existing clients or personal recommendation.</p>
+      </div>
+      <div class="facts">
+        <div><b>1987</b><span>Year established</span></div>
+        <div><b>11</b><span>Qualified solicitors</span></div>
+        <div><b>1,900+</b><span>Matters handled per year</span></div>
+        <div><b>£2m</b><span>Professional indemnity cover</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap area">
+    <h3>Our People</h3>
+    <div class="rule"></div>
+    <div class="team">
+      <div class="member"><span class="ava m1">MH</span><h4>Margaret Hartwell</h4><em>Senior Partner · Commercial</em><p>Qualified 1979. Ranked in Legal 500 for company and commercial work; mediator accredited by the CMC.</p></div>
+      <div class="member"><span class="ava m2">DO</span><h4>Daniel Okafor</h4><em>Partner · Property</em><p>Qualified 2004. Heads the conveyancing team; accredited member of the Law Society Conveyancing Quality Scheme.</p></div>
+      <div class="member"><span class="ava m3">RP</span><h4>Rachel Pemberton</h4><em>Partner · Family &amp; Mediation</em><p>Qualified 2008. Resolution-accredited specialist in financial remedies and children proceedings.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="about" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <p class="quote">“Measured, unhurried and utterly reliable. Hartwell &amp; Brooks have handled our company's legal work since 2009 — three acquisitions, two leases and the odd dispute, all resolved in our favour.”</p>
+    <p class="who">— J. Whitmore, Managing Director, Aldergate Trading Ltd, Croydon</p>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h3>Get in <b>touch</b></h3>
+    <div class="cgrid">
+      <div class="cbox">
+        <h5>Office</h5>
+        <p>Hartwell &amp; Brooks Solicitors<br>128 Chancery Lane<br>London WC2A 1LG<br>United Kingdom</p>
+      </div>
+      <div class="cbox">
+        <h5>Contact</h5>
+        <p>Tel: <a href="tel:+442079460821">+44 20 7946 0821</a><br>Fax: +44 20 7946 0822<br><a href="mailto:enquiries@hartwellbrooks.co.uk">enquiries@hartwellbrooks.co.uk</a></p>
+      </div>
+      <div class="cbox">
+        <h5>Appointments</h5>
+        <p>Initial consultations are free of charge and last 30 minutes. Office hours Monday to Friday, 9:00–18:00. Home visits available for probate and wills clients within Greater London.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap frow">
+    <span>© 2026 Hartwell &amp; Brooks Solicitors. All rights reserved. SRA No. 259 401.</span>
+    <span><a href="#">Terms of Business</a> · <a href="#">Privacy Notice</a> · <a href="#">Complaints Procedure</a> · <a href="#">Accessibility</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixelwerk Digitalagentur – Webdesign &amp; Entwicklung aus Berlin</title>
+<meta name="description" content="Pixelwerk ist eine Digitalagentur aus Berlin. Wir entwickeln Websites, Shops und Webanwendungen – performant, barrierefrei und zukunftssicher.">
+<style>
+:root{
+  --bg:#0d1117;--bg2:#161c26;--card:#1a2230;--line:#263042;
+  --txt:#e6edf3;--muted:#8b98a9;--acc:#4f9cf9;--acc2:#7ee0b8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:.3px}
+.logo .dot{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;color:#08111e;font-size:14px;font-weight:800}
+nav ul{display:flex;gap:28px;list-style:none;font-size:14.5px;color:var(--muted)}
+nav ul a:hover{color:var(--txt)}
+.btn{display:inline-block;background:var(--acc);color:#08111e;font-weight:600;font-size:14.5px;padding:10px 22px;border-radius:8px;transition:.2s}
+.btn:hover{background:#6cb0fa}
+.hero{padding:96px 0 80px;background:radial-gradient(1000px 480px at 75% -10%,rgba(79,156,249,.16),transparent),radial-gradient(700px 400px at 10% 110%,rgba(126,224,184,.09),transparent)}
+.hero .kicker{color:var(--acc2);font-size:13px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:clamp(32px,5vw,52px);line-height:1.14;font-weight:800;max-width:760px}
+.hero h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:600px;margin:22px 0 34px;color:var(--muted);font-size:17.5px}
+.hero .actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--acc);color:var(--acc)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:72px}
+.stats div{background:var(--bg2);padding:26px 22px;text-align:center}
+.stats b{display:block;font-size:30px;color:var(--acc)}
+.stats span{font-size:13px;color:var(--muted)}
+section{padding:84px 0}
+h2{font-size:clamp(26px,3.4vw,36px);font-weight:800;margin-bottom:14px}
+.sub{color:var(--muted);max-width:620px;margin-bottom:44px}
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 26px;transition:.2s}
+.card:hover{transform:translateY(-3px);border-color:#33415c}
+.card .ico{font-size:26px;margin-bottom:16px}
+.card h3{font-size:18px;margin-bottom:10px}
+.card p{font-size:14.5px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.tag{font-size:12px;color:var(--acc2);background:rgba(126,224,184,.08);border:1px solid rgba(126,224,184,.22);padding:4px 11px;border-radius:99px}
+.work{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.proj{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg2)}
+.proj .thumb{height:150px;display:grid;place-items:center;font-weight:800;font-size:22px;letter-spacing:1px;color:rgba(230,237,243,.85)}
+.proj .info{padding:20px}
+.proj .info b{font-size:16px}
+.proj .info p{font-size:13.5px;color:var(--muted);margin-top:6px}
+.t1{background:linear-gradient(135deg,#1e3a5f,#27476e)}
+.t2{background:linear-gradient(135deg,#22423a,#2c5a4e)}
+.t3{background:linear-gradient(135deg,#3a2f4f,#4e3d68)}
+.proc{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.step{position:relative;padding-left:8px}
+.step b{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgba(79,156,249,.14);color:var(--acc);font-size:14px;margin-bottom:14px}
+.step h4{font-size:16px;margin-bottom:8px}
+.step p{font-size:13.5px;color:var(--muted)}
+.quote{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px}
+.quote p{font-size:18px;font-style:italic;color:#c9d4e0}
+.quote .who{display:flex;align-items:center;gap:14px;margin-top:22px}
+.quote .ava{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-weight:700;color:#08111e}
+.quote .who b{font-size:14.5px;display:block}
+.quote .who span{font-size:13px;color:var(--muted)}
+.cta{background:linear-gradient(120deg,rgba(79,156,249,.14),rgba(126,224,184,.10));border:1px solid var(--line);border-radius:18px;padding:56px;text-align:center}
+.cta h2{margin-bottom:12px}
+.cta p{color:var(--muted);margin-bottom:28px}
+footer{border-top:1px solid var(--line);background:var(--bg2);padding:56px 0 32px;font-size:14px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px}
+footer h5{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt);margin-bottom:14px}
+footer ul{list-style:none;display:grid;gap:9px;color:var(--muted)}
+footer a:hover{color:var(--acc)}
+.fbot{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--muted);font-size:13px}
+@media(max-width:880px){.g3,.work,.steps{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.g3,.g2,.work,.steps{grid-template-columns:1fr}nav ul{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#"><span class="dot">P</span>Pixelwerk</a>
+      <ul>
+        <li><a href="#leistungen">Leistungen</a></li>
+        <li><a href="#projekte">Projekte</a></li>
+        <li><a href="#prozess">Ablauf</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <a class="btn" href="#kontakt">Projekt anfragen</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="kicker">Digitalagentur aus Berlin</p>
+    <h1>Wir bauen digitale Produkte, die <span>schnell, sicher und messbar</span> performen.</h1>
+    <p>Seit 2014 entwickeln wir Websites, Online-Shops und individuelle Webanwendungen für den Mittelstand. Remote-fähig, in Berlin zu Hause, europaweit im Einsatz.</p>
+    <div class="actions">
+      <a class="btn" href="#kontakt">Kostenloses Erstgespräch</a>
+      <a class="btn ghost" href="#projekte">Referenzen ansehen</a>
+    </div>
+    <div class="stats">
+      <div><b>140+</b><span>umgesetzte Projekte</span></div>
+      <div><b>11 J.</b><span>Markterfahrung</span></div>
+      <div><b>98 %</b><span>Kundenzufriedenheit</span></div>
+      <div><b>24 h</b><span>Reaktionszeit im Support</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="leistungen">
+  <div class="wrap">
+    <h2>Leistungen</h2>
+    <p class="sub">Alles aus einer Hand – von der Strategie über Design und Entwicklung bis zum laufenden Betrieb.</p>
+    <div class="grid g3">
+      <div class="card">
+        <div class="ico">🎨</div>
+        <h3>UX/UI Design</h3>
+        <p>User-Centered-Design, Prototyping und Design-Systeme, die Ihre Marke konsistent transportieren – mobil wie am Desktop.</p>
+        <div class="tags"><span class="tag">Figma</span><span class="tag">Design Systems</span><span class="tag">Prototyping</span></div>
+      </div>
+      <div class="card">
+        <div class="ico">⚙️</div>
+        <h3>Webentwicklung</h3>
+        <p>Individuelle Frontends und APIs. Moderne Stacks, sauberer Code, Lighthouse-Scores über 95 als Projektstandard.</p>
+        <div class="tags"><span class="tag">TypeScript</span><span class="tag">Vue / React</span><span class="tag">Node.js</span></div>
+      </div>
+      <div class="card">
+        <div class="ico">🛒</div>
+        <h3>E-Commerce</h3>
+        <p>Shop-Systeme, die verkaufen: Shopware, WooCommerce und headless Setups mit Anbindung an ERP und Warenwirtschaft.</p>
+        <div class="tags"><span class="tag">Shopware 6</span><span class="tag">WooCommerce</span><span class="tag">Headless</span></div>
+      </div>
+      <div class="card">
+        <div class="ico">🔍</div>
+        <h3>SEO &amp; Analytics</h3>
+        <p>Technisches SEO, Core Web Vitals und datenschutzkonformes Tracking mit Matomo oder GA4 inkl. Consent-Management.</p>
+        <div class="tags"><span class="tag">Techn. SEO</span><span class="tag">DSGVO</span><span class="tag">Core Web Vitals</span></div>
+      </div>
+      <div class="card">
+        <div class="ico">🚀</div>
+        <h3>Hosting &amp; Betrieb</h3>
+        <p>Managed Hosting auf europäischen Servern, Monitoring, Backups und Updates – damit Ihre Seite rund um die Uhr läuft.</p>
+        <div class="tags"><span class="tag">Docker</span><span class="tag">CI/CD</span><span class="tag">Monitoring</span></div>
+      </div>
+      <div class="card">
+        <div class="ico">♿</div>
+        <h3>Barrierefreiheit</h3>
+        <p>WCAG 2.2-konforme Umsetzung inkl. BITV-Test – für öffentliche Auftraggeber und alle, die digitale Teilhabe ernst nehmen.</p>
+        <div class="tags"><span class="tag">WCAG 2.2</span><span class="tag">BITV</span><span class="tag">Screenreader</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projekte" style="padding-top:0">
+  <div class="wrap">
+    <h2>Ausgewählte Projekte</h2>
+    <p class="sub">Ein Einblick in aktuelle Arbeiten aus den Branchen Industrie, Handel und Dienstleistung.</p>
+    <div class="work">
+      <div class="proj">
+        <div class="thumb t1">NORDWERK</div>
+        <div class="info"><b>Corporate Website</b><p>Relaunch für einen Maschinenbauer aus Niedersachsen – 4 Sprachen, Karriereportal, Download-Center.</p></div>
+      </div>
+      <div class="proj">
+        <div class="thumb t2">GRÜNE ACHSE</div>
+        <div class="info"><b>Online-Shop</b><p>Headless-Shop für Urban-Gardening-Produkte mit ERP-Anbindung und Abo-Modell für Saatgut.</p></div>
+      </div>
+      <div class="proj">
+        <div class="thumb t3">VITALIS</div>
+        <div class="info"><b>Webanwendung</b><p>Patientenportal für eine Physiotherapie-Kette mit Terminbuchung und digitaler Anamnese.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proc" id="prozess">
+  <div class="wrap">
+    <h2>So arbeiten wir</h2>
+    <p class="sub">Transparent in vier Phasen – mit festen Ansprechpartnern und regelmäßigen Zwischenständen.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><h4>Workshop</h4><p>Gemeinsam klären wir Ziele, Zielgruppen und technische Rahmenbedingungen.</p></div>
+      <div class="step"><b>2</b><h4>Konzept &amp; Design</h4><p>Wireframes, Klickprototyp und finales UI-Design – abgestimmt in kurzen Zyklen.</p></div>
+      <div class="step"><b>3</b><h4>Entwicklung</h4><p>Agile Umsetzung in Sprints, regelmäßige Demos auf der Staging-Umgebung.</p></div>
+      <div class="step"><b>4</b><h4>Launch &amp; Support</h4><p>Go-live, Schulung Ihres Teams und laufender Betrieb mit garantierten Reaktionszeiten.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="quote">
+      <p>„Pixelwerk hat unseren Relaunch in acht Wochen geliefert – inklusive Shop-Anbindung. Die Ladezeiten haben sich halbiert, die Anfragen über die Website haben sich verdoppelt.“</p>
+      <div class="who">
+        <span class="ava">SK</span>
+        <div><b>Sabine Keller</b><span>Geschäftsführerin, Keller &amp; Söhne Handelsgesellschaft mbH, Leipzig</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta">
+      <h2>Lassen Sie uns über Ihr Projekt sprechen</h2>
+      <p>Erzählen Sie uns kurz von Ihrem Vorhaben – wir melden uns innerhalb eines Werktags mit einer ehrlichen Einschätzung.</p>
+      <a class="btn" href="mailto:hallo@pixelwerk-berlin.de">hallo@pixelwerk-berlin.de</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="#"><span class="dot">P</span>Pixelwerk</a>
+        <p style="color:var(--muted);margin-top:14px;max-width:280px">Pixelwerk Digitalagentur GmbH – Webdesign, Entwicklung und E-Commerce aus Berlin-Prenzlauer Berg.</p>
+      </div>
+      <div>
+        <h5>Leistungen</h5>
+        <ul>
+          <li><a href="#leistungen">UX/UI Design</a></li>
+          <li><a href="#leistungen">Webentwicklung</a></li>
+          <li><a href="#leistungen">E-Commerce</a></li>
+          <li><a href="#leistungen">SEO &amp; Analytics</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Unternehmen</h5>
+        <ul>
+          <li><a href="#">Über uns</a></li>
+          <li><a href="#projekte">Referenzen</a></li>
+          <li><a href="#">Karriere</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Kontakt</h5>
+        <ul>
+          <li>Kastanienallee 42<br>10435 Berlin</li>
+          <li><a href="tel:+493091485620">+49 30 914 856 20</a></li>
+          <li><a href="mailto:hallo@pixelwerk-berlin.de">hallo@pixelwerk-berlin.de</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Pixelwerk Digitalagentur GmbH · HRB 184 209 B, Amtsgericht Charlottenburg</span>
+      <span><a href="#">Impressum</a> · <a href="#">Datenschutz</a> · <a href="#">AGB</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Видеостраж — облачное видеонаблюдение для бизнеса и дома · архив 30 дней</title>
+<meta name="description" content="Подключите IP-камеры к облачному видеонаблюдению Видеостраж: архив 30 дней, ИИ-детекция людей и транспорта, просмотр через браузер и приложение. От 290 ₽ за камеру в месяц.">
+<style>
+:root{
+  --bg:#f4f7fb;--card:#ffffff;--ink:#1b2734;--muted:#5d6b7e;--line:#dde5ef;
+  --blue:#1d6fe0;--blue2:#1454b4;--sky:#e8f1fd;--green:#2e9e63;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.top{background:var(--blue2);color:#dbe9fb;text-align:center;font-size:13px;padding:8px 14px}
+.top b{color:#fff}
+header{position:sticky;top:0;z-index:60;background:rgba(244,247,251,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo .eye{width:38px;height:38px;border-radius:10px;background:var(--blue);display:grid;place-items:center;color:#fff;font-size:18px}
+.logo b{font-size:19px}
+.logo small{display:block;font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+nav ul{display:flex;gap:24px;list-style:none;font-size:14.5px;color:#3c4a5c}
+nav ul a:hover{color:var(--blue)}
+.btn{display:inline-block;background:var(--blue);color:#fff;font-weight:600;font-size:14.5px;padding:11px 24px;border-radius:9px;transition:.2s}
+.btn:hover{background:var(--blue2)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding:70px 0 60px}
+.hero .tag{display:inline-block;background:var(--sky);color:var(--blue2);font-size:12.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;border-radius:99px;padding:6px 15px;margin-bottom:18px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.16;font-weight:800}
+.hero h1 span{color:var(--blue)}
+.hero p{color:var(--muted);font-size:16.5px;margin:18px 0 28px;max-width:520px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.trust{font-size:13px;color:var(--muted)}
+.cambox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 14px 40px rgba(27,39,52,.08)}
+.camgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cam{aspect-ratio:16/10;border-radius:9px;position:relative;display:grid;place-items:center;font-size:30px}
+.cam::after{content:attr(data-t);position:absolute;bottom:8px;left:10px;font-size:10.5px;color:#fff;background:rgba(12,20,30,.62);border-radius:5px;padding:2px 8px;font-family:Consolas,monospace}
+.cam::before{content:"● LIVE";position:absolute;top:8px;right:10px;font-size:10px;color:#fff;background:var(--green);border-radius:5px;padding:2px 7px;letter-spacing:.5px}
+.c1{background:linear-gradient(155deg,#3e5771,#22303f)}
+.c2{background:linear-gradient(155deg,#6b5d43,#3a3226)}
+.c3{background:linear-gradient(155deg,#44685c,#243830)}
+.c4{background:linear-gradient(155deg,#574a6b,#302840)}
+.stats{background:var(--blue2);color:#fff}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:26px 22px;text-align:center}
+.stats b{display:block;font-size:26px}
+.stats span{font-size:12.5px;color:#b9d2f0}
+section{padding:70px 0}
+h2{font-size:clamp(23px,3.1vw,32px);font-weight:800;margin-bottom:10px}
+.sub{color:var(--muted);max-width:620px;margin-bottom:38px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:60px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 24px}
+.step b{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--sky);color:var(--blue);font-size:15px;margin-bottom:14px}
+.step h3{font-size:16.5px;margin-bottom:8px}
+.step p{font-size:13.5px;color:var(--muted)}
+.g2{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px}
+.feat .ico{font-size:23px;margin-bottom:12px}
+.feat h3{font-size:16px;margin-bottom:7px}
+.feat p{font-size:13.5px;color:var(--muted)}
+.plans{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.trow{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;border-top:1px solid var(--line)}
+.trow:first-child{border-top:none;background:var(--sky);font-weight:700;font-size:14px}
+.trow>div{padding:15px 18px;font-size:13.5px}
+.trow .hl{color:var(--blue);font-weight:700}
+.usecases{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.uc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 12px;text-align:center;font-size:13px}
+.uc .ico{font-size:24px;display:block;margin-bottom:8px}
+.quote{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px;font-size:16px;color:#33435a;font-style:italic}
+.quote .who{font-style:normal;font-size:13.5px;color:var(--muted);margin-top:14px}
+footer{background:#16202c;color:#9dabbd;font-size:13px;padding:48px 0 26px}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;margin-bottom:30px}
+footer h5{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a:hover{color:#7db4f0}
+.fbot{border-top:1px solid #2a3849;padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px}
+@media(max-width:940px){.hero{grid-template-columns:1fr}.steps,.g2{grid-template-columns:1fr}.usecases{grid-template-columns:repeat(3,1fr)}.stats .wrap{grid-template-columns:1fr 1fr}.fgrid{grid-template-columns:1fr 1fr}.trow{grid-template-columns:1fr 1fr 1fr}.trow>div:first-child{grid-column:1/-1}nav ul{display:none}}
+</style>
+</head>
+<body>
+
+<div class="top">Российская платформа видеонаблюдения · данные хранятся в ЦОДах на территории РФ · <b>152-ФЗ</b></div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#"><span class="eye">◉</span><span><b>ВИДЕОСТРАЖ</b><small>облачное видеонаблюдение</small></span></a>
+      <ul>
+        <li><a href="#how">Как работает</a></li>
+        <li><a href="#features">Возможности</a></li>
+        <li><a href="#plans">Тарифы</a></li>
+        <li><a href="#cases">Кому подходит</a></li>
+      </ul>
+      <a class="btn" href="#plans">Подключить камеру</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <div>
+    <span class="tag">Работает с любой IP-камерой по RTSP</span>
+    <h1>Видеонаблюдение <span>в облаке</span> — без регистраторов и жёстких дисков</h1>
+    <p>Подключите камеру за 10 минут: поток уходит в защищённое облако, архив хранится 30 дней, просмотр — в браузере и приложении из любой точки мира.</p>
+    <div class="actions">
+      <a class="btn" href="#plans">Попробовать бесплатно 3 дня</a>
+      <span class="trust">Оплата за камеру · без предоплаты</span>
+    </div>
+  </div>
+  <div class="cambox">
+    <div class="camgrid">
+      <div class="cam c1" data-t="Склад · вход">🏢</div>
+      <div class="cam c2" data-t="Касса №2">🏪</div>
+      <div class="cam c3" data-t="Парковка · выезд">🅿️</div>
+      <div class="cam c4" data-t="Офис · переговорная">💻</div>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="wrap">
+    <div><b>87 000+</b><span>камер подключено</span></div>
+    <div><b>99,97 %</b><span>аптайм записи за 12 мес</span></div>
+    <div><b>30 дней</b><span>глубина архива</span></div>
+    <div><b>4,2 ПБ</b><span>видеоархива под нагрузкой</span></div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <h2>Как это работает</h2>
+    <p class="sub">Три шага — и вы видите свои камеры с телефона. Оборудование отдельно покупать не нужно, если камера уже умеет RTSP.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><h3>Подключите камеру</h3><p>Укажите RTSP-адрес камеры в личном кабинете. Поддерживаются Hikvision, Dahua, HiWatch, Uniview и большинство NVR.</p></div>
+      <div class="step"><b>2</b><h3>Поток идёт в облако</h3><p>Серверы приёма в Москве и Петербурге пишут архив круглосуточно: H.265/H.264, до 25 кадров/с,Failover-каналы.</p></div>
+      <div class="step"><b>3</b><h3>Смотрите где угодно</h3><p>Плеер с адаптивной передачей (HLS) в браузере и в приложении. Экспорт фрагментов, публичные ссылки, мультиэкран.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:70px 0">
+  <div class="wrap">
+    <h2>Возможности платформы</h2>
+    <p class="sub">Всё, что нужно для охраны, контроля процессов и разбора инцидентов.</p>
+    <div class="g2">
+      <div class="feat"><div class="ico">🧠</div><h3>ИИ-аналитика</h3><p>Детекция людей, транспорта и пересечения линий. Поиск события в архиве за секунды, а не часы.</p></div>
+      <div class="feat"><div class="ico">🔔</div><h3>Оповещения</h3><p>Push и Telegram при движении, потере сигнала или работе вне графика — с кадром события.</p></div>
+      <div class="feat"><div class="ico">🗂️</div><h3>Архив до 30 дней</h3><p>Перемотка по таймлайну, закладки, скачивание MP4 для ГИБДД, суда или службы безопасности.</p></div>
+      <div class="feat"><div class="ico">🔗</div><h3>Публичные ссылки</h3><p>Вставьте прямую трансляцию на сайт или в соцсети — для отелей, кафе и строящихся объектов.</p></div>
+      <div class="feat"><div class="ico">👥</div><h3>Доступы и роли</h3><p>Директор видит все точки, охранник — только свой магазин. Журнал входов и выгрузок.</p></div>
+      <div class="feat"><div class="ico">🛰️</div><h3>Двойная запись</h3><p>На SD-карте камеры и в облаке одновременно — связь пропала, запись не прервалась.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <h2>Тарифы за камеру</h2>
+    <p class="sub">Чем больше камер, тем дешевле каждая. ИИ-аналитика входит в тарифы «Бизнес» и выше.</p>
+    <div class="plans">
+      <div class="trow"><div>Тариф</div><div>Архив</div><div>Цена / мес</div><div>Годовая</div></div>
+      <div class="trow"><div><b>Дом</b> — 1 камера, 1080p</div><div>7 дней</div><div class="hl">290 ₽</div><div>2 900 ₽</div></div>
+      <div class="trow"><div><b>Бизнес</b> — до 10 камер, 1080p + ИИ</div><div>15 дней</div><div class="hl">490 ₽</div><div>4 900 ₽</div></div>
+      <div class="trow"><div><b>Профи</b> — до 50 камер, 4 Мп + ИИ</div><div>30 дней</div><div class="hl">790 ₽</div><div>7 900 ₽</div></div>
+      <div class="trow"><div><b>Корпоративный</b> — сети камер, SSO</div><div>по ТЗ</div><div class="hl">по запросу</div><div>SLA 99,9%</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="cases" style="padding-top:0">
+  <div class="wrap">
+    <h2>Кому подходит</h2>
+    <p class="sub">Платформа масштабируется от одной камеры у подъезда до распределённых сетей в сотни точек.</p>
+    <div class="usecases">
+      <div class="uc"><span class="ico">🏪</span>Розница</div>
+      <div class="uc"><span class="ico">🏭</span>Склады</div>
+      <div class="uc"><span class="ico">🚧</span>Стройплощадки</div>
+      <div class="uc"><span class="ico">🚚</span>Автопарки</div>
+      <div class="uc"><span class="ico">🏨</span>Отели и кафе</div>
+      <div class="uc"><span class="ico">🏘️</span>ЖКХ и УК</div>
+    </div>
+    <div class="quote" style="margin-top:40px">
+      «Сеть из 26 магазинов на одной панели: ночью магазин закрыт — утром у меня уже лежит отчёт по событиям и выгрузки по инцидентам. Регистраторы и жёсткие диски списали.»
+      <div class="who">— Андрей Волков, директор по безопасности, сеть магазинов «Копеечка-Юг», Краснодар</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="logo" style="color:#fff"><span class="eye">◉</span><span><b style="color:#fff">ВИДЕОСТРАЖ</b><small style="color:#9dabbd">облачное видеонаблюдение</small></span></span>
+        <p style="margin-top:12px;max-width:270px">Российская платформа облачного видеонаблюдения. Работает с 2016 года, данные — в ЦОДах Tier III на территории РФ.</p>
+      </div>
+      <div><h5>Платформа</h5><ul><li><a href="#features">Возможности</a></li><li><a href="#plans">Тарифы</a></li><li><a href="#">Совместимые камеры</a></li><li><a href="#">API для интеграций</a></li></ul></div>
+      <div><h5>Поддержка</h5><ul><li><a href="#">База знаний</a></li><li><a href="#">Подключение камер</a></li><li><a href="#">Статус сервиса</a></li><li><a href="#">Партнёрам-монтажникам</a></li></ul></div>
+      <div><h5>Контакты</h5><ul>
+        <li>ООО «Видеостраж»<br>191119, Санкт-Петербург,<br>Лиговский пр-т, д. 50, корп. 13, офис 207</li>
+        <li><a href="tel:+78123856021">+7 (812) 385-60-21</a></li>
+        <li><a href="mailto:hello@videostorazh.pro">hello@videostorazh.pro</a></li>
+      </ul></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 ООО «Видеостраж» · ОГРН 1197847028517 · ИНН 7811496273 · Оператор персональных данных № 77-19-006 542</span>
+      <span><a href="#">Оферта</a> · <a href="#">Политика конфиденциальности</a> · <a href="#">Обработка ПДн (152-ФЗ)</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
