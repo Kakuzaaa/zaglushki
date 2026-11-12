@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ПотокFM — подкасты и аудиокниги онлайн · слушайте где угодно</title>
+<meta name="description" content="ПотокFM: 40 000 подкастов и аудиокниг. Слушание через HLS-стрим без загрузок, офлайн-режим, скорость до 3x, синхронизация между устройствами. Бесплатно с рекламой или 199 ₽/мес.">
+<style>
+:root{
+  --bg1:#170f2e;--bg2:#0f0a1f;--glass:rgba(255,255,255,.05);--glassb:rgba(255,255,255,.09);
+  --txt:#f0ecfa;--muted:#a99cc9;--grad:linear-gradient(90deg,#8b5cf6,#ec4899);
+  --line:rgba(255,255,255,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--txt);line-height:1.6;min-height:100vh;padding-bottom:104px}
+a{color:inherit;text-decoration:none}
+.app{display:grid;grid-template-columns:236px 1fr;max-width:1280px;margin:0 auto}
+aside{border-right:1px solid var(--line);padding:26px 18px;display:flex;flex-direction:column;gap:4px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;margin-bottom:24px;padding:0 10px}
+.logo .w{width:34px;height:34px;border-radius:10px;background:var(--grad);display:grid;place-items:center;font-size:16px}
+.snav{display:flex;align-items:center;gap:12px;font-size:14.5px;color:var(--muted);padding:11px 12px;border-radius:12px}
+.snav:hover{background:var(--glass);color:var(--txt)}
+.snav.on{background:var(--glass);color:var(--txt);font-weight:700}
+.snav .dot{width:8px;height:8px;border-radius:50%;background:var(--grad);display:none}
+.snav.on .dot{display:block}
+.pcard{margin-top:auto;background:var(--glass);border:1px solid var(--glassb);border-radius:16px;padding:18px 16px}
+.pcard b{font-size:14px}
+.pcard p{font-size:12.5px;color:var(--muted);margin:6px 0 12px}
+.pbtn{display:inline-block;background:var(--grad);color:#fff;font-size:13px;font-weight:700;border-radius:99px;padding:9px 18px}
+main{padding:30px 34px 40px}
+.greet{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+.greet h1{font-size:26px}
+.greet p{color:var(--muted);font-size:13.5px}
+.hero2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-bottom:34px}
+.gtile{background:var(--glass);border:1px solid var(--glassb);border-radius:18px;padding:26px;backdrop-filter:blur(8px);position:relative;overflow:hidden}
+.gtile.feat{background:linear-gradient(120deg,rgba(139,92,246,.22),rgba(236,72,153,.12));border-color:rgba(139,92,246,.35)}
+.gtile .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.gtile h2{font-size:22px;margin-bottom:6px}
+.gtile .desc{font-size:13.5px;color:var(--muted);margin-bottom:18px;max-width:380px}
+.playrow{display:flex;align-items:center;gap:14px}
+.pbig{width:46px;height:46px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-size:15px;color:#fff;flex:none}
+.playrow span{font-size:12.5px;color:var(--muted)}
+.listen{display:grid;gap:10px}
+.lrow{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);padding:7px 0;border-bottom:1px solid var(--line)}
+.lrow:last-child{border-bottom:none}
+.lrow b{color:var(--txt);font-weight:600;font-size:13.5px;display:block}
+h2.sec{font-size:19px;margin:0 0 16px}
+h2.sec em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eps{display:grid;gap:10px;margin-bottom:34px}
+.ep{display:grid;grid-template-columns:44px 1fr auto auto;gap:14px;align-items:center;background:var(--glass);border:1px solid var(--glassb);border-radius:14px;padding:13px 16px}
+.ep .pb{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--glassb);display:grid;place-items:center;font-size:12px}
+.ep:hover .pb{background:var(--grad);border-color:transparent}
+.ep b{font-size:14.5px;display:block}
+.ep small{font-size:12px;color:var(--muted)}
+.ep .dur{font-size:12px;color:var(--muted);font-family:Consolas,monospace}
+.ep .prog{width:120px;height:4px;border-radius:4px;background:rgba(255,255,255,.1);position:relative}
+.ep .prog i{position:absolute;left:0;top:0;bottom:0;background:var(--grad);border-radius:4px}
+.cats2{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+.chip{background:var(--glass);border:1px solid var(--glassb);border-radius:99px;font-size:13px;padding:9px 18px;color:var(--muted)}
+.chip:hover{color:var(--txt);border-color:rgba(139,92,246,.5)}
+.authors{display:flex;gap:22px;flex-wrap:wrap}
+.au{text-align:center}
+.au .av{width:64px;height:64px;border-radius:50%;background:linear-gradient(140deg,#4c3a86,#2a1f4d);display:grid;place-items:center;font-size:22px;margin:0 auto 8px;border:2px solid rgba(139,92,246,.4)}
+.au span{font-size:12px;color:var(--muted);display:block}
+.player{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(20,13,40,.92);backdrop-filter:blur(14px);border-top:1px solid var(--glassb)}
+.player .inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr 1fr;gap:18px;align-items:center;padding:12px 22px}
+.player .tr{display:flex;align-items:center;gap:12px;min-width:0}
+.player .cov{width:44px;height:44px;border-radius:9px;background:linear-gradient(140deg,#8b5cf6,#ec4899);display:grid;place-items:center;font-size:18px;flex:none}
+.player .tr b{font-size:13.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player .tr small{font-size:11.5px;color:var(--muted)}
+.pctl{display:flex;align-items:center;gap:14px;justify-content:center}
+.pctl .bts{display:flex;gap:16px;font-size:15px}
+.pctl .mainp{width:38px;height:38px;border-radius:50%;background:#fff;color:#1a1230;display:grid;place-items:center;font-size:13px}
+.pbar{height:4px;border-radius:4px;background:rgba(255,255,255,.12);position:relative;margin-top:7px}
+.pbar i{position:absolute;left:0;top:0;bottom:0;width:44%;background:var(--grad);border-radius:4px}
+.ptime{font-size:11px;color:var(--muted);font-family:Consolas,monospace;display:flex;justify-content:space-between;margin-top:5px}
+.vol{text-align:right;font-size:12px;color:var(--muted)}
+@media(max-width:940px){.app{grid-template-columns:1fr}aside{display:none}.hero2{grid-template-columns:1fr}.player .inner{grid-template-columns:1fr}.vol{display:none}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside>
+    <a class="logo" href="#"><span class="w">〰</span>ПотокFM</a>
+    <a class="snav on" href="#"><span class="dot"></span>🎧 Подкасты</a>
+    <a class="snav" href="#">📚 Аудиокниги</a>
+    <a class="snav" href="#">🎵 Музыка</a>
+    <a class="snav" href="#">⭐ Избранное</a>
+    <a class="snav" href="#">🕘 История</a>
+    <div class="pcard">
+      <b>ПотокFM+</b>
+      <p>Без рекламы, офлайн, скорость 3x, неограниченные закладки</p>
+      <a class="pbtn" href="#">199 ₽/мес</a>
+    </div>
+  </aside>
+
+  <main>
+    <div class="greet">
+      <div><h1>Добрый вечер 👋</h1><p>Вы слушали «Кофе и код» — выпуск 214 не дослушан</p></div>
+      <span style="font-size:13px;color:var(--muted)">Слушателей онлайн: 38 406 · стрим HLS без загрузок</span>
+    </div>
+
+    <div class="hero2">
+      <div class="gtile feat">
+        <div class="lbl">Подкаст недели</div>
+        <h2>Хроники Сибири</h2>
+        <p class="desc">История городов за Уралом — от острогов до мегаполисов. Новый сезон: «Дороги, которые нас связали».</p>
+        <div class="playrow">
+          <span class="pbig">▶</span>
+          <span><b style="color:var(--txt);font-size:14px">Сезон 3 · 12 выпусков</b><br>новый выпуск по вторникам</span>
+        </div>
+      </div>
+      <div class="gtile">
+        <div class="lbl">Сейчас слушают</div>
+        <div class="listen">
+          <div class="lrow"><span><b>Дело №23</b> — Эпизод 41: Канатоходец</span><span>2 841</span></div>
+          <div class="lrow"><span><b>Кофе и код</b> — Выпуск 214: Малые базы</span><span>1 907</span></div>
+          <div class="lrow"><span><b>Голос города</b> — Утренний дайджест</span><span>1 554</span></div>
+          <div class="lrow"><span><b>Как это устроено</b> — Метро под льдом</span><span>1 088</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sec">Новые <em>выпуски</em></h2>
+    <div class="eps">
+      <div class="ep"><span class="pb">▶</span><div><b>Дороги, которые нас связали</b><small>Хроники Сибири · история · сегодня</small></div><span class="dur">46:12</span><span class="prog"><i style="width:12%"></i></span></div>
+      <div class="ep"><span class="pb">▶</span><div><b>Эпизод 41: Канатоходец</b><small>Дело №23 · детектив · вчера</small></div><span class="dur">38:55</span><span class="prog"><i style="width:0%"></i></span></div>
+      <div class="ep"><span class="pb">▶</span><div><b>Выпуск 214: Малые базы данных</b><small>Кофе и код · технологии · вчера</small></div><span class="dur">52:07</span><span class="prog"><i style="width:64%"></i></span></div>
+      <div class="ep"><span class="pb">▶</span><div><b>Метро под льдом</b><small>Как это устроено · наука · 2 дня назад</small></div><span class="dur">29:40</span><span class="prog"><i style="width:0%"></i></span></div>
+      <div class="ep"><span class="pb">▶</span><div><b>Утренний дайджест 10 ноября</b><small>Голос города · новости · сегодня</small></div><span class="dur">14:03</span><span class="prog"><i style="width:81%"></i></span></div>
+    </div>
+
+    <h2 class="sec">Категории</h2>
+    <div class="cats2">
+      <a class="chip" href="#">Технологии</a><a class="chip" href="#">История</a><a class="chip" href="#">Настоящие расследования</a><a class="chip" href="#">Психология</a><a class="chip" href="#">Спорт</a><a class="chip" href="#">Книги</a><a class="chip" href="#">Дети</a><a class="chip" href="#">Сон и релакс</a>
+    </div>
+
+    <h2 class="sec">Авторы недели</h2>
+    <div class="authors">
+      <div class="au"><span class="av">🎙️</span><span>Ирина Ветрова</span></div>
+      <div class="au"><span class="av">🎙️</span><span>Павел Котов</span></div>
+      <div class="au"><span class="av">🎙️</span><span>Сергей Дымов</span></div>
+      <div class="au"><span class="av">🎙️</span><span>Анна Ластик</span></div>
+      <div class="au"><span class="av">🎙️</span><span>Марк Зорин</span></div>
+    </div>
+
+    <footer style="margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <span>© 2026 ООО «Поток Аудио» · 630132, Новосибирск, ул. Фрунзе, 88, оф. 612 · ОГРН 1205400072384 · ИНН 5405063172</span>
+      <span><a href="tel:+73833006428">+7 (383) 300-64-28</a> · <a href="mailto:support@potokfm.ru">support@potokfm.ru</a> · <a href="#">Оферта</a> · <a href="#">Конфиденциальность</a></span>
+    </footer>
+  </main>
+</div>
+
+<div class="player">
+  <div class="inner">
+    <div class="tr">
+      <span class="cov">🎙️</span>
+      <div><b>Выпуск 214: Малые базы данных</b><small>Кофе и код · Осталось 18:43</small></div>
+    </div>
+    <div>
+      <div class="pctl"><span class="bts">⏮ ⏪</span><span class="mainp">⏸</span><span class="bts">⏩ ⏭</span></div>
+      <div class="pbar"><i></i></div>
+      <div class="ptime"><span>33:24</span><span>1x · HLS · буфер 40 с</span><span>52:07</span></div>
+    </div>
+    <div class="vol">🔊 72% · офлайн доступно</div>
+  </div>
+</div>
+
+</body>
+</html>

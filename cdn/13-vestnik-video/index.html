@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вестник Видео — новости Санкт-Петербурга в видео: город, экономика, происшествия</title>
+<meta name="description" content="Сетевое издание «Вестник Видео»: видеоновости Санкт-Петербурга и Ленинградской области. Прямые включения, репортажи, прямые трансляции городских событий.">
+<style>
+:root{
+  --ink:#141414;--muted:#6b6b64;--paper:#ffffff;--strip:#f6f6f2;
+  --line:#dcdcd4;--red:#c1121f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+a{color:inherit;text-decoration:none}
+.serif{font-family:Georgia,'Times New Roman',serif}
+.wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+.dateline{background:var(--strip);border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.dateline .wrap{display:flex;justify-content:space-between;padding:7px 22px;gap:10px;flex-wrap:wrap}
+.dateline a{color:var(--ink);text-decoration:underline}
+header{border-bottom:3px double var(--ink);padding:26px 0 18px}
+.mast{display:flex;align-items:baseline;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.mast h1{font-family:Georgia,serif;font-size:40px;font-weight:700;letter-spacing:-.5px}
+.mast h1 em{font-style:italic;color:var(--red)}
+.mast .sub{font-size:13px;color:var(--muted)}
+.sections{display:flex;gap:0;flex-wrap:wrap;margin-top:14px;border-top:1px solid var(--line);padding-top:10px;font-size:13.5px;font-weight:600}
+.sections a{padding:4px 14px;border-right:1px solid var(--line)}
+.sections a:first-child{padding-left:0}
+.sections a:last-child{border-right:none}
+.sections a:hover{color:var(--red)}
+.breaking{display:flex;align-items:center;gap:0;margin:16px 0 0;border:1px solid var(--line)}
+.breaking .tag{background:var(--red);color:#fff;font-size:12px;font-weight:800;letter-spacing:1.5px;padding:11px 16px;white-space:nowrap}
+.breaking a{padding:11px 16px;font-size:14.5px;font-weight:600}
+.breaking a:hover{color:var(--red)}
+.breaking .play{margin-left:auto;padding:0 16px;color:var(--red);font-size:13px;white-space:nowrap}
+main{display:grid;grid-template-columns:2.05fr 1fr;gap:36px;padding:26px 0 10px}
+.lead .ph{aspect-ratio:16/9;display:grid;place-items:center;position:relative;border-radius:2px}
+.l1{background:linear-gradient(150deg,#3e4d63,#1d2534)}
+.lead .ph .pb{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.92);color:#111;display:grid;place-items:center;font-size:20px;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.lead .ph .dur{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.72);color:#fff;font-size:11.5px;padding:2px 8px;border-radius:2px}
+.lead .cat{font-size:11.5px;color:var(--red);font-weight:800;letter-spacing:2px;text-transform:uppercase;margin:16px 0 8px}
+.lead h2{font-family:Georgia,serif;font-size:clamp(24px,3.4vw,34px);line-height:1.22;font-weight:700}
+.lead p{color:#3c3c36;margin:12px 0 14px;font-size:16px;font-family:Georgia,serif}
+.meta{font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.side{border-left:1px solid var(--line);padding-left:28px}
+.side h3{font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.toplist{list-style:none;display:grid;gap:16px}
+.toplist li{display:grid;grid-template-columns:26px 1fr;gap:12px}
+.toplist .n{font-family:Georgia,serif;font-size:22px;color:var(--red);font-weight:700}
+.toplist a{font-family:Georgia,serif;font-size:15px;line-height:1.4;display:block}
+.toplist a:hover{text-decoration:underline}
+.toplist .m{font-size:11.5px;color:var(--muted);margin-top:3px}
+.cols{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:26px 0}
+.col{padding:22px 24px;border-right:1px solid var(--line)}
+.col:first-child{padding-left:0}
+.col:last-child{border-right:none;padding-right:0}
+.col h4{font-family:Georgia,serif;font-size:18px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:14px}
+.col ul{list-style:none;display:grid;gap:14px}
+.col li{font-size:13.5px}
+.col li a{font-family:Georgia,serif;font-size:14.5px;display:block;line-height:1.45}
+.col li a::before{content:"▶ ";color:var(--red);font-size:10px;vertical-align:2px}
+.col li a:hover{text-decoration:underline}
+.col li time{font-size:11.5px;color:var(--muted)}
+.digest{background:var(--strip);padding:26px 0;border-top:1px solid var(--line)}
+.digest h3{font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.strip{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px}
+.vitem{min-width:210px;background:#fff;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+.vitem .th{aspect-ratio:16/10;display:grid;place-items:center;color:#fff;font-size:26px;position:relative}
+.vitem .th::after{content:attr(data-d);position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.7);font-size:11px;color:#fff;padding:1px 7px;border-radius:2px;font-style:normal}
+.v1{background:linear-gradient(140deg,#54617a,#2b3546)}
+.v2{background:linear-gradient(140deg,#6d5a43,#3b3126)}
+.v3{background:linear-gradient(140deg,#43615a,#22332e)}
+.v4{background:linear-gradient(140deg,#5a4362,#2e2233)}
+.v5{background:linear-gradient(140deg,#71464a,#3d2628)}
+.v6{background:linear-gradient(140deg,#465a6d,#242e38)}
+.vitem b{display:block;font-family:Georgia,serif;font-size:13.5px;line-height:1.4;padding:10px 12px 4px}
+.vitem small{display:block;font-size:11px;color:var(--muted);padding:0 12px 12px}
+footer{background:var(--strip);border-top:1px solid var(--line);margin-top:26px;padding:26px 0;font-size:12px;color:var(--muted)}
+.frow{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+footer a{color:var(--ink)}
+@media(max-width:880px){main{grid-template-columns:1fr}.side{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:22px}.cols{grid-template-columns:1fr}.col{border-right:none;border-bottom:1px solid var(--line);padding:18px 0}.col:last-child{border-bottom:none}.sections a{border-right:none;padding:4px 14px 4px 0}}
+</style>
+</head>
+<body>
+
+<div class="dateline">
+  <div class="wrap">
+    <span>Вторник, 10 ноября 2026 · Санкт-Петербург · −2 °C, снег</span>
+    <span><a href="#">Войти</a> · Подписка на рассылку · Приложения</span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <div class="mast">
+      <h1>Вестник <em>Видео</em></h1>
+      <span class="sub">Городские новости в видеоформате · работает с 2014 года</span>
+    </div>
+    <nav class="sections">
+      <a href="#">Город</a><a href="#">Политика</a><a href="#">Экономика</a><a href="#">Происшествия</a><a href="#">Транспорт</a><a href="#">Спорт</a><a href="#">Культура</a><a href="#">Погода</a>
+    </nav>
+    <div class="breaking">
+      <span class="tag">СРОЧНО</span>
+      <a href="#">Движение по новой набережной Обводного канала открыто на месяц раньше срока</a>
+      <span class="play">▶ 02:14 · прямое включение</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <main>
+    <article class="lead">
+      <div class="ph l1"><span class="pb">▶</span><span class="dur">06:41</span></div>
+      <div class="cat">Город · Прямая трансляция</div>
+      <h2 class="serif">Открытие набережной: как город разделил берега Обводного и что изменится для жителей</h2>
+      <p class="serif">Корреспондент «Вестник Видео» — с первого дня движения по новому участку. Смотрите репортаж с места, комментарии города и трёхминутный таймлапс трёх лет стройки.</p>
+      <p class="meta">Отредактировал <b>А. Громов</b> · 40 минут назад · 12 418 просмотров · 214 комментариев</p>
+    </article>
+    <aside class="side">
+      <h3>Сейчас смотрят</h3>
+      <ul class="toplist">
+        <li><span class="n">1</span><div><a href="#">Бюджет Петербурга на культуру увеличат на 12% — сити-менеджер представил проект</a><div class="m">▶ видео 03:12 · 2 часа назад</div></div></li>
+        <li><span class="n">2</span><div><a href="#">Новый мост через Неву прошёл госэкспертизу: показываем проектные кадры</a><div class="m">▶ видео 04:58 · 3 часа назад</div></div></li>
+        <li><span class="n">3</span><div><a href="#">Городские электрички перейдут на зимний график с 1 декабря</a><div class="m">▶ видео 01:47 · 5 часов назад</div></div></li>
+        <li><span class="n">4</span><div><a href="#">Молодёжный театр открыл сезон уличными показами на Васильевском</a><div class="m">▶ видео 02:30 · вчера</div></div></li>
+        <li><span class="n">5</span><div><a href="#">Как изменятся тарифы на проезд в 2027 году — всё, что известно</a><div class="m">▶ видео 05:03 · вчера</div></div></li>
+      </ul>
+    </aside>
+  </main>
+
+  <div class="cols">
+    <div class="col">
+      <h4>Происшествия</h4>
+      <ul>
+        <li><a href="#">На ЗСД ликвидировали утреннее ДТП: движение восстановлено</a><time>07:52</time></li>
+        <li><a href="#">Пожарные тушили склад на Московском шоссе: видео с дрона</a><time>вчера, 22:10</time></li>
+        <li><a href="#">Спасатели предупредили о гололёде в выходные</a><time>вчера, 18:36</time></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Экономика</h4>
+      <ul>
+        <li><a href="#">Ярмарка выходного дня переехала в новое место на Удельной</a><time>09:14</time></li>
+        <li><a href="#">Судостроительный завод подписал контракт на два парома</a><time>вчера, 16:48</time></li>
+        <li><a href="#">В городе откроется завод микрокомпонентов: 700 рабочих мест</a><time>вчера, 13:05</time></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Культура</h4>
+      <ul>
+        <li><a href="#">Эрмитаж продлил часы работы на новогодние праздники</a><time>08:30</time></li>
+        <li><a href="#">Фестиваль света собрал 400 тысяч зрителей: итоги в одном видео</a><time>вчера, 20:12</time></li>
+        <li><a href="#">Ансамбль «Раздолье» привёз гран-при из Таллина</a><time>вчера, 11:27</time></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="digest">
+  <div class="wrap">
+    <h3>Видеодайджест дня</h3>
+    <div class="strip">
+      <div class="vitem"><div class="th v1">🏗️<i data-d="06:41"></i></div><b>Открытие набережной Обводного</b><small>Город · 06:41</small></div>
+      <div class="vitem"><div class="th v2">🌉<i data-d="04:58"></i></div><b>Мост через Неву: кадры проекта</b><small>Транспорт · 04:58</small></div>
+      <div class="vitem"><div class="th v3">🚂<i data-d="01:47"></i></div><b>Зимний график электричек</b><small>Транспорт · 01:47</small></div>
+      <div class="vitem"><div class="th v4">🎭<i data-d="02:30"></i></div><b>Уличные показы на Васильевском</b><small>Культура · 02:30</small></div>
+      <div class="vitem"><div class="th v5">🛕<i data-d="03:36"></i></div><b>Реставрация купола завершена</b><small>Город · 03:36</small></div>
+      <div class="vitem"><div class="th v6">❄️<i data-d="02:05"></i></div><b>Первый снег: репортаж с набережных</b><small>Погода · 02:05</small></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap frow">
+    <span>© 2026 ООО «Вестник Медиа» · Сетевое издание «Вестник Видео», Эл № ФС77-84213 от 14.03.2024 · 190000, Санкт-Петербург, ул. Итальянская, д. 2, офис 44<br>Редакция: <a href="tel:+78124583072">+7 (812) 458-30-72</a> · <a href="mailto:red@vestnik-video.ru">red@vestnik-video.ru</a> · ОГРН 1157847094631 · ИНН 7840123568</span>
+    <span><a href="#">Редакция</a> · <a href="#">Реклама</a> · <a href="#">Правила цитирования</a> · <a href="#">RSS</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
